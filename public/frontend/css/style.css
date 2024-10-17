@@ -1,0 +1,18 @@
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link,
+.navbar-custom .nav-item,
+.navbar-custom .navbar-toggler-icon {
+    font-weight: 700;
+    color: rgb(104, 113, 118);
+}
+
+.navbar-custom .navbar-nav .nav-link {
+    padding-right: 1.2rem;
+    padding-left: 1.2rem;
+}
+
+
+footer {
+    background-image: url('../images/background3.png');
+    color: #fff;
+}
