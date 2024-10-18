@@ -6,6 +6,7 @@
             <div class="banner-thumb">
                 <div class="banner-slogan">
                     <p>Chuyến đi mơ ước, nơi hành trình trở thành kỷ niệm!</p>
+                    
                 </div>
 
                 @include('frontend.home.component.bannerBackground')

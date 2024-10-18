@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+        Schema::create('blogtour', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('tieude') ;
+            $table->string('noidung');
+            $table->string('trangthai');
+            $table->integer('loaiblog_id')->unsigned();
+            $table->foreign('loaiblog_id')->references('id')->on('loaiblog');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('blogtour');
     }
 };

@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('tour', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('tentour') ;
+            $table->string('motatour');
+            $table->string('tinhtrang');
+            $table->string('hinhdaidien');
+            $table->string('thoigiandi');
+            $table->string('noikhoihanh');
+            $table->integer('loaitour_id')->unsigned();
+            $table->foreign('loaitour_id')->references('id')->on('loaitour')->onDelete('cascade');
+            $table->timestamp('ngaytao')->nullable();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('tour');
+    }
+};
