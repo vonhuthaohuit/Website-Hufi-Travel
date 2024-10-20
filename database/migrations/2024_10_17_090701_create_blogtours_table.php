@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('trangthai');
             $table->integer('loaiblog_id')->unsigned();
             $table->foreign('loaiblog_id')->references('id')->on('loaiblog');
+            $table->integer('nhanvien_id')->unsigned();
+            $table->foreign('nhanvien_id')->references('id')->on('nhanvien');
             $table->timestamps();
         });
     }
