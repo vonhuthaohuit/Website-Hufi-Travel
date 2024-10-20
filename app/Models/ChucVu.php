@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ChucVu extends Model
 {
     use HasFactory;
+    protected $table = 'chucvu';
+
 }
