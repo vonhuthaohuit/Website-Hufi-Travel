@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('chuongtrinhtour', function (Blueprint $table) {
             $table->increments('id');
             $table->string('tieude');
+            $table->string('ngay');
             $table->date('thoigianbatdau') ;
             $table->date('thoigianketthuc') ;
             $table->string('mota');
