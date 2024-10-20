@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class DiaChi extends Model
 {
     use HasFactory;
+    protected $table = 'diachi';
+
 }
