@@ -9,5 +9,7 @@ class PhuongTienTheoChuongTrinh extends Model
 {
     use HasFactory;
     protected $table = 'phuongtientheochuongtrinh';
-
+    public function phuongtien(){
+        return $this->belongsTo(PhuongTien::class,'phuongtien_id');
+    }
 }

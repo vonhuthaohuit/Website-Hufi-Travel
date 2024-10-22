@@ -10,4 +10,7 @@ class LoaiBlog extends Model
     use HasFactory;
     protected $table = 'loaiblog';
 
+    public function blogtour(){
+        return $this->hasMany(BlogTour::class,'loaiblog_id');
+    }
 }

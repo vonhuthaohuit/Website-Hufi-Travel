@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->date('create_at') ;
             $table->string('status');
             $table->rememberToken();
             $table->integer('nhomquyen_id')->unsigned() ;
+            $table->string('google_id')->nullable();
             $table->foreign('nhomquyen_id')->references('id')->on('nhomquyen');
             $table->timestamps();
         });
