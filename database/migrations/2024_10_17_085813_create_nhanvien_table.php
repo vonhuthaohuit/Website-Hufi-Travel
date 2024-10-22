@@ -23,7 +23,9 @@ return new class extends Migration
             $table->bigInteger('luong');
             $table->date('ngayvaolam') ;
             $table->integer('phongban_id')->unsigned();
-            $table->foreign('phongban_id')->references('id')->on('phongban');
+            $table->foreign('phongban_id')->references('id')->on('phongban')->onDelete('cascade');
+            $table->integer('user_id')->unsigned() ;
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

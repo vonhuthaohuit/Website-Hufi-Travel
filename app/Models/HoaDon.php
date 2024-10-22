@@ -10,4 +10,7 @@ class HoaDon extends Model
     use HasFactory;
     protected $table = 'hoadon';
 
+    public function khachhang(){
+        return $this->belongsTo(KhachHang::class,'khachhang_id');
+    }
 }
