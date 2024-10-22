@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('tinh') ;
             $table->string('ghichu') ;
             $table->integer('khachhang_id')->unsigned() ;
-            $table->foreign('khachhang_id')->references('id')->on('khachhang');
+            $table->foreign('khachhang_id')->references('id')->on('khachhang')->onDelete('cascade');
         });
     }
 

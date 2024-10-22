@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\backend\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,4 +27,15 @@ Route::get('/', [
 
 
 Route::get('/login', [LoginController::class, 'login'])->name("auth.login");
+
+Route::get('/google-sign-in', [ 
+    LoginController::class , 
+     'getGoogleSignInUrl'
+ ])->name('GoogleSign');
+ 
+ 
+ Route::get('/auth/login-google-callback', [
+    LoginController::class ,  
+     'loginCallback'
+ ])->name('Callback');
 

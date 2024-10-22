@@ -10,4 +10,8 @@ class LoaiTour extends Model
     use HasFactory;
     protected $table = 'loaitour';
 
+    public function tour(){
+        return $this->hasMany(Tour::class,'loaitour_id');
+    }
+
 }
