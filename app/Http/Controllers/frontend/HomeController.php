@@ -11,8 +11,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $loaiBlogs = LoaiBlog::all();
-dd($loaiBlogs);
-        return view('index');
+            return view('index');
     }
 }

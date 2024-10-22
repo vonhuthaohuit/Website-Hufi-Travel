@@ -6,7 +6,14 @@
             <div class="banner-thumb">
                 <div class="banner-slogan">
                     <p>Chuyến đi mơ ước, nơi hành trình trở thành kỷ niệm!</p>
-                    
+                    <?php 
+            $message = Session::get('name') ;
+            if($message)
+              {
+                echo "<span style='color: red;margin-left:30px; font-weight: bold;margin-left:170px'>$message</span>";
+                Session::put('message',null); 
+              }
+            ?>
                 </div>
 
                 @include('frontend.home.component.bannerBackground')
