@@ -16,3 +16,229 @@ footer {
     background-image: url('../images/background3.png');
     color: #fff;
 }
+
+
+.call-animation {
+    background: #e8604c;
+    width: 39px;
+    height: 39px;
+    position: fixed;
+    bottom: 90px;
+    right: 35px;
+    margin: 0;
+    border-radius: 100%;
+    border: solid 5px #e8604c;
+    animation: playAnimationPhone 2s ease infinite;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    backface-visibility: hidden;
+    z-index: 9999;
+}
+
+.zalo-animation {
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    bottom: 150px;
+    right: 35px;
+    margin: 0;
+    border-radius: 100%;
+    animation: playAnimationZalo 2s ease infinite;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    backface-visibility: hidden;
+    z-index: 9999;
+}
+
+.back-to-top {
+    width: 38px;
+    height: 38px;
+    position: fixed;
+    bottom: 30px;
+    right: 35px;
+    margin: 0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #777777;
+    z-index: 9999;
+    border: 1px solid #c5c5c5;
+}
+
+@keyframes playAnimationPhone {
+
+    0% {
+        transform: scale(1);
+    }
+
+    15% {
+        box-shadow: 0 0 0 2px rgba(232, 96, 76, 0.4);
+    }
+
+    25% {
+        box-shadow: 0 0 0 4px rgba(232, 96, 76, 0.4), 0 0 0 8px rgba(232, 96, 76, 0.2);
+    }
+
+    25% {
+        box-shadow: 0 0 0 8px rgba(232, 96, 76, 0.4), 0 0 0 16px rgba(232, 96, 76, 0.2);
+    }
+}
+
+@keyframes playAnimationZalo {
+
+    0% {
+        transform: scale(1);
+    }
+
+    15% {
+        box-shadow: 0 0 0 2px rgba(1, 148, 243, 0.4);
+    }
+
+    25% {
+        box-shadow: 0 0 0 4px rgba(1, 148, 243, 0.4), 0 0 0 8px rgba(1, 148, 243, 0.2);
+    }
+
+    25% {
+        box-shadow: 0 0 0 8px rgba(1, 148, 243, 0.4), 0 0 0 16px rgba(1, 148, 243, 0.2);
+    }
+
+}
+
+.phone {
+    float: right;
+    height: 35px;
+    line-height: 32px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+
+}
+
+.call-animation .phone svg {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-top: 6px;
+    margin-right: 5px;
+}
+
+.about-one__call-icon .phone svg {
+    width: 25px;
+}
+
+.call-animation .phone svg path {
+    fill: #fff;
+}
+
+.about-one__call-icon .phone svg path {
+    fill: #e8604c;
+}
+
+.phone svg path:nth-child(2) {
+    -webkit-animation: header-phone 1s infinite cubic-bezier(.1, .57, .5, 1);
+    animation: header-phone 1s infinite cubic-bezier(.1, .57, .5, 1);
+}
+
+.phone svg path:nth-child(3) {
+    -webkit-animation: header-phone2 1s infinite cubic-bezier(.1, .57, .5, 1);
+    animation: header-phone2 1s infinite cubic-bezier(.1, .57, .5, 1);
+}
+
+/* Animate phone */
+@-webkit-keyframes header-phone {
+
+    0%,
+    30% {
+        opacity: 0;
+        -webkit-transform: translate3d(-20px, 20px, 0);
+        transform: translate3d(-20px, 20px, 0)
+    }
+
+    80% {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0)
+    }
+
+    100% {
+        opacity: 0
+    }
+}
+
+@keyframes header-phone {
+
+    0%,
+    30% {
+        opacity: 0;
+        -webkit-transform: translate3d(-20px, 20px, 0);
+        transform: translate3d(-20px, 20px, 0)
+    }
+
+    80% {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0)
+    }
+
+    100% {
+        opacity: 0
+    }
+}
+
+@-webkit-keyframes header-phone2 {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(-20px, 20px, 0);
+        transform: translate3d(-20px, 20px, 0)
+    }
+
+    70%,
+    90% {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0)
+    }
+
+    100% {
+        opacity: 0
+    }
+}
+
+@keyframes header-phone2 {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(-20px, 20px, 0);
+        transform: translate3d(-20px, 20px, 0)
+    }
+
+    70%,
+    90% {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0)
+    }
+
+    100% {
+        opacity: 0
+    }
+}
+
+.icon-zalo {
+    width: 40px;
+    height: 40px;
+}
+
+.back-to-top svg {
+    fill: #fff;
+}
+
+.main-content {
+    margin-top: 120px;
+}
+
+.offcanvas-body {
+    padding-top: 0;
+}
