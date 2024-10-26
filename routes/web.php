@@ -26,6 +26,7 @@ Route::get('/', [
     "index"
 ]);
 
+Route::get('/tour-detail', [TourController::class, 'index'])->name('tour.detail');
 
 Route::get('/login', [LoginController::class, 'login'])->name("auth.login");
 
