@@ -1,17 +1,6 @@
 <div>
     <div class="w-100" style="position: relative;">
-        {{-- <img src="../../frontend/images/background.png" alt="" width="100%" height="650px"
-            style="opacity: 1; z-index: 0; position: relative;">
-        <div>
-            <div class="banner-thumb">
-                <div class="banner-slogan">
-                    <p>Chuyến đi mơ ước, nơi hành trình trở thành kỷ niệm!</p>
-                </div>
 
-                @include('frontend.home.component.bannerBackground')
-            </div>
-
-        </div> --}}
 
 
     </div>
