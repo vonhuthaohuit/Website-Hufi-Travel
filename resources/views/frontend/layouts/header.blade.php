@@ -1,4 +1,4 @@
-<header id="header" class="fixed-top navbar-custom @if (Request::is('/')) navbar-transparent @endif nav-normal">
+<header id="header" class="navbar-custom @if (Request::is('/')) navbar-transparent @endif nav-normal">
     <nav class="navbar navbar-expand-lg ">
         <div class="container-xl">
             <div class="collapse navbar-collapse">

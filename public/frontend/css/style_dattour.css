@@ -1,0 +1,74 @@
+.panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.frm-tour-booking-step {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.frm-tour-booking-step li {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    text-decoration: none; /* Xóa gạch chân */
+    list-style: none; /* Xóa dấu chấm hoặc gạch ở đầu danh sách */
+    border: none; /* Xóa đường viền (nếu có) */
+}
+
+.frm-tour-booking-step li.active b {
+    background: #14748d;
+    color: #fff;
+}
+
+.frm-tour-booking-step li b {
+    background: #ddd;
+    padding: 5px 20px 5px 10px;
+    margin-right: -10px;
+    text-decoration: none; /* Xóa gạch chân cho thẻ b */
+}
+
+.frm-tour-booking-step li.active i {
+    background: #21A5C7;
+    color: #fff;
+}
+
+.frm-tour-booking-step li .fa {
+    width: 30px;
+    height: 30px;
+    border-radius: 25px;
+    text-align: center;
+    padding-top: 8px;
+    background: #A7A8AD;
+    color: #fff;
+}
+
+.frm-tour-booking .content-header h3 {
+    border-bottom: 1px solid #14748d;
+}
+
+.info_tour h3 {
+    color: #14748d;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    line-height: 1.8;
+}
+
+
+.price-cell,
+.action-cell {
+    vertical-align: middle; /* Căn giữa theo chiều dọc */
+    padding: 10px; /* Thêm khoảng cách cho các ô */
+}
+
+.td-price {
+    margin-right: 10px; /* Thêm khoảng cách bên phải cho giá */
+}
