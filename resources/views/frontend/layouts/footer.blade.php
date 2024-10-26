@@ -4,12 +4,12 @@
             <div class="row">
                 <div class="col-lg-5">
                     <a href="/">
-                        <img src="{{ URL('images/logo.png') }}" class="mb-3" alt="logo shop" width="200"
-                            height="60">
+                        <img src="{{ asset('frontend/images/logo.png') }}" class="mb-3" alt="logo shop" width="100"
+                            height="100">
                     </a>
                     <div class="single-contact row">
                         <div class="content-footer col-12 col-lg-9">
-                            <a href="/" class="name-company">MovieLand</a> - blalalala
+                            <a href="/" class="name-company">HUFI Travel</a> - blalalala
                         </div>
                     </div>
 
