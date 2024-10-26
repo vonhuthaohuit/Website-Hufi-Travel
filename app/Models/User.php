@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'status',
+        'nhomquyen_id',
+        'google_id',
     ];
 
     /**
@@ -42,4 +45,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function nhomquyen(){
+        return $this->belongsTo(nhomquyen::class,'nhomquyen_id');
+    }
+
+    public function khachhang()
+    {
+        return $this->hasOne(KhachHang::class,'user_id');
+    }
+    public function nhanvien()
+    {
+        return $this->hasOne(NhanVien::class,'user_id');
+    }
+   
+
+    
 }
