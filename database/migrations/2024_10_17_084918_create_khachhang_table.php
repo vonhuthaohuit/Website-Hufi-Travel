@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('gioitinh');
             $table->date('ngaysinh');
             $table->string('sodienthoai');
-            $table->string('email');
             $table->string('hinhdaidien');
             $table->integer('user_id')->unsigned() ;
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
