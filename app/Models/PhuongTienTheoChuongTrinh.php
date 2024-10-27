@@ -12,4 +12,8 @@ class PhuongTienTheoChuongTrinh extends Model
     public function phuongtien(){
         return $this->belongsTo(PhuongTien::class,'phuongtien_id');
     }
+
+    public function chuongtrinhtour(){
+        return $this->belongsTo(ChuongTrinhTour::class,'chuongtrinh_id');
+    }
 }

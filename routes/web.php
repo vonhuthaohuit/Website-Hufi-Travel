@@ -30,6 +30,7 @@ Route::get('/tour-detail', [TourController::class, 'index'])->name('tour.detail'
 
 Route::get('/login', [LoginController::class, 'login'])->name("auth.login");
 
+
 Route::get('/google-sign-in', [
     LoginController::class ,
      'getGoogleSignInUrl'
@@ -40,4 +41,10 @@ Route::get('/google-sign-in', [
     LoginController::class ,
      'loginCallback'
  ])->name('Callback');
+
+
+
+Route::post('/register', [LoginController::class, 'register']);
+Route::post('/login', [LoginController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/logout', [LoginController::class, 'logout']);
 

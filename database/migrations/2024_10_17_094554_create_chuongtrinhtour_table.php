@@ -14,7 +14,11 @@ return new class extends Migration
         Schema::create('chuongtrinhtour', function (Blueprint $table) {
             $table->increments('id');
             $table->string('tieude');
+<<<<<<< Updated upstream
             $table->string('ngay') ;
+=======
+            $table->string('ngay');
+>>>>>>> Stashed changes
             $table->date('thoigianbatdau') ;
             $table->date('thoigianketthuc') ;
             $table->string('mota');
