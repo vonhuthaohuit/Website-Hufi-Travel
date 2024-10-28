@@ -24,11 +24,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [
     HomeController::class,
     "index"
-]);
+])->name('home');
 
 Route::get('/tour-detail', [TourController::class, 'index'])->name('tour.detail');
+Route::middleware('auth:sanctum')->post('/logout', [LoginController::class, 'logout']);
 
-Route::get('/login', [LoginController::class, 'login'])->name("auth.login");
 
 
 Route::get('/google-sign-in', [
@@ -36,15 +36,15 @@ Route::get('/google-sign-in', [
      'getGoogleSignInUrl'
  ])->name('GoogleSign');
 
-
  Route::get('/auth/login-google-callback', [
     LoginController::class ,
      'loginCallback'
  ])->name('Callback');
 
+ Route::get('/index', [LoginController::class, 'index'])->name('login_view');
+Route::post('/register', [LoginController::class, 'register'])->name('register');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::post('/register', [LoginController::class, 'register']);
-Route::post('/login', [LoginController::class, 'login']);
-Route::middleware('auth:sanctum')->post('/logout', [LoginController::class, 'logout']);
 
