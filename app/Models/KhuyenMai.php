@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class KhuyenMai extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'khuyenmai';
 
     public function tour(){

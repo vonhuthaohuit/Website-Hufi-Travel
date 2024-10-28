@@ -3,15 +3,16 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Tất cả thương hiệu</h1>
+            <h1>Blog Category</h1>
         </div>
         <div class="section-body">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
+                            <h4>Tất cả loại blog</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('brands.create') }}" class="btn btn-dark"><i class="fas fa-plus"></i>
+                                <a href="{{ route('loaiblog.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i>
                                     Create New</a>
                             </div>
                         </div>
