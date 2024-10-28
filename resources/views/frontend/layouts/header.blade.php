@@ -12,8 +12,14 @@
 
                 </ul>
                 <div>
-                    <a href="/login" class="btn btn-login"><i class="fa-solid fa-user me-2"></i>Đăng nhập</a>
-                    <a href="/login" class="btn btn-register">Đăng ký</a>
+                    @if (session('user'))
+                    <a href="#" class="btn btn-login"><i class="fa-solid fa-user me-2"></i>{{ session('user')->name }}</a>
+                    <a href="{{route('logout')}}" class="btn btn-login"><i class="fa-solid fa-user me-2"></i>Đăng xuất</a>
+                    @else
+                    <a href="{{route('login_view')}}" class="btn btn-login"><i class="fa-solid fa-user me-2"></i>Đăng nhập</a>
+                    @endif
+
+                    {{-- <a href="{{ route ('') }}" class="btn btn-register">Đăng ký</a> --}}
                 </div>
 
             </div>
