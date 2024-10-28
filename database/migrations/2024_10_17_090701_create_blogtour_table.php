@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('blogtour', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('tieude') ;
-            $table->string('noidung');
-            $table->string('trangthai');
+            $table->string('tieude');
+            $table->text('noidung');
+            $table->boolean('trangthai');
             $table->integer('loaiblog_id')->unsigned();
             $table->foreign('loaiblog_id')->references('id')->on('loaiblog');
             $table->integer('nhanvien_id')->unsigned();
