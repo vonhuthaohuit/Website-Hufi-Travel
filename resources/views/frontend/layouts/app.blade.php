@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 </head>
 
-<body>
+<body class="{{ Route::currentRouteName() }}">
     @include('frontend.layouts.header')
 
     <main class="main-content">

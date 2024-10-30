@@ -1,3 +1,10 @@
+.tour\.dattour .main-content {
+    margin-top: 150px;
+}
+.tour\.xacnhanthongtindattour .main-content {
+    margin-top: 150px;
+}
+
 .panel {
     margin-bottom: 20px;
     background-color: #fff;
@@ -38,6 +45,7 @@
 .frm-tour-booking-step li.active i {
     background: #21A5C7;
     color: #fff;
+    padding-top: 12px;
 }
 
 .frm-tour-booking-step li .fa {
@@ -49,6 +57,7 @@
     background: #A7A8AD;
     color: #fff;
 }
+
 
 .frm-tour-booking .content-header h3 {
     border-bottom: 1px solid #14748d;
