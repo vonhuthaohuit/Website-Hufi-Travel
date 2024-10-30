@@ -81,3 +81,109 @@
 .td-price {
     margin-right: 10px; /* Thêm khoảng cách bên phải cho giá */
 }
+
+/* General Responsive Layout Adjustments */
+.container-xl {
+    max-width: 100%;
+    padding: 0 15px;
+}
+
+/* Booking Steps */
+.frm-tour-booking-step {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.frm-tour-booking-step li {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    text-align: center;
+}
+.table {
+    width: 500px;      /* Đặt chiều rộng cố định */
+    height: 100px;     /* Đặt chiều cao cố định */
+    overflow: auto;    /* Cho phép cuộn cả ngang và dọc nếu nội dung vượt quá */
+    border: 1px solid #ccc; /* Tạo khung cho dễ nhìn */
+    padding: 10px;
+}
+
+/* Adjust Form Elements on Small Screens */
+@media (max-width: 768px) {
+    /* Booking Step Navigation */
+    .frm-tour-booking-step {
+        flex-direction: column;
+        justify-content: start;
+        justify-items: start;
+        align-items: start;
+    }
+
+    .frm-tour-booking-step li {
+        margin-bottom: 10px;
+    }
+
+    /* Adjust Form Layout */
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .form-group .control-label {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 5px;
+    }
+
+    .form-group .col-sm-10,
+    .form-group .col-sm-8 {
+        width: 100%;
+    }
+
+    /* Button and Table Adjustments */
+    #btn-add-more-customer {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .content-body table {
+        font-size: 14px;
+    }
+
+    .price-cell,
+    .action-cell {
+        padding: 5px;
+    }
+
+    .content-body {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Smaller adjustments for extra small screens */
+    .content-header h3 {
+        font-size: 16px;
+    }
+
+    .info_tour h3 {
+        font-size: 16px;
+    }
+
+    .content-body table {
+        font-size: 12px;
+    }
+
+    /* Reduce padding for smaller screens */
+    .content-body {
+        padding: 5px;
+    }
+
+    .price-cell,
+    .action-cell {
+        padding: 5px;
+    }
+}

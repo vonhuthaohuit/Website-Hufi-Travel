@@ -179,17 +179,17 @@
                                         </tr>
                                         <tr class="add_plus_tr">
                                             <td>
-                                                <input type="hidden" class="form-control" name="stt"
+                                                <input type="hidden" class="form-control" name="stt" style="width: auto"
                                                     value="1">
-                                                <input type="text" class="form-control" id="td_name_1"
+                                                <input type="text" class="form-control" id="td_name_1" style="width: auto"
                                                     name="td_ticket[1][td_name]" placeholder="Tên" required=""
                                                     data-msg="Trường này là bắt buộc!">
                                             </td>
-                                            <td><input type="text" class="form-control" id="td_birthday_1"
+                                            <td><input type="text" class="form-control" id="td_birthday_1" style="width: auto"
                                                     name="td_ticket[1][td_birthday]" placeholder="01/01/1990"
                                                     required="" data-msg="Trường này là bắt buộc!"></td>
                                             <td>
-                                                <select name="td_ticket[1][td_gender]" id="td_gender_1"
+                                                <select name="td_ticket[1][td_gender]" id="td_gender_1" style="width: auto"
                                                     class="form-control">
                                                     <option value="Nam">Nam</option>
                                                     <option value="Nữ">Nữ</option>
@@ -197,7 +197,7 @@
                                             </td>
                                             <td>
                                                 <select name="td_ticket[1][td_loaikhach]" id="td_loaikhach_1"
-                                                    class="form-control js-type-customer"
+                                                    class="form-control js-type-customer" style="width: auto"
                                                     onchange="selectTypeCustomer(this)">
                                                     <option data-price="2290000" data-price_other="1100000"
                                                         value="1">Người lớn</option>
@@ -208,7 +208,7 @@
                                                 </select>
                                             </td>
                                             <td class="price-cell">
-                                                <input type="hidden" class="form-control js-input-price" id="td_price_1"
+                                                <input type="hidden" class="form-control js-input-price" id="td_price_1" style="width: auto"
                                                     name="td_ticket[1][td_price]" value="2290000">
                                                 <span class="td-price">2,290,000</span>
                                             </td>
@@ -221,11 +221,11 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div style="text-align: right">
-                                    <button type="button" id="btn-add-more-customer" class="btn btn-info">
-                                        <i class="fa fa-plus"></i> Thêm
-                                    </button>
-                                </div>
+                            </div>
+                            <div style="text-align: right">
+                                <button type="button" id="btn-add-more-customer" class="btn btn-info">
+                                    <i class="fa fa-plus"></i> Thêm
+                                </button>
                             </div>
                         </div>
                     </div>
