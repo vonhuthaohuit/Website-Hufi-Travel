@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class KhachSanTheoChuongTrinh extends Model
+class KhachSan_Tour extends Model
 {
     use HasFactory;
-    protected $table = 'khachsantheochuongtrinh';
+    protected $table = 'khachsan_chuongtrinh';
 
     public function khachsan(){
         return $this->belongsTo(KhachSan::class,'khachsan_id');
     }
 
-    public function chuongtrinhtour(){
-        return $this->belongsTo(ChuongTrinhTour::class,'chuongtrinhtour_id');
+    public function tour(){
+        return $this->belongsTo(Tour::class,'tour_id');
     }
 
-    
+
 }
