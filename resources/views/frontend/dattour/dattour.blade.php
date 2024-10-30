@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 <link rel="stylesheet" href="{{ asset('frontend/css/style_dattour.css') }}">
 @section('renderBody')
-    <div class="container-xl mt-5">
+    <div class="container-xl">
         <form name="tourBooking" method="post" class="form-horizontal frm-tour-booking" id="form-booking"
             novalidate="novalidate">
             <input type="hidden" value="2,990,000" id="tour_price">
