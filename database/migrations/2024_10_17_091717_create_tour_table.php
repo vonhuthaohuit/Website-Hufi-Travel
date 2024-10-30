@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('tour', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('tentour') ;
+            $table->string('tentour');
             $table->string('motatour');
-            $table->string('tinhtrang');
+            $table->boolean('tinhtrang');
             $table->string('hinhdaidien');
             $table->string('thoigiandi');
             $table->string('noikhoihanh');

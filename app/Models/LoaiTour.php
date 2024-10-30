@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class LoaiTour extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'loaitour';
 
-    public function tour(){
-        return $this->hasMany(Tour::class,'loaitour_id');
+    public function tour()
+    {
+        return $this->hasMany(Tour::class, 'loaitour_id');
     }
-
 }
