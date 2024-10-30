@@ -15,11 +15,11 @@ return new class extends Migration
             $table->increments('id');
             $table->string('tieude');
             $table->string('ngay') ;
-            $table->date('thoigianbatdau') ;
-            $table->date('thoigianketthuc') ;
             $table->string('mota');
             $table->integer('tour_id')->unsigned();
             $table->foreign('tour_id')->references('id')->on('tour')->onDelete('cascade');
+            $table->timestamps();
+
         });
     }
 

@@ -12,4 +12,9 @@ class NhomQuyen extends Model
     public function user(){
         return $this->hasMany(User::class,'nhomquyen_id');
     }
+
+    public function  quyen_nhomquyen()
+    {
+        return $this->hasMany(Quyen_Nhomquyen::class,'nhomquyen_id');
+    }
 }

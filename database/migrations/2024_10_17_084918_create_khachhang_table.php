@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('hoten');
             $table->string('gioitinh');
             $table->date('ngaysinh');
+            $table->string('diachi') ;
             $table->string('sodienthoai');
             $table->string('hinhdaidien');
             $table->integer('user_id')->unsigned() ;

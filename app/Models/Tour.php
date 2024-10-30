@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tour extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'tour';
     public function dattour(){
         return $this->hasMany(DatTour::class,'tour_id');
@@ -32,5 +33,15 @@ class Tour extends Model
 
     public function chuongtrinhtour(){
         return $this->hasMany(ChuongTrinhTour::class,'tour_id');
+    }
+
+
+    public function khachsan_tour()
+    {
+        return $this->hasMany(KhachSan_Tour::class,'tour_id');
+    }
+    public function phuongtien_tour()
+    {
+        return $this->hasMany(PhuongTien_Tour::class,'tour_id');
     }
 }

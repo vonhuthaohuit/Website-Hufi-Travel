@@ -11,8 +11,8 @@ class PhanCongNhanVien extends Model
     protected $table = 'phancongnhanvien';
 
 
-    public function chuongtrinhtour(){
-        return $this->belongsTo(ChuongTrinhTour::class,'chuongtrinhtour_id');
+    public function tour(){
+        return $this->belongsTo(Tour::class,'tour_id');
     }
 
     public function nhanvien(){

@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('phongban', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('tenphongban')->unique() ;
+            $table->string('tenphongban')->unique();
+            $table->integer('truongphong_id')->unsigned();
+            $table->foreign('truongphong_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

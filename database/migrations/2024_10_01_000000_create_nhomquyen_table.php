@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('nhomquyen', function (Blueprint $table) {
             $table->increments('id');
             $table->string('tennhomquyen')->unique() ;
+            $table->string('mota');
         });
     }
 

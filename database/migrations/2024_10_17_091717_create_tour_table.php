@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('tour', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('tentour') ;
+            $table->string('tentour');
             $table->string('motatour');
-            $table->string('tinhtrang');
+            $table->boolean('tinhtrang');
             $table->string('hinhdaidien');
             $table->string('thoigiandi');
             $table->string('noikhoihanh');
@@ -23,7 +23,8 @@ return new class extends Migration
             $table->foreign('loaitour_id')->references('id')->on('loaitour')->onDelete('cascade');
             $table->integer('khuyenmai_id')->unsigned();
             $table->foreign('khuyenmai_id')->references('id')->on('khuyenmai')->onDelete('cascade');
-            $table->timestamp('ngaytao')->nullable();
+            $table->timestamps();
+            //'ngaytao'
         });
     }
 
