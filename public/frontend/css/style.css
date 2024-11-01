@@ -242,3 +242,12 @@ footer {
 .offcanvas-body {
     padding-top: 0;
 }
+
+.breadcrumb-item {
+    font-weight: 600;
+}
+
+.breadcrumb-item.active {
+    color: rgb(1, 148, 243);
+    font-weight: 700;
+}

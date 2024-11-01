@@ -26,11 +26,17 @@
 
                                 <div class="form-group">
                                     <label>Nội dung</label>
-                                    <textarea class="form-control summernote" name="noidung">{{ old('noidung') }}</textarea>
+                                    <textarea id="summernote" class="form-control summernote" name="noidung">{{ old('noidung') }}</textarea>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Hình ảnh đại diện blog</label>
+                                            <input type="file" class="form-control" name="hinhanh">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Loại blog</label>
                                             <select class="form-control" name="loaiblog_id">
@@ -42,7 +48,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Trạng thái</label>
                                             <select class="form-control" name="trangthai">
