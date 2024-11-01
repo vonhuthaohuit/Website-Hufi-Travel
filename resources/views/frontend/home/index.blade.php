@@ -1,8 +1,5 @@
 <div>
     <div class="w-100" style="position: relative;">
-
-
-
     </div>
     @include('frontend.home.component.slider')
     <div class="container-xl">

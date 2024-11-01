@@ -11,6 +11,6 @@ class KhachSan extends Model
     protected $table = 'khachsan';
 
     public function khachsantheochuongtrinh(){
-        return $this->hasMany(KhachSanTheoChuongTrinh::class,'khachsan_id');
+        return $this->hasMany(KhachSan_Tour::class,'khachsan_id');
     }
 }

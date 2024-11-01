@@ -37,8 +37,8 @@
                     <li class="{{ setActive(['khuyenmai.*']) }}">
                         <a class="nav-link" href="{{ route('khuyenmai.index') }}">Coupons</a>
                     </li>
-                    <li class="{{ setActive(['admin.seller-products.*']) }}">
-                        <a class="nav-link" href="">Seller Products</a>
+                    <li class="{{ setActive(['diemdulich.*']) }}">
+                        <a class="nav-link" href="{{ route('diemdulich.index') }}">Tourist Spot</a>
                     </li>
                     <li class="{{ setActive(['admin.seller-pending-products.*']) }}">
                         <a class="nav-link" href="">Seller Pending Products</a>

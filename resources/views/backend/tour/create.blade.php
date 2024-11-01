@@ -1,4 +1,4 @@
-loaitour@extends('backend.layouts.master')
+@extends('backend.layouts.master')
 
 @section('content')
     <section class="section">
