@@ -7,9 +7,15 @@ use App\Http\Controllers\backend\HomeController as BackendHomeController;
 use App\Http\Controllers\frontend\TourController;
 use App\Http\Controllers\backend\AuthController;
 use App\Http\Controllers\backend\BlogController;
+use App\Http\Controllers\backend\FooterGridOneController;
+use App\Http\Controllers\backend\FooterGridThreeController;
+use App\Http\Controllers\backend\FooterGridTwoController;
+use App\Http\Controllers\backend\FooterSocialController;
 use App\Http\Controllers\backend\LoaiBlogController;
 use App\Http\Controllers\backend\LoaiTourController;
+use App\Http\Controllers\backend\SubscriberController;
 use App\Http\Controllers\backend\TourController as BackendTourController;
+use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,4 +68,23 @@ Route::prefix('admin')->group(function () {
     Route::resource('blog', BlogController::class);
     Route::post('blog/change-status', [BlogController::class, 'changeStatus'])->name('blog.change-status');
     Route::resource('loaiblog', LoaiBlogController::class);
+
+    Route::resource('footer-grid-one', FooterGridOneController::class);
+    Route::resource('footer-grid-two', FooterGridTwoController::class);
+    Route::post('footer-grid-two/change-status', [FooterGridTwoController::class, 'changeStatus'])->name('footer-grid-two.change-status');
+    Route::post('footer-grid-two/change-title', [FooterGridTwoController::class, 'changeTitle'])->name('footer-grid-two.change-title');
+
+    Route::resource('footer-grid-three', FooterGridThreeController::class);
+    Route::post('footer-grid-three/change-status', [FooterGridThreeController::class, 'changeStatus'])->name('footer-grid-three.change-status');
+    Route::post('footer-grid-three/change-title', [FooterGridThreeController::class, 'changeTitle'])->name('footer-grid-three.change-title');
+
+    Route::resource('footer-socials', FooterSocialController::class);
+    Route::put('footer-socials/change-status', [FooterSocialController::class, 'changeStatus'])->name('footer-socials.change-status');
+
+    Route::get('subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
+    Route::delete('subscribers/{id}', [SubscriberController::class, 'destory'])->name('subscribers.destory');
+    Route::post('subscribers-send-mail', [SubscriberController::class, 'sendMail'])->name('subscribers-send-mail');
 });
+
+Route::get('/blog-detail/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
+Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');

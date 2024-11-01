@@ -29,6 +29,9 @@ class BlogDatatables extends DataTable
 
                 return $editBtn . $deleteBtn;
             })
+            ->addColumn('hinhanh', function ($query) {
+                return "<img width='100px' height='80px' src='" . asset($query->hinhanh) . "' >";
+            })
             ->addColumn('trangthai', function ($query) {
                 $checked = $query->trangthai == 1 ? 'checked' : '';
                 return '<label class="custom-switch mt-2">
@@ -45,7 +48,7 @@ class BlogDatatables extends DataTable
             ->addColumn('ngaycapnhat', function ($query) {
                 return date('d-m-Y', strtotime($query->updated_at));
             })
-            ->rawColumns(['trangthai', 'loaiblog', 'action'])
+            ->rawColumns(['trangthai', 'loaiblog', 'action', 'hinhanh'])
             ->setRowId('id');
     }
 
@@ -86,6 +89,7 @@ class BlogDatatables extends DataTable
     {
         return [
             Column::make('id'),
+            Column::make('hinhanh')->title('Hình ảnh'),
             Column::make('tieude')->title('Tiêu đề'),
             Column::make('trangthai')->title('Trạng thái'),
             Column::make('loaiblog')->title('Loại blog'),

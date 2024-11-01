@@ -7,9 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Models\BlogTour;
 use App\Models\LoaiBlog;
 use Illuminate\Http\Request;
+use App\Traits\ImageUploadTrait;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
+    use ImageUploadTrait;
     /**
      * Display a listing of the resource.
      */
@@ -36,8 +40,14 @@ class BlogController extends Controller
             'tieude' => ['required', 'max:200', 'unique:blogtour,tieude'],
             'noidung' => 'required',
             'loaiblog_id' => 'required',
-            'trangthai' => 'required'
+            'trangthai' => 'required',
+            'hinhanh' => 'required'
         ]);
+
+        $imagePath = $this->uploadImage($request, 'hinhanh', 'frontend/images/blog');
+        if (!$imagePath) {
+            return back()->withErrors(['hinhanh' => 'Hình ảnh không được tải lên.']);
+        }
 
         $blog = new BlogTour();
 
@@ -45,6 +55,8 @@ class BlogController extends Controller
         $blog->noidung = $request->noidung;
         $blog->trangthai = $request->trangthai;
         $blog->loaiblog_id = $request->loaiblog_id;
+        $blog->slug = Str::slug($request->tieude);
+        $blog->hinhanh = $imagePath;
         $blog->nhanvien_id = 1;
         // $blog->user_id = Auth::user()->id;
 
@@ -80,6 +92,7 @@ class BlogController extends Controller
             'tieude' => 'required|string|max:255',
             'noidung' => 'required',
             'trangthai' => 'required',
+            'hinhanh' => 'required',
             'loaiblog_id' => 'required',
         ]);
 
@@ -89,7 +102,11 @@ class BlogController extends Controller
         $blog->noidung = $request->input('noidung');
         $blog->trangthai = $request->input('trangthai');
         $blog->loaiblog_id = $request->input('loaiblog_id');
+        $blog->slug = Str::slug($request->tieude);
         $blog->updated_at = now();
+
+        $imagePath = $this->updateImage($request, 'hinhanh', 'frontend/images/blog/uploads', $blog->hinhanh);
+        $blog->hinhanh = $imagePath;
 
         $blog->save();
 
@@ -101,7 +118,8 @@ class BlogController extends Controller
      */
     public function destroy(string $id)
     {
-        BlogTour::find($id)->delete();
+        $blog = BlogTour::find($id)->delete();
+        $this->deleteImage($blog->hinhanh);
         return response(['status' => 'success', 'message' => 'Xóa blog thành công']);
     }
 

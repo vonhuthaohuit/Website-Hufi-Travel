@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/tevily.css') }}">
@@ -25,7 +26,7 @@
     <link rel="stylesheet" href="{{ asset('frontend/library/swiper/swiper.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/library/animation/animation.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/library/animation/custom-animation.css') }}">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="{{ asset('frontend/css/styleBlog.css') }}">
 </head>
 
 <body>

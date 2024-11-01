@@ -11,6 +11,7 @@ use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TourController extends Controller
 {
@@ -56,6 +57,7 @@ class TourController extends Controller
 
         $tour = new Tour();
         $tour->tentour = $request->tentour;
+        $tour->slug = Str::slug($request->tentour);
         $tour->motatour = $request->motatour;
         $tour->tinhtrang = $request->tinhtrang;
         $tour->thoigiandi = $request->thoigiandi;
@@ -109,6 +111,7 @@ class TourController extends Controller
         $tour = Tour::findOrFail($id);
 
         $tour->tentour = $request->input('tentour');
+        $tour->slug = Str::slug($request->tentour);
         $tour->motatour = $request->input('motatour');
         $tour->tinhtrang = $request->input('tinhtrang');
         $tour->thoigiandi = $request->input('thoigiandi');
@@ -117,14 +120,9 @@ class TourController extends Controller
         $tour->khuyenmai_id = $request->input('khuyenmai_id');
         $tour->ngaytao = now();
 
-        if ($request->hasFile('hinhdaidien')) {
-            if ($tour->hinhdaidien) {
-                Storage::delete($tour->hinhdaidien);
-            }
 
-            $path = $request->file('hinhdaidien')->store('frontend/images/tour', 'public');
-            $tour->hinhdaidien = $path;
-        }
+        $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour/uploads', $tour->hinhdaidien);
+        $tour->hinhdaidien = $imagePath;
 
         $tour->save();
 
@@ -136,7 +134,8 @@ class TourController extends Controller
      */
     public function destroy(string $id)
     {
-        Tour::find($id)->delete();
+        $tour = Tour::find($id)->delete();
+        $this->deleteImage($tour->hinhdaidien);
         return response(['status' => 'success', 'message' => 'Xóa thành công']);
     }
 

@@ -59,13 +59,13 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">Điểm đến</a>
+                                aria-expanded="false">Điểm du lịch</a>
                             <ul class="dropdown-menu">
                                 <!-- Các mục dropdown -->
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Tin tức</a>
+                            <a class="nav-link" href="{{ route('blog.blog-all') }}">Tin tức</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Giới thiệu</a>
