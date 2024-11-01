@@ -66,9 +66,7 @@ class TourController extends Controller
         $tour->khuyenmai_id = $request->khuyenmai_id;
         $tour->hinhdaidien = $imagePath;
         $tour->ngaytao = now();
-
         $tour->save();
-
         return redirect()->route('tour.index');
     }
 

@@ -205,3 +205,15 @@
 .container-login.active .toggle-right {
     transform: translateX(200%);
 }
+
+.alert-wrapper {
+    text-align: center; /* Căn giữa văn bản */
+    margin-bottom: 20px; /* Khoảng cách giữa thông báo và các form */
+}
+.alert {
+    display: inline-block; /* Để có thể căn giữa theo chiều ngang */
+    padding: 10px 20px; /* Padding cho thông báo */
+    border-radius: 5px; /* Bo góc cho thông báo */
+}
+
+

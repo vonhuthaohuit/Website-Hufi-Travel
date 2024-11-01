@@ -40,6 +40,7 @@ class KhuyenMaiDatatables extends DataTable
         return $model->newQuery();
     }
 
+
     /**
      * Optional method if you want to use the html builder.
      */

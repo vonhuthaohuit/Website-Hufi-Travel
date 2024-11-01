@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -35,16 +36,18 @@
     <main class="main-content">
         @yield('renderBody')
     </main>
-
-    @include('frontend.layouts.footer')
+        @include('frontend.layouts.footer')
     @include('frontend.layouts.component.abs-fixed')
 
     <script src="{{ asset('frontend/js/tevily.js') }}"></script>
     <script src="{{ asset('frontend/library/swiper/swiper.min.js') }}"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
@@ -65,6 +68,24 @@
             s[0].parentNode.insertBefore(ga, s[0]);
         })();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+        @if(session('success'))
+            Toastify({
+                text: "{{ session('success') }}",
+                duration: 3000, // Thời gian hiển thị (miliseconds)
+                close: true, // Có hiển thị nút đóng không
+                gravity: "top", // Vị trí hiển thị (top, bottom)
+                position: 'right', // Vị trí bên trái hay bên phải
+                backgroundColor: "blue", // Màu nền
+                stopOnFocus: true, // Dừng khi hover chuột
+            }).showToast();
+            @php
+                session()->forget('success');
+            @endphp
+        @endif
+    </script>
+
 </body>
 
 </html>
