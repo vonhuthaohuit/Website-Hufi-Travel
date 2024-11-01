@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('tieude');
             $table->string('ngay') ;
-            $table->string('mota');
+            $table->longText('mota');
             $table->integer('tour_id')->unsigned();
             $table->foreign('tour_id')->references('id')->on('tour')->onDelete('cascade');
             $table->timestamps();

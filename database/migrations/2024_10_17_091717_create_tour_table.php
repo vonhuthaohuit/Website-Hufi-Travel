@@ -14,14 +14,13 @@ return new class extends Migration
         Schema::create('tour', function (Blueprint $table) {
             $table->increments('id');
             $table->string('tentour');
-            $table->string('motatour');
+            $table->text('motatour');
             $table->boolean('tinhtrang');
             $table->string('hinhdaidien');
-            $table->string('thoigiandi');
             $table->string('noikhoihanh');
             $table->integer('loaitour_id')->unsigned();
             $table->foreign('loaitour_id')->references('id')->on('loaitour')->onDelete('cascade');
-            $table->integer('khuyenmai_id')->unsigned();
+            $table->integer('khuyenmai_id')->unsigned()->nullable();
             $table->foreign('khuyenmai_id')->references('id')->on('khuyenmai')->onDelete('cascade');
             $table->timestamps();
             //'ngaytao'

@@ -97,13 +97,13 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    {{-- <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Ngày tạo</label>
                                             <input type="datetime-local" class="form-control" name="ngaytao"
                                                 value="{{ $tour->ngaytao }}">
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Chỉnh sửa</button>

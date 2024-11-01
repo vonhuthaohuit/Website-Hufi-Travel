@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Tour;
 use App\Models\TourDatatable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -31,10 +32,11 @@ class TourDatatables extends DataTable
                 <i class="fas fa-cog"></i>
                 </button>
                 <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-                   <a class="dropdown-item has-icon" href=""><i class="far fa-heart"></i> Image Gallery</a>
+                   <a class="dropdown-item has-icon" href="' . route('chuongtrinhtour.index', ['tour_id' => $query->id]) . '" ><i class="far fa-heart"></i>Tour Itinerary</a>
+                   <a class="dropdown-item has-icon" href="' . route('chitiettour.index', ['tour_id' => $query->id]) . '" ><i class="far fa-heart"></i>Chi tiết tour</a>
                 </div>
               </div>';
-                return $editBtn . $deleteBtn;
+                return $editBtn . $deleteBtn .  $moreBtn;
             })
             ->addColumn('hinhdaidien', function ($query) {
                 return "<img width='100px' height='80px' src='" . asset($query->hinhdaidien) . "' >";
@@ -53,6 +55,25 @@ class TourDatatables extends DataTable
             //     }
             //     return $button;
             // })
+
+            ->editColumn('thoigiandi', function ($query) {
+                return Carbon::parse($query->thoigiandi)->format('d-m-Y'); // Định dạng ngày
+            })
+
+            ->addColumn('loaitour_id',function($query)
+            {
+                return $query->loaitour->tenloai ;
+            })
+
+            ->addColumn('khuyenmai_id', function($query) {
+                return $query->khuyenmai ? $query->khuyenmai->phantramgiam . '%' : 'Không có khuyến mãi';
+            })
+
+            ->editColumn('motatour', function ($query) {
+                return \Str::limit($query->motatour, 70); // Giới hạn 100 ký tự
+            })
+
+
             ->addColumn('tinhtrang', function ($query) {
                 $checked = $query->tinhtrang == 1 ? 'checked' : '';
                 return '<label class="custom-switch mt-2">
@@ -60,7 +81,7 @@ class TourDatatables extends DataTable
                 <span class="custom-switch-indicator"></span>
             </label>';
             })
-            ->rawColumns(['action', "tinhtrang", 'hinhdaidien'])
+            ->rawColumns(['action', "tinhtrang", 'hinhdaidien','loaitour_id','khuyenmai_id'])
             ->setRowId('id');
     }
 
@@ -100,20 +121,22 @@ class TourDatatables extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id')->width(50)->title('ID'),
+
+          // Column::make('id')->width(50)->title('ID'),
             Column::make('tentour')->width(250)->title('Tên tour'),
-            Column::make('motatour')->width(300)->title('Mô tả'),
+            //Column::make('motatour')->width(300)->title('Mô tả'),
+            Column::make('loaitour_id')->width(200)->title('Tên loại'),
             Column::make('tinhtrang')->width(100)->title('Tình trạng'),
-            Column::make('hinhdaidien')->width(150)->title('Hình ảnh'),
-            Column::make('thoigiandi')->width(150)->title('Thời gian đi'),
+            Column::make('hinhdaidien')->width(200)->title('Hình ảnh'),
             Column::make('noikhoihanh')->width(150)->title('Nơi khởi hành'),
-            Column::make('loaitour_id')->width(50)->title('ID loại tour'),
-            Column::make('khuyenmai_id')->width(50)->title('ID khuyến mãi'),
-            Column::make('ngaytao')->width(150)->title('Ngày tạo'),
+            // Column::make('loaitour_id')->width(50)->title('ID loại tour'),
+            Column::make('khuyenmai_id')->width(50)->title('Khuyến mãi'),
+            // Column::make('created_at')->width(150)->title('Ngày tạo'),
+            // Column::make('updated_at')->width(150)->title('Ngày cập nhật'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(200)
+                ->width(250)
                 ->addClass('text-center'),
         ];
     }

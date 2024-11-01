@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('blogtour', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('tieude');
+            $table->text('tieude');
             $table->text('noidung');
             $table->boolean('trangthai');
             $table->integer('loaiblog_id')->unsigned();

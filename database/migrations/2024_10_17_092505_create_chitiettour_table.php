@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('chitiettour', function (Blueprint $table) {
-
+            $table->increments('id') ;
             $table->date('ngaybatdau');
             $table->date('ngaykethuc');
             $table->bigInteger('gia') ;
@@ -24,7 +24,6 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */
