@@ -54,6 +54,19 @@
                                 </li>
                             </ul>
                         </div>
+
+                        <div class="comment-group">
+                            <h4>Bình luận</h4>
+                            <div class="comment-box">
+                                <div class="comment-avatar">
+                                    <img src="{{ asset('frontend/images/icon/user.png') }}" alt="avatar">
+                                </div>
+                                <div class="comment-content">
+                                    <textarea placeholder="Để lại bình luận của bạn"></textarea>
+                                    <button type="submit">Gửi bình luận</button>
+                                </div>
+                            </div>
+                        </div>
                         {{-- @if (count($recentBlogs) != 0)
                             <div class="wsus__related_post">
                                 <div class="row">

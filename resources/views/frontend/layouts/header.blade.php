@@ -13,13 +13,24 @@
                 </ul>
                 <div>
                     @if (session('user'))
-                    <a href="#" class="btn btn-login"><i class="fa-solid fa-user me-2"></i>{{ session('user')->name }}</a>
-                    <a href="{{route('logout')}}" class="btn btn-login"><i class="fa-solid fa-user me-2"></i>Đăng xuất</a>
+                        <div class="dropdown">
+                            <a href="#" class="btn btn-login dropdown-toggle" id="userDropdown"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-user me-2"></i>{{ session('user')->name }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+                            </ul>
+                        </div>
                     @else
-                    <a href="{{route('login_view')}}" class="btn btn-login"><i class="fa-solid fa-user me-2"></i>Đăng nhập</a>
+                        <a href="{{ route('login_view') }}" class="btn btn-login"><i
+                                class="fa-solid fa-user me-2"></i>Đăng nhập</a>
                     @endif
-
-                    {{-- <a href="{{ route ('') }}" class="btn btn-register">Đăng ký</a> --}}
                 </div>
 
             </div>
@@ -52,21 +63,21 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">Tour trong nước</a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu dropdown-column">
                                 <!-- Các mục dropdown -->
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">Tour nước ngoài</a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu dropdown-column">
                                 <!-- Các mục dropdown -->
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">Điểm du lịch</a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu dropdown-column">
                                 <!-- Các mục dropdown -->
                             </ul>
                         </li>
@@ -84,7 +95,6 @@
             </div>
         </div>
     </nav>
-
     @if (Request::is('/'))
         <style>
             .navbar-custom .navbar-brand,
@@ -128,91 +138,22 @@
             }
         </style>
     @endif
+
 </header>
 
-<style>
-    @media (max-width: 767px) {
-        .navbar-brand-mobile {
-            display: block;
-            font-weight: 700;
-        }
-    }
+@push('script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.getElementById('header');
+            if (!header) return;
 
-    .navbar-transparent {
-        background-color: rgba(0, 0, 0, 0);
-        border-bottom: 1px solid #ccc;
-        transition: background-color 0.3s ease;
-    }
-
-    .navbar-scrolled {
-        background-color: #fff;
-        box-shadow: 0 6px 20px rgba(155, 155, 155, 0.3);
-    }
-
-    .navbar-custom.navbar-scrolled .navbar-brand,
-    .navbar-custom.navbar-scrolled .nav-link,
-    .navbar-custom.navbar-scrolled .nav-item,
-    .navbar-custom.navbar-scrolled .navbar-toggler-icon,
-    .navbar-custom.navbar-scrolled .navbar-brand-mobile {
-        color: rgb(104, 113, 118);
-        font-weight: 700;
-    }
-
-    .navbar-custom.navbar-scrolled .btn-login {
-        color: rgb(104, 113, 118);
-        ;
-        border: 1px solid rgb(1, 148, 243);
-    }
-
-    .nav-normal.navbar-scrolled {
-        border-bottom: none;
-    }
-
-    .dropdown-menu {
-        column-count: 3;
-        column-gap: 1rem;
-    }
-
-    .btn-login,
-    .btn-login:hover {
-        border: 1px solid rgb(1, 148, 243);
-    }
-
-    .btn-login {
-        font-weight: 700;
-    }
-
-    .btn-register {
-        color: #fff;
-        background-color: rgb(1, 148, 243);
-        font-weight: 700;
-    }
-
-    .btn-register:hover {
-        color: #fff;
-        background-color: rgb(1, 121, 219);
-    }
-
-    .navbar-toggler {
-        border: none;
-    }
-
-    .nav-pad-bot {
-        padding-top: 0;
-    }
-</style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const header = document.getElementById('header');
-        if (!header) return;
-
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                header.classList.add('navbar-scrolled');
-            } else {
-                header.classList.remove('navbar-scrolled');
-            }
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.classList.add('navbar-scrolled');
+                } else {
+                    header.classList.remove('navbar-scrolled');
+                }
+            });
         });
-    });
-</script>
+    </script>
+@endpush
