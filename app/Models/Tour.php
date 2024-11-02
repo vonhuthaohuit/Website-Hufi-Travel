@@ -11,37 +11,37 @@ class Tour extends Model
     public $timestamps = false;
     protected $table = 'tour';
     public function dattour(){
-        return $this->hasMany(DatTour::class,'tour_id');
+        return $this->hasMany(PhieuDatTour::class,'matour');
     }
 
     public function khuyenmai(){
-        return $this->belongsTo(KhuyenMai::class,'khuyenmai_id');
+        return $this->belongsTo(KhuyenMai::class,'makhuyenmai','makhuyenmai');
     }
 
     public function loaitour(){
-        return $this->belongsTo(LoaiTour::class,'loaitour_id');
+        return $this->belongsTo(LoaiTour::class,'maloaitour','maloaitour');
     }
 
     public function hinhanhtour(){
-        return $this->hasMany(HinhAnhTour::class,'tour_id');
+        return $this->hasMany(HinhAnhTour::class,'matour');
     }
 
     public function chitiettour(){
-        return $this->hasMany(ChiTietTour::class,'tour_id');
+        return $this->hasMany(ChiTietTour::class,'matour');
     }
 
 
     public function chuongtrinhtour(){
-        return $this->hasMany(ChuongTrinhTour::class,'tour_id');
+        return $this->hasMany(ChuongTrinhTour::class,'matour');
     }
 
 
     public function khachsan_tour()
     {
-        return $this->hasMany(KhachSan_Tour::class,'tour_id');
+        return $this->hasMany(KhachSan_Tour::class,'matour');
     }
     public function phuongtien_tour()
     {
-        return $this->hasMany(PhuongTien_Tour::class,'tour_id');
+        return $this->hasMany(PhuongTien_Tour::class,'matour');
     }
 }

@@ -11,6 +11,6 @@ class HinhAnhTour extends Model
     protected $table = 'hinhanhtour';
 
     public function tour(){
-        return $this->belongsTo(Tour::class,'tour_id'); 
+        return $this->belongsTo(Tour::class,'matour','matour');
     }
 }

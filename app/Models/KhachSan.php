@@ -10,7 +10,7 @@ class KhachSan extends Model
     use HasFactory;
     protected $table = 'khachsan';
 
-    public function khachsantheochuongtrinh(){
-        return $this->hasMany(KhachSanTheoChuongTrinh::class,'khachsan_id');
+    public function khachsan_chuongtrinh(){
+        return $this->hasMany(KhachSan_Tour::class,'makhachsan');
     }
 }

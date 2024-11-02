@@ -12,15 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('khachhang', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('makhachhang');
             $table->string('hoten');
             $table->string('gioitinh');
             $table->date('ngaysinh');
             $table->string('diachi') ;
             $table->string('sodienthoai');
             $table->string('hinhdaidien');
-            $table->integer('user_id')->unsigned() ;
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('maloaikhachhang')->unsigned() ;
+            $table->foreign('maloaikhachhang')->references('maloaikhachhang')->on('loaikhachhang')->onDelete('cascade');
+            $table->integer('mataikhoan')->unsigned() ;
+            $table->foreign('mataikhoan')->references('mataikhoan')->on('users')->onDelete('cascade');
         });
     }
 

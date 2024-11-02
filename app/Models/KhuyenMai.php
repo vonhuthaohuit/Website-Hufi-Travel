@@ -12,6 +12,6 @@ class KhuyenMai extends Model
     protected $table = 'khuyenmai';
 
     public function tour(){
-        return $this->hasMany(Tour::class,'khuyenmai_id');
+        return $this->hasMany(Tour::class,'makhuyenmai');
     }
 }
