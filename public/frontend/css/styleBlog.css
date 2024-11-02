@@ -605,6 +605,10 @@
     height: auto;
 }
 
+.wsus__description_area p {
+    font-size: 16px;
+}
+
 /* Blog detail css end */
 
 /*======================

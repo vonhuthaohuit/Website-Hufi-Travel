@@ -19,7 +19,6 @@
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/tevily.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/tevilyResponsive.css') }}">
@@ -28,6 +27,9 @@
     <link rel="stylesheet" href="{{ asset('frontend/library/animation/animation.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/library/animation/custom-animation.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleBlog.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/styleTour.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/styleHeader.css') }}">
+
 </head>
 
 <body>
@@ -52,6 +54,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
+
+    @stack('script')
     <script lang="javascript">
         var __vnp = {
             code: 23211,
