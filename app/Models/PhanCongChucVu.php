@@ -11,6 +11,6 @@ class PhanCongChucVu extends Model
     protected $table = 'phancongcongviec';
 
     public function chucvu(){
-        return $this->belongsTo(ChucVu::class,'chucvu_id');
+        return $this->belongsTo(ChucVu::class,'machucvu','machucvu');
     }
 }

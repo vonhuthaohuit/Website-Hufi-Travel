@@ -12,21 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
+            $table->increments('mataikhoan');
+            $table->string('tentaikhoan');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('status');
+            $table->string('matkhau');
+            $table->string('trangthai');
             $table->rememberToken();
-            $table->integer('nhomquyen_id')->unsigned() ;
+            $table->integer('manhomquyen')->unsigned() ;
             $table->string('google_id')->nullable();
-            $table->foreign('nhomquyen_id')->references('id')->on('nhomquyen')->onDelete('cascade');
+            $table->foreign('manhomquyen')->references('manhomquyen')->on('nhomquyen')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
- 
+
     public function down(): void
     {
         Schema::dropIfExists('users');

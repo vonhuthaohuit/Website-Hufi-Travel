@@ -3,6 +3,7 @@
 use App\Http\Controllers\backend\KhuyenMaiController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\backend\DiemDuLichController;
 use App\Http\Controllers\backend\HomeController as BackendHomeController;
 use App\Http\Controllers\frontend\TourController;
 use App\Http\Controllers\backend\AuthController;
@@ -11,11 +12,15 @@ use App\Http\Controllers\backend\FooterGridOneController;
 use App\Http\Controllers\backend\FooterGridThreeController;
 use App\Http\Controllers\backend\FooterGridTwoController;
 use App\Http\Controllers\backend\FooterSocialController;
+use App\Http\Controllers\backend\ChiTietTourController;
+use App\Http\Controllers\backend\ChuongTrinhTourController;
 use App\Http\Controllers\backend\LoaiBlogController;
 use App\Http\Controllers\backend\LoaiTourController;
 use App\Http\Controllers\backend\SubscriberController;
 use App\Http\Controllers\backend\TourController as BackendTourController;
 use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
+use App\Models\ChiTietTour;
+use App\Models\DiemDuLich;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,11 +73,13 @@ Route::get('/admin/dashboard', [BackendHomeController::class, 'index']);
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [BackendHomeController::class, 'index'])->name('dashboard');;
     Route::resource('tour', BackendTourController::class);
+    Route::resource('diemdulich', DiemDuLichController::class);
     Route::post('tour/change-status', [BackendTourController::class, 'changeStatus'])->name('tour.change-status');
-
+    Route::resource('chuongtrinhtour', ChuongTrinhTourController::class);
+    Route::resource('chitiettour', ChiTietTourController::class);
+    Route::post(' chuongtrinhtour/{id}', [ChuongTrinhTourController::class, 'getChuongTrinhByTour'])->name('chuongtrinhtour.byTour');
     Route::resource('loaitour', LoaiTourController::class);
     Route::resource('khuyenmai', KhuyenMaiController::class);
-
     Route::resource('blog', BlogController::class);
     Route::post('blog/change-status', [BlogController::class, 'changeStatus'])->name('blog.change-status');
     Route::resource('loaiblog', LoaiBlogController::class);

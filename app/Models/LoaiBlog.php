@@ -13,6 +13,6 @@ class LoaiBlog extends Model
 
     public function blogtour()
     {
-        return $this->hasMany(BlogTour::class, 'loaiblog_id');
+        return $this->hasMany(BlogTour::class, 'maloaiblog');
     }
 }

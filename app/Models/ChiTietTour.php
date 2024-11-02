@@ -12,10 +12,10 @@ class ChiTietTour extends Model
 
 
     public function diemdulich(){
-        return $this->belongsTo(DiemDuLich::class,'diemdulich_id');
+        return $this->belongsTo(DiemDuLich::class,'madiemdulich','madiemdulich');
     }
     public function tour(){
-        return $this->belongsTo(Tour::class,'tour_id');
+        return $this->belongsTo(Tour::class,'matour','matour');
     }
 
 }

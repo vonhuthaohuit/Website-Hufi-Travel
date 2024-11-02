@@ -11,7 +11,7 @@ class ChucVu extends Model
     protected $table = 'chucvu';
 
     public function phancongchucvu(){
-        return $this->hasMany(DiemDuLich::class,'chucvu_id');
+        return $this->hasMany(PhanCongChucVu::class,'machucvu');
     }
 
 }

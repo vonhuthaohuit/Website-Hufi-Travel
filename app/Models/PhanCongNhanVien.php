@@ -10,12 +10,11 @@ class PhanCongNhanVien extends Model
     use HasFactory;
     protected $table = 'phancongnhanvien';
 
-
     public function tour(){
-        return $this->belongsTo(Tour::class,'tour_id');
+        return $this->belongsTo(Tour::class,'matour','matour');
     }
 
     public function nhanvien(){
-        return $this->belongsTo(nhanvien::class,'nhanvien_id');
+        return $this->belongsTo(nhanvien::class,'manhanvien','manhanvien');
     }
 }

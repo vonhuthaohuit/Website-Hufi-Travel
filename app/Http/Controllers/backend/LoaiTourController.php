@@ -36,7 +36,6 @@ class LoaiTourController extends Controller
 
         $loaitour = new LoaiTour();
         $loaitour->tenloai = $request->tenloai;
-
         $loaitour->save();
 
         return redirect()->route('loaitour.index');
