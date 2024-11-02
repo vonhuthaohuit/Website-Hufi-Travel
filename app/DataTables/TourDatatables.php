@@ -129,6 +129,7 @@ class TourDatatables extends DataTable
             Column::make('tinhtrang')->width(100)->title('Tình trạng'),
             Column::make('hinhdaidien')->width(200)->title('Hình ảnh'),
             Column::make('noikhoihanh')->width(150)->title('Nơi khởi hành'),
+            Column::make('noikhoihanh')->width(150)->title('Nơi khởi hành'),
             // Column::make('loaitour_id')->width(50)->title('ID loại tour'),
             Column::make('khuyenmai_id')->width(50)->title('Khuyến mãi'),
             // Column::make('created_at')->width(150)->title('Ngày tạo'),

@@ -10,6 +10,6 @@ class PhongBan extends Model
     use HasFactory;
     protected $table = 'phongban';
     public function nhanvien(){
-        return $this->hasMany(NhanVien::class,'phongban_id');
+        return $this->hasMany(NhanVien::class,'maphongban');
     }
 }

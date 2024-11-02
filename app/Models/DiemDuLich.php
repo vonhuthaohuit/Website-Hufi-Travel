@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class DiemDuLich extends Model
 {
     use HasFactory;
-    public $timestamps = false; 
+    public $timestamps = false;
     protected $table = 'diemdulich';
     public function chitiettour(){
-        return $this->hasMany(ChiTietTour::class,'diemdulich_id');
+        return $this->hasMany(ChiTietTour::class,'madiemdulich');
     }
 }

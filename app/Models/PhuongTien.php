@@ -10,6 +10,6 @@ class PhuongTien extends Model
     use HasFactory;
     protected $table = 'phuongtien';
     public function phuongtientheochuongtrinh(){
-        return $this->hasMany(PhuongTienTheoChuongTrinh::class,'phuongtien_id');
+        return $this->hasMany(PhuongTien_Tour::class,'maphuongtien');
     }
 }

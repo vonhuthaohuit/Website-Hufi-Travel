@@ -10,6 +10,6 @@ class Quyen extends Model
     use HasFactory;
     protected $table = 'quyen';
     public function quyen_nhomquyen(){
-        return $this->hasMany(Quyen_Nhomquyen::class,'quyen_id');
+        return $this->hasMany(Quyen_Nhomquyen::class,'maquyen');
     }
 }

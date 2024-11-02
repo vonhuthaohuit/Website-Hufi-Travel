@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('chuongtrinhtour', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('machuongtrinhtour');
             $table->string('tieude');
             $table->string('ngay') ;
-            $table->longText('mota');
-            $table->integer('tour_id')->unsigned();
-            $table->foreign('tour_id')->references('id')->on('tour')->onDelete('cascade');
+            $table->Text('mota');
+            $table->integer('matour')->unsigned();
+            $table->foreign('matour')->references('matour')->on('tour')->onDelete('cascade');
             $table->timestamps();
 
         });

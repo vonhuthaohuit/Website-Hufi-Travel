@@ -10,8 +10,8 @@ class LoaiKhachHang extends Model
     use HasFactory;
     protected $table = 'loaikhachhang' ;
 
-    public function tour()
+    public function khachhang()
     {
-        return $this->belongsTo(Tour::class,'tour_id');
+        return $this->hasMany(KhachHang::class,'maloaikhachhang');
     }
 }
