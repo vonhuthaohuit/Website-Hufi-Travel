@@ -10,6 +10,6 @@ class DanhGia extends Model
     use HasFactory;
     protected $table = 'danhgia';
     public function khachhang(){
-        return $this->belongsTo(KhachHang::class,'khachhang_id');
+        return $this->belongsTo(KhachHang::class,'makhachhang','makhachhang');
     }
 }

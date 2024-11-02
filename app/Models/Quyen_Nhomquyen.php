@@ -10,10 +10,10 @@ class Quyen_Nhomquyen extends Model
     use HasFactory;
     protected $table = 'quyen_nhomquyen';
     public function quyen(){
-        return $this->belongsTo(Quyen::class,'phuongtien_id');
+        return $this->belongsTo(Quyen::class,'maquyen','maquyen');
     }
 
-    public function tour(){
-        return $this->belongsTo(NhomQuyen::class,'tour_id');
+    public function nhomquyen(){
+        return $this->belongsTo(NhomQuyen::class,'manhomquyen','manhomquyen');
     }
 }

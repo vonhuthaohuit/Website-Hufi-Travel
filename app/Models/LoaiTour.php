@@ -13,6 +13,6 @@ class LoaiTour extends Model
 
     public function tour()
     {
-        return $this->hasMany(Tour::class, 'loaitour_id');
+        return $this->hasMany(Tour::class, 'maloaitour');
     }
 }
