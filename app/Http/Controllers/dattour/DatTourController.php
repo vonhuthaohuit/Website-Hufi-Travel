@@ -3,67 +3,122 @@
 namespace App\Http\Controllers\dattour;
 
 use App\Http\Controllers\Controller;
+use App\Models\ChiTietTour;
+use App\Models\ChuongTrinhTour;
+use App\Models\KhachSan_Tour;
+use App\Models\PhuongTien_Tour;
+use App\Models\Tour;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class DatTourController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $tour;
+    protected $chitiettour;
+    protected $chuongtrinhtour;
+    protected $khachsan_tour;
+    protected $phuongtien_tour;
+
+    public function __construct()
     {
-        return view('frontend/dattour.dattour');
+        // Khởi tạo các model liên quan
+        $this->tour = new Tour();
+        $this->chitiettour = new ChiTietTour();
+        $this->chuongtrinhtour = new ChuongTrinhTour();
+        $this->khachsan_tour = new KhachSan_Tour();
+        $this->phuongtien_tour = new PhuongTien_Tour();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function xacnhanthongtindattour()
+    public function index(Request $request)
     {
-        return view('frontend/dattour.xacnhanthongtindattour');
+
+        try {
+            /*
+        |--------------------------------------------------------------------------
+        | Kiểm tra đăng nhập
+        |--------------------------------------------------------------------------
+        */
+
+            // if (!Auth::check()) {
+            //     return redirect()->route('login_view');
+            // }
+            $user = Session::get('user');
+            $userId = $user->id;
+            
+            /*
+        |--------------------------------------------------------------------------
+        | Kiểm tra phương thức request có hay không
+        |--------------------------------------------------------------------------
+        */
+            if ($request->isMethod('post')) {
+                $tourId = $request->input('tourid');
+
+                $tour = $this->tour->with(['chitiettour', 'chuongtrinhtour'])
+                    ->find($tourId);
+
+                if (!$tour) {
+                    return redirect()->back()->withErrors('Tour not found.');
+                }
+
+                return view('frontend.dattour.dattour', compact('tour'));
+            }
+
+            return redirect()->back()->withErrors('Invalid request method.');
+        } catch (Exception $e) {
+            return redirect()->route('login_view');
+        }
     }
+
+    public function xacnhanthongtindattour(Request $request)
+    {
+        $data = $request->all();
+
+        $tourId = $request->input('tourId');
+        $nguoiDaiDien = [
+            'fullname' => $request->input('ticket_fullname'),
+            'address' => $request->input('ticket_address'),
+            'phone' => $request->input('ticket_phone'),
+            'email' => $request->input('ticket_email'),
+        ];
+        $phuongThucThanhToan = $request->input('payment_id');
+
+        $customers = $request->input('td_ticket');
+
+        return view(
+            'frontend.dattour.xacnhanthongtindattour',
+            compact('nguoiDaiDien', 'customers', 'tourId', 'phuongThucThanhToan')
+        );
+    }
+
     public function create()
     {
-        //
+        // Logic tạo mới
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        // Logic lưu dữ liệu
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        // Logic hiển thị thông tin chi tiết
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        // Logic sửa dữ liệu
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        // Logic cập nhật dữ liệu
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        // Logic xóa dữ liệu
     }
 }

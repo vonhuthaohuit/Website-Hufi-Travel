@@ -245,9 +245,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a class="btn btn-danger btn-lg btn-booking" href="#">
-                                        Đặt tour
-                                    </a>
+                                    <a class="btn btn-danger btn-lg btn-booking" href="#" onclick="submitBookingForm(<?php echo 1 ?>)">Đặt tour</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -392,4 +390,27 @@
             background-color: #228be6;
         }
     </style>
+    <script> // Lấy ra tour id khi bấm đặt tour
+        function submitBookingForm(tourId) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = "{{ route('tour.dattour') }}";
+
+            const csrfTokenInput = document.createElement('input');
+            csrfTokenInput.type = 'hidden';
+            csrfTokenInput.name = '_token';
+            csrfTokenInput.value = "{{ csrf_token() }}";
+            form.appendChild(csrfTokenInput);
+
+            const tourIdInput = document.createElement('input');
+            tourIdInput.type = 'hidden';
+            tourIdInput.name = 'tourid';
+            tourIdInput.value = tourId;
+            form.appendChild(tourIdInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+
 @endsection

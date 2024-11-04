@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('phongban', function (Blueprint $table) {
+        Schema::create('quyen', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('tenphongban')->unique();
-            $table->integer('truongphong_id')->unsigned();
-            $table->foreign('truongphong_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('tenquyen')->unique();
+            $table->string('mota') ;
         });
     }
 
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('phongban');
+        Schema::dropIfExists('quyen');
     }
 };

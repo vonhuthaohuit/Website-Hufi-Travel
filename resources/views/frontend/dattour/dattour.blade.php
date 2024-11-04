@@ -2,32 +2,35 @@
 <link rel="stylesheet" href="{{ asset('frontend/css/style_dattour.css') }}">
 @section('renderBody')
     <div class="container-xl">
-        <form name="tourBooking" method="post" class="form-horizontal frm-tour-booking" id="form-booking"
+        <form action="{{ route('tour.xacnhanthongtindattour') }}" name="tourBooking" method="post" class="form-horizontal frm-tour-booking" id="form-booking"
             novalidate="novalidate">
-            <input type="hidden" value="2,990,000" id="tour_price">
+            @csrf
+            <input type="hidden" name="tourId" value="{{ $tour->id }}">
             <div class="panel panel-1">
                 <input type="hidden" id="hd_ticket" value="12">
                 <input type="hidden" id="hd_tour_price" value="2290000">
-                <ul class="nav nav-justified frm-tour-booking-step mb-4" role="tablist">
+                <ul class="nav nav-justified frm-tour-booking-step mt-5 mb-4" role="tablist">
                     <li role="presentation" class="active"><b>Chọn tour</b><i class="fa fa-check"></i></li>
                     <li role="presentation" class="active"><b>Đăng ký tour</b><i class="fa fa-check"></i></li>
                     <li role="presentation"><b>Xác nhận thông tin</b><i class="fa fa-times"></i></li>
                     <li role="presentation"><b>Hoàn thành</b><i class="fa fa-times"></i></li>
                 </ul>
-                <!-- info tour -->
                 <div class="content_book tour-des">
                     <header class="content-header">
-                        <h3>Thông tin tour</h3>
+                        <h3> Thông tin tour</h3>
                     </header>
                     <div class="content-body">
-                        <p><b>Tour Du Lịch Nha Trang - Đà Lạt 5 Ngày 4 Đêm: Cung Đường Nối Biển Và Hoa</b></p>
-                        <p>Mã tour: DL5N4D</p>
-                        <p>Thời gian: 5 ngày </p>
-                        <p>Ngày khởi hành: Đang cập nhật</p>
-                        <p>Nơi khởi hành: TP.HCM</p>
+                        <p><b>{{ $tour->tentour }}</b></p>
+                        <p data-tourId = <?php echo $tour->id ?>>Mã tour: {{ $tour->id }}</p>
+                        <p>Thời gian: {{ $tour->thoigiandi }} </p>
+                        <p>
+                            Ngày khởi hành:
+                            {{ optional($tour->chitiettour->first())->ngaybatdau ? \Carbon\Carbon::parse($tour->chitiettour->first()->ngaybatdau)->format('d-m-Y') : 'Đang cập nhật' }}
+                        </p>
+
+                        <p>Nơi khởi hành: {{ $tour->noikhoihanh }}</p>
                     </div>
                 </div>
-                <!-- tour price -->
                 <div class="content_book tour-price-advance">
                     <header class="content-header">
                         <h3>Giá tour</h3>
@@ -63,57 +66,50 @@
                     </div>
                 </div>
 
-                <!-- info customer -->
                 <div class="content_book customers-info">
                     <header class="content-header">
                         <h3>Thông tin liên lạc</h3>
                     </header>
                     <div class="content-body">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Họ &amp; Tên <span class="text-danger">*</span></label>
-                            <div class="col-sm-10">
+                        <div class="form-group row">
+                            <label class="col-md-2 control-label">Họ &amp; Tên <span class="text-danger">*</span></label>
+                            <div class="col-md-10">
                                 <input type="text" class="form-control" name="ticket_fullname" value=""
                                     required="" data-msg="Trường này là bắt buộc!">
+                                <span class="text-danger error-message" style="display: none;"></span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group row mt-3 mb-3">
                             <label class="col-sm-2 control-label">Địa chỉ <span class="text-danger">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="ticket_address" value=""
                                     required="" data-msg="Trường này là bắt buộc!">
+                                <span class="text-danger error-message" style="display: none;"></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group">
+                                <div class="form-group row">
                                     <label class="col-sm-4 control-label">Điện thoại <span
                                             class="text-danger">*</span></label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" name="ticket_phone" value=""
                                             required="" data-msg="Trường này là bắt buộc!">
+                                        <span class="text-danger error-message" style="display: none;"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group">
+                                <div class="form-group row">
                                     <label class="col-sm-4 control-label">Email <span class="text-danger">*</span></label>
                                     <div class="col-sm-8">
                                         <input type="email" class="form-control" name="ticket_email" value=""
                                             required="" data-msg="Trường này là bắt buộc!"
                                             data-msg-email="Email không đúng định dạng!">
+                                        <span class="text-danger error-message" style="display: none;"></span>
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label class="col-sm-4 control-label">Di động (<span class="error">*</span>)</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" placeholder="" name="ticket_hotline"
-                                            value=""
-                                            required data-msg="Trường này là bắt buộc!">
-                                    </div>
-                                </div>
-                            </div> -->
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Ghi chú</label>
@@ -131,10 +127,8 @@
                                         <tr>
                                             <th>Họ tên <span class="text-danger">*</span></th>
                                             <th>Ngày sinh <span class="text-danger">*</span></th>
-                                            <!-- <th>Địa chỉ</th> -->
                                             <th style="width:90px">Giới tính</th>
                                             <th>Khách hàng</th>
-                                            <!-- <th >Độ tuổi</th> -->
                                             <th>Giá</th>
                                             <th style="text-align: right">Action</th>
                                         </tr>
@@ -147,9 +141,10 @@
                                                 <input type="text" class="form-control" name="td_ticket[1][td_name]"
                                                     placeholder="Tên" required="">
                                             </td>
-                                            <td><input type="text" class="form-control"
-                                                    name="td_ticket[1][td_birthday]" placeholder="01/01/1990"
-                                                    required=""></td>
+                                            <td>
+                                                <input type="date" class="form-control"
+                                                    name="td_ticket[1][td_birthday]" required="">
+                                            </td>
                                             <td>
                                                 <select name="td_ticket[1][td_gender]" class="form-control">
                                                     <option value="Nam">Nam</option>
@@ -179,17 +174,17 @@
                                         </tr>
                                         <tr class="add_plus_tr">
                                             <td>
-                                                <input type="hidden" class="form-control" name="stt" style="width: auto"
+                                                <input type="hidden" class="form-control" name="stt"
                                                     value="1">
-                                                <input type="text" class="form-control" id="td_name_1" style="width: auto"
+                                                <input type="text" class="form-control" id="td_name_1"
                                                     name="td_ticket[1][td_name]" placeholder="Tên" required=""
                                                     data-msg="Trường này là bắt buộc!">
                                             </td>
-                                            <td><input type="text" class="form-control" id="td_birthday_1" style="width: auto"
+                                            <td><input type="date" class="form-control" id="td_birthday_1"
                                                     name="td_ticket[1][td_birthday]" placeholder="01/01/1990"
                                                     required="" data-msg="Trường này là bắt buộc!"></td>
                                             <td>
-                                                <select name="td_ticket[1][td_gender]" id="td_gender_1" style="width: auto"
+                                                <select name="td_ticket[1][td_gender]" id="td_gender_1"
                                                     class="form-control">
                                                     <option value="Nam">Nam</option>
                                                     <option value="Nữ">Nữ</option>
@@ -197,7 +192,7 @@
                                             </td>
                                             <td>
                                                 <select name="td_ticket[1][td_loaikhach]" id="td_loaikhach_1"
-                                                    class="form-control js-type-customer" style="width: auto"
+                                                    class="form-control js-type-customer"
                                                     onchange="selectTypeCustomer(this)">
                                                     <option data-price="2290000" data-price_other="1100000"
                                                         value="1">Người lớn</option>
@@ -208,8 +203,8 @@
                                                 </select>
                                             </td>
                                             <td class="price-cell">
-                                                <input type="hidden" class="form-control js-input-price" id="td_price_1" style="width: auto"
-                                                    name="td_ticket[1][td_price]" value="2290000">
+                                                <input type="hidden" class="form-control js-input-price" id="td_price_1"
+                                                    style="width: auto" name="td_ticket[1][td_price]" value="2290000">
                                                 <span class="td-price">2,290,000</span>
                                             </td>
                                             <td align="right" class="action-cell">
@@ -235,87 +230,57 @@
                         <h3>Phương thức thanh toán</h3>
                     </header>
                     <div class="content-body">
-                        <div class="radio"><label><input type="radio" name="payment_id" value="1"
-                                    checked="checked" class="payment-banking">Thanh toán trực tiếp<ul>
-                                    <p><strong>CÔNG TY CỔ PHẦN VIETOURIST HOLDINGS</strong><br>
-                                        <strong>Địa chỉ:</strong>&nbsp;95B-97-99 Trần Hưng Đạo, Phường Cầu Ông Lãnh, Quận 1,
-                                        Tp. Hồ Chí Minh<br>
-                                        <strong>Điện thoại:</strong> 028. 62 61 63 65<br>
-                                        <strong>Hotline:&nbsp;</strong>089 990 9145
-                                    </p>
-                                </ul></label></div>
-                        <div class="radio"><label><input type="radio" name="payment_id" value="2"
-                                    class="payment-banking">Thanh toán chuyển khoản<ul>
-                                    <p style="text-align: justify;"><span style="font-size:14px">VIETOURIST HOLDINGS JOINT
-                                            STOCK CO.<span style="color:rgb(0, 26, 51)"> </span></span></p>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="payment_id" value="1" checked="checked"
+                                    class="payment-banking">
+                                Thanh toán trực tiếp
+                            </label>
+                            <ul>
+                                <p>
+                                    <strong>HUFI TRAVEL - Hài Hước Store</strong><br>
+                                    <strong>Địa chỉ:</strong> 140 Lê Trọng Tấn Phường Tây Thạnh Quận Tân Phú TP.HCM<br>
+                                    <strong>Điện thoại:</strong> 0388533247<br>
+                                    <strong>Hotline:</strong> 0965682178 & 0938533247<br>
+                                </p>
+                            </ul>
+                        </div>
 
-                                    <p style="text-align: justify;"><span style="font-size:14px">STK: 1601100633008<span
-                                                style="color:rgb(0, 26, 51)"> </span></span></p>
-
-                                    <p style="text-align: justify;"><span style="font-size:14px">Ngân hàng Quân Đội (MB) -
-                                            CN Kỳ Đồng</span></p>
-                                </ul></label></div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="payment_id" value="2" class="payment-banking">
+                                Thanh toán online
+                            </label>
+                            <ul></ul>
+                        </div>
                     </div>
-                </div>
-                <div class="content_book payment">
-                    <header class="content-header">
-                        <h3>Điều khoản</h3>
-                    </header>
-                    <div class="content-body">
-                        <div class="form-group">
-                            <label for="inputEmail3" class="col-lg-1 col-md-1 col-sm-1 col-xs-2 control-label"></label>
-                            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-10">
-                                <input type="radio" id="toi_dong_y2" checked=""> Tôi đã đọc và đồng ý các điều
-                                khoản quy định công ty.
+
+                    <div class="content_book payment mt-4">
+                        <header class="content-header">
+                            <h3>Điều khoản</h3>
+                        </header>
+                        <div class="content-body">
+                            <div class="form-group">
+                                <label for="inputEmail3"
+                                    class="col-lg-1 col-md-1 col-sm-1 col-xs-2 control-label"></label>
+                                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-10">
+                                    <input type="radio" id="toi_dong_y2" checked=""> Tôi đã đọc và đồng ý các điều
+                                    khoản quy định công ty.
+                                </div>
                             </div>
-                        </div>
-                        <div>
                             <button type="submit" id="tour_tep1" name="tour_tep1" value="tour_tep1"
-                                class="btn btn-primary">Đặt tour</button>
+                                class="btn btn-primary">
+                                Đặt tour
+                            </button>
+
+
                         </div>
                     </div>
+                    <div class="alert alert-danger" style="margin-top:20px;">
+                        <p style="font-size: 12px;">(<span class="error">*</span>): Thông tin bắt buộc</p>
+                    </div>
                 </div>
-                <div class="alert alert-danger" style="margin-top:20px;">
-                    <p style="font-size: 12px;">(<span class="error">*</span>): Thông tin bắt buộc</p>
-                </div>
-
-            </div>
         </form>
-
     </div>
-
-
-    <script>
-        document.getElementById('btn-add-more-customer').addEventListener('click', function() {
-            // Lấy hàng mẫu
-            var rowTemplate = document.getElementById('customerRowTemplate');
-            // Sao chép hàng mẫu
-            var newRow = rowTemplate.cloneNode(true);
-            newRow.style.display = ''; // Hiện hàng mới
-
-            // Cập nhật tên và id của các input trong hàng mới
-            var index = document.querySelectorAll('#customerTable tbody tr').length + 1; // Tính toán chỉ số mới
-            newRow.querySelector('input[name="td_ticket[1][td_name]"]').name = `td_ticket[${index}][td_name]`;
-            newRow.querySelector('input[name="td_ticket[1][td_birthday]"]').name =
-                `td_ticket[${index}][td_birthday]`;
-            newRow.querySelector('select[name="td_ticket[1][td_gender]"]').name = `td_ticket[${index}][td_gender]`;
-            newRow.querySelector('select[name="td_ticket[1][td_loaikhach]"]').name =
-                `td_ticket[${index}][td_loaikhach]`;
-            newRow.querySelector('input[name="td_ticket[1][td_price]"]').name = `td_ticket[${index}][td_price]`;
-
-            // Cập nhật giá trị cho input ẩn
-            newRow.querySelector('.js-input-price').value = "2290000"; // Cập nhật giá mới nếu cần
-
-            // Thay đổi giá hiển thị nếu cần
-            newRow.querySelector('.td-price').innerText = "2,290,000"; // Cập nhật hiển thị nếu cần
-
-            // Thêm hàng mới vào bảng
-            document.querySelector('#customerTable tbody').appendChild(newRow);
-        });
-
-        function removeCustomer(element) {
-            var row = element.closest('tr');
-            row.remove(); // Xóa hàng
-        }
-    </script>
+    <script src="{{ asset('frontend/js/script_dattour.js') }}" defer></script>
 @endsection

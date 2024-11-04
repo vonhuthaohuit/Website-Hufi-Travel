@@ -21,7 +21,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->integer('nhomquyen_id')->unsigned() ;
             $table->string('google_id')->nullable();
-            $table->foreign('nhomquyen_id')->references('id')->on('nhomquyen');
+            $table->foreign('nhomquyen_id')->references('id')->on('nhomquyen')->onDelete('cascade');
             $table->timestamps();
         });
     }

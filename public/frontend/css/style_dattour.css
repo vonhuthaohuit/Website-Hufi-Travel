@@ -110,6 +110,53 @@
     border: 1px solid #ccc; /* Tạo khung cho dễ nhìn */
     padding: 10px;
 }
+.content-header h3 {
+    color: #14748d;
+    margin-bottom: 20px;
+}
+.payment-method {
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin: 20px 0;
+}
+
+.payment-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.payment-type {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.company-info {
+    background-color: #ffffff;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+.payment-buttons {
+    margin-top: 15px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #28a745;
+    /* Màu xanh */
+    transition: background-color 0.3s;
+    margin-right: 10px;
+}
+
+.btn:hover {
+    background-color: #218838;
+}
 
 /* Adjust Form Elements on Small Screens */
 @media (max-width: 768px) {
@@ -161,6 +208,9 @@
     .content-body {
         padding: 10px;
     }
+}
+.is-invalid {
+    border: 1px solid red;
 }
 
 @media (max-width: 576px) {
