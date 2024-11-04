@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('blogtour', function (Blueprint $table) {
             $table->increments('mablogtour');
             $table->text('tieude');
+            $table->text('slug');
+            $table->text('hinhanh');
             $table->longtext('noidung');
             $table->boolean('trangthaiblog');
             $table->integer('maloaiblog')->unsigned();

@@ -99,7 +99,6 @@
 
 <style>
     .footer_2 {
-        margin-top: 40px;
         color: #fff;
     }
 

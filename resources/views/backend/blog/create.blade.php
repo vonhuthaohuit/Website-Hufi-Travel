@@ -39,10 +39,10 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Loại blog</label>
-                                            <select class="form-control" name="loaiblog_id">
+                                            <select class="form-control" name="maloaiblog">
                                                 <option value="">Chọn loại tour</option>
                                                 @foreach ($loaiblog as $loaiblogItem)
-                                                    <option value="{{ $loaiblogItem->id }}">{{ $loaiblogItem->tenloai }}
+                                                    <option value="{{ $loaiblogItem->maloaiblog }}">{{ $loaiblogItem->tenloaiblog }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -51,7 +51,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Trạng thái</label>
-                                            <select class="form-control" name="trangthai">
+                                            <select class="form-control" name="trangthaiblog">
                                                 <option value="">Chọn tình trạng</option>
                                                 <option value="1">Kích hoạt</option>
                                                 <option value="0">Không kích hoạt</option>

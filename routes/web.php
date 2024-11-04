@@ -83,6 +83,7 @@ Route::prefix('admin')->group(function () {
     Route::resource('blog', BlogController::class);
     Route::post('blog/change-status', [BlogController::class, 'changeStatus'])->name('blog.change-status');
     Route::resource('loaiblog', LoaiBlogController::class);
+    Route::delete('loaiblog/mass-destroy', [LoaiBlogController::class, 'massDestroy'])->name('loaiblog.massDestroy');
 
     Route::resource('footer-grid-one', FooterGridOneController::class);
     Route::resource('footer-grid-two', FooterGridTwoController::class);
@@ -101,5 +102,9 @@ Route::prefix('admin')->group(function () {
     Route::post('subscribers-send-mail', [SubscriberController::class, 'sendMail'])->name('subscribers-send-mail');
 });
 
-Route::get('/blog-detail/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
+Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
 Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');
+
+Route::get('/gioi-thieu', [HomeController::class, 'about'])->name('about');
+Route::get('/lien-he', [HomeController::class, 'contact'])->name('contact');
+Route::get('/danh-sach-tour', [TourController::class, 'allTour'])->name('tour.all-tour');

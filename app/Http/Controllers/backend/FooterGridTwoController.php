@@ -49,7 +49,7 @@ class FooterGridTwoController extends Controller
 
         toastr('Created Successfully!', 'success', 'success');
 
-        return redirect()->route('backend.footer-grid-two.index');
+        return redirect()->route('footer-grid-two.index');
     }
 
     /**
@@ -90,10 +90,9 @@ class FooterGridTwoController extends Controller
      */
     public function destroy(string $id)
     {
-        $footer = FooterGridTwo::findOrFail($id);
+        $footer = FooterGridTwo::find($id);
         $footer->delete();
         Cache::forget('footer_grid_two');
-
         return response(['status' => 'success', 'message' => 'Deleted successfully!']);
     }
 
