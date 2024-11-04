@@ -23,7 +23,8 @@ return new class extends Migration
             $table->foreign('loaitour_id')->references('id')->on('loaitour')->onDelete('cascade');
             $table->integer('khuyenmai_id')->unsigned();
             $table->foreign('khuyenmai_id')->references('id')->on('khuyenmai')->onDelete('cascade');
-            $table->timestamp('ngaytao')->nullable();
+            $table->timestamps();
+            //'ngaytao'
         });
     }
 

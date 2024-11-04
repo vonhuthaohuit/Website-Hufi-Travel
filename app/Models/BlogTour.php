@@ -10,12 +10,12 @@ class BlogTour extends Model
     use HasFactory;
     protected $table = 'blogtour';
     public function loaiblog(){
-        return $this->belongsTo(LoaiBlog::class,'loaiblog_id');
+        return $this->belongsTo(LoaiBlog::class,'loaiblog_id','id');
     }
     public function nhanvien(){
         return $this->belongsTo(nhanvien::class,'nhanvien_id');
     }
 
-    
+
 
 }

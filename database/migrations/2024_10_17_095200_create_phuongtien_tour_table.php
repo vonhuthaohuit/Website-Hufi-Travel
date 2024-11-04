@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('phuongtientheochuongtrinh', function (Blueprint $table) {
-            $table->integer('chuongtrinhtour_id')->unsigned();
+        Schema::create('phuongtien_chuongtrinh', function (Blueprint $table) {
+            $table->integer('tour_id')->unsigned();
             $table->integer('phuongtien_id')->unsigned();
             $table->integer('soluonghanhkhach')->unsigned();
             $table->string('ghichu') ;
-            $table->primary(['chuongtrinhtour_id', 'phuongtien_id']);
-            $table->foreign('chuongtrinhtour_id')->references('id')->on('chuongtrinhtour')->onDelete('cascade');
+            $table->primary(['tour_id', 'phuongtien_id']);
+            $table->foreign('tour_id')->references('id')->on('tour')->onDelete('cascade');
             $table->foreign('phuongtien_id')->references('id')->on('phuongtien')->onDelete('cascade');
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('phuongtientheochuongtrinh');
+        Schema::dropIfExists('phuongtien_chuongtrinh');
     }
 };

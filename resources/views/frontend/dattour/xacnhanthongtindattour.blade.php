@@ -96,7 +96,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="add_plus_tbd">
-
                                                 <tr>
                                                     <td>
                                                         1 </td>
@@ -115,7 +114,9 @@
                                                     <td colspan="4"></td>
                                                     <td><strong>Tổng tiền :</strong></td>
                                                     <td>
-                                                        2,290,000 </td>
+                                                        <input type="hidden" name="amount" value="{{ 200000 }}">
+                                                        {{ 20000 }}
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -128,23 +129,59 @@
                                 <h3>Phương thức thanh toán</h3>
                             </header>
                             <div class="content-body" style="font-weight: bold; text-transform: uppercase">
-                                <p>
-                                    Thanh toán trực tiếp </p>
-                                <mall>
-                                    <p><strong>CÔNG TY CỔ PHẦN VIETOURIST HOLDINGS</strong><br>
-                                        <strong>Địa chỉ:</strong>&nbsp;95B-97-99 Trần Hưng Đạo, Phường Cầu Ông Lãnh, Quận 1,
-                                        Tp. Hồ Chí Minh<br>
-                                        <strong>Điện thoại:</strong> 028. 62 61 63 65<br>
-                                        <strong>Hotline:&nbsp;</strong>089 990 9145
-                                    </p>
-                                </mall>
+
+                                <div class="payment-method">
+                                    <?php if ($phuongThucThanhToan == 1): ?>
+                                    <h4 class="payment-title">Phương thức thanh toán:</h4>
+                                    <p class="payment-type">Thanh toán trực tiếp</p>
+
+                                    <div class="company-info">
+                                        <h5><strong>CÔNG TY CỔ PHẦN VIETOURIST HOLDINGS</strong></h5>
+                                        <p>
+                                            <strong>Địa chỉ:</strong> 95B-97-99 Trần Hưng Đạo, Phường Cầu Ông Lãnh, Quận 1,
+                                            Tp. Hồ Chí Minh<br>
+                                            <strong>Điện thoại:</strong> 028. 62 61 63 65<br>
+                                            <strong>Hotline:</strong> 089 990 9145
+                                        </p>
+                                    </div>
+                                    <?php else: ?>
+                                    <p class="payment-type">Thanh toán online</p>
+
+                                    <div class="payment-buttons">
+                                        <a href="#" id="pay-btn" class="btn btn-success"
+                                            data-amount="{{ 200000 }}">Thanh toán VNPay</a>
+                                        <a href="{{ route('momo.payment') }}" class="btn btn-success">Thanh toán Momo</a>
+                                    </div>
+
+                                    <?php endif; ?>
+                                    {{-- Modal thanh toán --}}
+                                    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="paymentModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="paymentModalLabel">Thông tin thanh toán
+                                                        VNPay</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div id="qr-code-container"></div>
+                                                    <p id="payment-info"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="text-center">
                                 <a class="btn btn-warning" href="javascript:javascript:history.go(-1)"><span
                                         class="fa fa-chevron-left"></span> Quay về</a>
-                                <button type="submit" name="tour_tep2" id="tour_tep2" class="btn btn-success">
+                                <button type="submit" name="tour_tep2" id="tour_step2" class="btn btn-success">
                                     Tiếp tục <span class="fa fa-chevron-right"></span>
                                 </button>
                             </div>
@@ -154,4 +191,36 @@
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-qrcode/1.0/jquery.qrcode.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#pay-btn').click(function(e) {
+                e.preventDefault();
+
+                var tongtien = $(this).data('amount');
+
+                $.ajax({
+                    url: '{{ route('vnpay.payment') }}',
+                    type: 'POST',
+                    data: {
+                        amount: tongtien,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response.status == 'success') {
+                            window.location.href = response.redirect;
+                        } else {
+                            alert('Không nhận được thông tin thanh toán.');
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error(xhr);
+                        alert('Đã xảy ra lỗi trong quá trình thanh toán.');
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

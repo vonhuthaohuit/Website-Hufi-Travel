@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('phancongnhanvien', function (Blueprint $table) {
             $table->integer('nhanvien_id')->unsigned();
-            $table->integer('chuongtrinhtour_id')->unsigned();
+            $table->integer('tour_id')->unsigned();
             $table->string('nhiemvu') ;
-            $table->primary(['chuongtrinhtour_id', 'nhanvien_id']);
-            $table->foreign('chuongtrinhtour_id')->references('id')->on('chuongtrinhtour')->onDelete('cascade');
+            $table->primary(['tour_id', 'nhanvien_id']);
+            $table->foreign('tour_id')->references('id')->on('tour')->onDelete('cascade');
             $table->foreign('nhanvien_id')->references('id')->on('nhanvien')->onDelete('cascade');
         });
     }

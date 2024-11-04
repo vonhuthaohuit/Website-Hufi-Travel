@@ -11,6 +11,8 @@ use App\Http\Controllers\backend\BlogController;
 use App\Http\Controllers\backend\LoaiBlogController;
 use App\Http\Controllers\backend\LoaiTourController;
 use App\Http\Controllers\backend\TourController as BackendTourController;
+use App\Http\Controllers\thanhtoan\ThanhToanMomoController;
+use App\Http\Controllers\thanhtoan\ThanhToanVNPayController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,17 +33,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [
     HomeController::class,
     "index"
-]);
+])->name('home');
 
 Route::get('/tour-detail', [TourController::class, 'index'])->name('tour.detail');
+Route::middleware('auth:sanctum')->post('/logout', [LoginController::class, 'logout']);
 
-Route::get('/login', [LoginController::class, 'login'])->name("auth.login");
+
 
 Route::get('/google-sign-in', [
     LoginController::class,
     'getGoogleSignInUrl'
 ])->name('GoogleSign');
-
 
 Route::get('/auth/login-google-callback', [
     LoginController::class,
@@ -49,10 +51,38 @@ Route::get('/auth/login-google-callback', [
 ])->name('Callback');
 
 
- // Đặt tour
+/*
+|--------------------------------------------------------------------------
+| Start route đặt tour
+|--------------------------------------------------------------------------
+*/
+Route::post('/dattour', [DatTourController::class, 'index'])->name('tour.dattour');
+Route::post('/xacnhanthongtindattour', [DatTourController::class, 'xacnhanthongtindattour'])->name("tour.xacnhanthongtindattour");
 
- Route::get('/dattour', [DatTourController::class, 'index'])->name("tour.dattour");
- Route::get('/xacnhanthongtindattour', [DatTourController::class, 'xacnhanthongtindattour'])->name("tour.xacnhanthongtindattour");
+
+//Momo
+Route::get('/momo-payment', [ThanhToanMomoController::class, 'createPayment'])->name('momo.payment');
+Route::get('/momo-return', [ThanhToanMomoController::class, 'returnPayment'])->name('momo.return');
+
+// Vnpay
+Route::post('/vnpay-payment', [ThanhToanVNPayController::class, 'createPayment'])->name('vnpay.payment');
+Route::get('/xacnhanthongtindattour/vnpay-returnPayment', [ThanhToanVNPayController::class, 'returnPayment'])->name('vnpay.returnPayment');
+
+/*
+|--------------------------------------------------------------------------
+| End route đặt tour
+|--------------------------------------------------------------------------
+*/
+
+
+// Login
+Route::get('/index', [LoginController::class, 'index'])->name('login_view');
+Route::post('/register', [LoginController::class, 'register'])->name('register');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+
 Route::get('/tour-detail', [TourController::class, 'index'])->name('tour.detail');
 
 Route::get('/admin/dashboard', [BackendHomeController::class, 'index']);
