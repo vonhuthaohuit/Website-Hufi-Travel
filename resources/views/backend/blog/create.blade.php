@@ -26,26 +26,32 @@
 
                                 <div class="form-group">
                                     <label>Nội dung</label>
-                                    <textarea class="form-control summernote" name="noidung">{{ old('noidung') }}</textarea>
+                                    <textarea id="summernote" class="form-control summernote" name="noidung">{{ old('noidung') }}</textarea>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Hình ảnh đại diện blog</label>
+                                            <input type="file" class="form-control" name="hinhanh">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Loại blog</label>
-                                            <select class="form-control" name="loaiblog_id">
+                                            <select class="form-control" name="maloaiblog">
                                                 <option value="">Chọn loại tour</option>
                                                 @foreach ($loaiblog as $loaiblogItem)
-                                                    <option value="{{ $loaiblogItem->id }}">{{ $loaiblogItem->tenloai }}
+                                                    <option value="{{ $loaiblogItem->maloaiblog }}">{{ $loaiblogItem->tenloaiblog }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Trạng thái</label>
-                                            <select class="form-control" name="trangthai">
+                                            <select class="form-control" name="trangthaiblog">
                                                 <option value="">Chọn tình trạng</option>
                                                 <option value="1">Kích hoạt</option>
                                                 <option value="0">Không kích hoạt</option>

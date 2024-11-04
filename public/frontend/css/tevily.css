@@ -3302,7 +3302,6 @@ ul {
 
     .tour-search-one__btn-wrap {
         -webkit-box-flex: 1;
-        flex: 1 1 224px;
         max-width: 224px;
         display: -webkit-box;
         display: flex;
@@ -3315,8 +3314,8 @@ ul {
         font-size: 16px;
         border-top-right-radius: 8px;
         border-bottom-right-radius: 8px;
-        border-bottom-left-radius: 0;
-        border-top-left-radius: 0;
+        /* border-bottom-left-radius: 0;
+        border-top-left-radius: 0; */
     }
 
     .tour-search-one__btn:after {
@@ -5573,7 +5572,7 @@ ul {
     .video-two {
         position: relative;
         display: block;
-        padding: 135px 0 200px;
+        padding: 50px 0 50px;
     }
 
     .video-two-bg {
@@ -6256,7 +6255,7 @@ ul {
     }
 
     .book-now__left h2 {
-        font-size: 46px;
+        font-size: 35px;
         font-weight: 700;
         color: var(--thm-base);
         letter-spacing: var(--thm-letter-spacing);
@@ -9289,12 +9288,14 @@ ul {
 .tour-search-box {
     position: relative;
     display: block;
+    box-shadow: 0 5px 10px rgb(0 9 128 / 4%), 0 7px 18px rgb(0 9 128 / 5%);
+    border-radius: 20px;
 }
 
 .tour-search-one {
     background-color: rgb(255, 255, 255);
     box-shadow: 0px 10px 30px 0px rgb(0, 0, 0, .05);
-    border-radius: var(--thm-border-radius);
+    border-radius: 20px;
 }
 
 .tour-search-one__inner {
@@ -9302,6 +9303,7 @@ ul {
     display: flex;
     -webkit-box-align: center;
     align-items: center;
+    justify-content: space-around;
     flex-wrap: wrap;
 }
 
@@ -9318,7 +9320,6 @@ ul {
 
 .tour-search-one__btn-wrap {
     -webkit-box-flex: 1;
-    flex: 1 1 224px;
     max-width: 224px;
     display: -webkit-box;
     display: flex;
@@ -9329,10 +9330,11 @@ ul {
 .tour-search-one__btn {
     padding: 33px 60px 33px;
     font-size: 16px;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
+    border-radius: 20px;
+    /* border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px; */
+    /* border-bottom-left-radius: 0;
+    border-top-left-radius: 0; */
 }
 
 .tour-search-one__btn:after {
@@ -9441,6 +9443,7 @@ ul {
 .destinations-one {
     position: relative;
     display: block;
+    padding-top: 50px;
 }
 
 
@@ -11587,7 +11590,7 @@ ul {
 .video-two {
     position: relative;
     display: block;
-    padding: 135px 0 200px;
+    padding: 50px 0 50px;
 }
 
 .video-two-bg {
@@ -12271,7 +12274,7 @@ ul {
 }
 
 .book-now__left h2 {
-    font-size: 46px;
+    font-size: 35px;
     font-weight: 700;
     color: var(--thm-base);
     letter-spacing: var(--thm-letter-spacing);
@@ -12317,10 +12320,11 @@ ul {
     left: 0;
     right: 0;
     bottom: 0;
+    background-image: url('../images/page-header-bg.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    filter: grayscale(100%);
+    filter: grayscale(30%);
 }
 
 .page-header-bg-overly {
@@ -12350,6 +12354,7 @@ ul {
     display: block;
     border-bottom: 1px solid #ebe6de;
     padding: 9px 0 11px;
+    background-color: #faf5ee;
 }
 
 .page-header__bottom-inner {
@@ -13027,7 +13032,7 @@ ul {
 .information {
     position: relative;
     display: block;
-    padding: 0 0 90px;
+    padding: 50px 0 20px;
 }
 
 .information__single {
@@ -14897,7 +14902,7 @@ ul {
 .about-page {
     position: relative;
     display: block;
-    padding: 120px 0 120px;
+    padding-bottom: 80px;
 }
 
 .about-page__left {

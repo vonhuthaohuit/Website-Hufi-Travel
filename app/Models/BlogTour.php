@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class BlogTour extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'mablogtour';
     protected $table = 'blogtour';
     public function loaiblog(){
-        return $this->belongsTo(LoaiBlog::class,'loaiblog_id','id');
+        return $this->belongsTo(LoaiBlog::class,'maloaiblog','maloaiblog');
     }
     public function nhanvien(){
-        return $this->belongsTo(nhanvien::class,'nhanvien_id');
+        return $this->belongsTo(nhanvien::class,'manhanvien','manhanvien');
     }
 
 

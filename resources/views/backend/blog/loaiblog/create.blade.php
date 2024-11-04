@@ -22,7 +22,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <label>Tên loại</label>
-                                    <input type="text" class="form-control" name="tenloai" required>
+                                    <input type="text" class="form-control" name="tenloaiblog" required>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Tạo mới</button>

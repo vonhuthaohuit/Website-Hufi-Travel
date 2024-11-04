@@ -12,20 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('nhanvien', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('manhanvien');
             $table->string('hoten');
             $table->string('gioitinh');
             $table->date('ngaysinh');
             $table->string('sodienthoai');
-            $table->string('email');
             $table->string('bangcap');
             $table->string('hinhdaidien');
-            $table->bigInteger('luong');
+            $table->float('luong');
             $table->date('ngayvaolam') ;
-            $table->integer('phongban_id')->unsigned();
-            $table->foreign('phongban_id')->references('id')->on('phongban')->onDelete('cascade');
-            $table->integer('user_id')->unsigned() ;
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('maphongban')->unsigned();
+            $table->foreign('maphongban')->references('maphongban')->on('phongban')->onDelete('cascade');
+            $table->integer('mataikhoan')->unsigned() ;
+            $table->foreign('mataikhoan')->references('mataikhoan')->on('users')->onDelete('cascade');
         });
     }
 

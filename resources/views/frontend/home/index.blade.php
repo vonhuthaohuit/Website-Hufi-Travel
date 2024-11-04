@@ -1,13 +1,12 @@
 <div>
     <div class="w-100" style="position: relative;">
-
-
-
     </div>
     @include('frontend.home.component.slider')
+
+    @include('frontend.home.component.search')
     <div class="container-xl">
-        <div class="border-radius-top-left-right">
-        </div>
+        {{-- <div class="border-radius-top-left-right">
+        </div> --}}
 
         {{-- <img src="../../frontend/images/banner_sale.png" alt="sale"
             style="width: 100%; height: 140px; border-radius: 12px; z-index: 2;" class="mb-4"> --}}

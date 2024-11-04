@@ -47,18 +47,18 @@ class User extends Authenticatable
     ];
 
     public function nhomquyen(){
-        return $this->belongsTo(nhomquyen::class,'nhomquyen_id');
+        return $this->belongsTo(nhomquyen::class,'manhomquyen','manhomquyen');
     }
+
+
 
     public function khachhang()
     {
-        return $this->hasOne(KhachHang::class,'user_id');
+        return $this->hasOne(KhachHang::class,'mataikhoan');
     }
     public function nhanvien()
     {
-        return $this->hasOne(NhanVien::class,'user_id');
+        return $this->hasOne(NhanVien::class,'manhanvien');
     }
-   
 
-    
 }

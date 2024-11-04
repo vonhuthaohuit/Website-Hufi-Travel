@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('loaiblog', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('tenloai') ;
+            $table->increments('maloaiblog');
+            $table->string('tenloaiblog') ;
         });
     }
 

@@ -9,10 +9,11 @@ class LoaiBlog extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    protected $primaryKey = 'maloaiblog';
     protected $table = 'loaiblog';
 
     public function blogtour()
     {
-        return $this->hasMany(BlogTour::class, 'loaiblog_id');
+        return $this->hasMany(BlogTour::class, 'maloaiblog');
     }
 }

@@ -12,14 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('blogtour', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('tieude');
-            $table->text('noidung');
-            $table->boolean('trangthai');
-            $table->integer('loaiblog_id')->unsigned();
-            $table->foreign('loaiblog_id')->references('id')->on('loaiblog');
-            $table->integer('nhanvien_id')->unsigned();
-            $table->foreign('nhanvien_id')->references('id')->on('nhanvien');
+            $table->increments('mablogtour');
+            $table->text('tieude');
+            $table->text('slug');
+            $table->text('hinhanh');
+            $table->longtext('noidung');
+            $table->boolean('trangthaiblog');
+            $table->integer('maloaiblog')->unsigned();
+            $table->foreign('maloaiblog')->references('maloaiblog')->on('loaiblog');
+            $table->integer('manhanvien')->unsigned();
+            $table->foreign('manhanvien')->references('manhanvien')->on('nhanvien');
             $table->timestamps();
         });
     }

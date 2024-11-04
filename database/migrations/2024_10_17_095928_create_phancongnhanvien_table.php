@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('phancongnhanvien', function (Blueprint $table) {
-            $table->integer('nhanvien_id')->unsigned();
-            $table->integer('tour_id')->unsigned();
+            $table->integer('manhanvien')->unsigned();
+            $table->integer('matour')->unsigned();
             $table->string('nhiemvu') ;
-            $table->primary(['tour_id', 'nhanvien_id']);
-            $table->foreign('tour_id')->references('id')->on('tour')->onDelete('cascade');
-            $table->foreign('nhanvien_id')->references('id')->on('nhanvien')->onDelete('cascade');
+            $table->primary(['manhanvien', 'matour']);
+            $table->foreign('matour')->references('matour')->on('tour')->onDelete('cascade');
+            $table->foreign('manhanvien')->references('manhanvien')->on('nhanvien')->onDelete('cascade');
+            $table->timestamps() ;
         });
     }
 
