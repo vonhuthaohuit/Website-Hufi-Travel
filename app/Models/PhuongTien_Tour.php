@@ -10,10 +10,10 @@ class PhuongTien_Tour extends Model
     use HasFactory;
     protected $table = 'phuongtien_tour';
     public function phuongtien(){
-        return $this->belongsTo(PhuongTien::class,'phuongtien_id');
+        return $this->belongsTo(PhuongTien::class,'maphuongtien','maphuongtien');
     }
 
     public function tour(){
-        return $this->belongsTo(Tour::class,'tour_id');
+        return $this->belongsTo(Tour::class,'matour','matour');
     }
 }

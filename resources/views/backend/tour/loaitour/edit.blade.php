@@ -19,11 +19,11 @@
                         </div>
                         <div class="card-body">
 
-                            <form action="{{ route('loaitour.update', $loaitour->id) }}" method="POST"
+                            <form action="{{ route('loaitour.update', $loaitour->maloaitour) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" value="{{ $loaitour->id }}" name="loaitourId">
+                                <input type="hidden" value="{{ $loaitour->maloaitour }}" name="loaitourId">
                                 <div class="form-group">
                                     <label>Tên loại tour</label>
                                     <input type="text" class="form-control" name="tenloai"

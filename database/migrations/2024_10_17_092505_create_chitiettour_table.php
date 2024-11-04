@@ -12,19 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('chitiettour', function (Blueprint $table) {
-
             $table->date('ngaybatdau');
             $table->date('ngaykethuc');
-            $table->bigInteger('gia') ;
-            $table->integer('tour_id')->unsigned();
-            $table->integer('diemdulich_id')->unsigned();
-            $table->primary(['tour_id', 'diemdulich_id']);
-            $table->foreign('diemdulich_id')->references('id')->on('diemdulich')->onDelete('cascade');
-            $table->foreign('tour_id')->references('id')->on('tour')->onDelete('cascade');
+            $table->bigInteger('giachitiettour') ;
+            $table->integer('matour')->unsigned();
+            $table->integer('madiemdulich')->unsigned();
+            $table->primary(['matour', 'madiemdulich']);
+            $table->foreign('madiemdulich')->references('madiemdulich')->on('diemdulich')->onDelete('cascade');
+            $table->foreign('matour')->references('matour')->on('tour')->onDelete('cascade');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */

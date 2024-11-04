@@ -32,19 +32,19 @@
         $(document).ready(function() {
             $('body').on('click', '.change-status', function() {
                 let isChecked = $(this).is(':checked');
-                let id = $(this).data('id');
+                let mablogtour = $(this).data('id');
 
                 console.log({
-                    id: id,
-                    trangthai: isChecked ? 'true' : 'false'
+                    mablogtour: mablogtour,
+                    trangthaiblog: isChecked ? 'true' : 'false'
                 });
 
                 $.ajax({
                     url: "{{ route('blog.change-status') }}",
                     method: 'POST',
                     data: {
-                        id: id,
-                        trangthai: isChecked ? 'true' : 'false'
+                        mablogtour: mablogtour,
+                        trangthaiblog: isChecked ? 'true' : 'false'
                     },
                     success: function(data) {
                         toastr.success(data.message);

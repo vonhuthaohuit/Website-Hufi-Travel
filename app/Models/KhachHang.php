@@ -10,24 +10,22 @@ class KhachHang extends Model
 {
     use HasFactory;
     protected $table = 'khachhang';
-    public function diachi(){
-        return $this->hasMany(DiaChi::class,'khachhang_id');
+    public function user(){
+        return $this->belongsTo(User::class,'mataikhoan','matikhoan');
     }
 
-    public function dattour(){
-        return $this->hasMany(DatTour::class,'khachhang_id');
+    public function chitietphieudattour(){
+        return $this->hasMany(ChiTietPhieuDatTour::class,'makhachhang');
     }
 
 
     public function danhgia(){
-        return $this->hasMany(danhgia::class,'khachhang_id');
+        return $this->hasMany(danhgia::class,'makhachhang');
     }
 
-    public function hoadon(){
-        return $this->hasMany(HoaDon::class,'khachhang_id');
+    public function loaikhachhang(){
+        return $this->belongsTo(LoaiKhachHang::class,'maloaikhachhang','maloaikhachhang');
     }
 
-    public function user(){
-        return $this->belongsTo(User::class,'user_id');
-    }
+
 }

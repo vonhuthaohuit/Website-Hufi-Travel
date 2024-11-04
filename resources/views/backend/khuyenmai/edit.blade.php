@@ -19,11 +19,11 @@
                         </div>
                         <div class="card-body">
 
-                            <form action="{{ route('khuyenmai.update', $khuyenmai->id) }}" method="POST"
+                            <form action="{{ route('khuyenmai.update', $khuyenmai->makhuyenmai) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" value="{{ $khuyenmai->id }}" name="khuyenmaiId">
+                                <input type="hidden" value="{{ $khuyenmai->makhuyenmai }}" name="khuyenmaiId">
 
                                 <div class="row">
                                     <div class="col-md-4">

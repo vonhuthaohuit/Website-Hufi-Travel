@@ -40,19 +40,10 @@ class KhuyenMaiController extends Controller
         $khuyenmai->thoigianbatdau = $request->thoigianbatdau;
         $khuyenmai->thoigianketthuc = $request->thoigianketthuc;
         $khuyenmai->phantramgiam = $request->phantramgiam;
-        $khuyenmai->ngaytao = now();
 
         $khuyenmai->save();
 
-        return redirect()->route('khuyenmai.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return redirect()->route('khuyenmai.index')->with('success', 'Thêm khuyến mãi thành công!');
     }
 
     /**
@@ -79,7 +70,6 @@ class KhuyenMaiController extends Controller
         $khuyenmai->thoigianbatdau = $request->input('thoigianbatdau');
         $khuyenmai->thoigianketthuc = $request->input('thoigianketthuc');
         $khuyenmai->phantramgiam = $request->input('phantramgiam');
-        $khuyenmai->ngaytao = now();
 
         $khuyenmai->save();
         return redirect()->route('khuyenmai.index')->with('success', 'Cập nhật khuyến mãi thành công!');
