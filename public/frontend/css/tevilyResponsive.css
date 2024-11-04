@@ -498,8 +498,8 @@
         max-width: 100%;
         border: 1px solid #ebe6de;
         border-bottom: 0;
-        border-top-right-radius: 8px;
-        border-top-left-radius: 8px;
+        border-top-right-radius: 20px;
+        border-top-left-radius: 20px;
     }
 
     .tour-search-one__btn-wrap,
@@ -519,8 +519,8 @@
         width: 100%;
         padding-left: 30px;
         padding-right: 30px;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+        /* border-top-right-radius: 0;
+        border-bottom-right-radius: 0; */
     }
 
     .tour-search-one__input-box {

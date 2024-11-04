@@ -10,4 +10,8 @@ class TourController extends Controller
     public function index() {
         return view('frontend.tour.tour-detail');
     }
+
+    public function allTour() {
+        return view('frontend.tour.all-tour');
+    }
 }

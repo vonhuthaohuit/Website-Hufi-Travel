@@ -19,15 +19,15 @@
                         </div>
                         <div class="card-body">
 
-                            <form action="{{ route('loaiblog.update', $loaiblog->id) }}" method="POST"
+                            <form action="{{ route('loaiblog.update', $loaiblog->maloaiblog) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" value="{{ $loaiblog->id }}" name="loaiblogId">
+                                <input type="hidden" value="{{ $loaiblog->maloaiblog }}" name="loaiblogId">
                                 <div class="form-group">
                                     <label>Tên loại tour</label>
-                                    <input type="text" class="form-control" name="tenloai"
-                                        value="{{ $loaiblog->tenloai }}">
+                                    <input type="text" class="form-control" name="tenloaiblog"
+                                        value="{{ $loaiblog->tenloaiblog }}">
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Chỉnh sửa</button>

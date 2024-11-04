@@ -11,7 +11,7 @@
                     </li>
 
                 </ul>
-                <div>
+                <div class="d-flex align-items-center">
                     @if (session('user'))
                         <div class="dropdown">
                             <a href="#" class="btn btn-login dropdown-toggle" id="userDropdown"
@@ -28,6 +28,7 @@
                             </ul>
                         </div>
                     @else
+                        <button href="#" class="show-form-search me-3"><i class="fas fa-search"></i></button>
                         <a href="{{ route('login_view') }}" class="btn btn-login"><i
                                 class="fa-solid fa-user me-2"></i>Đăng nhập</a>
                     @endif
@@ -62,16 +63,16 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">Tour trong nước</a>
+                                aria-expanded="false">Danh sách tour</a>
                             <ul class="dropdown-menu dropdown-column">
-                                <!-- Các mục dropdown -->
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">Tour nước ngoài</a>
-                            <ul class="dropdown-menu dropdown-column">
-                                <!-- Các mục dropdown -->
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('tour.all-tour') }}">Tất cả tour</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -85,10 +86,17 @@
                             <a class="nav-link" href="{{ route('blog.blog-all') }}">Tin tức</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Giới thiệu</a>
+                            <a class="nav-link" href="{{ route('about') }}">Giới thiệu</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Liên hệ</a>
+                            <a class="nav-link" href="{{ route('contact') }}">Liên hệ</a>
+                        </li>
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link" href="{{ route('login_view') }}">Đăng nhập</a>
+                        </li>
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link"><button class="show-form-search"><i
+                                        class="fas fa-search"></i></button></a>
                         </li>
                     </ul>
                 </div>
@@ -101,7 +109,8 @@
             .navbar-custom .nav-link,
             .navbar-custom .nav-item,
             .navbar-custom .navbar-toggler-icon,
-            .navbar-brand-mobile {
+            .navbar-brand-mobile,
+            .show-form-search {
                 color: #fff;
             }
 
@@ -115,7 +124,8 @@
                 }
             }
 
-            .btn-login {
+            .btn-login,
+            .show-form-search {
                 color: #fff;
                 border: 1px solid #fff;
             }
@@ -134,12 +144,14 @@
             }
 
             .btn-login {
-                color: rgb(104, 113, 118);
+                color: rgb(1, 148, 243);
             }
         </style>
     @endif
 
 </header>
+
+@include('frontend.layouts.component.search-box')
 
 @push('script')
     <script>

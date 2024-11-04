@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-xl-3 col-lg-3 d-flex justify-content-end align-items-center">
                     <div class="news-one__top-right">
-                        <a href="news-details.html" class="news-one__btn thm-btn">Xem tất cả</a>
+                        <a href="{{ route('blog.blog-all') }}" class="news-one__btn thm-btn">Xem tất cả</a>
                     </div>
                 </div>
             </div>

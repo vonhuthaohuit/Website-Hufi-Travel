@@ -17,12 +17,11 @@
                             </div>
                         </div>
                         <div class="card-body">
-
-                            <form action="{{ route('blog.update', $blog->id) }}" method="POST"
+                            <form action="{{ route('blog.update', $blog->mablogtour) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" value="{{ $blog->id }}" name="blogId">
+                                <input type="hidden" value="{{ $blog->mablogtour }}" name="mablogtour">
 
                                 <div class="form-group">
                                     <label>Tiêu đề</label>
@@ -45,11 +44,11 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Loại blog</label>
-                                            <select class="form-control" name="loaiblog_id">
+                                            <select class="form-control" name="maloaiblog">
                                                 @foreach ($loaiblog as $loaiblogItem)
-                                                    <option value="{{ $loaiblogItem->id }}"
-                                                        {{ $blog->id == $loaiblogItem->id ? 'selected' : '' }}>
-                                                        {{ $loaiblogItem->tenloai }}
+                                                    <option value="{{ $loaiblogItem->maloaiblog }}"
+                                                        {{ $blog->maloaiblog == $loaiblogItem->maloaiblog ? 'selected' : '' }}>
+                                                        {{ $loaiblogItem->tenloaiblog }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -58,11 +57,11 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Trạng thái</label>
-                                            <select class="form-control" name="trangthai">
-                                                <option value="0" {{ $blog->trangthai == 0 ? 'selected' : '' }}>Không
+                                            <select class="form-control" name="trangthaiblog">
+                                                <option value="0" {{ $blog->trangthaiblog == 0 ? 'selected' : '' }}>Không
                                                     hoạt động
                                                 </option>
-                                                <option value="1" {{ $blog->trangthai == 1 ? 'selected' : '' }}>Hoạt
+                                                <option value="1" {{ $blog->trangthaiblog == 1 ? 'selected' : '' }}>Hoạt
                                                     động
                                                 </option>
                                             </select>

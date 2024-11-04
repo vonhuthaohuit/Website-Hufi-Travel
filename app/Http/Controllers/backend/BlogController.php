@@ -39,8 +39,8 @@ class BlogController extends Controller
         $request->validate([
             'tieude' => ['required', 'max:200', 'unique:blogtour,tieude'],
             'noidung' => 'required',
-            'loaiblog_id' => 'required',
-            'trangthai' => 'required',
+            'maloaiblog' => 'required',
+            'trangthaiblog' => 'required',
             'hinhanh' => 'required'
         ]);
 
@@ -53,11 +53,11 @@ class BlogController extends Controller
 
         $blog->tieude = $request->tieude;
         $blog->noidung = $request->noidung;
-        $blog->trangthai = $request->trangthai;
-        $blog->loaiblog_id = $request->loaiblog_id;
+        $blog->trangthaiblog = $request->trangthaiblog;
+        $blog->maloaiblog = $request->maloaiblog;
         $blog->slug = Str::slug($request->tieude);
         $blog->hinhanh = $imagePath;
-        $blog->nhanvien_id = 1;
+        $blog->manhanvien = 1;
         // $blog->user_id = Auth::user()->id;
 
         $blog->save();
@@ -76,9 +76,9 @@ class BlogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($mablogtour)
     {
-        $blog = BlogTour::findOrFail($id);
+        $blog = BlogTour::findOrFail($mablogtour);
         $loaiblog = LoaiBlog::all();
         return view('backend.blog.edit', compact('blog', 'loaiblog'));
     }
@@ -86,22 +86,23 @@ class BlogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $mablogtour)
     {
+        // dd($request->all());
         $request->validate([
             'tieude' => 'required|string|max:255',
             'noidung' => 'required',
-            'trangthai' => 'required',
+            'trangthaiblog' => 'required',
             'hinhanh' => 'required',
-            'loaiblog_id' => 'required',
+            'maloaiblog' => 'required',
         ]);
 
-        $blog = BlogTour::findOrFail($id);
+        $blog = BlogTour::findOrFail($mablogtour);
 
         $blog->tieude = $request->input('tieude');
         $blog->noidung = $request->input('noidung');
-        $blog->trangthai = $request->input('trangthai');
-        $blog->loaiblog_id = $request->input('loaiblog_id');
+        $blog->trangthaiblog = $request->input('trangthaiblog');
+        $blog->maloaiblog = $request->input('maloaiblog');
         $blog->slug = Str::slug($request->tieude);
         $blog->updated_at = now();
 
@@ -116,7 +117,7 @@ class BlogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         $blog = BlogTour::find($id)->delete();
         $this->deleteImage($blog->hinhanh);
@@ -126,12 +127,12 @@ class BlogController extends Controller
     public function changeStatus(Request $request)
     {
         $request->validate([
-            'id' => 'required',
-            'trangthai' => 'required',
+            'mablogtour' => 'required',
+            'trangthaiblog' => 'required',
         ]);
 
-        $tour = BlogTour::findOrFail($request->id);
-        $tour->trangthai = $request->trangthai === 'true' ? 1 : 0;
+        $tour = BlogTour::findOrFail($request->mablogtour);
+        $tour->trangthaiblog = $request->trangthaiblog === 'true' ? 1 : 0;
         $tour->save();
 
         return response()->json(['message' => 'Trạng thái cập nhật thành công!']);

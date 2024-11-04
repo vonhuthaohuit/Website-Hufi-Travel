@@ -28,8 +28,8 @@ class Handler extends ExceptionHandler
         });
     }
 
-    protected function shouldReturnJson($request, Throwable $e)
-    {
-        return true ;
-    }
+    // protected function shouldReturnJson($request, Throwable $e)
+    // {
+    //     return true ;
+    // }
 }

@@ -9,6 +9,7 @@ class KhuyenMai extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    protected $primaryKey = 'makhuyenmai';
     protected $table = 'khuyenmai';
 
     public function tour(){

@@ -9,6 +9,7 @@ class LoaiBlog extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    protected $primaryKey = 'maloaiblog';
     protected $table = 'loaiblog';
 
     public function blogtour()

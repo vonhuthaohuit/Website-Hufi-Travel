@@ -1,18 +1,22 @@
 @extends('frontend.layouts.app')
 
 @section('renderBody')
-    <div class="container pt-4">
-        <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
-            aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('blog.blog-all') }}"></a>Blogs</li>
-                <li class="breadcrumb-item active" aria-current="page">{{ $blog->tieude }}</li>
-            </ol>
-        </nav>
-    </div>
+    <section class="page-header">
+        <div class="page-header__bottom">
+            <div class="container pt-4">
+                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+                    aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('blog.blog-all') }}">Blogs</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ $blog->tieude }}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
 
-    <section id="wsus__blog_details" class="pt-3">
+    <section id="wsus__blog_details" class="pt-3 mb-4">
         <div class="container">
             <div class="row">
                 <div class="col-xxl-9 col-xl-8 col-lg-8">
@@ -55,7 +59,7 @@
                             </ul>
                         </div>
 
-                        <div class="comment-group">
+                        <div class="comment-group mb-4">
                             <h4>Bình luận</h4>
                             <div class="comment-box">
                                 <div class="comment-avatar">
@@ -168,7 +172,7 @@
                             <ul>
                                 @foreach ($blogcategories as $category)
                                     <li>
-                                        <a href="">{{ $category->tenloai }}</a>
+                                        <a href="">{{ $category->tenloaiblog }}</a>
                                         {{-- {{ route('blog', ['category' => $category->slug]) }} --}}
                                     </li>
                                 @endforeach

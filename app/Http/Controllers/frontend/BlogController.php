@@ -11,24 +11,29 @@ class BlogController extends Controller
 {
     public function blog()
     {
-        $blogs = BlogTour::with('loaiblog')->where('trangthai', 1)->orderBy('id', 'DESC')->paginate(12);
+        $blogs = BlogTour::with('loaiblog')->where('trangthaiblog', 1)->orderBy('mablogtour', 'DESC')->paginate(12);
+        $moreBlogs = BlogTour::where('trangthaiblog', 1)
+                            ->orderBy('mablogtour', 'DESC')->take(5)->get();
 
-        return view('frontend.blog.blog', compact('blogs'));
+        $recentBlogs = BlogTour::where('trangthaiblog', 1)
+                                ->orderBy('mablogtour', 'DESC')->take(12)->get();
+
+        return view('frontend.blog.blog', compact('blogs', 'moreBlogs', 'recentBlogs'));
     }
     public function blogDetail(string $slug)
     {
         $blog = BlogTour::where('slug', $slug)
-            ->where('trangthai', 1)
+            ->where('trangthaiblog', 1)
             ->firstOrFail();
 
         $moreBlogs = BlogTour::where('slug', '!=', $slug)
-            ->where('trangthai', 1)
-            ->orderBy('id', 'DESC')->take(5)->get();
+            ->where('trangthaiblog', 1)
+            ->orderBy('mablogtour', 'DESC')->take(5)->get();
 
         $recentBlogs = BlogTour::where('slug', '!=', $slug)
-            ->where('trangthai', 1)
-            ->where('loaiblog_id', $blog->loaiblog_id)
-            ->orderBy('id', 'DESC')->take(12)->get();
+            ->where('trangthaiblog', 1)
+            ->where('maloaiblog', $blog->maloaiblog)
+            ->orderBy('mablogtour', 'DESC')->take(12)->get();
 
         $blogcategories = LoaiBlog::all();
         return view('frontend.blog.blog-detail', compact('blog', 'moreBlogs', 'recentBlogs', 'blogcategories'));
