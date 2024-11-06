@@ -5,7 +5,9 @@ namespace App\Http\Controllers\dattour;
 use App\Http\Controllers\Controller;
 use App\Models\ChiTietTour;
 use App\Models\ChuongTrinhTour;
+use App\Models\KhachHang;
 use App\Models\KhachSan_Tour;
+use App\Models\LoaiKhachHang;
 use App\Models\PhuongTien_Tour;
 use App\Models\Tour;
 use Exception;
@@ -20,6 +22,8 @@ class DatTourController extends Controller
     protected $chuongtrinhtour;
     protected $khachsan_tour;
     protected $phuongtien_tour;
+    protected $khachHangs;
+    protected $loaiKhachHangs;
 
     public function __construct()
     {
@@ -29,6 +33,8 @@ class DatTourController extends Controller
         $this->chuongtrinhtour = new ChuongTrinhTour();
         $this->khachsan_tour = new KhachSan_Tour();
         $this->phuongtien_tour = new PhuongTien_Tour();
+        $this->khachHangs = new KhachHang();
+        $this->loaiKhachHangs = new LoaiKhachHang();
     }
 
     public function index(Request $request)
@@ -45,8 +51,8 @@ class DatTourController extends Controller
             //     return redirect()->route('login_view');
             // }
             $user = Session::get('user');
-            $userId = $user->id;
-            
+            $maTaiKhoan = $user->maTaiKhoan;
+            $khachHang = $this->khachHangs->where('mataikhoan', $maTaiKhoan)->first();
             /*
         |--------------------------------------------------------------------------
         | Kiểm tra phương thức request có hay không
@@ -54,6 +60,7 @@ class DatTourController extends Controller
         */
             if ($request->isMethod('post')) {
                 $tourId = $request->input('tourid');
+                $loaiKhachHang = $this->loaiKhachHangs->get();
 
                 $tour = $this->tour->with(['chitiettour', 'chuongtrinhtour'])
                     ->find($tourId);
@@ -62,7 +69,7 @@ class DatTourController extends Controller
                     return redirect()->back()->withErrors('Tour not found.');
                 }
 
-                return view('frontend.dattour.dattour', compact('tour'));
+                return view('frontend.dattour.dattour', compact('tour', 'khachHang', 'loaiKhachHang'));
             }
 
             return redirect()->back()->withErrors('Invalid request method.');
