@@ -66,12 +66,12 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-Route::get('/tour-detail', [TourController::class, 'index'])->name('tour.detail');
+Route::get('/tour-detail/{slug}', [TourController::class, 'index'])->name('tour.detail');
 
 Route::get('/admin/dashboard', [BackendHomeController::class, 'index']);
 
 Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', [BackendHomeController::class, 'index'])->name('dashboard');;
+    Route::get('/dashboard', [BackendHomeController::class, 'index'])->name('dashboard');
     Route::resource('tour', BackendTourController::class);
     Route::resource('diemdulich', DiemDuLichController::class);
     Route::post('tour/change-status', [BackendTourController::class, 'changeStatus'])->name('tour.change-status');
@@ -104,6 +104,7 @@ Route::prefix('admin')->group(function () {
 
 Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
 Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');
+Route::get('/search', [FrontendBlogController::class, 'search'])->name('blog.search');
 
 Route::get('/gioi-thieu', [HomeController::class, 'about'])->name('about');
 Route::get('/lien-he', [HomeController::class, 'contact'])->name('contact');

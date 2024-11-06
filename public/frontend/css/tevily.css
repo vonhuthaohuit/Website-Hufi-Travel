@@ -3759,10 +3759,12 @@ ul {
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
         overflow: hidden;
+        height: 200px;
     }
 
     .popular-tours__img img {
         width: 100%;
+        height: 100%;
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
         opacity: 1;
@@ -4803,10 +4805,12 @@ ul {
         display: block;
         border-radius: var(--thm-border-radius);
         overflow: hidden;
+        height: 260px;
     }
 
     .news-one__img img {
         width: 100%;
+        height: 100%;
         border-radius: var(--thm-border-radius);
         transform: scale(1);
         transition: all 500ms ease;
@@ -9771,6 +9775,9 @@ ul {
 .popular-tours__single {
     position: relative;
     display: block;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(200, 200, 200, 0.4), 0 0 18px rgba(200, 200, 200, 0.4);
+
 }
 
 .popular-tours__img {
@@ -9779,10 +9786,12 @@ ul {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     overflow: hidden;
+    height: 200px;
 }
 
 .popular-tours__img img {
     width: 100%;
+    height: 100%;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     opacity: 1;
@@ -9827,14 +9836,12 @@ ul {
     color: var(--thm-primary);
 }
 
-
-
 .popular-tours__content {
     position: relative;
     display: block;
-    border: 1px solid #ebe6de;
+    border: none;
     border-top: 0;
-    padding: 35px 40px 40px;
+    padding: 10px;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
@@ -9858,12 +9865,16 @@ ul {
 }
 
 .popular-tours__title {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
     line-height: 34px;
     letter-spacing: -0.02em;
     margin-top: 4px;
     margin-bottom: 7px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
 }
 
 .popular-tours__title a {
@@ -10821,10 +10832,12 @@ ul {
     display: block;
     border-radius: var(--thm-border-radius);
     overflow: hidden;
+    height: 260px;
 }
 
 .news-one__img img {
     width: 100%;
+    height: 100%;
     border-radius: var(--thm-border-radius);
     transform: scale(1);
     transition: all 500ms ease;
@@ -13688,7 +13701,7 @@ ul {
     position: relative;
     display: block;
     float: right;
-    padding: 16px 0;
+    /* padding: 16px 0; */
 }
 
 .tour-details__top-list {

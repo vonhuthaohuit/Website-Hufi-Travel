@@ -315,8 +315,12 @@ footer {
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 14px;
-    background-color: #fff;
+    background-color: rgb(255 255 255 / 60%);
     color: #333;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 5px 10px rgb(1 9 128 / 4%), 0 0 18px rgb(255 255 255 / 30%);
+
 }
 
 .form-input::placeholder {

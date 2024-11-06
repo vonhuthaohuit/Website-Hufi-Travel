@@ -30,6 +30,8 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/styleTour.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleHeader.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleSearch.css') }}">
+
+    @stack('style')
 </head>
 
 <body>
