@@ -35,20 +35,23 @@
                 <hr>
             @endif
 
-            @if (count($blogs) === 0)
-                <div class="row">
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <h3>Sorry No Blog Found!</h3>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
             <div class="row">
                 <div class="col-lg-9">
                     <div class="row">
-                        @include('frontend.blog.component.blog-list')
+                        @if (count($blogs) === 0)
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h3>Sorry No Blog Found!</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        @else
+                            <h3 class="mt-3 mb-5" style="color: #333;">Tìm thấy <b>{{ $count }}</b> kết quả hiển thị
+                                cho
+                                từ khóa <b>"{{ $query }}"</b></h3>
+                            @include('frontend.blog.component.blog-list')
+                        @endif
 
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-end pb-4">
@@ -60,7 +63,7 @@
 
                 </div>
                 <div class="col-lg-3">
-                   @include('frontend.blog.component.blog-sidebar')
+                    @include('frontend.blog.component.blog-sidebar')
                 </div>
             </div>
         </div>

@@ -9,7 +9,7 @@
                         <h2>Bạn đã sẵn sàng cho chuyến tham quan đáng nhớ chưa?</h2>
                     </div>
                     <div class="book-now__right">
-                        <a href="#" class="thm-btn book-now__btn">Đặt tour ngay</a>
+                        <a href="{{ route('tour.all-tour') }}" class="thm-btn book-now__btn">Đặt tour ngay</a>
                     </div>
                 </div>
             </div>
