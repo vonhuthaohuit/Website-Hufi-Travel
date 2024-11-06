@@ -4,10 +4,13 @@ namespace App\Http\Controllers\backend;
 
 use App\DataTables\TourDatatables;
 use App\Http\Controllers\Controller;
+use App\Models\ChiTietTour;
+use App\Models\DiemDuLich;
 use App\Models\KhuyenMai;
 use App\Models\LoaiTour;
 use App\Models\Tour;
 use App\Traits\ImageUploadTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
@@ -53,10 +56,9 @@ class TourController extends Controller
         if (!$imagePath) {
             return back()->withErrors(['hinhdaidien' => 'Hình ảnh không được tải lên.']);
         }
-        $khuyenmai_ID = $request->khuyenmai_id ;
-        if(!$khuyenmai_ID)
-        {
-            $khuyenmai_ID = null ;
+        $khuyenmai_ID = $request->khuyenmai_id;
+        if (!$khuyenmai_ID) {
+            $khuyenmai_ID = null;
         }
         $tour = new Tour();
         $tour->tentour = $request->tentour;
@@ -67,8 +69,8 @@ class TourController extends Controller
         $tour->loaitour_id = $request->loaitour_id;
         $tour->khuyenmai_id = $request->khuyenmai_id;
         $tour->hinhdaidien = $imagePath;
-        $tour->created_at = now() ;
-        $tour->updated_at = now() ;
+        $tour->created_at = now();
+        $tour->updated_at = now();
         $tour->save();
         return redirect()->route('tour.index');
     }
@@ -146,5 +148,53 @@ class TourController extends Controller
         $tour->tinhtrang = $request->tinhtrang === 'true' ? 1 : 0;
         $tour->save();
         return response()->json(['message' => 'Tình trạng cập nhật thành công!']);
+    }
+
+    public function searchTour(Request $request)
+    {
+        $searchData = $request->only(['typetour', 'destination', 'departure', 'date-start', 'date-end', 'duration', 'guests']);
+        if (!empty($searchData['date-start']) || !empty($searchData['date-end'])) {
+            $searchData['date-start'] = Carbon::parse($searchData['date-start'])->format('Y-m-d');
+            $searchData['date-end'] = Carbon::parse($searchData['date-end'])->format('Y-m-d');
+        }
+
+        $tours = Tour::query()
+            ->where('tinhtrang', 1)
+            ->when($searchData['typetour'], function ($query, $typetour) {
+                $query->where('maloaitour', $typetour);
+            })
+            ->when($searchData['destination'], function ($query, $destination) {
+                $query->whereHas('chitiettour.diemdulich', function ($q) use ($destination) {
+                    $q->where('madiemdulich', $destination);
+                });
+            })
+            ->when($searchData['departure'], function ($query, $departure) {
+                $query->where('noikhoihanh', 'like', '%' . $departure . '%');
+            })
+            ->when($searchData['duration'], function ($query, $duration) {
+                $query->where('thoigiandi', 'like', '%' . $duration . '%');
+            })
+            ->when($searchData['date-start'], function ($query, $date) {
+                $query->whereHas('chitiettour', function ($q) use ($date) {
+                    $q->where('ngaybatdau', $date);
+                });
+            })
+            ->when($searchData['date-end'], function ($query, $date) {
+                $query->whereHas('chitiettour', function ($q) use ($date) {
+                    $q->where('ngayketthuc', $date);
+                });
+            })
+
+            ->with([
+                'khuyenmai',
+                'loaitour',
+                'hinhanhtour',
+                'chitiettour',
+                'chuongtrinhtour',
+                'khachsan_tour',
+                'phuongtien_tour'
+            ])
+            ->get();
+        return view('backend.tour.searchtour', compact('tours'));
     }
 }

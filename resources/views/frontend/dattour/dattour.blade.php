@@ -44,23 +44,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        Người lớn </td>
-                                    <td>2,290,000 VND</td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        Trẻ em (5 -11 tuổi) </td>
-                                    <td>1,790,000 VND</td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        Trẻ em( &lt; 5 tuổi) </td>
-                                    <td>0 VND</td>
-                                </tr>
+                                <?php
+                                    foreach ($loaiKhachHang as $loaiKhach) {
+                                        echo '<tr>';
+                                        echo '<td>' . $loaiKhach->tenloaikhachhang . '</td>';
+                                        echo '<td>' . $tour->giatour * number_format($loaiKhach->phantram) . ' VND</td>';
+                                        echo '</tr>';
+                                    }
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -74,7 +65,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 control-label">Họ &amp; Tên <span class="text-danger">*</span></label>
                             <div class="col-md-10">
-                                <input type="text" class="form-control" name="ticket_fullname" value=""
+                                <input type="text" class="form-control" name="ticket_fullname" value="<?php $khachHang->hoten ?>"
                                     required="" data-msg="Trường này là bắt buộc!">
                                 <span class="text-danger error-message" style="display: none;"></span>
                             </div>
@@ -82,7 +73,7 @@
                         <div class="form-group row mt-3 mb-3">
                             <label class="col-sm-2 control-label">Địa chỉ <span class="text-danger">*</span></label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="ticket_address" value=""
+                                <input type="text" class="form-control" name="ticket_address" value="<?php $khachHang->diachi ?>"
                                     required="" data-msg="Trường này là bắt buộc!">
                                 <span class="text-danger error-message" style="display: none;"></span>
                             </div>
@@ -93,7 +84,7 @@
                                     <label class="col-sm-4 control-label">Điện thoại <span
                                             class="text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" name="ticket_phone" value=""
+                                        <input type="text" class="form-control" name="ticket_phone" value="<?php $khachHang->sodienthoai ?>"
                                             required="" data-msg="Trường này là bắt buộc!">
                                         <span class="text-danger error-message" style="display: none;"></span>
                                     </div>
@@ -103,7 +94,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 control-label">Email <span class="text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="email" class="form-control" name="ticket_email" value=""
+                                        <input type="email" class="form-control" name="ticket_email" value="<?php $user->email ?>"
                                             required="" data-msg="Trường này là bắt buộc!"
                                             data-msg-email="Email không đúng định dạng!">
                                         <span class="text-danger error-message" style="display: none;"></span>

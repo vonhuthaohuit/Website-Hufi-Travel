@@ -15,4 +15,8 @@ class LoaiTour extends Model
     {
         return $this->hasMany(Tour::class, 'maloaitour');
     }
+    public static function layTatCaLoaiTour()
+    {
+        return LoaiTour::all();
+    }
 }

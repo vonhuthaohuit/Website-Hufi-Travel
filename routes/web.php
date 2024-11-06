@@ -85,6 +85,19 @@ Route::get('/xacnhanthongtindattour/vnpay-returnPayment', [ThanhToanVNPayControl
 |--------------------------------------------------------------------------
 */
 
+/*
+|--------------------------------------------------------------------------
+| Start route search tour
+|--------------------------------------------------------------------------
+*/
+Route::post('/search-tour', [\App\Http\Controllers\backend\TourController::class, 'searchTour'])->name('tour.search');
+
+/*
+|--------------------------------------------------------------------------
+| End route search tour
+|--------------------------------------------------------------------------
+*/
+
 
 // Login
 Route::get('/index', [LoginController::class, 'index'])->name('login_view');
