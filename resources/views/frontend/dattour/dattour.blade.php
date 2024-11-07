@@ -2,8 +2,8 @@
 <link rel="stylesheet" href="{{ asset('frontend/css/style_dattour.css') }}">
 @section('renderBody')
     <div class="container-xl">
-        <form action="{{ route('tour.xacnhanthongtindattour') }}" name="tourBooking" method="post" class="form-horizontal frm-tour-booking" id="form-booking"
-            novalidate="novalidate">
+        <form action="{{ route('tour.xacnhanthongtindattour') }}" name="tourBooking" method="post"
+            class="form-horizontal frm-tour-booking" id="form-booking" novalidate="novalidate">
             @csrf
             <input type="hidden" name="tourId" value="{{ $tour->id }}">
             <div class="panel panel-1">
@@ -21,7 +21,6 @@
                     </header>
                     <div class="content-body">
                         <p><b>{{ $tour->tentour }}</b></p>
-                        <p data-tourId = <?php echo $tour->id ?>>Mã tour: {{ $tour->id }}</p>
                         <p>Thời gian: {{ $tour->thoigiandi }} </p>
                         <p>
                             Ngày khởi hành:
@@ -44,14 +43,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                    foreach ($loaiKhachHang as $loaiKhach) {
-                                        echo '<tr>';
-                                        echo '<td>' . $loaiKhach->tenloaikhachhang . '</td>';
-                                        echo '<td>' . $tour->giatour * number_format($loaiKhach->phantram) . ' VND</td>';
-                                        echo '</tr>';
-                                    }
-                                ?>
+                                @foreach ($loaiKhachHang as $index => $LKH)
+                                    <tr>
+                                        <td>{{ $LKH->tenloaikhachhang }}</td>
+                                        <td>{{ number_format($giaTour_LoaiKhachHang[$index]) }} VNĐ</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -65,7 +62,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 control-label">Họ &amp; Tên <span class="text-danger">*</span></label>
                             <div class="col-md-10">
-                                <input type="text" class="form-control" name="ticket_fullname" value="<?php $khachHang->hoten ?>"
+                                <input type="text" class="form-control" name="ticket_fullname" value="{{ $khachHang->hoten }}"
                                     required="" data-msg="Trường này là bắt buộc!">
                                 <span class="text-danger error-message" style="display: none;"></span>
                             </div>
@@ -73,7 +70,7 @@
                         <div class="form-group row mt-3 mb-3">
                             <label class="col-sm-2 control-label">Địa chỉ <span class="text-danger">*</span></label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="ticket_address" value="<?php $khachHang->diachi ?>"
+                                <input type="text" class="form-control" name="ticket_address" value="{{ $khachHang->diachi }}"
                                     required="" data-msg="Trường này là bắt buộc!">
                                 <span class="text-danger error-message" style="display: none;"></span>
                             </div>
@@ -84,7 +81,7 @@
                                     <label class="col-sm-4 control-label">Điện thoại <span
                                             class="text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" name="ticket_phone" value="<?php $khachHang->sodienthoai ?>"
+                                        <input type="text" class="form-control" name="ticket_phone" value="{{ $khachHang->sodienthoai }}"
                                             required="" data-msg="Trường này là bắt buộc!">
                                         <span class="text-danger error-message" style="display: none;"></span>
                                     </div>
@@ -94,7 +91,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 control-label">Email <span class="text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="email" class="form-control" name="ticket_email" value="<?php $user->email ?>"
+                                        <input type="email" class="form-control" name="ticket_email" value="{{ $khachHang->email }}"
                                             required="" data-msg="Trường này là bắt buộc!"
                                             data-msg-email="Email không đúng định dạng!">
                                         <span class="text-danger error-message" style="display: none;"></span>
@@ -112,7 +109,7 @@
                             <header class="content-header">
                                 <h3>Danh sách khách hàng đi tour</h3>
                             </header>
-                            <div class="content-body table-responsive">
+                            <div class="content-body table-responsive-dat-tour">
                                 <table class="table table-striped" id="customerTable">
                                     <thead>
                                         <tr>
