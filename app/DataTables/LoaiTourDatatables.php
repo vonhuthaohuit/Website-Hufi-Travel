@@ -67,12 +67,7 @@ class LoaiTourDatatables extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('DT_RowIndex')
-                ->title('STT')
-                ->exportable(false)
-                ->printable(false)
-                ->width(30)
-                ->addClass('text-center'),
+            Column::make('maloaitour')->title('ID'),
             Column::make('tenloai')->title('Tên loại tour'),
             Column::computed('action')
                 ->exportable(false)

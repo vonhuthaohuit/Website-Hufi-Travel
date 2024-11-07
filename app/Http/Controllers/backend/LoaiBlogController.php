@@ -35,7 +35,7 @@ class LoaiBlogController extends Controller
         ]);
 
         $loaiblog = new LoaiBlog();
-        $loaiblog->tenloaiblog = $request->tenloaiblog;
+        $loaiblog->tenloaiblog = $request->tenloai;
 
         $loaiblog->save();
 
@@ -61,7 +61,7 @@ class LoaiBlogController extends Controller
         ]);
 
         $loaiblog = LoaiBlog::findOrFail($id);
-        $loaiblog->tenloaiblog = $request->input('tenloaiblog');
+        $loaiblog->tenloaitour   = $request->input('tenloai');
 
         $loaiblog->save();
         return redirect()->route('loaiblog.index')->with('success', 'Cập nhật loại blog thành công!');

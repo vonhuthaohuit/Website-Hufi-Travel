@@ -9,7 +9,7 @@ class KhachSan_Tour extends Model
 {
     use HasFactory;
         protected $table = 'khachsan_tour';
-
+        public $timestamps = false;
         public function khachsan(){
             return $this->belongsTo(KhachSan::class,'makhachsan','makhachsan');
         }

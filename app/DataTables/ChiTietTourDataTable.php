@@ -11,7 +11,6 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
-
 class ChiTietTourDataTable extends DataTable
 {
     /**
@@ -21,24 +20,23 @@ class ChiTietTourDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+        //, $query->madiemdulich
         return (new EloquentDataTable($query))
         ->addColumn('action', function ($query) {
-            $editBtn = "<a href='" . route('chitiettour.edit', $query->id) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-            $deleteBtn = "<a href='" . route('chitiettour.destroy', $query->id) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->id}'><i class='far fa-trash-alt'></i></a>";
-            return $editBtn . $deleteBtn;
+            $editBtn = "<a href='" . route('chitiettour.edit',[$query->matour,$query->madiemdulich]) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+            $deleteBtn = "<a href='" . route('chitiettour.delete',[$query->matour,$query->madiemdulich]) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->matour}'><i class='far fa-trash-alt'></i></a>";
+             return $editBtn . $deleteBtn;
         })
-        ->addColumn('tour_id',function($query)
+        ->addColumn('matour',function($query)
         {
             return $query->tour->tentour ;
         })
-        ->addColumn('diemdulich_id',function($query)
+        ->addColumn('madiemdulich',function($query)
         {
-            return $query->diemdulich->tendiem ;
+            return $query->diemdulich->tendiemdulich ;
         })
-        // ->addColumn('diemdulich_id', function($query) {
-        //     return $query->chuongtrinhtour->tendiem;
-        // })
-        ->rawColumns(['action', "tour_id"])
+
+        ->rawColumns(['action','matour','madiemdulich'])
         ->setRowId('id');
     }
 
@@ -49,7 +47,8 @@ class ChiTietTourDataTable extends DataTable
     {
         $tourid = request()->tour_id;
         return $model->newQuery()
-        ->where('tour_id', $tourid)
+        ->where('matour', $tourid)
+        ->with('diemdulich')
         ->select('chitiettour.*');
     }
 
@@ -84,9 +83,9 @@ class ChiTietTourDataTable extends DataTable
            // Column::make('id'),
             Column::make('ngaybatdau')->width(200)->title('Ngày bắt đầu'),
             Column::make('ngayketthuc')->width(200)->title('Ngày kết thúc'),
-            Column::make('gia')->width(200)->title('Giá vé'),
-            column::make('tour_id')->width(400)->title('Tên tour'),
-            Column::make('diemdulich_id')->width(200)->title('Tên điểm'),
+            Column::make('giachitiettour')->width(200)->title('Giá vé'),
+            column::make('matour')->width(400)->title('Tên tour'),
+            Column::make('madiemdulich')->width(200)->title('Tên điểm'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)

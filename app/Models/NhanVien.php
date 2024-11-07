@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class NhanVien extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+
     protected $table = 'nhanvien';
+    protected $primaryKey = 'manhanvien';
     public function blogtour(){
         return $this->hasMany(BlogTour::class,'manhanvien');
     }

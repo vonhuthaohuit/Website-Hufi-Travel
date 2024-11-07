@@ -23,8 +23,8 @@ class DiemDuLichDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query) {
-                $editBtn = "<a href='" . route('diemdulich.edit', $query->id) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-                $deleteBtn = "<a href='" . route('diemdulich.destroy', $query->id) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->id}'><i class='far fa-trash-alt'></i></a>";
+                $editBtn = "<a href='" . route('diemdulich.edit', $query->madiemdulich) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+                $deleteBtn = "<a href='" . route('diemdulich.destroy', $query->madiemdulich) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->madiemdulich}'><i class='far fa-trash-alt'></i></a>";
                 return $editBtn . $deleteBtn;
             })
             ->setRowId('id');
@@ -68,8 +68,8 @@ class DiemDuLichDataTable extends DataTable
         return [
 
            // Column::make('id'),
-            Column::make('tendiem')->width(250)->title('Điểm du lịch'),
-            Column::make('mota')->width(300)->title('Mô tả'),
+            Column::make('tendiemdulich')->width(250)->title('Điểm du lịch'),
+            Column::make('motadiemdulich')->width(300)->title('Mô tả'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)

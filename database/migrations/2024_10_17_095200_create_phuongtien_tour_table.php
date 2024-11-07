@@ -15,7 +15,6 @@ return new class extends Migration
             $table->integer('matour')->unsigned();
             $table->integer('maphuongtien')->unsigned();
             $table->integer('soluonghanhkhach')->unsigned();
-            $table->bigInteger('gia') ;
             $table->string('ghichu') ;
             $table->primary(['matour', 'maphuongtien']);
             $table->foreign('matour')->references('matour')->on('tour')->onDelete('cascade');

@@ -9,6 +9,8 @@ class PhuongTien_Tour extends Model
 {
     use HasFactory;
     protected $table = 'phuongtien_tour';
+    public $timestamps = false;
+
     public function phuongtien(){
         return $this->belongsTo(PhuongTien::class,'maphuongtien','maphuongtien');
     }
