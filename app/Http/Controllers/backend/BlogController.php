@@ -6,10 +6,9 @@ use App\DataTables\BlogDatatables;
 use App\Http\Controllers\Controller;
 use App\Models\BlogTour;
 use App\Models\LoaiBlog;
+use App\Models\NhanVien;
 use Illuminate\Http\Request;
-use App\Traits\ImageUploadTrait;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
 
 class BlogController extends Controller
 {
@@ -36,33 +35,27 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'tieude' => ['required', 'max:200', 'unique:blogtour,tieude'],
-            'noidung' => 'required',
-            'maloaiblog' => 'required',
-            'trangthaiblog' => 'required',
-            'hinhanh' => 'required'
-        ]);
+        if (Session::has('user')) {
+            $user = Session::get('user');
+            $request->validate([
+                'tieude' => ['required', 'max:200', 'unique:blogtour,tieude'],
+                'noidung' => 'required',
+                'loaiblog_id' => 'required',
+                'trangthai' => 'required'
+            ]);
+            $nhanvien = NhanVien::where('mataikhoan',$user->mataikhoan)->first();
 
-        $imagePath = $this->uploadImage($request, 'hinhanh', 'frontend/images/blog');
-        if (!$imagePath) {
-            return back()->withErrors(['hinhanh' => 'Hình ảnh không được tải lên.']);
+            $blog = new BlogTour();
+            $blog->tieude = $request->tieude;
+            $blog->noidung = $request->noidung;
+            $blog->trangthaiblog = $request->trangthai;
+            $blog->maloaiblog = $request->loaiblog_id;
+            $blog->manhanvien = $nhanvien->manhanvien;
+            // $blog->user_id = Auth::user()->id;
+            $blog->save();
+            return redirect()->route('blog.index');
         }
-
-        $blog = new BlogTour();
-
-        $blog->tieude = $request->tieude;
-        $blog->noidung = $request->noidung;
-        $blog->trangthaiblog = $request->trangthaiblog;
-        $blog->maloaiblog = $request->maloaiblog;
-        $blog->slug = Str::slug($request->tieude);
-        $blog->hinhanh = $imagePath;
-        $blog->manhanvien = 1;
-        // $blog->user_id = Auth::user()->id;
-
-        $blog->save();
-
-        return redirect()->route('blog.index');
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -88,30 +81,27 @@ class BlogController extends Controller
      */
     public function update(Request $request, $mablogtour)
     {
-        // dd($request->all());
-        $request->validate([
-            'tieude' => 'required|string|max:255',
-            'noidung' => 'required',
-            'trangthaiblog' => 'required',
-            'hinhanh' => 'required',
-            'maloaiblog' => 'required',
-        ]);
+        if (Session::has('user')) {
+            $user = Session::get('user');
+            $request->validate([
+                'tieude' => 'required|string|max:255',
+                'noidung' => 'required',
+                'trangthai' => 'required',
+                'loaiblog_id' => 'required',
+            ]);
 
-        $blog = BlogTour::findOrFail($mablogtour);
+            $blog = BlogTour::findOrFail($id);
+            $blog->tieude = $request->input('tieude');
+            $blog->noidung = $request->input('noidung');
+            $blog->trangthaiblog = $request->input('trangthai');
+            $blog->maloaiblog = $request->input('loaiblog_id');
+            $blog->manhanvien = $user->manhanvien;
+            $blog->updated_at = now();
 
-        $blog->tieude = $request->input('tieude');
-        $blog->noidung = $request->input('noidung');
-        $blog->trangthaiblog = $request->input('trangthaiblog');
-        $blog->maloaiblog = $request->input('maloaiblog');
-        $blog->slug = Str::slug($request->tieude);
-        $blog->updated_at = now();
+            $blog->save();
 
-        $imagePath = $this->updateImage($request, 'hinhanh', 'frontend/images/blog/uploads', $blog->hinhanh);
-        $blog->hinhanh = $imagePath;
-
-        $blog->save();
-
-        return redirect()->route('blog.index')->with('success', 'Cập nhật blog thành công!');
+            return redirect()->route('blog.index')->with('success', 'Cập nhật blog thành công!');
+        }
     }
 
     /**
@@ -131,8 +121,8 @@ class BlogController extends Controller
             'trangthaiblog' => 'required',
         ]);
 
-        $tour = BlogTour::findOrFail($request->mablogtour);
-        $tour->trangthaiblog = $request->trangthaiblog === 'true' ? 1 : 0;
+        $tour = BlogTour::findOrFail($request->id);
+        $tour->trangthaiblog = $request->trangthai === 'true' ? 1 : 0;
         $tour->save();
 
         return response()->json(['message' => 'Trạng thái cập nhật thành công!']);

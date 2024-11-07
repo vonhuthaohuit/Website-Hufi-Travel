@@ -17,11 +17,12 @@
                             </div>
                         </div>
                         <div class="card-body">
+
                             <form action="{{ route('blog.update', $blog->mablogtour) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" value="{{ $blog->mablogtour }}" name="mablogtour">
+                                <input type="hidden" value="{{ $blog->mablogtour }}" name="blogId">
 
                                 <div class="form-group">
                                     <label>Tiêu đề</label>

@@ -11,6 +11,7 @@ class LoaiBlog extends Model
     public $timestamps = false;
     protected $primaryKey = 'maloaiblog';
     protected $table = 'loaiblog';
+    protected $primaryKey = 'maloaiblog';
 
     public function blogtour()
     {

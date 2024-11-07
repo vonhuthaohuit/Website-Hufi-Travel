@@ -18,11 +18,11 @@
                         </div>
                         <div class="card-body">
 
-                            <form action="{{ route('tour.update', $tour->id) }}" method="POST"
+                            <form action="{{ route('tour.update', $tour->matour) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" value="{{ $tour->id }}" name="tourId">
+                                <input type="hidden" value="{{ $tour->matour }}" name="tourId">
 
                                 <div class="form-group">
                                     <label>Tên Tour</label>
@@ -34,7 +34,7 @@
                                     <textarea class="form-control" name="motatour">{{ $tour->motatour }}</textarea>
                                 </div>
 
-                                <div class="row">
+                                <div class="row" style="margin-left:70px">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Tình trạng</label>
@@ -58,11 +58,19 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Thời gian đi</label>
-                                            <input type="date" class="form-control" name="thoigiandi"
-                                                value="{{ $tour->thoigiandi }}">
+                                            <div class="d-flex align-items-center">
+                                                <input type="number" class="form-control me-2" name="thoigiandi" style="width: 60px;" value="{{ $tour->thoigiandi }}" placeholder="Số ngày">
+                                                <span style="margin-left:20px" class="text-muted">VD : n ngày n-1 đêm</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                    <div class="form-group">
+                                        <label>Giá VND</label>
+                                        <div class="d-flex align-items-center">
+                                            <input type="number" class="form-control me-2" name="giatour"  value="{{ $tour->giatour }}" >
+                                        </div>
+                                    </div>
 
                                 <div class="form-group">
                                     <label>Nơi khởi hành</label>
@@ -76,8 +84,8 @@
                                             <label>Loại Tour</label>
                                             <select class="form-control" name="loaitour_id">
                                                 @foreach ($loaiTour as $loaitour)
-                                                    <option value="{{ $loaitour->id }}"
-                                                        {{ $tour->id == $loaitour->id ? 'selected' : '' }}>
+                                                    <option value="{{ $loaitour->maloaitour }}"
+                                                        {{ $tour->matour == $loaitour->maloaitour ? 'selected' : '' }}>
                                                         {{ $loaitour->tenloai }}
                                                     </option>
                                                 @endforeach
@@ -89,8 +97,8 @@
                                             <label>Khuyến mãi</label>
                                             <select class="form-control" name="khuyenmai_id">
                                                 @foreach ($khuyenMai as $khuyenmai)
-                                                    <option value="{{ $khuyenmai->id }}"
-                                                        {{ $tour->id == $khuyenmai->id ? 'selected' : '' }}>
+                                                    <option value="{{ $khuyenmai->makhuyenmai }}"
+                                                        {{ $tour->matour == $khuyenmai->makhuyenmai ? 'selected' : '' }}>
                                                         {{ $khuyenmai->phantramgiam }}%
                                                     </option>
                                                 @endforeach

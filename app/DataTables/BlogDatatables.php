@@ -37,6 +37,7 @@ class BlogDatatables extends DataTable
                 $checked = $query->trangthaiblog == 1 ? 'checked' : '';
                 return '<label class="custom-switch mt-2">
                 <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->mablogtour . '" class="custom-switch-input change-status">
+                <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->mablogtour . '" class="custom-switch-input change-status">
                 <span class="custom-switch-indicator"></span>
             </label>';
             })
@@ -102,6 +103,7 @@ class BlogDatatables extends DataTable
             Column::make('loaiblog')->title('Loại blog'),
             Column::make('ngaytao')->title('Ngày tạo'),
             Column::make('ngaycapnhat')->title('Ngày cập nhật'),
+            Column::make('nhanvien')->title('Nhân viên'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

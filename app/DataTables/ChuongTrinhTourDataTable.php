@@ -29,8 +29,8 @@ class ChuongTrinhTourDataTable extends DataTable
             // ->setRowId('id');
             // return (new EloquentDataTable($query))
             ->addColumn('action', function ($query) {
-                $editBtn = "<a href='" . route('chuongtrinhtour.edit', $query->id) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-                $deleteBtn = "<a href='" . route('chuongtrinhtour.destroy', $query->id) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->id}'><i class='far fa-trash-alt'></i></a>";
+                $editBtn = "<a href='" . route('chuongtrinhtour.edit', $query->machuongtrinhtour) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+                $deleteBtn = "<a href='" . route('chuongtrinhtour.destroy', $query->machuongtrinhtour) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->machuongtrinhtour}'><i class='far fa-trash-alt'></i></a>";
                 return $editBtn . $deleteBtn;
             })
             ->editColumn('created_at', function ($query) {
@@ -51,7 +51,7 @@ class ChuongTrinhTourDataTable extends DataTable
     {
         $tourid = request()->tour_id;
         return $model->newQuery()
-        ->where('tour_id', $tourid)
+        ->where('matour', $tourid)
         ->select('chuongtrinhtour.*');
     }
 
