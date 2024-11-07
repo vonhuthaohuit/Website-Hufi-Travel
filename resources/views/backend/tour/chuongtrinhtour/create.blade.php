@@ -12,7 +12,7 @@
                         <div class="card-header">
                             <h4>Thêm chi tiết mới</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('chuongtrinhtour.index',['tour_id' => $tour->id])}}" class="btn btn-primary"><i class="fas fa-arrow-left"></i>
+                                <a href="{{ route('chuongtrinhtour.index',['tour_id' => $tour->matour])}}" class="btn btn-primary"><i class="fas fa-arrow-left"></i>
                                     Back</a>
                             </div>
                         </div>
@@ -28,7 +28,7 @@
                                     <textarea class="form-control summernote" name="mota">{{ old('mota') }}</textarea>
                                 </div>
 
-                                <input type="hidden" name="tour_id" value="{{ $tour->id }}">
+                                <input type="hidden" name="tour_id" value="{{ $tour->matour }}">
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">

@@ -36,7 +36,7 @@
                                             <select class="form-control" name="loaiblog_id">
                                                 <option value="">Chọn loại tour</option>
                                                 @foreach ($loaiblog as $loaiblogItem)
-                                                    <option value="{{ $loaiblogItem->id }}">{{ $loaiblogItem->tenloai }}
+                                                    <option value="{{ $loaiblogItem->maloaiblog }}">{{ $loaiblogItem->tenloaiblog }}
                                                     </option>
                                                 @endforeach
                                             </select>

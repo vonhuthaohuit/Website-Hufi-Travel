@@ -24,20 +24,24 @@ class BlogDatatables extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query) {
-                $editBtn = "<a href='" . route('blog.edit', $query->id) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-                $deleteBtn = "<a href='" . route('blog.destroy', $query->id) . "' class='btn btn-danger ml-2 delete-item'><i class='far fa-trash-alt'></i></a>";
+                $editBtn = "<a href='" . route('blog.edit', $query->mablogtour) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+                $deleteBtn = "<a href='" . route('blog.destroy', $query->mablogtour) . "' class='btn btn-danger ml-2 delete-item'><i class='far fa-trash-alt'></i></a>";
 
                 return $editBtn . $deleteBtn;
             })
             ->addColumn('trangthai', function ($query) {
                 $checked = $query->trangthai == 1 ? 'checked' : '';
                 return '<label class="custom-switch mt-2">
-                <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->id . '" class="custom-switch-input change-status">
+                <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->mablogtour . '" class="custom-switch-input change-status">
                 <span class="custom-switch-indicator"></span>
             </label>';
             })
             ->addColumn('loaiblog', function ($query) {
-                return $query->loaiblog ? $query->loaiblog->tenloai : 'N/A';
+                return $query->loaiblog->tenloaiblog;
+            })
+            ->addColumn('nhanvien',function($query)
+            {
+                return $query->nhanvien->hoten ;
             })
             ->addColumn('ngaytao', function ($query) {
                 return date('d-m-Y', strtotime($query->created_at));
@@ -54,7 +58,7 @@ class BlogDatatables extends DataTable
      */
     public function query(BlogTour $model): QueryBuilder
     {
-        return $model->with('loaiblog')->newQuery();
+        return $model->newQuery();
     }
 
     /**
@@ -85,12 +89,12 @@ class BlogDatatables extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
             Column::make('tieude')->title('Tiêu đề'),
             Column::make('trangthai')->title('Trạng thái'),
             Column::make('loaiblog')->title('Loại blog'),
             Column::make('ngaytao')->title('Ngày tạo'),
             Column::make('ngaycapnhat')->title('Ngày cập nhật'),
+            Column::make('nhanvien')->title('Nhân viên'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

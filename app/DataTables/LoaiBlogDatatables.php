@@ -24,8 +24,8 @@ class LoaiBlogDatatables extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query) {
-                $editBtn = "<a href='" . route('loaiblog.edit', $query->id) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-                $deleteBtn = "<a href='" . route('loaiblog.destroy', $query->id) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->id}'><i class='far fa-trash-alt'></i></a>";
+                $editBtn = "<a href='" . route('loaiblog.edit', $query->maloaiblog) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+                $deleteBtn = "<a href='" . route('loaiblog.destroy', $query->maloaiblog) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->maloaiblog}'><i class='far fa-trash-alt'></i></a>";
                 return $editBtn . $deleteBtn;
             })
             ->setRowId('id');
@@ -67,8 +67,8 @@ class LoaiBlogDatatables extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id')->title('ID'),
-            Column::make('tenloai')->title('Tên loại blog'),
+            Column::make('maloaiblog')->title('ID'),
+            Column::make('tenloaiblog')->title('Tên loại blog'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

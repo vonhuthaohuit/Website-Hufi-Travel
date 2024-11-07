@@ -9,6 +9,8 @@ class HinhAnhTour extends Model
 {
     use HasFactory;
     protected $table = 'hinhanhtour';
+    protected $primaryKey = 'mahinhanhtour';
+
 
     public function tour(){
         return $this->belongsTo(Tour::class,'matour','matour');

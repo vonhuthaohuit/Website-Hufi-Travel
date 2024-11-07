@@ -10,6 +10,8 @@ class DiemDuLich extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'diemdulich';
+    protected $primaryKey = 'madiemdulich';
+
     public function chitiettour(){
         return $this->hasMany(ChiTietTour::class,'madiemdulich');
     }

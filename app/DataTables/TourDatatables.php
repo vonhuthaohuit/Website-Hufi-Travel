@@ -25,16 +25,19 @@ class TourDatatables extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query) {
-                $editBtn = "<a href='" . route('tour.edit', $query->id) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-                $deleteBtn = "<a href='" . route('tour.destroy', $query->id) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->id}'><i class='far fa-trash-alt'></i></a>";
+                $editBtn = "<a href='" . route('tour.edit', $query->matour) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+                $deleteBtn = "<a href='" . route('tour.destroy', $query->matour) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->matour}'><i class='far fa-trash-alt'></i></a>";
                 $moreBtn = '<div class="dropdown dropleft d-inline">
                 <button class="btn btn-primary dropdown-toggle ml-1" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-cog"></i>
                 </button>
                 <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-                   <a class="dropdown-item has-icon" href="' . route('chuongtrinhtour.index', ['tour_id' => $query->id]) . '" ><i class="far fa-heart"></i>Tour Itinerary</a>
-                   <a class="dropdown-item has-icon" href="' . route('chitiettour.index', ['tour_id' => $query->id]) . '" ><i class="far fa-heart"></i>Chi tiết tour</a>
-                </div>
+                   <a class="dropdown-item has-icon" href="' . route('chuongtrinhtour.index', ['tour_id' => $query->matour]) . '" ><i class="far fa-heart"></i>Chương Trình Tour</a>
+                   <a class="dropdown-item has-icon" href="' . route('chitiettour.index', ['tour_id' => $query->matour]) . '" ><i class="far fa-heart"></i>Chi tiết tour</a>
+                   <a class="dropdown-item has-icon" href="' . route('phuongtien_tour.index', ['tour_id' => $query->matour]) . '" ><i class="far fa-heart"></i>Phương Tiện Tour</a>
+                   <a class="dropdown-item has-icon" href="' . route('khachsan_tour.index', ['tour_id' => $query->matour]) . '" ><i class="far fa-heart"></i>Khách Sạn Tour</a>
+
+                   </div>
               </div>';
                 return $editBtn . $deleteBtn .  $moreBtn;
             })
@@ -56,32 +59,34 @@ class TourDatatables extends DataTable
             //     return $button;
             // })
 
-            ->editColumn('thoigiandi', function ($query) {
-                return Carbon::parse($query->thoigiandi)->format('d-m-Y'); // Định dạng ngày
-            })
 
-            ->addColumn('loaitour_id',function($query)
+
+            ->addColumn('maloaitour',function($query)
             {
                 return $query->loaitour->tenloai ;
             })
 
-            ->addColumn('khuyenmai_id', function($query) {
+            ->addColumn('makhuyenmai', function($query) {
                 return $query->khuyenmai ? $query->khuyenmai->phantramgiam . '%' : 'Không có khuyến mãi';
             })
 
             ->editColumn('motatour', function ($query) {
                 return \Str::limit($query->motatour, 70); // Giới hạn 100 ký tự
             })
-
-
             ->addColumn('tinhtrang', function ($query) {
-                $checked = $query->tinhtrang == 1 ? 'checked' : '';
-                return '<label class="custom-switch mt-2">
-                <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->id . '" class="custom-switch-input change-status">
-                <span class="custom-switch-indicator"></span>
-            </label>';
+                // Kiểm tra giá trị của tinhtrang
+                if ($query->tinhtrang == 2) {
+                    return '<span class="text-muted">Không thể thay đổi</span>'; // Hoặc bạn có thể sử dụng một cách hiển thị khác
+                } else {
+                    // Nếu tinhtrang khác 2, cho phép thay đổi
+                    $checked = $query->tinhtrang == 1 ? 'checked' : '';
+                    return '<label class="custom-switch mt-2">
+                        <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->id . '" class="custom-switch-input change-status">
+                        <span class="custom-switch-indicator"></span>
+                    </label>';
+                }
             })
-            ->rawColumns(['action', "tinhtrang", 'hinhdaidien','loaitour_id','khuyenmai_id'])
+            ->rawColumns(['action', "tinhtrang", 'hinhdaidien','maloaitour','makhuyenmai'])
             ->setRowId('id');
     }
 
@@ -121,23 +126,21 @@ class TourDatatables extends DataTable
     public function getColumns(): array
     {
         return [
-
-          // Column::make('id')->width(50)->title('ID'),
+            Column::make('matour'),
             Column::make('tentour')->width(250)->title('Tên tour'),
-            //Column::make('motatour')->width(300)->title('Mô tả'),
-            Column::make('loaitour_id')->width(200)->title('Tên loại'),
+            Column::make('thoigiandi')->width(100)->title('Thời gian đi'),
+            Column::make('giatour')->width(150)->title('Giá (VND)'),
+            Column::make('maloaitour')->width(200)->title('Tên loại'),
             Column::make('tinhtrang')->width(100)->title('Tình trạng'),
             Column::make('hinhdaidien')->width(200)->title('Hình ảnh'),
             Column::make('noikhoihanh')->width(150)->title('Nơi khởi hành'),
-            Column::make('noikhoihanh')->width(150)->title('Nơi khởi hành'),
-            // Column::make('loaitour_id')->width(50)->title('ID loại tour'),
-            Column::make('khuyenmai_id')->width(50)->title('Khuyến mãi'),
+            Column::make('makhuyenmai')->width(50)->title('Khuyến mãi'),
             // Column::make('created_at')->width(150)->title('Ngày tạo'),
             // Column::make('updated_at')->width(150)->title('Ngày cập nhật'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(250)
+                ->width(300)
                 ->addClass('text-center'),
         ];
     }
