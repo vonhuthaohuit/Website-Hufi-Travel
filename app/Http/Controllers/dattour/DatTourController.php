@@ -40,42 +40,45 @@ class DatTourController extends Controller
     public function index(Request $request)
     {
 
-        try {
-            /*
+        /*
         |--------------------------------------------------------------------------
         | Kiểm tra đăng nhập
         |--------------------------------------------------------------------------
         */
 
-            // if (!Auth::check()) {
-            //     return redirect()->route('login_view');
-            // }
-            $user = Session::get('user');
-            $maTaiKhoan = $user->maTaiKhoan;
-            $khachHang = $this->khachHangs->where('mataikhoan', $maTaiKhoan)->first();
-            /*
+        // if (!Auth::check()) {
+        //     return redirect()->route('login_view');
+        // }
+        // $user = Session::get('user');
+        // $maTaiKhoan = $user->maTaiKhoan;
+        // $khachHang = $this->khachHangs->where('mataikhoan', $maTaiKhoan)->first();
+        /*
         |--------------------------------------------------------------------------
         | Kiểm tra phương thức request có hay không
         |--------------------------------------------------------------------------
         */
-            if ($request->isMethod('post')) {
-                $tourId = $request->input('tourid');
-                $loaiKhachHang = $this->loaiKhachHangs->get();
+        if ($request->isMethod('post')) {
+            $tourId = $request->input('tourid');
+            $loaiKhachHang = $this->loaiKhachHangs->get();
+            $khachHang = $this->khachHangs->where('mataikhoan', 1)->first();
+            $tour = $this->tour->with(['chitiettour', 'chuongtrinhtour'])
+                ->find($tourId);
 
-                $tour = $this->tour->with(['chitiettour', 'chuongtrinhtour'])
-                    ->find($tourId);
-
-                if (!$tour) {
-                    return redirect()->back()->withErrors('Tour not found.');
-                }
-
-                return view('frontend.dattour.dattour', compact('tour', 'khachHang', 'loaiKhachHang'));
+            $giaTour_LoaiKhachHang = [];
+            // Tính giá tour theo từng loại khách hàng
+            foreach($loaiKhachHang as $index => $item) {
+                $giaTour_LoaiKhachHang[$index] = $tour->giatour * ($item->mucapdunggia / 100);
             }
 
-            return redirect()->back()->withErrors('Invalid request method.');
-        } catch (Exception $e) {
-            return redirect()->route('login_view');
+
+            if (!$tour) {
+                return redirect()->back()->withErrors('Tour not found.');
+            }
+
+            return view('frontend.dattour.dattour', compact('tour', 'loaiKhachHang', 'khachHang', 'giaTour_LoaiKhachHang'));
         }
+
+        return redirect()->back()->withErrors('Invalid request method.');
     }
 
     public function xacnhanthongtindattour(Request $request)
