@@ -51,8 +51,6 @@
                 </ul>
             </li>
 
-
-
             <li
                 class="dropdown {{ setActive([
                     'admin.order.*',
@@ -65,12 +63,12 @@
                     'admin.canceled-orders',
                 ]) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-cart-plus"></i>
-                    <span>Orders</span></a>
+                    <span>Manager Service</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ setActive(['admin.order.*']) }}"><a class="nav-link" href="">All Orders</a>
+                    <li class="{{ setActive(['khachsan.*']) }}"><a class="nav-link" href="{{ route('khachsan.index') }}">Hotel</a>
                     </li>
-                    <li class="{{ setActive(['admin.pending-orders']) }}"><a class="nav-link" href="">All
-                            Pending Orders</a></li>
+                    <li class="{{ setActive(['phuongtien.*']) }}"><a class="nav-link" href="{{ route('phuongtien.index') }}">
+                        Vehicle</a></li>
                     <li class="{{ setActive(['admin.processed-orders']) }}"><a class="nav-link" href="">All
                             processed Orders</a></li>
                     <li class="{{ setActive(['admin.dropped-off']) }}"><a class="nav-link" href="">All Dropped
@@ -122,11 +120,11 @@
 
             <li class="dropdown {{ setActive(['admin.withdraw-method.*', 'admin.withdraw.index']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-wallet"></i>
-                    <span>Withdraw Payments</span></a>
+                    <span>Phân công công việc</span></a>
                 <ul class="dropdown-menu">
 
                     <li class="{{ setActive(['admin.withdraw-method.*']) }}"><a class="nav-link"
-                            href="">Withdraw Mehtod</a></li>
+                            href="">Danh sách tour</a></li>
 
                     <li class="{{ setActive(['admin.withdraw.index']) }}"><a class="nav-link"
                             href="">Withdraw List</a></li>

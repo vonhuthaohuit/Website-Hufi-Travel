@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\KhuyenMai;
 use App\Models\KhuyenMaiDatatable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -24,10 +25,18 @@ class KhuyenMaiDatatables extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query) {
-                $editBtn = "<a href='" . route('khuyenmai.edit', $query->id) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-                $deleteBtn = "<a href='" . route('khuyenmai.destroy', $query->id) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->id}'><i class='far fa-trash-alt'></i></a>";
+                $editBtn = "<a href='" . route('khuyenmai.edit', $query->makhuyenmai) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+                $deleteBtn = "<a href='" . route('khuyenmai.destroy', $query->makhuyenmai) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->makhuyenmai}'><i class='far fa-trash-alt'></i></a>";
                 return $editBtn . $deleteBtn ;
             })
+            ->editColumn('created_at', function ($query) {
+                return Carbon::parse($query->created_at)->format('d-m-Y'); // Định dạng ngày
+            })
+
+            ->editColumn('updated_at', function ($query) {
+                return Carbon::parse($query->updated_at)->format('d-m-Y'); // Định dạng ngày
+            })
+
 
             ->setRowId('id');
     }
@@ -50,7 +59,6 @@ class KhuyenMaiDatatables extends DataTable
                     ->setTableId('khuyenmaidatatables-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
@@ -69,17 +77,19 @@ class KhuyenMaiDatatables extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id')->width(50)->title('ID'),
+           // Column::make('id')->width(50)->title('ID'),
             Column::make('thoigianbatdau')->width(250)->title('Thời gian bắt đầu'),
             Column::make('thoigianketthuc')->width(250)->title('Thời gian kết thúc'),
             Column::make('phantramgiam')->width(100)->title('Phần trăm giảm'),
-            Column::make('ngaytao')->width(150)->title('Ngày tạo'),
+            Column::make('created_at')->width(150)->title('Ngày tạo'),
+            Column::make('updated_at')->width(150)->title('Cập nhật lần cuối'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
                   ->width(200)
                   ->addClass('text-center'),
         ];
+
     }
 
     /**

@@ -9,6 +9,8 @@ class DanhGia extends Model
 {
     use HasFactory;
     protected $table = 'danhgia';
+    protected $primaryKey = 'madanhgia';
+
     public function khachhang(){
         return $this->belongsTo(KhachHang::class,'makhachhang','makhachhang');
     }

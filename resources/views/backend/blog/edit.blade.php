@@ -18,11 +18,11 @@
                         </div>
                         <div class="card-body">
 
-                            <form action="{{ route('blog.update', $blog->id) }}" method="POST"
+                            <form action="{{ route('blog.update', $blog->mablogtour) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" value="{{ $blog->id }}" name="blogId">
+                                <input type="hidden" value="{{ $blog->mablogtour }}" name="blogId">
 
                                 <div class="form-group">
                                     <label>Tiêu đề</label>
@@ -40,9 +40,9 @@
                                             <label>Loại blog</label>
                                             <select class="form-control" name="loaiblog_id">
                                                 @foreach ($loaiblog as $loaiblogItem)
-                                                    <option value="{{ $loaiblogItem->id }}"
-                                                        {{ $blog->id == $loaiblogItem->id ? 'selected' : '' }}>
-                                                        {{ $loaiblogItem->tenloai }}
+                                                    <option value="{{ $loaiblogItem->maloaiblog }}"
+                                                        {{ $blog->maloaiblog == $loaiblogItem->maloaiblog ? 'selected' : '' }}>
+                                                        {{ $loaiblogItem->tenloaiblog }}
                                                     </option>
                                                 @endforeach
                                             </select>

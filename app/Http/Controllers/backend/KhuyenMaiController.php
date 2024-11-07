@@ -22,7 +22,7 @@ class KhuyenMaiController extends Controller
      */
     public function create()
     {
-        return view('backend.khuyenmai.create');
+        return view('backend.tour.khuyenmai.create');
     }
 
     /**

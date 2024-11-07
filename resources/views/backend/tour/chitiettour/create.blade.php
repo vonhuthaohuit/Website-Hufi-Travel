@@ -12,7 +12,7 @@
                         <div class="card-header">
                             <h4>Thêm chi tiết mới</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('chitiettour.index',['tour_id' => $tour->id])}}" class="btn btn-primary"><i class="fas fa-arrow-left"></i>
+                                <a href="{{ route('chitiettour.index',['tour_id' => $tour->matour])}}" class="btn btn-primary"><i class="fas fa-arrow-left"></i>
                                     Back</a>
                             </div>
                         </div>
@@ -33,13 +33,6 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Thời gian kết thúc</label>
-                                            <input type="date" class="form-control" name="ngayketthuc"
-                                                value="{{ old('ngayketthuc') }}" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
                                             <label>Giá</label>
                                             <input type="text" class="form-control" name="gia" required>
                                         </div>
@@ -47,17 +40,17 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Điểm du lịch</label>
-                                            <select class="form-control" name="diemdulich_id">
+                                            <select class="form-control" name="madiemdulich">
                                                 <option value="">Chọn điểm du lịch</option>
                                                 @foreach ($diemdulich as $diemdulich_item)
-                                                    <option value="{{ $diemdulich_item->id }}">{{ $diemdulich_item->tendiem }}
+                                                    <option value="{{ $diemdulich_item->madiemdulich }}">{{ $diemdulich_item->tendiemdulich }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                                <input type="hidden" name="tour_id" value="{{ $tour->id }}">
+                                <input type="hidden" name="tour_id" value="{{ $tour->matour }}">
                                 <button type="submit" class="btn btn-primary">Tạo mới</button>
                             </form>
                         </div>

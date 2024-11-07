@@ -12,18 +12,18 @@
                         <div class="card-header">
                             <h4>Chỉnh sửa chương trình tour</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('chuongtrinhtour.index',['tour_id'=>$chuongtrinhtour->tour_id]) }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i>
+                                <a href="{{ route('chuongtrinhtour.index',['tour_id'=>$chuongtrinhtour->matour]) }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i>
                                     Back</a>
                             </div>
                         </div>
                         <div class="card-body">
 
-                            <form action="{{ route('chuongtrinhtour.update', $chuongtrinhtour->id) }}" method="POST"
+                            <form action="{{ route('chuongtrinhtour.update', $chuongtrinhtour->machuongtrinhtour) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" value="{{ $chuongtrinhtour->tour_id }}" name="tour_id">
-                                <input type="hidden" value="{{ $chuongtrinhtour->id }}" name="chuongtrinhtour_id">
+                                <input type="hidden" value="{{ $chuongtrinhtour->matour }}" name="tour_id">
+                                <input type="hidden" value="{{ $chuongtrinhtour->machuongtrinh }}" name="chuongtrinhtour_id">
 
                                 <div class="form-group">
                                     <label>Tên Tour</label>

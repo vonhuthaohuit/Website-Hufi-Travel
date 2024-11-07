@@ -13,7 +13,7 @@
                 </ul>
                 <div>
                     @if (session('user'))
-                    <a href="#" class="btn btn-login"><i class="fa-solid fa-user me-2"></i>{{ session('user')->name }}</a>
+                    <a href="#" class="btn btn-login"><i class="fa-solid fa-user me-2"></i>{{ session('user')->tentaikhoan }}</a>
                     <a href="{{route('logout')}}" class="btn btn-login"><i class="fa-solid fa-user me-2"></i>Đăng xuất</a>
                     @else
                     <a href="{{route('login_view')}}" class="btn btn-login"><i class="fa-solid fa-user me-2"></i>Đăng nhập</a>

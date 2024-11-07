@@ -24,8 +24,8 @@ class LoaiTourDatatables extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query) {
-                $editBtn = "<a href='" . route('loaitour.edit', $query->id) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-                $deleteBtn = "<a href='" . route('loaitour.destroy', $query->id) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->id}'><i class='far fa-trash-alt'></i></a>";
+                $editBtn = "<a href='" . route('loaitour.edit', $query->maloaitour) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+                $deleteBtn = "<a href='" . route('loaitour.destroy', $query->maloaitour) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->maloaitour}'><i class='far fa-trash-alt'></i></a>";
                 return $editBtn . $deleteBtn;
             })
             ->setRowId('id');
@@ -67,7 +67,7 @@ class LoaiTourDatatables extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id')->title('ID'),
+            Column::make('maloaitour')->title('ID'),
             Column::make('tenloai')->title('Tên loại tour'),
             Column::computed('action')
                 ->exportable(false)
