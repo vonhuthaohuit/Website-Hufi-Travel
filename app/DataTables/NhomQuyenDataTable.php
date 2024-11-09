@@ -23,6 +23,7 @@ class NhomQuyenDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+        ->addIndexColumn()
         ->addColumn('action', function ($query) {
             $editBtn = "<a href='" . route('nhomquyen.edit', $query->manhomquyen) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
             $deleteBtn = "<a href='" . route('nhomquyen.destroy', $query->manhomquyen) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->maquyen}'><i class='far fa-trash-alt'></i></a>";
@@ -83,9 +84,13 @@ class NhomQuyenDataTable extends DataTable
     {
         return [
 
-           
+            Column::computed('DT_RowIndex')
+            ->title('STT')
+            ->exportable(false)
+            ->printable(false)
+            ->width(30)
+            ->addClass('text-center'),
             Column::make('tennhomquyen')->width(200)->title('Tên quyền'),
-
             Column::make('created_at')->width(150)->title('Ngày tạo'),
             Column::make('updated_at')->width(150)->title('Cập nhật lần cuối'),
             Column::computed('action')

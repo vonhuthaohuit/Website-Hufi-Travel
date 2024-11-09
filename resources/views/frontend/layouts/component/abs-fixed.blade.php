@@ -24,7 +24,7 @@
 </div>
 
 <div class="zalo-animation">
-    <a href="" class="zalo-icon">
+    <a href="https://zalo.me/" class="zalo-icon" target="_blank">
         <img class="icon-zalo"
             src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:80/plain/https://cellphones.com.vn/media/icons/icon-zalo.png"
             alt="zalo: HUIT Travel">

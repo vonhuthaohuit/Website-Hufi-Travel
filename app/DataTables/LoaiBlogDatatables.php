@@ -23,12 +23,17 @@ class LoaiBlogDatatables extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addIndexColumn()
+            ->addColumn('checkbox', function ($query) {
+                return "<input type='checkbox' class='delete-checkbox' data-id='{$query->maloaiblog}' />";
+            })
             ->addColumn('action', function ($query) {
                 $editBtn = "<a href='" . route('loaiblog.edit', $query->maloaiblog) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
                 $deleteBtn = "<a href='" . route('loaiblog.destroy', $query->maloaiblog) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->maloaiblog}'><i class='far fa-trash-alt'></i></a>";
                 return $editBtn . $deleteBtn;
             })
-            ->setRowId('id');
+            ->rawColumns(['checkbox', 'action'])
+            ->setRowId('maloaiblog');
     }
 
     /**
@@ -36,7 +41,7 @@ class LoaiBlogDatatables extends DataTable
      */
     public function query(LoaiBlog $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('maloaiblog', 'asc');
     }
 
     /**
@@ -57,7 +62,8 @@ class LoaiBlogDatatables extends DataTable
                 Button::make('pdf'),
                 Button::make('print'),
                 Button::make('reset'),
-                Button::make('reload')
+                Button::make('reload'),
+                Button::make('selectedDelete')->text('Xóa đã chọn')
             ]);
     }
 
@@ -67,7 +73,12 @@ class LoaiBlogDatatables extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('maloaiblog')->title('ID'),
+            Column::computed('DT_RowIndex')
+                ->title('STT')
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center'),
             Column::make('tenloaiblog')->title('Tên loại blog'),
             Column::computed('action')
                 ->exportable(false)
@@ -76,6 +87,7 @@ class LoaiBlogDatatables extends DataTable
                 ->addClass('text-center'),
         ];
     }
+
 
     /**
      * Get the filename for export.

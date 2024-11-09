@@ -9,9 +9,13 @@ use App\Models\LoaiBlog;
 use App\Models\NhanVien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use App\Traits\ImageUploadTrait;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
+    use ImageUploadTrait;
     /**
      * Display a listing of the resource.
      */
@@ -68,9 +72,9 @@ class BlogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($mablogtour)
     {
-        $blog = BlogTour::findOrFail($id);
+        $blog = BlogTour::findOrFail($mablogtour);
         $loaiblog = LoaiBlog::all();
         return view('backend.blog.edit', compact('blog', 'loaiblog'));
     }
@@ -78,7 +82,7 @@ class BlogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         if (Session::has('user')) {
             $user = Session::get('user');
@@ -106,21 +110,22 @@ class BlogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        BlogTour::find($id)->delete();
+        $blog = BlogTour::find($id)->delete();
+        $this->deleteImage($blog->hinhanh);
         return response(['status' => 'success', 'message' => 'Xóa blog thành công']);
     }
 
     public function changeStatus(Request $request)
     {
         $request->validate([
-            'id' => 'required',
-            'trangthai' => 'required',
+            'mablogtour' => 'required',
+            'trangthaiblog' => 'required',
         ]);
 
-        $tour = BlogTour::findOrFail($request->id);
-        $tour->trangthaiblog = $request->trangthai === 'true' ? 1 : 0;
+        $tour = BlogTour::findOrFail($request->mablogtour);
+        $tour->trangthaiblog = $request->trangthaiblog === 'true' ? 1 : 0;
         $tour->save();
 
         return response()->json(['message' => 'Trạng thái cập nhật thành công!']);

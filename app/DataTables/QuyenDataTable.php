@@ -23,6 +23,8 @@ class QuyenDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+        ->addIndexColumn()
+
         ->addColumn('action', function ($query) {
             $editBtn = "<a href='" . route('quyen.edit', $query->maquyen) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
             $deleteBtn = "<a href='" . route('quyen.destroy', $query->maquyen) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->maquyen}'><i class='far fa-trash-alt'></i></a>";
@@ -74,7 +76,12 @@ class QuyenDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('maquyen'),
+            Column::computed('DT_RowIndex')
+            ->title('STT')
+            ->exportable(false)
+            ->printable(false)
+            ->width(30)
+            ->addClass('text-center'),
             Column::make('tenquyen')->width(200)->title('Tên quyền'),
             Column::make('mota')->width(200)->title('Mô tả'),
             Column::make('created_at')->width(150)->title('Ngày tạo'),

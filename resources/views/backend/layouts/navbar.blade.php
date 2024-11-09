@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg main-navbar">
+<nav class="navbar navbar-expand-lg main-navbar" style="list-style: none;">
     <form class="form-inline mr-auto">
         <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
     </form>

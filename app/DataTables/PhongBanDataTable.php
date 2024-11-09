@@ -23,6 +23,8 @@ class PhongBanDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+        ->addIndexColumn()
+
             ->addColumn('action', function ($query) {
                 $editBtn = "<a href='" . route('phongban.edit', $query->maphongban) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
                 $deleteBtn = "<a href='" . route('phongban.destroy', $query->maphongban) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->maphongban}'><i class='far fa-trash-alt'></i></a>";
@@ -74,6 +76,12 @@ class PhongBanDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::computed('DT_RowIndex')
+            ->title('STT')
+            ->exportable(false)
+            ->printable(false)
+            ->width(30)
+            ->addClass('text-center'),
             Column::make('maphongban'),
             Column::make('tenphongban'),
             Column::make('created_at'),

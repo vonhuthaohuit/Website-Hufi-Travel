@@ -24,10 +24,11 @@ class KhuyenMaiDatatables extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', function($query) {
+            ->addIndexColumn()
+            ->addColumn('action', function ($query) {
                 $editBtn = "<a href='" . route('khuyenmai.edit', $query->makhuyenmai) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
                 $deleteBtn = "<a href='" . route('khuyenmai.destroy', $query->makhuyenmai) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->makhuyenmai}'><i class='far fa-trash-alt'></i></a>";
-                return $editBtn . $deleteBtn ;
+                return $editBtn . $deleteBtn;
             })
             ->editColumn('created_at', function ($query) {
                 return Carbon::parse($query->created_at)->format('d-m-Y'); // Định dạng ngày
@@ -38,7 +39,7 @@ class KhuyenMaiDatatables extends DataTable
             })
 
 
-            ->setRowId('id');
+            ->setRowId('makhuyenmai');
     }
 
     /**
@@ -46,7 +47,7 @@ class KhuyenMaiDatatables extends DataTable
      */
     public function query(KhuyenMai $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('makhuyenmai', 'asc');
     }
 
 
@@ -56,19 +57,20 @@ class KhuyenMaiDatatables extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('khuyenmaidatatables-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('khuyenmaidatatables-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -77,17 +79,20 @@ class KhuyenMaiDatatables extends DataTable
     public function getColumns(): array
     {
         return [
-           // Column::make('id')->width(50)->title('ID'),
+            Column::computed('DT_RowIndex')
+                ->title('STT')
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center'),
             Column::make('thoigianbatdau')->width(250)->title('Thời gian bắt đầu'),
             Column::make('thoigianketthuc')->width(250)->title('Thời gian kết thúc'),
             Column::make('phantramgiam')->width(100)->title('Phần trăm giảm'),
-            Column::make('created_at')->width(150)->title('Ngày tạo'),
-            Column::make('updated_at')->width(150)->title('Cập nhật lần cuối'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(200)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(200)
+                ->addClass('text-center'),
         ];
 
     }

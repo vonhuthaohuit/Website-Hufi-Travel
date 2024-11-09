@@ -9,24 +9,29 @@ use App\Http\Controllers\backend\HomeController as BackendHomeController;
 use App\Http\Controllers\frontend\TourController;
 use App\Http\Controllers\backend\AuthController;
 use App\Http\Controllers\backend\BlogController;
+use App\Http\Controllers\backend\FooterGridOneController;
+use App\Http\Controllers\backend\FooterGridThreeController;
+use App\Http\Controllers\backend\FooterGridTwoController;
+use App\Http\Controllers\backend\FooterSocialController;
 use App\Http\Controllers\backend\ChiTietTourController;
 use App\Http\Controllers\backend\ChucVuController;
-use App\Http\Controllers\backend\ChuongTrinhTourController;
 use App\Http\Controllers\backend\KhachSan_TourController;
 use App\Http\Controllers\backend\KhachSanController;
-use App\Http\Controllers\backend\LoaiBlogController;
-use App\Http\Controllers\backend\LoaiTourController;
 use App\Http\Controllers\backend\NhanVienController;
 use App\Http\Controllers\backend\NhomQuyenController;
 use App\Http\Controllers\backend\PhanCongChucVuController;
-use App\Http\Controllers\backend\PhanCongCongViecController;
 use App\Http\Controllers\backend\PhanCongNhanVienController;
 use App\Http\Controllers\backend\PhongBanController;
 use App\Http\Controllers\backend\PhuongTien_TourController;
 use App\Http\Controllers\backend\PhuongTienController;
 use App\Http\Controllers\backend\Quyen_NhomQuyenController;
 use App\Http\Controllers\backend\QuyenController;
+use App\Http\Controllers\backend\ChuongTrinhTourController;
+use App\Http\Controllers\backend\LoaiBlogController;
+use App\Http\Controllers\backend\LoaiTourController;
+use App\Http\Controllers\backend\SubscriberController;
 use App\Http\Controllers\backend\TourController as BackendTourController;
+use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
 use App\Models\ChiTietTour;
 use App\Models\DiemDuLich;
 use App\Models\KhachSan_Tour;
@@ -139,8 +144,27 @@ Route::prefix('admin')->group(function () {
 
 
     });
+    Route::delete('loaiblog/mass-destroy', [LoaiBlogController::class, 'massDestroy'])->name('loaiblog.massDestroy');
+
+    Route::resource('footer-grid-one', FooterGridOneController::class);
+    Route::resource('footer-grid-two', FooterGridTwoController::class);
+    Route::post('footer-grid-two/change-status', [FooterGridTwoController::class, 'changeStatus'])->name('footer-grid-two.change-status');
+    Route::post('footer-grid-two/change-title', [FooterGridTwoController::class, 'changeTitle'])->name('footer-grid-two.change-title');
+
+    Route::resource('footer-grid-three', FooterGridThreeController::class);
+    Route::post('footer-grid-three/change-status', [FooterGridThreeController::class, 'changeStatus'])->name('footer-grid-three.change-status');
+    Route::post('footer-grid-three/change-title', [FooterGridThreeController::class, 'changeTitle'])->name('footer-grid-three.change-title');
+
+    Route::resource('footer-socials', FooterSocialController::class);
+    Route::put('footer-socials/change-status', [FooterSocialController::class, 'changeStatus'])->name('footer-socials.change-status');
+
+    Route::get('subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
+    Route::delete('subscribers/{id}', [SubscriberController::class, 'destory'])->name('subscribers.destory');
+    Route::post('subscribers-send-mail', [SubscriberController::class, 'sendMail'])->name('subscribers-send-mail');
 });
 
+Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
+Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');
 
 
 // Route::middleware('user')->group(function()
@@ -148,3 +172,6 @@ Route::prefix('admin')->group(function () {
 
 
 // })
+Route::get('/gioi-thieu', [HomeController::class, 'about'])->name('about');
+Route::get('/lien-he', [HomeController::class, 'contact'])->name('contact');
+Route::get('/danh-sach-tour', [TourController::class, 'allTour'])->name('tour.all-tour');

@@ -1,0 +1,108 @@
+.box-search-group {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    z-index: 9999;
+    background-color: rgba(49, 48, 65, 0.9);
+    overflow-y: auto;
+}
+
+.box-search-group.show {
+    display: block;
+}
+
+.form-search-group {
+    width: 100%;
+    height: 100%;
+}
+
+.search-form {
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 1000px;
+    margin: 50px auto;
+    color: #fff;
+    background-image: url('../images/background.png');
+    background-size: cover;
+    background-position: center;
+    /* filter: grayscale(70%); */
+}
+
+.search-form label {
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.btn-search {
+    background-color: #e14b47;
+    color: #fff;
+    font-weight: bold;
+    width: 100%;
+}
+
+.btn-search:hover {
+    background-color: #c93c3a;
+}
+
+.range-slider input[type="range"] {
+    width: 100%;
+}
+
+.star-rating .form-check-label {
+    color: gold;
+}
+
+.search-group-one {
+    background-color: rgba(219, 219, 219, 0.4);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    box-shadow: 0 5px 10px rgb(1 9 128 / 4%), 0 0 18px rgb(255 255 255 / 30%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.search-group-two {
+    background-color: rgba(219, 219, 219, 0.4);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    box-shadow: 0 5px 10px rgb(1 9 128 / 4%), 0 0 18px rgb(255 255 255 / 30%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+#close-box-search {
+    position: relative;
+    top: -40px;
+    left: 40px;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    color: white;
+    background: #e14b47;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    float: right;
+}
+
+.show-form-search {
+    background: none;
+}
+
+@media (max-width: 768px) {
+    .search-form .btn-search {
+        width: auto;
+    }
+}
