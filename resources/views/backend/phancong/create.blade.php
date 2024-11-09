@@ -3,16 +3,16 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Tour</h1>
+            <h1>Thêm nhân viên vào tour</h1>
         </div>
         <div class="section-body">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Thêm chi tiết mới</h4>
+                            <h4>{{ $tour->tentour }}</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('chitiettour.index',['tour_id' => $tour->matour]) }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i>
+                                <a href="{{ route('phancongnhanvien.index',['tour_id' => $tour->matour])}}" class="btn btn-primary"><i class="fas fa-arrow-left"></i>
                                     Back</a>
                             </div>
                         </div>
@@ -40,13 +40,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Điểm du lịch</label>
-                                            <select class="form-control" name="madiemdulich">
+                                            {{-- <select class="form-control" name="madiemdulich">
                                                 <option value="">Chọn điểm du lịch</option>
                                                 @foreach ($diemdulich as $diemdulich_item)
                                                     <option value="{{ $diemdulich_item->madiemdulich }}">{{ $diemdulich_item->tendiemdulich }}
                                                     </option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
                                         </div>
                                     </div>
                                 </div>

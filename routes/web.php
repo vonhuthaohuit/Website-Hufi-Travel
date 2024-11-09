@@ -1,5 +1,6 @@
 <?php
 
+use App\DataTables\PhanCongNhanVienDataTable;
 use App\Http\Controllers\backend\KhuyenMaiController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\auth\LoginController;
@@ -9,19 +10,31 @@ use App\Http\Controllers\frontend\TourController;
 use App\Http\Controllers\backend\AuthController;
 use App\Http\Controllers\backend\BlogController;
 use App\Http\Controllers\backend\ChiTietTourController;
+use App\Http\Controllers\backend\ChucVuController;
 use App\Http\Controllers\backend\ChuongTrinhTourController;
 use App\Http\Controllers\backend\KhachSan_TourController;
 use App\Http\Controllers\backend\KhachSanController;
 use App\Http\Controllers\backend\LoaiBlogController;
 use App\Http\Controllers\backend\LoaiTourController;
+use App\Http\Controllers\backend\NhanVienController;
+use App\Http\Controllers\backend\NhomQuyenController;
+use App\Http\Controllers\backend\PhanCongChucVuController;
 use App\Http\Controllers\backend\PhanCongCongViecController;
+use App\Http\Controllers\backend\PhanCongNhanVienController;
+use App\Http\Controllers\backend\PhongBanController;
 use App\Http\Controllers\backend\PhuongTien_TourController;
 use App\Http\Controllers\backend\PhuongTienController;
+use App\Http\Controllers\backend\Quyen_NhomQuyenController;
+use App\Http\Controllers\backend\QuyenController;
 use App\Http\Controllers\backend\TourController as BackendTourController;
 use App\Models\ChiTietTour;
 use App\Models\DiemDuLich;
 use App\Models\KhachSan_Tour;
+use App\Models\NhomQuyen;
+use App\Models\PhanCongChucVu;
+use App\Models\PhanCongNhanVien;
 use App\Models\PhuongTien_Tour;
+use App\Models\Quyen_Nhomquyen;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -103,7 +116,22 @@ Route::prefix('admin')->group(function () {
     Route::resource('chitiettour', ChiTietTourController::class);
     Route::get('chitiettour/edit/{id}/{madiemdulich}', [ChiTietTourController::class, 'edit'])->name('chitiettour.edit');
     Route::delete('admin/chitiettour/delete/{id}/{madiemdulich}', [ChiTietTourController::class, 'destroy'])->name('chitiettour.delete');
-    Route::get('/phancongcongviec', [PhanCongCongViecController::class, 'index'])->name('phancong');
+
+    Route::get('/danhsachtour', [PhanCongNhanVienController::class, 'danhsachtour'])->name('danhsachtour');
+    Route::resource('phancongnhanvien', PhanCongNhanVienController::class);
+    Route::resource('chucvu', ChucVuController::class);
+    Route::resource('nhanvien', NhanVienController::class);
+    Route::resource('phongban', PhongBanController::class);
+    Route::resource('phancongchucvu', PhanCongChucVuController::class);
+    Route::delete('phancongchucvu/delete/{id}/{machucvu}', [PhanCongChucVuController::class, 'destroy'])->name('phancongchucvu.delete');
+    Route::resource('quyen', QuyenController::class);
+    Route::resource('nhomquyen', NhomQuyenController::class);
+    Route::get('quyen_nhomquyen/{manhomquyen}', [Quyen_NhomQuyenController::class, 'index'])->name('quyen_nhomquyen.index');
+    Route::get('quyen_nhomquyen/create/{manhomquyen}', [Quyen_NhomQuyenController::class, 'create'])->name('quyen_nhomquyen.create');
+    Route::post('quyen_nhomquyen', [Quyen_NhomQuyenController::class, 'store'])->name('quyen_nhomquyen.store');
+    Route::delete('quyen_nhomquyen/delete/{id}/{maquyen}', [Quyen_NhomQuyenController::class, 'destroy'])->name('quyen_nhomquyen.delete');
+
+
 
     Route::prefix('nhanvien')->group(function ()
     {

@@ -124,7 +124,7 @@
                 <ul class="dropdown-menu">
 
                     <li class="{{ setActive(['admin.withdraw-method.*']) }}"><a class="nav-link"
-                            href="">Danh sách tour</a></li>
+                            href="">aaaaa</a></li>
 
                     <li class="{{ setActive(['admin.withdraw.index']) }}"><a class="nav-link"
                             href="">Withdraw List</a></li>

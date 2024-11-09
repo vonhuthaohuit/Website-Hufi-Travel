@@ -16,7 +16,7 @@ class NhanVien extends Model
         return $this->hasMany(BlogTour::class,'manhanvien');
     }
     public function user(){
-        return $this->belongsTo(User::class,'mataikhoan','mataikhoanaaa');
+        return $this->belongsTo(User::class,'mataikhoan','mataikhoan');
     }
 
     public function phongban(){
