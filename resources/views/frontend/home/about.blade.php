@@ -1,12 +1,6 @@
 @extends('frontend.layouts.app')
 
 @section('renderBody')
-    {{-- <div class="backgroud-about pt-5">
-        <h1>HUFI TRAVEL</h1>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-            dolore magna aliquam erat volutpat.</p>
-    </div> --}}
-
     <section class="page-header">
         <div class="page-header__top">
             <div class="page-header-bg">

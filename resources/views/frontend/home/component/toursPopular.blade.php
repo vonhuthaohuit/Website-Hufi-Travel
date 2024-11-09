@@ -35,40 +35,42 @@
     @endforeach
 </div>
 
-<style>
-    .slick-prev,
-    .slick-next {
-        color: white;
-        border: none;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10;
-    }
+@push('style')
+    <style>
+        .slick-prev,
+        .slick-next {
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
 
-    .slick-prev {
-        left: -33px;
-    }
+        .slick-prev {
+            left: -33px;
+        }
 
-    .slick-next {
-        right: -33px;
-    }
+        .slick-next {
+            right: -33px;
+        }
 
-    .slick-next::before,
-    .slick-prev::before {
-        font-size: 60px;
-        color: #a9a9a9;
-    }
+        .slick-next::before,
+        .slick-prev::before {
+            font-size: 60px;
+            color: #a9a9a9;
+        }
 
-    .slick-slide {
-        padding: 10px;
-    }
+        .slick-slide {
+            padding: 10px;
+        }
 
-    .slick-slide {
-        padding: 10px;
-    }
-</style>
+        .slick-slide {
+            padding: 10px;
+        }
+    </style>
+@endpush
 
 @push('script')
     <script type="text/javascript">

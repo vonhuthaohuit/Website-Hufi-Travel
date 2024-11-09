@@ -51,18 +51,23 @@ class BlogController extends Controller
             $moreBlogs = BlogTour::where('trangthaiblog', 1)
                 ->orderBy('mablogtour', 'DESC')->take(5)->get();
 
-            $blogcategories = LoaiBlog::all();
+            $blogcategories = LoaiBlog::take(5)->get();
+
+            $query = $request->search_query;
         } elseif ($request->has('category')) {
-            $category = LoaiBlog::where('slug', $request->category)->firstOrFail();
+            $category = LoaiBlog::where('tenloaiblog', $request->category)->firstOrFail();
 
-            $blogs = BlogTour::with('loaitour')->where('maloaitour', $category->maloaitour)
-                ->where('trangthaitour', 1)->orderBy('mablogtour', 'DESC')
+            $blogs = BlogTour::with('loaiblog')->where('maloaiblog', $category->maloaiblog)
+                ->where('trangthaiblog', 1)->orderBy('mablogtour', 'DESC')
                 ->paginate(12);
-        } else {
-            $blogs = BlogTour::with('loaiblog')->where('trangthaiblog', 1)->orderBy('mablogtour', 'DESC')->paginate(3);
-        }
 
-        $query = $request->search_query;
+            $moreBlogs = BlogTour::where('trangthaiblog', 1)
+                ->orderBy('mablogtour', 'DESC')->take(5)->get();
+            $blogcategories = LoaiBlog::take(5)->get();
+            $query = $request->category;
+        } else {
+            // $blogs = BlogTour::with('loaiblog')->where('trangthaiblog', 1)->orderBy('mablogtour', 'DESC')->paginate(3);
+        }
 
         $count = $blogs->count();
 

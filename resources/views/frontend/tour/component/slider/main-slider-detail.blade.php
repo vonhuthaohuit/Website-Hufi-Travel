@@ -95,27 +95,29 @@
     </div>
 </section>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var swiper = new Swiper('.swiper-container', {
-            slidesPerView: 1,
-            loop: true,
-            effect: 'fade',
-            pagination: {
-                el: '#main-slider-pagination',
-                type: 'bullets',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.main-slider-button-next',
-                prevEl: '.main-slider-button-prev',
-                clickable: true,
-            },
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
+@push('script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var swiper = new Swiper('.swiper-container', {
+                slidesPerView: 1,
+                loop: true,
+                effect: 'fade',
+                pagination: {
+                    el: '#main-slider-pagination',
+                    type: 'bullets',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.main-slider-button-next',
+                    prevEl: '.main-slider-button-prev',
+                    clickable: true,
+                },
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+            });
+            swiper.update();
         });
-        swiper.update();
-    });
-</script>
+    </script>
+@endpush

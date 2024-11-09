@@ -1,7 +1,9 @@
 @extends('frontend.layouts.app')
 
-@section('renderBody')
+@push('style')
     <link rel="stylesheet" href="{{ asset('frontend/css/styleLogin.css') }}">
+@endpush
+@section('renderBody')
     <div style="margin-top: 150px; padding-bottom: 50px;">
         <div class="container-login container-xl" id="container">
             <div class="form-container sign-up">
@@ -62,7 +64,7 @@
                     <span class="mb-3">or use your email for registeration</span>
                     <span class="mb-3">
 
-                        </span>
+                    </span>
                     <input type="text" placeholder="Name" name="name" required>
                     <input type="email" placeholder="Email" name="email" required>
                     <input type="password" placeholder="Password" name="password" required>
@@ -71,7 +73,7 @@
                 </form>
             </div>
             <div class="form-container sign-in">
-                {{-- @if(session('success'))
+                {{-- @if (session('success'))
                    <p>
                         {{ session('success') }}
                     </p>
@@ -81,7 +83,7 @@
                 @endif --}}
                 <form action="{{ route('login') }}" method="POST">
                     @csrf
-                        <h2 style="font-weight: 800; color:rgb(1, 148, 243);">Sign In</h2>
+                    <h2 style="font-weight: 800; color:rgb(1, 148, 243);">Sign In</h2>
                     <div class="social-icons">
                         <a href="{{ route('GoogleSign') }}" class="icon"><svg xmlns="http://www.w3.org/2000/svg" x="0px"
                                 y="0px" width="20" height="20" viewBox="0 0 48 48">
@@ -154,16 +156,21 @@
             </div>
         </div>
     </div>
-    @if(session('success'))
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var toastEl = document.getElementById('toast');
-            var toast = new bootstrap.Toast(toastEl);
-            toast.show(); // Hiện Toast
-        });
-    </script>
-@endif
-    <script src="{{ asset('frontend/js/scriptLogin.js') }}"></script>
+    @if (session('success'))
+        @push('script')
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    var toastEl = document.getElementById('toast');
+                    var toast = new bootstrap.Toast(toastEl);
+                    toast.show(); // Hiện Toast
+                });
+            </script>
+        @endpush
+    @endif
+    @push('script')
+        <script src="{{ asset('frontend/js/scriptLogin.js') }}"></script>
+    @endpush
+
     <div aria-live="polite" aria-atomic="true" style="position: relative; z-index: 1050;">
         <div class="toast-container">
             <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">

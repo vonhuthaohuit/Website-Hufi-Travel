@@ -19,6 +19,7 @@ use App\Http\Controllers\backend\LoaiTourController;
 use App\Http\Controllers\backend\SubscriberController;
 use App\Http\Controllers\backend\TourController as BackendTourController;
 use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
+use App\Http\Controllers\frontend\CommentController;
 use App\Models\ChiTietTour;
 use App\Models\DiemDuLich;
 use Illuminate\Support\Facades\Route;
@@ -66,7 +67,8 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-Route::get('/tour-detail/{slug}', [TourController::class, 'index'])->name('tour.detail');
+Route::get('/tour/{slug}', [TourController::class, 'index'])->name('tour.detail');
+Route::get('/danh-sach-tour/search', [TourController::class, 'search'])->name('tour.search');
 
 Route::get('/admin/dashboard', [BackendHomeController::class, 'index']);
 
@@ -109,3 +111,5 @@ Route::get('/search', [FrontendBlogController::class, 'search'])->name('blog.sea
 Route::get('/gioi-thieu', [HomeController::class, 'about'])->name('about');
 Route::get('/lien-he', [HomeController::class, 'contact'])->name('contact');
 Route::get('/danh-sach-tour', [TourController::class, 'allTour'])->name('tour.all-tour');
+
+Route::post('/comment/create', [CommentController::class, 'createComment'])->name('comment.insert');
