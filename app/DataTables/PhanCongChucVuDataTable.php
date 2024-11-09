@@ -21,6 +21,7 @@ class PhanCongChucVuDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+        ->addIndexColumn()
         ->addColumn('action', function ($query) {
             $deleteBtn = "<a href='" . route('phancongchucvu.delete',[$query->manhanvien,$query->machucvu]) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->manhomquyen}'><i class='far fa-trash-alt'></i></a>";
              return $deleteBtn;
@@ -83,7 +84,12 @@ class PhanCongChucVuDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
+            Column::computed('DT_RowIndex')
+            ->title('STT')
+            ->exportable(false)
+            ->printable(false)
+            ->width(30)
+            ->addClass('text-center'),
             Column::make('manhanvien')->width(150)->title('Nhân viên'),
             Column::make('machucvu')->width(150)->title('Chức vụ'),
             Column::make('created_at')->width(150)->title('Ngày tạo'),

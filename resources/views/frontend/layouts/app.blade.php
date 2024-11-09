@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/tevily.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/tevilyResponsive.css') }}">
@@ -26,7 +26,10 @@
     <link rel="stylesheet" href="{{ asset('frontend/library/swiper/swiper.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/library/animation/animation.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/library/animation/custom-animation.css') }}">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="{{ asset('frontend/css/styleBlog.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/styleTour.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/styleHeader.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/styleSearch.css') }}">
 </head>
 
 <body>
@@ -35,7 +38,8 @@
     <main class="main-content">
         @yield('renderBody')
     </main>
-        @include('frontend.layouts.footer')
+
+    @include('frontend.layouts.footer')
     @include('frontend.layouts.component.abs-fixed')
 
     <script src="{{ asset('frontend/js/tevily.js') }}"></script>
@@ -44,13 +48,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
+    <script src="{{ asset('frontend/js/script.js') }}"></script>
+
+    @stack('script')
     <script lang="javascript">
         var __vnp = {
             code: 23211,
@@ -69,7 +75,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
-        @if(session('success'))
+        @if (session('success'))
             Toastify({
                 text: "{{ session('success') }}",
                 duration: 3000, // Thời gian hiển thị (miliseconds)

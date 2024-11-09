@@ -23,14 +23,17 @@ class BlogDatatables extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addIndexColumn()
             ->addColumn('action', function ($query) {
                 $editBtn = "<a href='" . route('blog.edit', $query->mablogtour) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-                $deleteBtn = "<a href='" . route('blog.destroy', $query->mablogtour) . "' class='btn btn-danger ml-2 delete-item'><i class='far fa-trash-alt'></i></a>";
-
+                $deleteBtn = "<a href='" . route('blog.destroy', $query->mablogtour) . "' class='btn btn-danger ml-2 delete-item' data-id='{ $query->mablogtour }'><i class='far fa-trash-alt'></i></a>";
                 return $editBtn . $deleteBtn;
             })
-            ->addColumn('trangthai', function ($query) {
-                $checked = $query->trangthai == 1 ? 'checked' : '';
+            ->addColumn('hinhanh', function ($query) {
+                return "<img width='100px' height='80px' src='" . asset($query->hinhanh) . "' >";
+            })
+            ->addColumn('trangthaiblog', function ($query) {
+                $checked = $query->trangthaiblog == 1 ? 'checked' : '';
                 return '<label class="custom-switch mt-2">
                 <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->mablogtour . '" class="custom-switch-input change-status">
                 <span class="custom-switch-indicator"></span>
@@ -49,8 +52,8 @@ class BlogDatatables extends DataTable
             ->addColumn('ngaycapnhat', function ($query) {
                 return date('d-m-Y', strtotime($query->updated_at));
             })
-            ->rawColumns(['trangthai', 'loaiblog', 'action'])
-            ->setRowId('id');
+            ->rawColumns(['trangthaiblog', 'loaiblog', 'action', 'hinhanh'])
+            ->setRowId('mablogtour');
     }
 
     /**
@@ -89,8 +92,15 @@ class BlogDatatables extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::computed('DT_RowIndex')
+                ->title('STT')
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center'),
+            Column::make('hinhanh')->title('Hình ảnh'),
             Column::make('tieude')->title('Tiêu đề'),
-            Column::make('trangthai')->title('Trạng thái'),
+            Column::make('trangthaiblog')->title('Trạng thái'),
             Column::make('loaiblog')->title('Loại blog'),
             Column::make('ngaytao')->title('Ngày tạo'),
             Column::make('ngaycapnhat')->title('Ngày cập nhật'),

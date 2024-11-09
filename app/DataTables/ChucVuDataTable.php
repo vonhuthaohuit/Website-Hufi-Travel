@@ -23,6 +23,8 @@ class ChucVuDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+        ->addIndexColumn()
+
             ->addColumn('action', function ($query) {
                 $editBtn = "<a href='" . route('chucvu.edit', $query->machucvu) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
                 $deleteBtn = "<a href='" . route('chucvu.destroy', $query->machucvu) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->machucvu}'><i class='far fa-trash-alt'></i></a>";
@@ -75,6 +77,12 @@ class ChucVuDataTable extends DataTable
     {
         return [
             //Column::make('machucvu'),
+            Column::computed('DT_RowIndex')
+                ->title('STT')
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center'),
             Column::make('tenchucvu')->width(200)->title('Tên chức vụ'),
             Column::make('created_at')->width(200)->title('Ngày thêm '),
             Column::make('updated_at')->width(200)->title('Cập nhật lần cuối'),

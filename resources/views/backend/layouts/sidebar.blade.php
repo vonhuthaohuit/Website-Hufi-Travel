@@ -187,27 +187,24 @@
 
 
             <li
-                class="dropdown {{ setActive([
-                    'admin.footer-info.index',
-                    'admin.footer-socials.*',
-                    'admin.footer-grid-two.*',
-                    'admin.footer-grid-three.*',
-                ]) }}">
+                class="dropdown {{ setActive(['footer-grid-one.index', 'footer-grid-two.*', 'footer-grid-three.*', 'footer-socials.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fas fa-th-large"></i><span>Footer</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ setActive(['admin.footer-info.index']) }}"><a class="nav-link"
-                            href="">Footer Info</a></li>
+                    <li class="{{ setActive(['footer-grid-one.index']) }}">
+                        <a class="nav-link" href="{{ route('footer-grid-one.index') }}">Footer Grid One</a>
+                    </li>
 
-                    <li class="{{ setActive(['admin.footer-socials.*']) }}"><a class="nav-link"
-                            href="">Footer Socials</a></li>
+                    <li class="{{ setActive(['footer-grid-two.*']) }}">
+                        <a class="nav-link" href="{{ route('footer-grid-two.index') }}">Footer Grid Two</a>
+                    </li>
 
-                    <li class="{{ setActive(['admin.footer-grid-two.*']) }}"><a class="nav-link"
-                            href="">Footer Grid Two</a></li>
-
-                    <li class="{{ setActive(['admin.footer-grid-three.*']) }}"><a class="nav-link"
-                            href="">Footer Grid Three</a></li>
-
+                    <li class="{{ setActive(['footer-grid-three.*']) }}">
+                        <a class="nav-link" href="{{ route('footer-grid-three.index') }}">Footer Grid Three</a>
+                    </li>
+                    <li class="{{ setActive(['footer-socials.*']) }}">
+                        <a class="nav-link" href="{{ route('footer-socials.index') }}">Footer Socials</a>
+                    </li>
                 </ul>
             </li>
             <li
@@ -238,7 +235,7 @@
             </li>
 
 
-            <li><a class="nav-link {{ setActive(['admin.subscribers.*']) }}" href=""><i
+            <li><a class="nav-link {{ setActive(['subscribers.*']) }}" href="{{ route('subscribers.index') }}"><i
                         class="fas fa-user"></i>
                     <span>Subscribers</span></a></li>
 

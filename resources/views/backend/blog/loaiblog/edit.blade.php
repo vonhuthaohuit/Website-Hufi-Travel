@@ -26,7 +26,7 @@
                                 <input type="hidden" value="{{ $loaiblog->maloaiblog }}" name="loaiblogId">
                                 <div class="form-group">
                                     <label>Tên loại tour</label>
-                                    <input type="text" class="form-control" name="tenloai"
+                                    <input type="text" class="form-control" name="tenloaiblog"
                                         value="{{ $loaiblog->tenloaiblog }}">
                                 </div>
 

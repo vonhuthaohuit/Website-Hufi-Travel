@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TourController extends Controller
 {
@@ -61,6 +62,7 @@ class TourController extends Controller
         }
         $tour = new Tour();
         $tour->tentour = $request->tentour;
+        $tour->slug = Str::slug($request->tentour);
         $tour->motatour = $request->motatour;
         $tour->tinhtrang = $request->tinhtrang;
         $tour->giatour = $request->giatour;
@@ -114,6 +116,7 @@ class TourController extends Controller
 
         $tour = Tour::where('matour',$id)->first();
         $tour->tentour = $request->input('tentour');
+        $tour->slug = Str::slug($request->tentour);
         $tour->motatour = $request->input('motatour');
         $tour->tinhtrang = $request->input('tinhtrang');
         $tour->thoigiandi = $request->input('thoigiandi');
@@ -140,8 +143,8 @@ class TourController extends Controller
      */
     public function destroy(string $id)
     {
-        
-       Tour::where('matour',$id)->first()->delete();
+        $tour = Tour::find($id)->delete();
+        $this->deleteImage($tour->hinhdaidien);
         return response(['status' => 'success', 'message' => 'Xóa thành công']);
     }
 

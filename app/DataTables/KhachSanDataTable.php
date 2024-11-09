@@ -23,6 +23,8 @@ class KhachSanDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+        ->addIndexColumn()
+
         ->addColumn('action', function ($query) {
             $editBtn = "<a href='" . route('khachsan.edit', $query->makhachsan) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
             $deleteBtn = "<a href='" . route('khachsan.destroy', $query->makhachsan) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->makhachsan}'><i class='far fa-trash-alt'></i></a>";
@@ -76,6 +78,12 @@ class KhachSanDataTable extends DataTable
         return [
           //  Column::make('id'),
            // Column::make('makhachsan'),
+           Column::computed('DT_RowIndex')
+           ->title('STT')
+           ->exportable(false)
+           ->printable(false)
+           ->width(30)
+           ->addClass('text-center'),
             Column::make('tenkhachsan'),
             Column::make('diachi'),
             Column::make('sodienthoai'),

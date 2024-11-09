@@ -9,8 +9,8 @@ class KhuyenMai extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'khuyenmai';
     protected $primaryKey = 'makhuyenmai';
+    protected $table = 'khuyenmai';
 
     public function tour(){
         return $this->hasMany(Tour::class,'makhuyenmai');

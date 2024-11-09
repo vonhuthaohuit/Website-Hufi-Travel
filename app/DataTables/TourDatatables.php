@@ -6,6 +6,7 @@ use App\Models\Tour;
 use App\Models\TourDatatable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Str;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -24,6 +25,7 @@ class TourDatatables extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addIndexColumn()
             ->addColumn('action', function ($query) {
                 $editBtn = "<a href='" . route('tour.edit', $query->matour) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
                 $deleteBtn = "<a href='" . route('tour.destroy', $query->matour) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->matour}'><i class='far fa-trash-alt'></i></a>";
@@ -43,20 +45,6 @@ class TourDatatables extends DataTable
             ->addColumn('hinhdaidien', function ($query) {
                 return "<img width='100px' height='80px' src='" . asset($query->hinhdaidien) . "' >";
             })
-            // ->addColumn('tinhtrang', function($query){
-            //     if($query->tinhtrang == 1){
-            //         $button = '<label class="custom-switch mt-2">
-            //             <input type="checkbox" checked name="custom-switch-checkbox" data-id="'.$query->id.'" class="custom-switch-input change-status" >
-            //             <span class="custom-switch-indicator"></span>
-            //         </label>';
-            //     }else {
-            //         $button = '<label class="custom-switch mt-2">
-            //             <input type="checkbox" name="custom-switch-checkbox" data-id="'.$query->id.'" class="custom-switch-input change-status">
-            //             <span class="custom-switch-indicator"></span>
-            //         </label>';
-            //     }
-            //     return $button;
-            // })
 
 
 
@@ -70,7 +58,7 @@ class TourDatatables extends DataTable
             })
 
             ->editColumn('motatour', function ($query) {
-                return \Str::limit($query->motatour, 70); // Giới hạn 100 ký tự
+                return Str::limit($query->motatour, 70); // Giới hạn 100 ký tự
             })
             ->addColumn('tinhtrang', function ($query) {
                 // Kiểm tra giá trị của tinhtrang
@@ -94,7 +82,7 @@ class TourDatatables extends DataTable
      */
     public function query(Tour $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('matour', 'asc');
     }
 
     /**
@@ -125,7 +113,12 @@ class TourDatatables extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('matour'),
+            Column::computed('DT_RowIndex')
+                ->title('STT')
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center'),
             Column::make('tentour')->width(250)->title('Tên tour'),
             Column::make('thoigiandi')->width(100)->title('Thời gian đi'),
             Column::make('giatour')->width(150)->title('Giá (VND)'),

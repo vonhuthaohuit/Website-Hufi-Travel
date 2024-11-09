@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class BlogTour extends Model
 {
     use HasFactory;
-    protected $table = 'blogtour';
     protected $primaryKey = 'mablogtour';
+    protected $table = 'blogtour';
 
     public function loaiblog(){
         return $this->belongsTo(LoaiBlog::class,'maloaiblog','maloaiblog');

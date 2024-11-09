@@ -21,6 +21,7 @@
         public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+        ->addIndexColumn()
             ->addColumn('action', function ($query) {
                 // Use `maphuongtien` and `matour` for both edit and delete actions
                 $editUrl = route('phuongtien_tour.edit', [$query->matour, $query->maphuongtien]);
@@ -79,6 +80,12 @@
         public function getColumns(): array
         {
             return [
+                Column::computed('DT_RowIndex')
+            ->title('STT')
+            ->exportable(false)
+            ->printable(false)
+            ->width(30)
+            ->addClass('text-center'),
                 Column::make('maphuongtien')->width(300)->title('Tên phương tiện'),
                 Column::make('soluonghanhkhach')->width(300)->title('Só lượng hành khách'),
                 Column::make('ghichu')->width(300)->title('Ghi chú'),
