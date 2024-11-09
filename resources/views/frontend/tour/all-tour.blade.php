@@ -27,6 +27,13 @@
 
     <section class="list-tour-section mt-4 mb-4">
         <div class="container-xl">
+            @if (request()->has('search'))
+                <h5></h5>
+                <hr>
+            @elseif (request()->has('category'))
+                <h5></h5>
+                <hr>
+            @endif
             <div class="row">
                 <div class="col-md-9">
                     <div class="row">
@@ -70,27 +77,17 @@
                 </div>
 
                 <div class="col-md-3">
-                    <div class="wsus__blog_search">
-                        <h4>Tìm kiếm</h4>
-                        <form action="" method="GET">
-                            <input type="text" placeholder="Tìm kiếm..." name="search">
-                            <button type="submit" class="common_btn"><i class="fas fa-search"></i></button>
-                        </form>
-                    </div>
-
-                    <div class="wsus__blog_category">
-                        <h4>Loại tour</h4>
-                        <ul>
-                            @foreach ($tourCategories as $category)
-                                <li>
-                                    <a href="">{{ $category->tenloai }}</a>
-                                    {{-- {{ route('blog', ['category' => $category->slug]) }} --}}
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
+                    @include('frontend.tour.component.sidebar-tour')
                 </div>
             </div>
         </div>
     </section>
+
+    @push('style')
+        <style>
+            .text-muted {
+                display: none;
+            }
+        </style>
+    @endpush
 @endsection

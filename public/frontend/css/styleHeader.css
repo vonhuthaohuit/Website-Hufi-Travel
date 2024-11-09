@@ -19,6 +19,10 @@
     font-weight: 700;
 }
 
+.navbar-custom.navbar-scrolled .centro:hover:after {
+    background: #333;
+}
+
 .navbar-custom.navbar-scrolled .btn-login,
 .navbar-custom.navbar-scrolled .show-form-search {
     color: rgb(1, 148, 243);

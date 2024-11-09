@@ -2,7 +2,7 @@
     <div class="wsus__blog_search">
         <h4>Tìm kiếm</h4>
         <form action="{{ route('blog.search') }}" method="GET">
-            <input type="text" placeholder="Tìm kiếm..." name="search_query">
+            <input type="text" placeholder="Tìm kiếm..." name="search_query" required>
             <button type="submit" class="common_btn"><i class="fas fa-search"></i></button>
         </form>
     </div>
@@ -12,7 +12,8 @@
         <ul>
             @foreach ($blogcategories as $category)
                 <li>
-                    <a href="">{{ $category->tenloaiblog }}</a>
+
+                    <a href="{{route('blog.search', ['category' => $category->tenloaiblog])}}">{{ $category->tenloaiblog }}</a>
                     {{-- {{ route('blog', ['category' => $category->slug]) }} --}}
                 </li>
             @endforeach
