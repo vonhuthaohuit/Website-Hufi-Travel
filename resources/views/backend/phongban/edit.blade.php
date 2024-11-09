@@ -3,31 +3,32 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Blog Category</h1>
+            <h1 style="margin-left:50px">Chức vụ</h1>
         </div>
         <div class="section-body">
             <div class="row">
-                <div class="col-12">
+                <div class="col-1"></div>
+                <div class="col-10">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Chỉnh sửa loại blog</h4>
+                            <h4>Chỉnh sửa chức vụ</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('loaiblog.index') }}" class="btn btn-primary">
+                                <a href="{{ route('phongban.index') }}" class="btn btn-primary">
                                     <i class="fas fa-arrow-left"></i>Back
                                 </a>
                             </div>
                         </div>
                         <div class="card-body">
 
-                            <form action="{{ route('loaiblog.update', $loaiblog->maloaiblog) }}" method="POST"
+                            <form action="{{ route('phongban.update', $phongban->maphongban) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" value="{{ $loaiblog->maloaiblog }}" name="loaiblogId">
+                                <input type="hidden" value="{{ $phongban->maphongban }}" name="maphongban">
                                 <div class="form-group">
                                     <label>Tên loại tour</label>
-                                    <input type="text" class="form-control" name="tenloai"
-                                        value="{{ $loaiblog->tenloaiblog }}">
+                                    <input type="text" class="form-control" name="tenphongban"
+                                        value="{{ $phongban->tenphongban }}">
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Chỉnh sửa</button>

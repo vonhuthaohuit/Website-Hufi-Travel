@@ -15,6 +15,7 @@ return new class extends Migration
             $table->increments('machucvu');
             $table->string('tenchucvu');
             $table->float('hesoluong') ;
+            $table->timestamps() ;
         });
     }
 

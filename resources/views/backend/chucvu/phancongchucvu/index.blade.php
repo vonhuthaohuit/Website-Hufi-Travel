@@ -3,17 +3,16 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Thông tin chi tiết thời gian tour</h1>
+            <h1>Danh sách chức vụ nhân viên</h1>
         </div>
         <div class="section-body">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Tên tour : {{ $tour->tentour }}</h4>
+                            <h4>Tên nhân viên : {{ $nhanvien->hoten }}</h4>
                             <div class="card-header-action">
-                                <a id="create-new-btn" href="{{ route('chitiettour.create',['tour_id' => $tour->matour]) }}" class="btn btn-primary" class="btn btn-primary"><i class="fas fa-plus"></i>
-                                    Create New</a>
+                                <a id="create-new-btn" href="{{ route('phancongchucvu.create', ['manhanvien' => $nhanvien->manhanvien]) }}" class="btn btn-primary"><i class="fas fa-plus"></i> Create New</a>
                             </div>
                         </div>
 

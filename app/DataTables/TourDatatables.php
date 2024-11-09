@@ -36,7 +36,6 @@ class TourDatatables extends DataTable
                    <a class="dropdown-item has-icon" href="' . route('chitiettour.index', ['tour_id' => $query->matour]) . '" ><i class="far fa-heart"></i>Chi tiết tour</a>
                    <a class="dropdown-item has-icon" href="' . route('phuongtien_tour.index', ['tour_id' => $query->matour]) . '" ><i class="far fa-heart"></i>Phương Tiện Tour</a>
                    <a class="dropdown-item has-icon" href="' . route('khachsan_tour.index', ['tour_id' => $query->matour]) . '" ><i class="far fa-heart"></i>Khách Sạn Tour</a>
-
                    </div>
               </div>';
                 return $editBtn . $deleteBtn .  $moreBtn;

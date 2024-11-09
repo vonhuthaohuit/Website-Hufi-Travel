@@ -10,48 +10,51 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Thêm chi tiết mới</h4>
+                            <h4>Chỉnh sửa chi tiết tour</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('chitiettour.index',['tour_id' => $tour->matour]) }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i>
+                                <a href="{{ route('chitiettour.index',['tour_id'=>$chitiettour->matour]) }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i>
                                     Back</a>
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('chitiettour.store') }}" method="POST" enctype="multipart/form-data">
+
+                            <form action="{{ route('chitiettour.update', $chitiettour->matour) }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
-                                {{-- <div class="form-group">
-                                    <label>Tiêu đề chương trình tour</label>
-                                    <input type="text" class="form-control" name="tieude" value="{{ old('tieude') }}">
-                                </div> --}}
+                                @method('PUT')
+                                <input type="hidden" value="{{ $chitiettour->matour }}" name="tour_id">
+                                <input type="hidden" value="{{ $chitiettour->madiemdulich }}" name="madiemdulich">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Thời gian bắt đầu</label>
                                             <input type="date" class="form-control" name="ngaybatdau"
-                                                value="{{ old('ngaybatdau') }}" required>
+                                                value="{{ $chitiettour->ngaybatdau }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Thời gian đi</label>
+                                            <input type="text" class="form-control" name="ngayketthuc" readonly
+                                                value="{{ $chitiettour->tour->thoigiandi }} ngày {{ $chitiettour->tour->thoigiandi - 1  }} đêm" required>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Giá</label>
-                                            <input type="text" class="form-control" name="gia" required>
+                                            <input type="text" class="form-control" name="gia" required value="{{ $chitiettour->giachitiettour }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Điểm du lịch</label>
-                                            <select class="form-control" name="madiemdulich">
-                                                <option value="">Chọn điểm du lịch</option>
-                                                @foreach ($diemdulich as $diemdulich_item)
-                                                    <option value="{{ $diemdulich_item->madiemdulich }}">{{ $diemdulich_item->tendiemdulich }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                            <p>{{ $chitiettour->diemdulich->tendiemdulich }}</p>
                                         </div>
                                     </div>
+
                                 </div>
-                                <input type="hidden" name="tour_id" value="{{ $tour->matour }}">
-                                <button type="submit" class="btn btn-primary">Tạo mới</button>
+
+                                <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
                             </form>
                         </div>
 
@@ -63,10 +66,6 @@
     </section>
 @endsection
 
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            // Any additional JavaScript can go here
-        });
-    </script>
-@endpush
+{{-- @push('scripts')
+    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+@endpush --}}
