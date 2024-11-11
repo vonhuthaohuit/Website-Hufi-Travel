@@ -10,6 +10,7 @@ class Tour extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'tour';
+    protected $primaryKey = 'matour';
     public function dattour(){
         return $this->hasMany(PhieuDatTour::class,'matour');
     }

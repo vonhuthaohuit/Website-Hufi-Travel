@@ -1,0 +1,7 @@
+.description {
+    white-space: nowrap; /* Ngăn không cho chữ xuống dòng */
+    overflow: hidden;    /* Ẩn phần văn bản thừa */
+    text-overflow: ellipsis; /* Thêm dấu ba chấm khi văn bản quá dài */
+    width: 300px; /* Đặt chiều rộng cho phần tử */
+    
+}

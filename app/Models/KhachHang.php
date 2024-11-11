@@ -10,6 +10,8 @@ class KhachHang extends Model
 {
     use HasFactory;
     protected $table = 'khachhang';
+    protected $primaryKey = 'makhachhang';
+
     public function user(){
         return $this->belongsTo(User::class,'mataikhoan','matikhoan');
     }

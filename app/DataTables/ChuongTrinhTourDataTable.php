@@ -25,12 +25,11 @@ class ChuongTrinhTourDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            // ->addColumn('action', 'chuongtrinhtour.action')
-            // ->setRowId('id');
-            // return (new EloquentDataTable($query))
+        ->addIndexColumn()
+
             ->addColumn('action', function ($query) {
-                $editBtn = "<a href='" . route('chuongtrinhtour.edit', $query->id) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-                $deleteBtn = "<a href='" . route('chuongtrinhtour.destroy', $query->id) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->id}'><i class='far fa-trash-alt'></i></a>";
+                $editBtn = "<a href='" . route('chuongtrinhtour.edit', $query->machuongtrinhtour) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+                $deleteBtn = "<a href='" . route('chuongtrinhtour.destroy', $query->machuongtrinhtour) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->machuongtrinhtour}'><i class='far fa-trash-alt'></i></a>";
                 return $editBtn . $deleteBtn;
             })
             ->editColumn('created_at', function ($query) {
@@ -51,7 +50,7 @@ class ChuongTrinhTourDataTable extends DataTable
     {
         $tourid = request()->tour_id;
         return $model->newQuery()
-        ->where('tour_id', $tourid)
+        ->where('matour', $tourid)
         ->select('chuongtrinhtour.*');
     }
 
@@ -83,7 +82,12 @@ class ChuongTrinhTourDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-          //  Column::make('id')->width(50)->title('ID'),
+            Column::computed('DT_RowIndex')
+            ->title('STT')
+            ->exportable(false)
+            ->printable(false)
+            ->width(30)
+            ->addClass('text-center'),
             Column::make('tieude')->width(300)->title('Tiêu đề'),
             Column::make('ngay')->width(100)->title('Ngày'),
             Column::make('created_at')->width(150)->title('Ngày tạo'),

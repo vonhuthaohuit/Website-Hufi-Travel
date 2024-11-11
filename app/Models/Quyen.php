@@ -9,6 +9,7 @@ class Quyen extends Model
 {
     use HasFactory;
     protected $table = 'quyen';
+    protected $primaryKey = 'maquyen';
     public function quyen_nhomquyen(){
         return $this->hasMany(Quyen_Nhomquyen::class,'maquyen');
     }

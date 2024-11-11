@@ -27,7 +27,6 @@ class BlogDatatables extends DataTable
             ->addColumn('action', function ($query) {
                 $editBtn = "<a href='" . route('blog.edit', $query->mablogtour) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
                 $deleteBtn = "<a href='" . route('blog.destroy', $query->mablogtour) . "' class='btn btn-danger ml-2 delete-item' data-id='{ $query->mablogtour }'><i class='far fa-trash-alt'></i></a>";
-
                 return $editBtn . $deleteBtn;
             })
             ->addColumn('hinhanh', function ($query) {
@@ -41,7 +40,11 @@ class BlogDatatables extends DataTable
             </label>';
             })
             ->addColumn('loaiblog', function ($query) {
-                return $query->loaiblog ? $query->loaiblog->tenloaiblog : 'N/A';
+                return $query->loaiblog->tenloaiblog;
+            })
+            ->addColumn('nhanvien',function($query)
+            {
+                return $query->nhanvien->hoten ;
             })
             ->addColumn('ngaytao', function ($query) {
                 return date('d-m-Y', strtotime($query->created_at));
@@ -58,7 +61,7 @@ class BlogDatatables extends DataTable
      */
     public function query(BlogTour $model): QueryBuilder
     {
-        return $model->newQuery()->with('loaiblog');
+        return $model->newQuery();
     }
 
     /**
@@ -89,7 +92,6 @@ class BlogDatatables extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('mablogtour')->hidden(),
             Column::computed('DT_RowIndex')
                 ->title('STT')
                 ->exportable(false)
@@ -102,6 +104,7 @@ class BlogDatatables extends DataTable
             Column::make('loaiblog')->title('Loại blog'),
             Column::make('ngaytao')->title('Ngày tạo'),
             Column::make('ngaycapnhat')->title('Ngày cập nhật'),
+            Column::make('nhanvien')->title('Nhân viên'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

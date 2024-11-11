@@ -1,0 +1,41 @@
+body {
+    background-color: #f0f4f8; /* Nền dịu nhẹ */
+  }
+
+  .text-green-600 {
+    color: #2a9d8f; /* Màu xanh lá dịu cho các tiêu đề */
+  }
+
+  .bg-green-500 {
+    background-color: #264653; /* Màu xanh đậm cho nút */
+  }
+
+  .bg-white {
+    background-color: #ffffff; /* Nền trắng của các phần chính */
+    border-color: #e9ecef; /* Màu viền nhẹ */
+  }
+
+  .text-gray-600, .text-gray-500 {
+    color: #6b7280; /* Màu xám nhẹ cho nhãn phụ */
+  }
+
+  button.bg-green-500:hover {
+    background-color: #2a9d8f; /* Hiệu ứng hover cho nút */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .bg-blue-100 {
+    background-color: #caf0f8; /* Nền xanh nhạt cho phần "Spotlight Company" */
+  }
+
+  .text-blue-600 {
+    color: #0077b6; /* Màu xanh dương cho tiêu đề phụ */
+  }
+
+  .text-green-600:hover {
+    color: #e76f51; /* Hiệu ứng hover cho màu chữ */
+  }
+
+  .text-gray-500 {
+    color: #adb5bd; /* Màu xám nhẹ hơn cho nhãn ngày tháng */
+  }
