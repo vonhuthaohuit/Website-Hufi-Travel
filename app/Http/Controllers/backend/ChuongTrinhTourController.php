@@ -18,11 +18,11 @@ class ChuongTrinhTourController extends Controller
      */
     public function index(ChuongTrinhTourDataTable $dataTable,Request $request)
     {
-        if (!$request->has('tour_id') || !Tour::where('id', $request->tour_id)->exists()) {
+        if (!$request->has('tour_id') || !Tour::where('matour', $request->tour_id)->exists()) {
             return redirect()->back()->with('error', 'Tour ID không hợp lệ hoặc không tồn tại.');
         }
         $tour = Tour::findOrFail($request->tour_id);
-        return $dataTable->render('backend.chuongtrinhtour.index',compact('tour'));
+        return $dataTable->render('backend.tour.chuongtrinhtour.index',compact('tour'));
     }
 
 
@@ -30,7 +30,7 @@ class ChuongTrinhTourController extends Controller
     public function create(Request $request)
     {
         $tour = Tour::findOrFail($request->tour_id);
-        return view('backend.chuongtrinhtour.create',compact('tour'));
+        return view('backend.tour.chuongtrinhtour.create',compact('tour'));
     }
     public function store(Request $request)
     {
@@ -38,13 +38,14 @@ class ChuongTrinhTourController extends Controller
             'tieude' => 'required',
             'ngay' => 'required',
             'mota' => 'required',
-            'tour_id' => 'required|exists:tour,id',
+            'tour_id' => 'required|exists:tour,matour',
         ]);
         $chuongtrinhtour = new ChuongTrinhTour();
         $chuongtrinhtour->tieude = $request->tieude;
         $chuongtrinhtour->ngay = $request->ngay;
         $chuongtrinhtour->mota = $request->mota;
-        $chuongtrinhtour->tour_id = $request->tour_id;
+        $chuongtrinhtour->matour = $request->tour_id;
+        DB::statement('CALL updateTourStatus(?)', [$chuongtrinhtour->matour]);
         $chuongtrinhtour->save();
         return redirect()->route('chuongtrinhtour.index',['tour_id' =>$request->tour_id])->with('success', 'Product updated successfully');;
     }
@@ -59,10 +60,10 @@ class ChuongTrinhTourController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request,string $id)
+    public function edit(String $id)
     {
         $chuongtrinhtour = ChuongTrinhTour::findOrFail($id);
-        return view('backend.chuongtrinhtour.edit', compact('chuongtrinhtour'));
+        return view('backend.tour.chuongtrinhtour.edit', compact('chuongtrinhtour'));
     }
 
     /**
@@ -76,6 +77,7 @@ class ChuongTrinhTourController extends Controller
             'ngay' =>'required|string',
             'tour_id' =>'required'
         ]);
+        
         $chuongtrinhtour = ChuongTrinhTour::findOrFail($id);
         $chuongtrinhtour->tieude = $request->input('tieude');
         $chuongtrinhtour->mota = $request->input('mota');
@@ -89,7 +91,9 @@ class ChuongTrinhTourController extends Controller
      */
     public function destroy(string $id)
         {
-            ChuongTrinhTour::find($id)->delete();
+            $tour = ChuongTrinhTour::find($id);
+            $tour->delete();
+            DB::statement('CALL updateTourStatus(?)', [$tour->matour]);
             return response(['status' => 'success', 'message' => 'Xóa thành công']);
         }
 

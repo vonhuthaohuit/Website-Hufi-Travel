@@ -15,7 +15,7 @@ return new class extends Migration
             $table->integer('makhachhang')->unsigned() ;
             $table->integer('maphieudattour')->unsigned() ;
             $table->primary(['makhachhang', 'maphieudattour']);
-            $table->float('dongiadattour') ;
+            $table->float('chitietsotiendat') ;
             $table->foreign('makhachhang')->references('makhachhang')->on('khachhang')->onDelete('cascade');
             $table->foreign('maphieudattour')->references('maphieudattour')->on('phieudattour')->onDelete('cascade');
 

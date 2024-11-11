@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('masothue');
             $table->string('tendonvi') ;
             $table->string('diachidonvi') ;
+            $table->string('nguoidaidien');
             $table->integer('maphieuhuytour')->unsigned()->nullable();
             $table->integer('maphieudattour')->unsigned();
             $table->integer('makhachhang')->unsigned();

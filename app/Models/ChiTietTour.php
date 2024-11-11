@@ -9,9 +9,7 @@ class ChiTietTour extends Model
 {
     use HasFactory;
     protected $table = 'chitiettour';
-
-
-    public function diemdulich(){
+        public function diemdulich(){
         return $this->belongsTo(DiemDuLich::class,'madiemdulich','madiemdulich');
     }
     public function tour(){
