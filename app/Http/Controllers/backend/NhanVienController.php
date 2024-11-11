@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\DataTables\NhanVienDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\NhanVien;
+use App\Models\PhongBan;
 use Illuminate\Http\Request;
 
 class NhanVienController extends Controller
@@ -16,22 +17,12 @@ class NhanVienController extends Controller
     {
         return $dataTable->render('backend.quanlynhanvien.index');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-
-    /**
-     * Store a newly created resource in storage.
-     */
-
-
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        
     }
 
     /**
@@ -40,7 +31,8 @@ class NhanVienController extends Controller
     public function edit(string $id)
     {
         $nhanvien = NhanVien::findOrFail($id);
-        return view('backend.quanlynhanvien.edit', compact('nhanvien'));
+        $phongban = PhongBan::all() ;
+        return view('backend.quanlynhanvien.edit', compact('nhanvien','phongban'));
     }
 
     /**
@@ -48,7 +40,11 @@ class NhanVienController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $nhanvien = NhanVien::findOrFail($id);
+        $nhanvien->bangcap = $request->bangcap;
+        $nhanvien->maphongban = $request->maphongban;
+        $nhanvien->save() ;
+        return redirect()->route('nhanvien.index') ;
     }
 
     /**

@@ -29,12 +29,13 @@
 
                                     <div class="d-flex justify-content-end align-items-center mt-3">
                                         <div class="md-6">
-                                            <button class="btn btn-success mr-2">
-                                                <a href="{{ route('phancongnhanvien.index', ['tour_id' => $tourItem->matour]) }}" class="btn btn-success mr-2">
-                                                    <i class="fas fa-heart"></i> Phân công
-                                                </a>
-                                            </button>
-                                            <button class="btn btn-success btn-assign">Xem nhanh</button>
+
+                                            <a href="{{ route('phancongnhanvien.index', ['tour_id' => $tourItem->matour]) }}"
+                                                class="btn btn-success mr-2">
+                                                <i class="fas fa-heart"></i> Phân công
+                                            </a>
+                                            <button class="btn btn-success btn-assign"
+                                                data-tour-id="{{ $tourItem->matour }}">Xem nhanh</button>
 
                                         </div>
                                     </div>
@@ -47,26 +48,12 @@
             </div>
 
             <!-- Phần danh sách nhân viên -->
-            <div class="col-md-5" id="employeeList" style="display:none;">
+            <div class="col-md-5" id="ListNhanVien" style="display:none;">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Danh sách nhân viên tham gia</h5>
-                        <div class="mb-3">
-                            <h6 class="font-weight-bold">Nhân viên phụ trách tour</h6>
-                            <div class="text-muted small">
-                                <span class="mr-2" style="color:black;font-weight:700;font-size:16px">Võ Trọng Hào</span>
-                                <span class="mr-2" style="color:black;font-weight:700;font-size:16px">Võ Trọng Hào</span>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <h6 class="font-weight-bold">Hướng dẫn viên du lịch</h6>
-                            <div class="text-muted small">
-                                <span class="mr-2" style="color:black;font-weight:700;font-size:16px">Võ Trọng Hào</span>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <h6 class="font-weight-bold">Tài xế</h6>
-                            <span class="mr-2" style="color:black;font-weight:700;font-size:16px">Võ Trọng Hào</span>
+                        <div class="mb-3" id="employeeList">
+
                         </div>
                     </div>
                 </div>
@@ -90,11 +77,41 @@
         // Lấy tất cả các nút phân công
         let assignButtons = document.querySelectorAll('.btn-assign');
         // Lấy phần danh sách nhân viên
-        let employeeList = document.getElementById('employeeList');
+        let employeeList = document.getElementById('ListNhanVien');
 
         // Thêm sự kiện click cho các nút phân công
         assignButtons.forEach(button => {
             button.addEventListener('click', function() {
+                event.preventDefault();
+                let tourId = this.getAttribute('data-tour-id');
+                if (!tourId) {
+                    console.error('Tour ID is missing');
+                    return; // Nếu không có tourId, dừng hàm
+                }
+                console.log(tourId);
+                fetch(`/admin/phancongnhanvien/dsNhanVien/${tourId}`)
+                    .then(response => response.json())
+                    .then(data => {
+
+                        let employeeList = document.getElementById('employeeList');
+                        employeeList.innerHTML = '';
+
+                        // Duyệt qua nhân viên và để hiển thị
+                        data.forEach(employee => {
+                            let employeeItem = document.createElement('div');
+                            employeeItem.classList.add(
+                            'employee-item');
+                            // Nội dung của mỗi nhân viên
+                            employeeItem.innerHTML = `
+                <span><strong>Tên:</strong> ${employee.hoten}</span>
+                <span><strong>Chức vụ:</strong> ${employee.tenchucvu}</span>
+            `;
+
+                            // Thêm vào danh sách nhân viên
+                            employeeList.appendChild(employeeItem);
+                        });
+                    })
+                    .catch(error => console.error('Error:', error));
                 // Chuyển trạng thái hiển thị của phần danh sách nhân viên
                 if (employeeList.style.display === 'none') {
                     employeeList.style.display = 'block'; // Hiển thị

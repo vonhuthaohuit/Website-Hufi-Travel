@@ -82,14 +82,13 @@ class PhongBanDataTable extends DataTable
             ->printable(false)
             ->width(30)
             ->addClass('text-center'),
-            Column::make('maphongban'),
             Column::make('tenphongban'),
             Column::make('created_at'),
             Column::make('updated_at'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  ->width(100)
                   ->addClass('text-center'),
 
         ];

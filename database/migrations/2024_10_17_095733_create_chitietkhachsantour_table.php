@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('phuongtien_tour', function (Blueprint $table) {
+        Schema::create('chitietkhachsantour', function (Blueprint $table) {
+            $table->integer('makhachsan')->unsigned();
             $table->integer('matour')->unsigned();
-            $table->integer('maphuongtien')->unsigned();
-            $table->integer('soluonghanhkhach')->unsigned();
-            $table->string('ghichu') ;
-            $table->primary(['matour', 'maphuongtien']);
+            $table->string('vitriphong') ;
+            $table->integer('succhua')->unsigned();
+            $table->primary(['matour', 'makhachsan']);
             $table->foreign('matour')->references('matour')->on('tour')->onDelete('cascade');
-            $table->foreign('maphuongtien')->references('maphuongtien')->on('phuongtien')->onDelete('cascade');
+            $table->foreign('makhachsan')->references('makhachsan')->on('khachsan')->onDelete('cascade');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('phuongtien_tour');
+        Schema::dropIfExists('chitietkhachsantour');
     }
 };

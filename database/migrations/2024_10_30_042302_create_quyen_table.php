@@ -15,6 +15,7 @@ return new class extends Migration
             $table->increments('maquyen');
             $table->string('tenquyen')->unique();
             $table->string('mota') ;
+            $table->timestamps() ;
         });
     }
 
