@@ -147,8 +147,6 @@
 
         .service-item {
             text-align: center;
-            /* width: 200px;
-                                        margin: 0 20px; */
         }
 
         .service-item img {
