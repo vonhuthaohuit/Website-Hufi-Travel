@@ -34,7 +34,7 @@
                                     <textarea class="form-control" name="motatour">{{ $tour->motatour }}</textarea>
                                 </div>
 
-                                <div class="row" style="margin-left:70px">
+                                <div class="row" >
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Tình trạng</label>
@@ -59,18 +59,21 @@
                                         <div class="form-group">
                                             <label>Thời gian đi</label>
                                             <div class="d-flex align-items-center">
-                                                <input type="number" class="form-control me-2" name="thoigiandi" style="width: 60px;" value="{{ $tour->thoigiandi }}" placeholder="Số ngày">
+                                                <input type="number" class="form-control me-2" name="thoigiandi"
+                                                    style="width: 60px;" value="{{ $tour->thoigiandi }}"
+                                                    placeholder="Số ngày">
                                                 <span style="margin-left:20px" class="text-muted">VD : n ngày n-1 đêm</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                    <div class="form-group">
-                                        <label>Giá VND</label>
-                                        <div class="d-flex align-items-center">
-                                            <input type="number" class="form-control me-2" name="giatour"  value="{{ $tour->giatour }}" >
-                                        </div>
+                                <div class="form-group">
+                                    <label>Giá VND</label>
+                                    <div class="d-flex align-items-center">
+                                        <input type="number" class="form-control me-2" name="giatour"
+                                            value="{{ $tour->giatour }}">
                                     </div>
+                                </div>
 
                                 <div class="form-group">
                                     <label>Nơi khởi hành</label>

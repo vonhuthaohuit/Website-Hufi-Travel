@@ -13,10 +13,11 @@
                 </ul>
                 <div class="d-flex align-items-center">
                     @if (session('user'))
+                        <button href="#" class="show-form-search me-3"><i class="fas fa-search"></i></button>
                         <div class="dropdown">
                             <a href="#" class="btn btn-login dropdown-toggle" id="userDropdown"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-solid fa-user me-2"></i>{{ session('user')->name }}
+                                <i class="fa-solid fa-user me-2"></i>{{ session('user')->tentaikhoan }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="userDropdown">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>

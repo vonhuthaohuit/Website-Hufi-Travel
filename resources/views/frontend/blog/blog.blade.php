@@ -35,19 +35,18 @@
                 <hr>
             @endif
 
-            @if (count($blogs) === 0)
-                <div class="row">
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <h3>Sorry No Blog Found!</h3>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
             <div class="row">
                 <div class="col-lg-9">
                     <div class="row">
+                        @if (count($blogs) === 0)
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h3>Sorry No Blog Found!</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                         @include('frontend.blog.component.blog-list')
 
                         <nav aria-label="Page navigation example">
@@ -60,7 +59,7 @@
 
                 </div>
                 <div class="col-lg-3">
-                   @include('frontend.blog.component.blog-sidebar')
+                    @include('frontend.blog.component.blog-sidebar')
                 </div>
             </div>
         </div>

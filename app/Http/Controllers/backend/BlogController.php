@@ -43,17 +43,26 @@ class BlogController extends Controller
             $request->validate([
                 'tieude' => ['required', 'max:200', 'unique:blogtour,tieude'],
                 'noidung' => 'required',
-                'loaiblog_id' => 'required',
-                'trangthai' => 'required'
+                'maloaiblog' => 'required',
+                'trangthaiblog' => 'required',
+                'hinhanh' => 'required'
             ]);
-            $nhanvien = NhanVien::where('mataikhoan',$user->mataikhoan)->first();
+
+            $imagePath = $this->uploadImage($request, 'hinhanh', 'frontend/images/blog');
+            if (!$imagePath) {
+                return back()->withErrors(['hinhanh' => 'Hình ảnh không được tải lên.']);
+            }
+
+            $nhanvien = NhanVien::where('mataikhoan', $user->mataikhoan)->first();
 
             $blog = new BlogTour();
             $blog->tieude = $request->tieude;
+            $blog->slug = Str::slug($request->tieude);
             $blog->noidung = $request->noidung;
-            $blog->trangthaiblog = $request->trangthai;
-            $blog->maloaiblog = $request->loaiblog_id;
+            $blog->trangthaiblog = $request->trangthaiblog;
+            $blog->maloaiblog = $request->maloaiblog;
             $blog->manhanvien = $nhanvien->manhanvien;
+            $blog->hinhanh = $imagePath;
             // $blog->user_id = Auth::user()->id;
             $blog->save();
             return redirect()->route('blog.index');
@@ -89,17 +98,22 @@ class BlogController extends Controller
             $request->validate([
                 'tieude' => 'required|string|max:255',
                 'noidung' => 'required',
-                'trangthai' => 'required',
-                'loaiblog_id' => 'required',
+                'trangthaiblog' => 'required',
+                'hinhanh' => 'required',
+                'maloaiblog' => 'required',
             ]);
 
             $blog = BlogTour::findOrFail($id);
             $blog->tieude = $request->input('tieude');
+            $blog->slug = Str::slug($request->tieude);
             $blog->noidung = $request->input('noidung');
             $blog->trangthaiblog = $request->input('trangthai');
-            $blog->maloaiblog = $request->input('loaiblog_id');
-            $blog->manhanvien = $user->manhanvien;
+            $blog->maloaiblog = $request->input('maloaiblog');
+            // $blog->manhanvien = $user->manhanvien;
             $blog->updated_at = now();
+
+            $imagePath = $this->updateImage($request, 'hinhanh', 'frontend/images/blog/uploads', $blog->hinhanh);
+            $blog->hinhanh = $imagePath;
 
             $blog->save();
 

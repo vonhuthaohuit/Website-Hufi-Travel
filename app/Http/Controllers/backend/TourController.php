@@ -151,10 +151,10 @@ class TourController extends Controller
     public function changeStatus(Request $request)
     {
         $request->validate([
-            'id' => 'required',
+            'matour' => 'required',
             'tinhtrang' => 'required',
         ]);
-        $tour = Tour::findOrFail($request->id);
+        $tour = Tour::findOrFail($request->matour);
         $tour->tinhtrang = $request->tinhtrang === 'true' ? 1 : 0;
         $tour->save();
         return response()->json(['message' => 'Tình trạng cập nhật thành công!']);
