@@ -1,5 +1,9 @@
 @extends('frontend.layouts.app')
 
+@push('style')
+    <link rel="stylesheet" href="{{ asset('frontend/css/slickCarousel.css') }}">
+@endpush
+
 @section('renderBody')
     @include('frontend.tour.component.slider.main-slider-detail')
 
@@ -215,43 +219,6 @@
     </div>
 
     @include('frontend.home.component.bookNow')
-
-    @push('style')
-        <style scoped>
-            .slick-prev,
-            .slick-next {
-                color: white;
-                border: none;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 10;
-            }
-
-            .slick-prev {
-                left: 30px;
-            }
-
-            .slick-next {
-                right: 30px;
-            }
-
-            .slick-next::before,
-            .slick-prev::before {
-                font-size: 60px;
-                color: #fff;
-            }
-
-            .slick-slide {
-                padding: 10px;
-            }
-
-            .slick-slide {
-                padding: 10px;
-            }
-        </style>
-    @endpush
 
     @push('script')
         <script type="text/javascript">

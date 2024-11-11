@@ -69,6 +69,16 @@
         .slick-slide {
             padding: 10px;
         }
+
+        @media (max-width: 767px) {
+            .slick-prev {
+                left: 25px;
+            }
+
+            .slick-next {
+                right: 25px;
+            }
+        }
     </style>
 @endpush
 

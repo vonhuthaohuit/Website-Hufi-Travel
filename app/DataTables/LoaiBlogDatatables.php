@@ -73,13 +73,13 @@ class LoaiBlogDatatables extends DataTable
     public function getColumns(): array
     {
         return [
-            // Column::computed('checkbox')
-            //     ->title('<input type="checkbox" id="select-all"/>')
-            //     ->exportable(false)
-            //     ->printable(false)
-            //     ->width(30)
-            //     ->addClass('text-center')
-            //     ->orderable(false),
+            Column::computed('checkbox')
+                ->title('<input type="checkbox" id="select-all"/>')
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center')
+                ->orderable(false),
             Column::computed('DT_RowIndex')
                 ->title('STT')
                 ->exportable(false)
