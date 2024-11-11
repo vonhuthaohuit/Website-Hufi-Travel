@@ -9,6 +9,8 @@ class PhongBan extends Model
 {
     use HasFactory;
     protected $table = 'phongban';
+    protected $primaryKey = 'maphongban';
+
     public function nhanvien(){
         return $this->hasMany(NhanVien::class,'maphongban');
     }

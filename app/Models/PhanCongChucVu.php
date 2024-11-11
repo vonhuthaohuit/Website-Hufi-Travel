@@ -8,9 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class PhanCongChucVu extends Model
 {
     use HasFactory;
-    protected $table = 'phancongcongviec';
+    protected $table = 'phancongchucvu';
 
     public function chucvu(){
         return $this->belongsTo(ChucVu::class,'machucvu','machucvu');
+    }
+
+    public function nhanvien(){
+        return $this->belongsTo(NhanVien::class,'manhanvien','manhanvien');
     }
 }

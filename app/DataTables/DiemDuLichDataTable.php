@@ -22,9 +22,10 @@ class DiemDuLichDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addIndexColumn()
             ->addColumn('action', function ($query) {
-                $editBtn = "<a href='" . route('diemdulich.edit', $query->id) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-                $deleteBtn = "<a href='" . route('diemdulich.destroy', $query->id) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->id}'><i class='far fa-trash-alt'></i></a>";
+                $editBtn = "<a href='" . route('diemdulich.edit', $query->madiemdulich) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+                $deleteBtn = "<a href='" . route('diemdulich.destroy', $query->madiemdulich) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->madiemdulich}'><i class='far fa-trash-alt'></i></a>";
                 return $editBtn . $deleteBtn;
             })
             ->setRowId('id');
@@ -44,20 +45,20 @@ class DiemDuLichDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('diemdulich-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('diemdulich-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -67,14 +68,19 @@ class DiemDuLichDataTable extends DataTable
     {
         return [
 
-           // Column::make('id'),
-            Column::make('tendiem')->width(250)->title('Điểm du lịch'),
-            Column::make('mota')->width(300)->title('Mô tả'),
+            Column::computed('DT_RowIndex')
+                ->title('STT')
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center'),
+            Column::make('tendiemdulich')->width(250)->title('Điểm du lịch'),
+            Column::make('motadiemdulich')->width(300)->title('Mô tả'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(90)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(90)
+                ->addClass('text-center'),
 
         ];
     }

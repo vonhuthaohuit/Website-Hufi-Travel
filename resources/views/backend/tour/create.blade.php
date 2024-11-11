@@ -36,6 +36,7 @@
                                             <input type="file" class="form-control" name="hinhdaidien">
                                         </div>
                                     </div>
+
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Tình trạng</label>
@@ -46,11 +47,19 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Thời gian đi</label>
-                                            <input type="date" class="form-control" name="thoigiandi"
+                                            <input type="text" class="form-control" name="thoigiandi"
                                                 value="{{ old('thoigiandi') }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Giá (VND)</label>
+                                            <input type="text" class="form-control" name="giatour"
+                                                value="{{ old('giatour') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +77,7 @@
                                             <select class="form-control" name="loaitour_id">
                                                 <option value="">Chọn loại tour</option>
                                                 @foreach ($loaiTour as $loaiTourItem)
-                                                    <option value="{{ $loaiTourItem->id }}">{{ $loaiTourItem->tenloai }}
+                                                    <option value="{{ $loaiTourItem->maloaitour }}">{{ $loaiTourItem->tenloai }}
                                                     </option>
                                                 @endforeach
                                             </select>

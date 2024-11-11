@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('chitiettour', function (Blueprint $table) {
             $table->date('ngaybatdau');
-            $table->date('ngaykethuc');
+            $table->date('ngayketthuc');    
             $table->bigInteger('giachitiettour') ;
             $table->integer('matour')->unsigned();
             $table->integer('madiemdulich')->unsigned();

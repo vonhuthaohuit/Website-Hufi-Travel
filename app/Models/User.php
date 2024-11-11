@@ -11,20 +11,22 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    protected $primaryKey = 'mataikhoan';
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'tentaikhoan',
         'email',
-        'password',
-        'status',
-        'nhomquyen_id',
+        'matkhau',
+        'trangthai',
+        'manhomquyen',
         'google_id',
     ];
+
+    const PASSWORD_COLUMN = 'matkhau';
 
     /**
      * The attributes that should be hidden for serialization.
@@ -32,7 +34,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        'matkhau',
         'remember_token',
     ];
 
@@ -43,8 +45,15 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'matkhau' => 'hashed',
     ];
+
+    /* @return string
+    */
+   public function getAuthPassword()
+   {
+       return $this->matkhau;  // Chỉ rõ cột mật khẩu là matkhau
+   }
 
     public function nhomquyen(){
         return $this->belongsTo(nhomquyen::class,'manhomquyen','manhomquyen');
@@ -56,9 +65,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(KhachHang::class,'mataikhoan');
     }
-    public function nhanvien()
+    public function nhanVien()
     {
-        return $this->hasOne(NhanVien::class,'manhanvien');
+        return $this->hasOne(NhanVien::class, 'mataikhoan', 'mataikhoan');
     }
 
 }
