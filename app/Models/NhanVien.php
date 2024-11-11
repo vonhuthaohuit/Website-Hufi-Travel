@@ -8,12 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class NhanVien extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+
     protected $table = 'nhanvien';
+    protected $fillable = ['manhanvien', 'hoten'];
+    protected $primaryKey = 'manhanvien';
     public function blogtour(){
         return $this->hasMany(BlogTour::class,'manhanvien');
     }
     public function user(){
-        return $this->belongsTo(User::class,'mataikhoan','mataikhoanaaa');
+        return $this->belongsTo(User::class,'mataikhoan','mataikhoan');
     }
 
     public function phongban(){

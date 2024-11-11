@@ -1,5 +1,6 @@
 <?php
 
+use App\DataTables\PhanCongNhanVienDataTable;
 use App\Http\Controllers\backend\KhuyenMaiController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\auth\LoginController;
@@ -13,6 +14,18 @@ use App\Http\Controllers\backend\FooterGridThreeController;
 use App\Http\Controllers\backend\FooterGridTwoController;
 use App\Http\Controllers\backend\FooterSocialController;
 use App\Http\Controllers\backend\ChiTietTourController;
+use App\Http\Controllers\backend\ChucVuController;
+use App\Http\Controllers\backend\KhachSan_TourController;
+use App\Http\Controllers\backend\KhachSanController;
+use App\Http\Controllers\backend\NhanVienController;
+use App\Http\Controllers\backend\NhomQuyenController;
+use App\Http\Controllers\backend\PhanCongChucVuController;
+use App\Http\Controllers\backend\PhanCongNhanVienController;
+use App\Http\Controllers\backend\PhongBanController;
+use App\Http\Controllers\backend\PhuongTien_TourController;
+use App\Http\Controllers\backend\PhuongTienController;
+use App\Http\Controllers\backend\Quyen_NhomQuyenController;
+use App\Http\Controllers\backend\QuyenController;
 use App\Http\Controllers\backend\ChuongTrinhTourController;
 use App\Http\Controllers\backend\LoaiBlogController;
 use App\Http\Controllers\backend\LoaiTourController;
@@ -21,6 +34,12 @@ use App\Http\Controllers\backend\TourController as BackendTourController;
 use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
 use App\Models\ChiTietTour;
 use App\Models\DiemDuLich;
+use App\Models\KhachSan_Tour;
+use App\Models\NhomQuyen;
+use App\Models\PhanCongChucVu;
+use App\Models\PhanCongNhanVien;
+use App\Models\PhuongTien_Tour;
+use App\Models\Quyen_Nhomquyen;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,7 +62,6 @@ Route::get('/', [
     "index"
 ])->name('home');
 
-Route::get('/tour-detail', [TourController::class, 'index'])->name('tour.detail');
 Route::middleware('auth:sanctum')->post('/logout', [LoginController::class, 'logout']);
 
 
@@ -57,32 +75,80 @@ Route::get('/auth/login-google-callback', [
     LoginController::class,
     'loginCallback'
 ])->name('Callback');
+Route::get('/tour-detail', [TourController::class, 'index'])->name('tour.detail');
+
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+
 
 
 Route::get('/index', [LoginController::class, 'index'])->name('login_view');
 Route::post('/register', [LoginController::class, 'register'])->name('register');
-Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-Route::get('/tour-detail', [TourController::class, 'index'])->name('tour.detail');
 
-Route::get('/admin/dashboard', [BackendHomeController::class, 'index']);
+
+
 
 Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', [BackendHomeController::class, 'index'])->name('dashboard');;
     Route::resource('tour', BackendTourController::class);
-    Route::resource('diemdulich', DiemDuLichController::class);
     Route::post('tour/change-status', [BackendTourController::class, 'changeStatus'])->name('tour.change-status');
+    Route::get('/dashboard', [BackendHomeController::class, 'index'])->name('dashboard');
+
+
+    Route::resource('diemdulich', DiemDuLichController::class);
+    Route::resource('khachsan', KhachSanController::class);
+    Route::resource('phuongtien', PhuongTienController::class);
+
+
     Route::resource('chuongtrinhtour', ChuongTrinhTourController::class);
-    Route::resource('chitiettour', ChiTietTourController::class);
     Route::post(' chuongtrinhtour/{id}', [ChuongTrinhTourController::class, 'getChuongTrinhByTour'])->name('chuongtrinhtour.byTour');
     Route::resource('loaitour', LoaiTourController::class);
     Route::resource('khuyenmai', KhuyenMaiController::class);
     Route::resource('blog', BlogController::class);
     Route::post('blog/change-status', [BlogController::class, 'changeStatus'])->name('blog.change-status');
     Route::resource('loaiblog', LoaiBlogController::class);
+
+    Route::resource('phuongtien_tour', PhuongTien_TourController::class);
+    Route::get('phuongtien_tour/edit/{id}/{maphuongtien}', [PhuongTien_TourController::class, 'edit'])->name('phuongtien_tour.edit');
+    Route::delete('admin/phuongtien_tour/delete/{id}/{maphuongtien}', [PhuongTien_TourController::class, 'destroy'])->name('phuongtien_tour.delete');
+
+    Route::resource('khachsan_tour', KhachSan_TourController::class);
+    Route::get('khachsan_tour/edit/{id}/{makhachsan}', [KhachSan_TourController::class, 'edit'])->name('khachsan_tour.edit');
+    Route::delete('admin/khachsan_tour/delete/{id}/{makhachsan}', [KhachSan_TourController::class, 'destroy'])->name('khachsan_tour.delete');
+
+    Route::resource('chitiettour', ChiTietTourController::class);
+    Route::get('chitiettour/edit/{id}/{madiemdulich}', [ChiTietTourController::class, 'edit'])->name('chitiettour.edit');
+    Route::delete('admin/chitiettour/delete/{id}/{madiemdulich}', [ChiTietTourController::class, 'destroy'])->name('chitiettour.delete');
+
+    Route::get('/danhsachtour', [PhanCongNhanVienController::class, 'danhsachtour'])->name('danhsachtour');
+    Route::resource('phancongnhanvien', PhanCongNhanVienController::class);
+    Route::resource('chucvu', ChucVuController::class);
+    Route::resource('nhanvien', NhanVienController::class);
+    Route::resource('phongban', PhongBanController::class);
+    Route::resource('phancongchucvu', PhanCongChucVuController::class);
+    Route::delete('phancongchucvu/delete/{id}/{machucvu}', [PhanCongChucVuController::class, 'destroy'])->name('phancongchucvu.delete');
+    Route::resource('quyen', QuyenController::class);
+    Route::resource('nhomquyen', NhomQuyenController::class);
+    Route::get('quyen_nhomquyen/{manhomquyen}', [Quyen_NhomQuyenController::class, 'index'])->name('quyen_nhomquyen.index');
+    Route::get('quyen_nhomquyen/create/{manhomquyen}', [Quyen_NhomQuyenController::class, 'create'])->name('quyen_nhomquyen.create');
+    Route::post('quyen_nhomquyen', [Quyen_NhomQuyenController::class, 'store'])->name('quyen_nhomquyen.store');
+
+    Route::delete('quyen_nhomquyen/delete/{id}/{maquyen}', [Quyen_NhomQuyenController::class, 'destroy'])->name('quyen_nhomquyen.delete');
+    Route::get('/chon-nhan-vien/{tenchucvu}', [PhanCongNhanVienController::class, 'chonNhanVienTheoChucVu'])->name('chon-nhan-vien');
+    Route::post('/phan-cong-nhan-vien', [PhanCongNhanVienController::class, 'store']);
+    Route::delete('phancongnhanvien/delete/{id}/{manhanvien}', [PhanCongNhanVienController::class, 'destroy'])->name('phancongnhanvien.delete');
+    Route::get('phancongnhanvien/dsNhanVien/{matour}',[PhanCongNhanVienController::class,'layDSNhanVienTheoTour'])->name('phancongnhanvien.dsNhanVien');
+
+
+
+    Route::prefix('nhanvien')->group(function ()
+    {
+    Route::get('/dashboard', [BackendHomeController::class, 'nhanvien_home'])->name('dashboard');
+
+
+    });
     Route::delete('loaiblog/mass-destroy', [LoaiBlogController::class, 'massDestroy'])->name('loaiblog.massDestroy');
 
     Route::resource('footer-grid-one', FooterGridOneController::class);
@@ -105,6 +171,12 @@ Route::prefix('admin')->group(function () {
 Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
 Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');
 
+
+// Route::middleware('user')->group(function()
+// {
+
+
+// })
 Route::get('/gioi-thieu', [HomeController::class, 'about'])->name('about');
 Route::get('/lien-he', [HomeController::class, 'contact'])->name('contact');
 Route::get('/danh-sach-tour', [TourController::class, 'allTour'])->name('tour.all-tour');

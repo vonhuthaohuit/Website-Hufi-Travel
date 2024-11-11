@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class PhuongTien_Tour extends Model
 {
     use HasFactory;
-    protected $table = 'phuongtien_tour';
+    protected $table = 'chitietphuongtientour';
+    public $timestamps = false;
+
     public function phuongtien(){
         return $this->belongsTo(PhuongTien::class,'maphuongtien','maphuongtien');
     }
