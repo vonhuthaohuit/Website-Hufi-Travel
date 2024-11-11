@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('loaikhachhang', function (Blueprint $table) {
             $table->increments('maloaikhachhang');
             $table->string('tenloaikhachhang') ;
-            $table->integer('phantram') ;
+            $table->integer('mucapdunggia') ;
         });
     }
 

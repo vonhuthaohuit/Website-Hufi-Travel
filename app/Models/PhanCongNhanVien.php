@@ -9,6 +9,7 @@ class PhanCongNhanVien extends Model
 {
     use HasFactory;
     protected $table = 'phancongnhanvien';
+    protected $fillable = ['manhanvien', 'matour','nhiemvu'];
 
     public function tour(){
         return $this->belongsTo(Tour::class,'matour','matour');

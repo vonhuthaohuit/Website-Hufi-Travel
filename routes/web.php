@@ -134,7 +134,12 @@ Route::prefix('admin')->group(function () {
     Route::get('quyen_nhomquyen/{manhomquyen}', [Quyen_NhomQuyenController::class, 'index'])->name('quyen_nhomquyen.index');
     Route::get('quyen_nhomquyen/create/{manhomquyen}', [Quyen_NhomQuyenController::class, 'create'])->name('quyen_nhomquyen.create');
     Route::post('quyen_nhomquyen', [Quyen_NhomQuyenController::class, 'store'])->name('quyen_nhomquyen.store');
+
     Route::delete('quyen_nhomquyen/delete/{id}/{maquyen}', [Quyen_NhomQuyenController::class, 'destroy'])->name('quyen_nhomquyen.delete');
+    Route::get('/chon-nhan-vien/{tenchucvu}', [PhanCongNhanVienController::class, 'chonNhanVienTheoChucVu'])->name('chon-nhan-vien');
+    Route::post('/phan-cong-nhan-vien', [PhanCongNhanVienController::class, 'store']);
+    Route::delete('phancongnhanvien/delete/{id}/{manhanvien}', [PhanCongNhanVienController::class, 'destroy'])->name('phancongnhanvien.delete');
+    Route::get('phancongnhanvien/dsNhanVien/{matour}',[PhanCongNhanVienController::class,'layDSNhanVienTheoTour'])->name('phancongnhanvien.dsNhanVien');
 
 
 

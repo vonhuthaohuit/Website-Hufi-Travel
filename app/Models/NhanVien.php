@@ -11,6 +11,7 @@ class NhanVien extends Model
     public $timestamps = false;
 
     protected $table = 'nhanvien';
+    protected $fillable = ['manhanvien', 'hoten'];
     protected $primaryKey = 'manhanvien';
     public function blogtour(){
         return $this->hasMany(BlogTour::class,'manhanvien');

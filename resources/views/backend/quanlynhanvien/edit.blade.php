@@ -10,7 +10,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Chỉnh sửa blog</h4>
+                            <h4>Chỉnh sửa thông tin nhân viên</h4>
                             <div class="card-header-action">
                                 <a href="{{ route('blog.index') }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i>
                                     Back</a>
@@ -18,49 +18,37 @@
                         </div>
                         <div class="card-body">
 
-                            <form action="{{ route('blog.update', $blog->mablogtour) }}" method="POST"
+                            <form action="{{ route('nhanvien.update', $nhanvien->manhanvien) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" value="{{ $blog->mablogtour }}" name="blogId">
+                                <input type="hidden" value="{{ $nhanvien->manhanvien }}" name="blogId">
 
                                 <div class="form-group">
-                                    <label>Tiêu đề</label>
-                                    <input type="text" class="form-control" name="tieude" value="{{ $blog->tieude }}">
+                                    <label>Tên nhân viên</label>
+                                    <input type="text" class="form-control" name="hoten"  readonly value="{{ $nhanvien->hoten }}">
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Nội dung blog</label>
-                                    <textarea class="form-control summernote" name="noidung">{{ $blog->noidung }}</textarea>
+                                    <label>Bằng cấp</label>
+                                    <input class="form-control" value="{{ $nhanvien->bangcap }}" name="bangcap">
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Loại blog</label>
-                                            <select class="form-control" name="loaiblog_id">
-                                                @foreach ($loaiblog as $loaiblogItem)
-                                                    <option value="{{ $loaiblogItem->maloaiblog }}"
-                                                        {{ $blog->maloaiblog == $loaiblogItem->maloaiblog ? 'selected' : '' }}>
-                                                        {{ $loaiblogItem->tenloaiblog }}
+                                            <label>Phòng ban</label>
+                                            <select class="form-control" name="maphongban">
+                                                @foreach ($phongban as $phongbanItem)
+                                                    <option value="{{ $phongbanItem->maphongban }}"
+                                                        {{ $nhanvien->maphongban == $phongbanItem->maphongban ? 'selected' : '' }}>
+                                                        {{ $phongbanItem->tenphongban }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Trạng thái</label>
-                                            <select class="form-control" name="trangthai">
-                                                <option value="0" {{ $blog->trangthai == 0 ? 'selected' : '' }}>Không
-                                                    hoạt động
-                                                </option>
-                                                <option value="1" {{ $blog->trangthai == 1 ? 'selected' : '' }}>Hoạt
-                                                    động
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
+
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
@@ -76,5 +64,5 @@
 @endsection
 
 @push('scripts')
-    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+
 @endpush

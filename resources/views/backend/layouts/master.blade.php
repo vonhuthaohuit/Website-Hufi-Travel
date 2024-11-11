@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{{ asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/modules/select2/dist/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/css/style_pc.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/style_createNhanVien.css') }}">
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('backend/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/css/components.css') }}">

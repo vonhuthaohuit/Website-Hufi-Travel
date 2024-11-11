@@ -4,6 +4,8 @@ namespace App\Http\Controllers\backend;
 
 use App\DataTables\PhanCongNhanVienDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\NhanVien;
+use App\Models\PhanCongNhanVien;
 use App\Models\Tour;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,34 +30,67 @@ class PhanCongNhanVienController extends Controller
     public function danhsachtour()
     {
         $tour = DB::select('CALL proc_selectTourAccept()');
+
         return view('backend.phancong.danhsachtour', compact('tour'));
     }
 
+    public function layDSNhanVienTheoTour($matour)
+    {
+        if (is_null($matour)) {
+            return response()->json(['error' => 'Tour ID is required'], 400);
+        }
+
+        // Gọi stored procedure để lấy danh sách nhân viên theo tour_id
+        $nhanvien = DB::select('CALL proc_selectNhanVienTheoTour(?)', [$matour]);
+        return response()->json($nhanvien);
+    }
+
+
+    public function chonNhanVienTheoChucVu(String $tenchucvu)
+    {
+        $data = DB::select('CALL proc_selectNhanVienTheoChucVu(?)', [$tenchucvu]);
+        return response()->json($data);
+    }
     /**
      * Show the form for creating a new resource.
      */
     public function create(Request $request)
     {
         $tour = Tour::findOrFail($request->tour_id);
-        return view('backend.phancong.create',compact('tour'));
+        return view('backend.phancong.create', compact('tour'));
     }
-
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        // Kiểm tra nếu dữ liệu hợp lệ
+        $validated = $request->validate([
+            'tour_id' => 'required|exists:tour,matour',
+            'nhiemvu' => 'required|string',
+            'nhanvien' => 'required|array',
+            'nhanvien.*' => 'exists:nhanvien,manhanvien',
+        ]);
+
+        // Lưu các nhân viên được phân công vào tour
+        foreach ($validated['nhanvien'] as $manhanvien) {
+            PhanCongNhanVien::create([
+                'matour' => $validated['tour_id'],
+                'manhanvien' => $manhanvien,
+                'nhiemvu' => $validated['nhiemvu'],
+            ]);
+            DB::statement('CALL proc_updateTinhTrangNhanVien(?,?)', [$manhanvien, 1]);
+        }
+        // Chuyển hướng về trang trước đó
+        return redirect()->route('phancongnhanvien.index', ['tour_id' => $validated['tour_id']])
+            ->with('success', 'Phân công nhân viên thành công!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -76,8 +111,12 @@ class PhanCongNhanVienController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id, $manhanvien)
     {
-        //
+        PhanCongNhanVien::where('matour', $id)
+            ->where('manhanvien', $manhanvien)
+            ->delete();
+        DB::statement('CALL proc_updateTinhTrangNhanVien(?,?)', [$manhanvien, 0]);
+        return response(['status' => 'success', 'message' => 'Xóa quyền khỏi nhóm quyền thành công']);
     }
 }

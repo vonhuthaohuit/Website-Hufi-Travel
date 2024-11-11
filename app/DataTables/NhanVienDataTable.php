@@ -42,9 +42,9 @@ class NhanVienDataTable extends DataTable
             return Carbon::parse($query->ngayvaolam)->format('d-m-Y'); // Định dạng ngày
         })
         ->addColumn('maphongban',function($query)
-            {
-                return $query->phongban->tenphongban ;
-            })
+        {
+            return $query->phongban->tenphongban ;
+        })
             ->setRowId('id');
     }
 

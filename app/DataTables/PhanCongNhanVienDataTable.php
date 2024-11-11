@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\PhanCongNhanVien;
+use Carbon\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
@@ -22,13 +23,23 @@ class PhanCongNhanVienDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addIndexColumn()
+            ->addIndexColumn()
             ->addColumn('action', function ($query) {
                 $tourId = request()->tour_id; // Lấy tour_id từ request
-                $editBtn = "<a href='" . route('phancong.edit', [$tourId, $query->manhanvien]) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-                $deleteBtn = "<a href='" . route('phancong.destroy', [$tourId, $query->manhanvien]) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->manhanvien}'><i class='far fa-trash-alt'></i></a>";
-                return $editBtn . $deleteBtn;
+                $deleteBtn = "<a href='" . route('phancongnhanvien.delete', [$tourId,$query->manhanvien]) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->manhanvien}'><i class='far fa-trash-alt'></i></a>";
+                return $deleteBtn;
             })
+            ->editColumn('created_at', function ($query) {
+                return Carbon::parse($query->created_at)->format('d-m-Y'); // Định dạng ngày
+            })
+
+            ->editColumn('updated_at', function ($query) {
+                return Carbon::parse($query->updated_at)->format('d-m-Y'); // Định dạng ngày
+            })
+            ->addColumn('manhanvien', function ($query) {
+                return $query->nhanvien->hoten;
+            })
+
             ->setRowId('id');
     }
 
@@ -40,9 +51,9 @@ class PhanCongNhanVienDataTable extends DataTable
     {
         $tourid = request()->tour_id;
         return $model->newQuery()
-        ->where('matour', $tourid)
-        ->with('nhanvien')
-        ->select('phancongnhanvien.*');
+            ->where('matour', $tourid)
+            ->with('nhanvien')
+            ->select('phancongnhanvien.*');
     }
 
     /**
@@ -51,20 +62,20 @@ class PhanCongNhanVienDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('phancongnhanvien-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('phancongnhanvien-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -74,21 +85,20 @@ class PhanCongNhanVienDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')
-            ->title('STT')
-            ->exportable(false)
-            ->printable(false)
-            ->width(30)
-            ->addClass('text-center'),
-            Column::make('manhanvien'),
-            Column::make('matour'),
-            Column::make('nhiemvu'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                ->title('STT')
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center'),
+            Column::make('manhanvien')->width(150)->title('Họ và tên'),
+            Column::make('nhiemvu')->width(150)->title('Nhiệm vụ'),
+            Column::make('created_at')->width(150)->title('Ngày tạo'),
+            Column::make('updated_at')->width(150)->title('Ngày cập nhật'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(150)
+                ->addClass('text-center'),
 
         ];
     }
