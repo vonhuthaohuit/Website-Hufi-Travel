@@ -16,18 +16,19 @@ use App\Http\Controllers\backend\FooterGridTwoController;
 use App\Http\Controllers\backend\FooterSocialController;
 use App\Http\Controllers\backend\ChiTietTourController;
 use App\Http\Controllers\backend\ChucVuController;
-use App\Http\Controllers\backend\KhachSan_TourController;
-use App\Http\Controllers\backend\KhachSanController;
 use App\Http\Controllers\backend\NhanVienController;
 use App\Http\Controllers\backend\NhomQuyenController;
 use App\Http\Controllers\backend\PhanCongChucVuController;
 use App\Http\Controllers\backend\PhanCongNhanVienController;
 use App\Http\Controllers\backend\PhongBanController;
-use App\Http\Controllers\backend\PhuongTien_TourController;
-use App\Http\Controllers\backend\PhuongTienController;
 use App\Http\Controllers\backend\Quyen_NhomQuyenController;
 use App\Http\Controllers\backend\QuyenController;
 use App\Http\Controllers\backend\ChuongTrinhTourController;
+use App\Http\Controllers\backend\KhachSan_TourController;
+use App\Http\Controllers\backend\KhachSanController;
+use App\Http\Controllers\backend\PhanCongCongViecController;
+use App\Http\Controllers\backend\PhuongTien_TourController;
+use App\Http\Controllers\backend\PhuongTienController;
 use App\Http\Controllers\backend\LoaiBlogController;
 use App\Http\Controllers\backend\LoaiTourController;
 use App\Http\Controllers\backend\SubscriberController;
@@ -95,7 +96,7 @@ Route::post('/xacnhanthongtindattour', [DatTourController::class, 'xacnhanthongt
 
 
 //Momo
-Route::get('/momo-payment', [ThanhToanMomoController::class, 'createPayment'])->name('momo.payment');
+Route::post('/momo-payment', [ThanhToanMomoController::class, 'createPayment'])->name('momo.payment');
 Route::get('/momo-return', [ThanhToanMomoController::class, 'returnPayment'])->name('momo.return');
 
 // Vnpay
@@ -211,6 +212,30 @@ Route::prefix('admin')->group(function () {
     Route::get('subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
     Route::delete('subscribers/{id}', [SubscriberController::class, 'destory'])->name('subscribers.destory');
     Route::post('subscribers-send-mail', [SubscriberController::class, 'sendMail'])->name('subscribers-send-mail');
+});
+
+Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
+Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');
+
+Route::get('/gioi-thieu', [HomeController::class, 'about'])->name('about');
+Route::get('/lien-he', [HomeController::class, 'contact'])->name('contact');
+Route::get('/danh-sach-tour', [TourController::class, 'allTour'])->name('tour.all-tour');
+
+Route::resource('phuongtien_tour', PhuongTien_TourController::class);
+Route::get('phuongtien_tour/edit/{id}/{maphuongtien}', [PhuongTien_TourController::class, 'edit'])->name('phuongtien_tour.edit');
+Route::delete('admin/phuongtien_tour/delete/{id}/{maphuongtien}', [PhuongTien_TourController::class, 'destroy'])->name('phuongtien_tour.delete');
+
+Route::resource('khachsan_tour', KhachSan_TourController::class);
+Route::get('khachsan_tour/edit/{id}/{makhachsan}', [KhachSan_TourController::class, 'edit'])->name('khachsan_tour.edit');
+Route::delete('admin/khachsan_tour/delete/{id}/{makhachsan}', [KhachSan_TourController::class, 'destroy'])->name('khachsan_tour.delete');
+
+Route::resource('chitiettour', ChiTietTourController::class);
+Route::get('chitiettour/edit/{id}/{madiemdulich}', [ChiTietTourController::class, 'edit'])->name('chitiettour.edit');
+Route::delete('admin/chitiettour/delete/{id}/{madiemdulich}', [ChiTietTourController::class, 'destroy'])->name('chitiettour.delete');
+Route::get('/phancongcongviec', [PhanCongCongViecController::class, 'index'])->name('phancong');
+
+Route::prefix('nhanvien')->group(function () {
+    Route::get('/dashboard', [BackendHomeController::class, 'nhanvien_home'])->name('dashboard');
 });
 
 Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
