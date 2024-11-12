@@ -1,3 +1,7 @@
+@push('style')
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/smoothness/jquery-ui.css">
+@endpush
+
 <section class="tour-search">
     <div class="container">
         <div class="row">

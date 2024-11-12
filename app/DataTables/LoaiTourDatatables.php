@@ -23,6 +23,7 @@ class LoaiTourDatatables extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addIndexColumn()
             ->addColumn('action', function ($query) {
                 $editBtn = "<a href='" . route('loaitour.edit', $query->maloaitour) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
                 $deleteBtn = "<a href='" . route('loaitour.destroy', $query->maloaitour) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->maloaitour}'><i class='far fa-trash-alt'></i></a>";

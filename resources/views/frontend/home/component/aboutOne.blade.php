@@ -85,7 +85,7 @@
                             </div>
                         </li>
                     </ul>
-                    <a href="#" class="about-one__btn thm-btn">Đặt chỗ</a>
+                    <a href="{{ route('tour.all-tour', ['id'=>1]) }}" class="about-one__btn thm-btn">Đặt chỗ</a>
                 </div>
             </div>
         </div>

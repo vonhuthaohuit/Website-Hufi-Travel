@@ -27,68 +27,67 @@
 
     <section class="list-tour-section mt-4 mb-4">
         <div class="container-xl">
+            @if (request()->has('search'))
+                <h5></h5>
+                <hr>
+            @elseif (request()->has('category'))
+                <h5></h5>
+                <hr>
+            @endif
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <div class="row">
-                        @for ($i = 0; $i < 12; $i++)
+                        @foreach ($tours as $item)
                             <div class="owl-item col-6 col-lg-4 mb-4">
                                 <div class="popular-tours__single">
-                                    <a href="{{ route('tour.detail') }}">
+                                    <a href="{{ route('tour.detail', $item->slug) }}">
                                         <div class="popular-tours__img">
-                                            <img src="{{ asset('frontend/images/popular-tours__img.png') }}" alt="">
+                                            <img src="{{ asset($item->hinhdaidien) }}" alt="{{ $item->tentour }}">
                                             <div class="popular-tours__icon">
-                                                <a href="{{ route('tour.detail') }}">
+                                                <a href="{{ route('tour.detail', $item->slug) }}">
                                                     <i class="fa fa-heart"></i>
                                                 </a>
                                             </div>
                                         </div>
                                         <div class="popular-tours__content">
-                                            <a href="{{ route('tour.detail') }}">
+                                            <a href="{{ route('tour.detail', $item->slug) }}">
                                                 <div class="popular-tours__stars">
                                                     <i class="fa fa-star"></i> 8.0 Superb
                                                 </div>
-                                                <h3 class="popular-tours__title"><a href="{{ route('tour.detail') }}">The
-                                                        Dark Forest
-                                                        Adventure</a></h3>
-                                                <p class="popular-tours__rate"><span>49.000.000đ</span> / Một người</p>
-                                            </a>
+                                                <h3 class="popular-tours__title"><a
+                                                        href="{{ route('tour.detail', $item->slug) }}">{{ $item->tentour }}</a>
+                                                </h3>
 
+                                                <p class="popular-tours__rate">
+                                                    <span>{{ number_format($item->giachitiettour) }}đ</span> / Một người
+                                                </p>
+                                            </a>
                                         </div>
                                     </a>
                                 </div>
                             </div>
-                        @endfor
+                        @endforeach
                     </div>
 
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-end pb-4">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
+                            {{ $tours->links('pagination::bootstrap-5') }}
                         </ul>
                     </nav>
                 </div>
 
-                <div class="col-md-4">
-                    <div class="wsus__blog_search">
-                        <h4>Tìm kiếm</h4>
-                        <form action="" method="GET">
-                            <input type="text" placeholder="Tìm kiếm..." name="search">
-                            <button type="submit" class="common_btn"><i class="fas fa-search"></i></button>
-                        </form>
-                    </div>
+                <div class="col-md-3">
+                    @include('frontend.tour.component.sidebar-tour')
                 </div>
             </div>
         </div>
     </section>
+
+    @push('style')
+        <style>
+            .text-muted {
+                display: none;
+            }
+        </style>
+    @endpush
 @endsection

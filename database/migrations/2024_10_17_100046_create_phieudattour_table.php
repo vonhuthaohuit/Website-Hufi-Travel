@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('ngaydattour') ;
             $table->float('tongtienphieudattour')->unsigned();
             $table->string('trangthaidattour');
-            $table->string('nguoidaidien') ;
+            $table->integer('tongsoluong') ;
             $table->foreign('matour')->references('matour')->on('tour')->onDelete('cascade');
         });
     }

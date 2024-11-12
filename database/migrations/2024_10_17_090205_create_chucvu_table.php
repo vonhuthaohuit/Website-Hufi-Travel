@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('chucvu', function (Blueprint $table) {
             $table->increments('machucvu');
             $table->string('tenchucvu');
-            $table->float('hesoluong') ;
+            $table->timestamps() ;
         });
     }
 

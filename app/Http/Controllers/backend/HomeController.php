@@ -11,4 +11,8 @@ class HomeController extends Controller
     {
         return view('frontend.home.index');
     }
+    public function nhanvien_home()
+    {
+        return view('backend.nhanvien.dashboard.index');
+    }
 }
