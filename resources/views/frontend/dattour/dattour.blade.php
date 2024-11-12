@@ -5,10 +5,8 @@
         <form action="{{ route('tour.xacnhanthongtindattour') }}" name="tourBooking" method="post"
             class="form-horizontal frm-tour-booking" id="form-booking" novalidate="novalidate">
             @csrf
-            <input type="hidden" name="tourId" value="{{ $tour->id }}">
+            <input type="hidden" id="tourId" name="tourId" value="{{ $tour->matour }}">
             <div class="panel panel-1">
-                <input type="hidden" id="hd_ticket" value="12">
-                <input type="hidden" id="hd_tour_price" value="2290000">
                 <ul class="nav nav-justified frm-tour-booking-step mt-5 mb-4" role="tablist">
                     <li role="presentation" class="active"><b>Chọn tour</b><i class="fa fa-check"></i></li>
                     <li role="presentation" class="active"><b>Đăng ký tour</b><i class="fa fa-check"></i></li>
@@ -28,6 +26,8 @@
                         </p>
 
                         <p>Nơi khởi hành: {{ $tour->noikhoihanh }}</p>
+
+                        <p>Giá tour: {{ number_format($tour->giatour) }}</p>
                     </div>
                 </div>
                 <div class="content_book tour-price-advance">
@@ -60,18 +60,19 @@
                     </header>
                     <div class="content-body">
                         <div class="form-group row">
-                            <label class="col-md-2 control-label">Họ &amp; Tên <span class="text-danger">*</span></label>
+                            <label class="col-md-2 control-label">Họ &amp; Tên (Người đại diện) <span
+                                    class="text-danger">*</span></label>
                             <div class="col-md-10">
-                                <input type="text" class="form-control" name="ticket_fullname" value="{{ $khachHang->hoten }}"
-                                    required="" data-msg="Trường này là bắt buộc!">
+                                <input type="text" class="form-control" name="ticket_fullname"
+                                    value="{{ $khachHang->hoten }}" required="" data-msg="Trường này là bắt buộc!">
                                 <span class="text-danger error-message" style="display: none;"></span>
                             </div>
                         </div>
                         <div class="form-group row mt-3 mb-3">
-                            <label class="col-sm-2 control-label">Địa chỉ <span class="text-danger">*</span></label>
+                            <label class="col-sm-2 control-label">Địa chỉ (Cá nhân/đơn vị) <span class="text-danger">*</span></label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="ticket_address" value="{{ $khachHang->diachi }}"
-                                    required="" data-msg="Trường này là bắt buộc!">
+                                <input type="text" class="form-control" name="ticket_address"
+                                    value="{{ $khachHang->diachi }}" required="" data-msg="Trường này là bắt buộc!">
                                 <span class="text-danger error-message" style="display: none;"></span>
                             </div>
                         </div>
@@ -81,8 +82,9 @@
                                     <label class="col-sm-4 control-label">Điện thoại <span
                                             class="text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" name="ticket_phone" value="{{ $khachHang->sodienthoai }}"
-                                            required="" data-msg="Trường này là bắt buộc!">
+                                        <input type="text" class="form-control" name="ticket_phone"
+                                            value="{{ $khachHang->sodienthoai }}" required=""
+                                            data-msg="Trường này là bắt buộc!">
                                         <span class="text-danger error-message" style="display: none;"></span>
                                     </div>
                                 </div>
@@ -91,10 +93,28 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 control-label">Email <span class="text-danger">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="email" class="form-control" name="ticket_email" value="{{ $khachHang->email }}"
-                                            required="" data-msg="Trường này là bắt buộc!"
+                                        <input type="email" class="form-control" name="ticket_email"
+                                            value="{{ $user->email }}" required="" data-msg="Trường này là bắt buộc!"
                                             data-msg-email="Email không đúng định dạng!">
                                         <span class="text-danger error-message" style="display: none;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 control-label">Mã số thuế </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="ticket_masothue" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 control-label">Tên đơn vị </label>
+                                    <div class="col-sm-8">
+                                        <input type="email" class="form-control" name="ticket_tendonvi" value="">
                                     </div>
                                 </div>
                             </div>
@@ -122,45 +142,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="add_plus_tbd">
-                                        <tr id="customerRowTemplate" style="display: none;">
-                                            <td>
-                                                <input type="hidden" class="form-control" name="stt"
-                                                    value="1">
-                                                <input type="text" class="form-control" name="td_ticket[1][td_name]"
-                                                    placeholder="Tên" required="">
-                                            </td>
-                                            <td>
-                                                <input type="date" class="form-control"
-                                                    name="td_ticket[1][td_birthday]" required="">
-                                            </td>
-                                            <td>
-                                                <select name="td_ticket[1][td_gender]" class="form-control">
-                                                    <option value="Nam">Nam</option>
-                                                    <option value="Nữ">Nữ</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="td_ticket[1][td_loaikhach]"
-                                                    class="form-control js-type-customer">
-                                                    <option data-price="2290000" value="1">Người lớn</option>
-                                                    <option data-price="1790000" value="2">Trẻ em (5 -11 tuổi)
-                                                    </option>
-                                                    <option data-price="0" value="3">Trẻ em (&lt; 5 tuổi)</option>
-                                                </select>
-                                            </td>
-                                            <td class="price-cell">
-                                                <input type="hidden" class="form-control js-input-price" id="td_price_1"
-                                                    name="td_ticket[1][td_price]" value="2290000">
-                                                <span class="td-price">2,290,000</span>
-                                            </td>
-                                            <td align="right" class="action-cell">
-                                                <a class="text-danger" href="javascript:;" onclick="removeCustomer(this)"
-                                                    title="Xóa">
-                                                    <i class="fas fa-trash" aria-hidden="true"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="add_plus_tr">
+                                        <tr class="add_plus_tr" id="customerRowTemplate">
                                             <td>
                                                 <input type="hidden" class="form-control" name="stt"
                                                     value="1">
@@ -182,19 +164,23 @@
                                                 <select name="td_ticket[1][td_loaikhach]" id="td_loaikhach_1"
                                                     class="form-control js-type-customer"
                                                     onchange="selectTypeCustomer(this)">
-                                                    <option data-price="2290000" data-price_other="1100000"
-                                                        value="1">Người lớn</option>
-                                                    <option data-price="1790000" data-price_other="1100000"
-                                                        value="2">Trẻ em (5 -11 tuổi) </option>
-                                                    <option data-price="0" data-price_other="0" value="3">Trẻ em(
-                                                        &lt; 5 tuổi)</option>
+                                                    @foreach ($loaiKhachHang as $index => $LKH)
+                                                        <option value="{{ $LKH->maloaikhachhang }}"
+                                                            data-price="{{ $giaTour_LoaiKhachHang[$index] }}">
+                                                            {{ $LKH->tenloaikhachhang }}
+                                                        </option>
+                                                    @endforeach
+
                                                 </select>
                                             </td>
                                             <td class="price-cell">
                                                 <input type="hidden" class="form-control js-input-price" id="td_price_1"
-                                                    style="width: auto" name="td_ticket[1][td_price]" value="2290000">
-                                                <span class="td-price">2,290,000</span>
+                                                    name="td_ticket[1][td_price]"
+                                                    value="{{ $giaTour_LoaiKhachHang[0] }}">
+                                                <span class="td-price">{{ number_format($giaTour_LoaiKhachHang[0]) }}
+                                                    VNĐ</span>
                                             </td>
+
                                             <td align="right" class="action-cell">
                                                 <a class="text-danger" href="javascript:;" onclick="removeCustomer(this)"
                                                     title="Xóa">

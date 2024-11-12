@@ -5,21 +5,31 @@ namespace App\Http\Controllers\thanhtoan;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ThanhToanMomoController extends Controller
 {
-    private $endpoint = 'https://test-payment.momo.vn/v2/gateway/api/create';
-    private $partnerCode = 'YOUR_PARTNER_CODE';
-    private $accessKey = 'YOUR_ACCESS_KEY';
-    private $secretKey = 'YOUR_SECRET_KEY';
-
+    private $endpoint;
+    private $partnerCode;
+    private $accessKey;
+    private $secretKey;
+    private $bankCode;
+    public function __construct()
+    {
+        $this->endpoint = env('MOMO_END_POINT');
+        $this->partnerCode = env('MOMO_PARTNER_CODE');
+        $this->accessKey = env('MOMO_ACCESS_KEY');
+        $this->secretKey = env('MOMO_SECRET_KEY');
+        $this->bankCode = env('MOMO_BANK_CODE');
+    }
     public function createPayment(Request $request)
     {
-        $orderId = time();
+        $orderId = time() + rand(1, 1000);
         $orderInfo = "Thanh toán qua MoMo";
-        $amount = $request->get('tong-tien-thanh-toan');
-        $redirectUrl = route('payment.momo.callback');
-        $ipnUrl = route('payment.momo.callback');
+        $amount = $request['amount'];
+        $amount = str_replace(',', '', $amount);
+        $redirectUrl = route('momo.return');
+        $ipnUrl = route('momo.return');
         $extraData = "";
 
         $rawHash = "accessKey=" . $this->accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $this->partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $orderId . "&requestType=captureWallet";
@@ -40,25 +50,29 @@ class ThanhToanMomoController extends Controller
             'requestType' => 'captureWallet',
             'signature' => $signature
         ];
-
         $response = Http::post($this->endpoint, $data);
-
-        if ($response->successful() && isset($response['payUrl'])) {
-            return redirect($response['payUrl']);
+        $responseData = $response->json();
+        if (isset($responseData['payUrl'])) {
+            return response()->json([
+                'status' => 'success',
+                'redirect' => $responseData['payUrl'],
+            ]);
         }
 
         return back()->withErrors(['msg' => 'Có lỗi xảy ra khi tạo thanh toán MoMo']);
     }
 
-    public function callback(Request $request)
+    public function returnPayment(Request $request)
     {
+        Log::info($request->all());
+        dd($request->all());
         $orderId = $request->get('orderId');
         $resultCode = $request->get('resultCode');
 
         if ($resultCode == 0) {
-            return redirect()->route('home')->with('success', 'Thanh toán thành công!');
+            return view('frontend/thanhtoan/payment_success');
         } else {
-            return redirect()->route('home')->withErrors('Thanh toán thất bại!');
+            return view('frontend/thanhtoan/payment_failed');
         }
     }
 }
