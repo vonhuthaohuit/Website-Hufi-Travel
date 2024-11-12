@@ -9,6 +9,7 @@ class KhachSan extends Model
 {
     use HasFactory;
     protected $table = 'khachsan';
+    protected $primaryKey = 'makhachsan';
 
     public function khachsan_chuongtrinh(){
         return $this->hasMany(KhachSan_Tour::class,'makhachsan');

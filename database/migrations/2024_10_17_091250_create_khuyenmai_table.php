@@ -16,6 +16,7 @@ return new class extends Migration
             $table->date('thoigianbatdau');
             $table->date('thoigianketthuc');
             $table->float('phantramgiam') ;
+            $table->timestamps();
         });
     }
 

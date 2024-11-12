@@ -13,10 +13,11 @@
                 </ul>
                 <div class="d-flex align-items-center">
                     @if (session('user'))
+                        <button href="#" class="show-form-search me-3"><i class="fas fa-search"></i></button>
                         <div class="dropdown">
                             <a href="#" class="btn btn-login dropdown-toggle" id="userDropdown"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-solid fa-user me-2"></i>{{ session('user')->name }}
+                                <i class="fa-solid fa-user me-2"></i>{{ session('user')->tentaikhoan }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="userDropdown">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -58,17 +59,19 @@
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav flex-grow-1 pe-3">
-                        <li class="nav-item">
+                        <li class="nav-item centro">
                             <a class="nav-link" aria-current="page" href="/">Trang chủ</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">Danh sách tour</a>
+                            <div class="centro" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="#">Danh sách tour</a>
+                            </div>
+
                             <ul class="dropdown-menu dropdown-column">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                {{-- <li><a class="dropdown-item" href="#">Action</a></li>
                                 <li><a class="dropdown-item" href="#">Another action</a></li>
                                 <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li> --}}
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -76,22 +79,24 @@
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">Điểm du lịch</a>
+                            <div class="centro" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="#">Điểm du lịch</a>
+                            </div>
+
                             <ul class="dropdown-menu dropdown-column">
                                 <!-- Các mục dropdown -->
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item centro">
                             <a class="nav-link" href="{{ route('blog.blog-all') }}">Tin tức</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item centro">
                             <a class="nav-link" href="{{ route('about') }}">Giới thiệu</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item centro">
                             <a class="nav-link" href="{{ route('contact') }}">Liên hệ</a>
                         </li>
-                        <li class="nav-item d-lg-none">
+                        <li class="nav-item d-lg-none  centro">
                             <a class="nav-link" href="{{ route('login_view') }}">Đăng nhập</a>
                         </li>
                         <li class="nav-item d-lg-none">
@@ -134,6 +139,11 @@
                 background-color: rgba(79, 79, 79, 0);
                 border: 1px solid #fff;
                 color: #fff;
+            }
+
+            .centro:hover:after {
+                width: 100%;
+                background: #fff;
             }
         </style>
     @else

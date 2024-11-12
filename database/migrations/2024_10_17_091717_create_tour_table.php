@@ -19,6 +19,8 @@ return new class extends Migration
             $table->boolean('tinhtrang');
             $table->string('hinhdaidien');
             $table->string('noikhoihanh');
+            $table->string('thoigiandi');
+            $table->bigInteger('giatour');
             $table->integer('maloaitour')->unsigned();
             $table->foreign('maloaitour')->references('maloaitour')->on('loaitour')->onDelete('cascade');
             $table->integer('makhuyenmai')->unsigned()->nullable();

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->primary(['maquyen', 'manhomquyen']);
             $table->foreign('maquyen')->references('maquyen')->on('quyen')->onDelete('cascade');
             $table->foreign('manhomquyen')->references('manhomquyen')->on('nhomquyen')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

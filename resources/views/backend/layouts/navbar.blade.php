@@ -8,8 +8,11 @@
                 <img alt="image" style="width: 40px;height: 40px;
         object-fit: cover;"
                     src="{{ asset('frontend/images/icon/user.png') }}" class="rounded-circle mr-1">
-                <div class="d-sm-none d-lg-inline-block">Hi, </div>
+                @if (session('user'))
+                    <div class="d-sm-none d-lg-inline-block">Hi, {{ session('user')->tentaikhoan }}</div>
             </a>
+            @endif
+
             <div class="dropdown-menu dropdown-menu-right">
                 <a href="" class="dropdown-item has-icon">
                     <i class="far fa-user"></i> Profile

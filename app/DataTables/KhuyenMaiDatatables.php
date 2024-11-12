@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\KhuyenMai;
 use App\Models\KhuyenMaiDatatable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -29,6 +30,14 @@ class KhuyenMaiDatatables extends DataTable
                 $deleteBtn = "<a href='" . route('khuyenmai.destroy', $query->makhuyenmai) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->makhuyenmai}'><i class='far fa-trash-alt'></i></a>";
                 return $editBtn . $deleteBtn;
             })
+            ->editColumn('created_at', function ($query) {
+                return Carbon::parse($query->created_at)->format('d-m-Y'); // Định dạng ngày
+            })
+
+            ->editColumn('updated_at', function ($query) {
+                return Carbon::parse($query->updated_at)->format('d-m-Y'); // Định dạng ngày
+            })
+
 
             ->setRowId('makhuyenmai');
     }
@@ -85,6 +94,7 @@ class KhuyenMaiDatatables extends DataTable
                 ->width(200)
                 ->addClass('text-center'),
         ];
+
     }
 
     /**

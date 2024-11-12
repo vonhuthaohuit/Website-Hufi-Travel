@@ -3,14 +3,14 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Coupons</h1>
+            <h1>Phòng ban</h1>
         </div>
         <div class="section-body">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Thêm khuyến mãi mới</h4>
+                            <h4>Thêm phòng ban mới</h4>
                             <div class="card-header-action">
                                 <a href="{{ route('khuyenmai.index') }}" class="btn btn-primary">
                                     <i class="fas fa-arrow-left"></i>Back

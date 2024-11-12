@@ -78,7 +78,14 @@ class LoaiBlogController extends Controller
 
     public function massDestroy(Request $request)
     {
-        LoaiBlog::whereIn('maloaiblog', $request->ids)->delete();
+        if (!$request->has('ids')) {
+            return response()->json(['message' => 'Không có mục nào được chọn!'], 400);
+        }
+
+        $ids = $request->input('ids');
+
+        LoaiBlog::whereIn('maloaiblog', $ids)->delete();
+
         return response()->json(['message' => 'Xóa thành công các mục đã chọn!']);
     }
 }

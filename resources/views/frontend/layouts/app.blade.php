@@ -24,16 +24,17 @@
 
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/tevily.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/tevilyResponsive.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/tevily.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/tevilyResponsive.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/tevilyIcon.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/library/swiper/swiper.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/library/animation/animation.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/library/animation/custom-animation.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleBlog.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleTour.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleHeader.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleSearch.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/styleFooter.css') }}">
+    @stack('style')
 </head>
 
 <body class="{{ Route::currentRouteName() }}">
