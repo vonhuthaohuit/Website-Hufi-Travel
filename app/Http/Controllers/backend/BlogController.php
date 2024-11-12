@@ -103,7 +103,7 @@ class BlogController extends Controller
                 'maloaiblog' => 'required',
             ]);
 
-            $blog = BlogTour::findOrFail($id);
+            $blog = BlogTour::findOrFail($mablogtour);
             $blog->tieude = $request->input('tieude');
             $blog->slug = Str::slug($request->tieude);
             $blog->noidung = $request->input('noidung');

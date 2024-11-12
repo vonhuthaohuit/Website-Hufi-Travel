@@ -136,6 +136,14 @@ class TourController extends Controller
             $tour->hinhdaidien = $path;
         }
 
+        $tour->loaitour_id = $request->input('loaitour_id');
+        $tour->khuyenmai_id = $request->input('khuyenmai_id');
+        $tour->ngaytao = now();
+
+
+        $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour/uploads', $tour->hinhdaidien);
+        $tour->hinhdaidien = $imagePath;
+
         $tour->save();
         return redirect()->route('tour.index')->with('success', 'Cập nhật tour thành công!');
     }
@@ -162,7 +170,13 @@ class TourController extends Controller
         return response()->json(['message' => 'Tình trạng cập nhật thành công!']);
     }
 
-<<<<<<< HEAD
+
+    public function countChuongTrinhTourofTour()
+    {
+
+    }
+
+
     public function searchTour(Request $request)
     {
         $searchData = $request->only(['typetour', 'destination', 'departure', 'date-start', 'date-end', 'duration', 'guests']);
@@ -210,13 +224,6 @@ class TourController extends Controller
             ->get();
         return view('backend.tour.searchtour', compact('tours'));
     }
-=======
-
-    public function countChuongTrinhTourofTour()
-    {
-
-    }
 
 
->>>>>>> defd6178187e7f82d845c64663e85e99dc01a35f
 }

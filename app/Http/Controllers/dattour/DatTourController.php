@@ -3,17 +3,22 @@
 namespace App\Http\Controllers\dattour;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\thanhtoan\PhieuDatTourController;
+use App\Http\Controllers\thanhtoan\ThanhToanController;
 use App\Models\ChiTietTour;
 use App\Models\ChuongTrinhTour;
 use App\Models\KhachHang;
 use App\Models\KhachSan_Tour;
 use App\Models\LoaiKhachHang;
+use App\Models\PhieuDatTour;
 use App\Models\PhuongTien_Tour;
 use App\Models\Tour;
+use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Collection;
 
 class DatTourController extends Controller
 {
@@ -24,10 +29,11 @@ class DatTourController extends Controller
     protected $phuongtien_tour;
     protected $khachHangs;
     protected $loaiKhachHangs;
+    protected $phieuDatTour;
+    protected $chiTietPhieuDatTour;
 
     public function __construct()
     {
-        // Khởi tạo các model liên quan
         $this->tour = new Tour();
         $this->chitiettour = new ChiTietTour();
         $this->chuongtrinhtour = new ChuongTrinhTour();
@@ -35,69 +41,128 @@ class DatTourController extends Controller
         $this->phuongtien_tour = new PhuongTien_Tour();
         $this->khachHangs = new KhachHang();
         $this->loaiKhachHangs = new LoaiKhachHang();
+        $this->phieuDatTour = new PhieuDatTourController();
+        $this->chiTietPhieuDatTour = new PhieuDatTourController();
     }
+    public function TinhGiaTourLoaiKhachHang($tourid)
+    {
+        $tour = $this->tour->find($tourid);
 
+        if (!$tour) {
+            return [];
+        }
+
+        $loaiKhachHang = $this->loaiKhachHangs->get();
+
+        $giaTour_LoaiKhachHang = [];
+
+        foreach ($loaiKhachHang as $index => $item) {
+            $giaTour_LoaiKhachHang[$index] = round($tour->giatour - ($tour->giatour * ($item->mucapdunggia / 100)));
+        }
+
+        return $giaTour_LoaiKhachHang;
+    }
     public function index(Request $request)
     {
 
-        try {
-            /*
+        /*
         |--------------------------------------------------------------------------
         | Kiểm tra đăng nhập
         |--------------------------------------------------------------------------
         */
 
-            // if (!Auth::check()) {
-            //     return redirect()->route('login_view');
-            // }
-            $user = Session::get('user');
-            $maTaiKhoan = $user->maTaiKhoan;
-            $khachHang = $this->khachHangs->where('mataikhoan', $maTaiKhoan)->first();
-            /*
+        if (Session::get('user') == null) {
+            return redirect()->route('login');
+        }
+        $user = Session::get('user');
+        $maTaiKhoan = $user['mataikhoan'];
+        /*
         |--------------------------------------------------------------------------
         | Kiểm tra phương thức request có hay không
         |--------------------------------------------------------------------------
         */
-            if ($request->isMethod('post')) {
-                $tourId = $request->input('tourid');
-                $loaiKhachHang = $this->loaiKhachHangs->get();
+        if ($request->isMethod('post')) {
+            $tourId = $request->input('tourid');
+            $loaiKhachHang = $this->loaiKhachHangs->get();
+            $khachHang = $this->khachHangs->where('mataikhoan', $maTaiKhoan)->first();
+            $tour = $this->tour->find($tourId);
+            $giaTour_LoaiKhachHang = [];
+            // Tính giá tour theo từng loại khách hàng
+            $giaTour_LoaiKhachHang = $this->TinhGiaTourLoaiKhachHang($tourId);
 
-                $tour = $this->tour->with(['chitiettour', 'chuongtrinhtour'])
-                    ->find($tourId);
-
-                if (!$tour) {
-                    return redirect()->back()->withErrors('Tour not found.');
-                }
-
-                return view('frontend.dattour.dattour', compact('tour', 'khachHang', 'loaiKhachHang'));
+            if (!$tour) {
+                return redirect()->back()->withErrors('Tour not found.');
             }
 
-            return redirect()->back()->withErrors('Invalid request method.');
-        } catch (Exception $e) {
-            return redirect()->route('login_view');
+            return view('frontend.dattour.dattour', compact('user', 'tour', 'loaiKhachHang', 'khachHang', 'giaTour_LoaiKhachHang'));
         }
+
+        return redirect()->back()->withErrors('Invalid request method.');
     }
 
     public function xacnhanthongtindattour(Request $request)
     {
-        $data = $request->all();
 
+        if (Session::get('user') == null) {
+            return redirect()->route('login');
+        }
+
+        $user = Session::get('user');
+        $maTaiKhoan = $user['mataikhoan'];
+        $khachHang = $this->khachHangs->where('mataikhoan', $maTaiKhoan)->first();
         $tourId = $request->input('tourId');
-        $nguoiDaiDien = [
-            'fullname' => $request->input('ticket_fullname'),
-            'address' => $request->input('ticket_address'),
-            'phone' => $request->input('ticket_phone'),
-            'email' => $request->input('ticket_email'),
+        if (!$tourId) {
+            return redirect()->back()->with('error', 'Tour ID không hợp lệ.');
+        }
+        $tour = $this->tour->find($tourId);
+        $data = [
+            'tourId' => $tourId,
+            'ticket_fullname' => $request->input('ticket_fullname'),
+            'ticket_address' => $request->input('ticket_address'),
+            'ticket_phone' => $request->input('ticket_phone'),
+            'ticket_email' => $request->input('ticket_email'),
+            'ticket_tendonvi'=> $request->input('ticket_tendonvi'),
+            'ticket_masothue'=> $request->input('ticket_masothue'),
+            'ticket_note' => $request->input('ticket_note'),
+            'ticket_total_customer' => count($request->input('td_ticket', [])),
+            'td_ticket' => $request->input('td_ticket', []),
+            'payment_id' => $request->input('payment_id'),
         ];
-        $phuongThucThanhToan = $request->input('payment_id');
+        $thongTinNguoiDaiDien = [];
+        $thongTinNguoiDaiDien['nguoidaidien'] = $data['ticket_fullname'];
+        $thongTinNguoiDaiDien['tendonvi'] = $data['ticket_tendonvi'];
+        $thongTinNguoiDaiDien['diachidonvi'] = $data['ticket_address'];
+        $thongTinNguoiDaiDien['masothue'] = $data['ticket_masothue'];
+        session()->put('thongTinNguoiDaiDien', $thongTinNguoiDaiDien);
+        $tongTienPhieuDatTour = 0;
+        $tongSoLuong = $data['ticket_total_customer'];
+        $danhSachKhachHangDiTour = new Collection();
 
-        $customers = $request->input('td_ticket');
+        foreach ($data['td_ticket'] as $key => $value) {
+            $khachHangDiTour = KhachHang::create([
+                'hoten' => $value['td_name'],
+                'ngaysinh' => $value['td_birthday'],
+                'gioitinh' => $value['td_gender'],
+                'maloaikhachhang' => $value['td_loaikhach'],
+            ]);
+            $danhSachKhachHangDiTour->push($khachHangDiTour);
+            $tongTienPhieuDatTour += $value['td_price'];
+        }
 
-        return view(
-            'frontend.dattour.xacnhanthongtindattour',
-            compact('nguoiDaiDien', 'customers', 'tourId', 'phuongThucThanhToan')
-        );
+        $trangThaiDatTour = 'Đang chờ xác nhận đặt tour';
+        $toDay = date('Y-m-d');
+        $phieuDatTour = $this->phieuDatTour->TaoPhieuDatTour($tourId, $tongTienPhieuDatTour, $tongSoLuong, $trangThaiDatTour, $toDay);
+        if (!$phieuDatTour || !isset($phieuDatTour['maphieudattour'])) {
+            return redirect()->back()->with('error', 'Không thể tạo phiếu đặt tour.');
+        }
+
+        foreach ($data['td_ticket'] as $key => $value) {
+            $chiTietSoTienDat = $value['td_price'];
+            $this->chiTietPhieuDatTour->TaoChiTietPhieuDatTour($danhSachKhachHangDiTour[$key - 1]->makhachhang, $phieuDatTour['maphieudattour'], $chiTietSoTienDat);
+        }
+        return view('frontend.dattour.xacnhanthongtindattour', compact('data', 'tour', 'phieuDatTour'));
     }
+
 
     public function create()
     {
