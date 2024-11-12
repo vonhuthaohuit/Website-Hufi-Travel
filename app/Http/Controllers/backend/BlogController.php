@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BlogTour;
 use App\Models\LoaiBlog;
 use App\Models\NhanVien;
+use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -90,7 +91,7 @@ class BlogController extends Controller
                 'loaiblog_id' => 'required',
             ]);
 
-            $blog = BlogTour::findOrFail($id);
+            $blog = BlogTour::findOrFail($mablogtour);
             $blog->tieude = $request->input('tieude');
             $blog->noidung = $request->input('noidung');
             $blog->trangthaiblog = $request->input('trangthai');
