@@ -218,7 +218,6 @@
 
     @include('frontend.home.component.bookNow')
 
-<<<<<<< HEAD
     <style>
         .table-responsive {
             margin: 20px auto;
@@ -374,7 +373,6 @@
         }
     </script>
 
-=======
     @push('script')
         <script type="text/javascript">
             $(document).ready(function() {
@@ -409,5 +407,4 @@
             });
         </script>
     @endpush
->>>>>>> defd6178187e7f82d845c64663e85e99dc01a35f
 @endsection
