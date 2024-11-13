@@ -42,7 +42,7 @@
                             <div class="row">
                                 <div class="card">
                                     <div class="card-body text-center">
-                                        <h3>Sorry No Blog Found!</h3>
+                                        <h3>Rất tiếc không tìm thấy blog nào!</h3>
                                     </div>
                                 </div>
                             </div>
