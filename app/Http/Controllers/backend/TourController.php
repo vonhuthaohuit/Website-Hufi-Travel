@@ -47,7 +47,7 @@ class TourController extends Controller
             'tentour' => 'required',
             'motatour' => 'required',
             'tinhtrang' => 'required',
-            'giatour' =>'required',
+            'giatour' => 'required',
             'noikhoihanh' => 'required',
             'loaitour_id' => 'required|exists:loaitour,maloaitour',
             'khuyenmai_id' => 'nullable|exists:khuyenmai,makhuyenmai',
@@ -93,7 +93,7 @@ class TourController extends Controller
      */
     public function edit(string $id)
     {
-        $tour = Tour::where('matour',$id)->first();
+        $tour = Tour::where('matour', $id)->first();
         $khuyenMai = KhuyenMai::all();
         $loaiTour = LoaiTour::all();
         return view('backend.tour.edit', compact('tour', 'khuyenMai', 'loaiTour'));
@@ -109,14 +109,14 @@ class TourController extends Controller
             'motatour' => 'required|string',
             'tinhtrang' => 'required|string|max:100',
             'thoigiandi' => 'required',
-            'giatour' =>'required',
+            'giatour' => 'required',
             'hinhdaidien' => 'nullable|image',
             'noikhoihanh' => 'required|string|max:255',
             'loaitour_id' => 'required|exists:loaitour,maloaitour',
             'khuyenmai_id' => 'nullable|exists:khuyenmai,makhuyenmai',
         ]);
 
-        $tour = Tour::where('matour',$id)->first();
+        $tour = Tour::where('matour', $id)->first();
         $tour->tentour = $request->input('tentour');
         $tour->slug = Str::slug($request->tentour);
         $tour->motatour = $request->input('motatour');
@@ -126,7 +126,7 @@ class TourController extends Controller
         $tour->noikhoihanh = $request->input('noikhoihanh');
         $tour->maloaitour = $request->input('loaitour_id');
         $tour->makhuyenmai = $request->input('khuyenmai_id');
-        $tour->updated_at = now() ;
+        $tour->updated_at = now();
         if ($request->hasFile('hinhdaidien')) {
             if ($tour->hinhdaidien) {
                 Storage::delete($tour->hinhdaidien);
@@ -171,19 +171,39 @@ class TourController extends Controller
     }
 
 
-    public function countChuongTrinhTourofTour()
-    {
-
-    }
+    public function countChuongTrinhTourofTour() {}
 
 
     public function searchTour(Request $request)
     {
         $searchData = $request->only(['typetour', 'destination', 'departure', 'date-start', 'date-end', 'duration', 'guests']);
+
         if (!empty($searchData['date-start']) || !empty($searchData['date-end'])) {
             $searchData['date-start'] = Carbon::parse($searchData['date-start'])->format('Y-m-d');
             $searchData['date-end'] = Carbon::parse($searchData['date-end'])->format('Y-m-d');
         }
+
+        $typetourName = null;
+        if (!empty($searchData['typetour'])) {
+            $typetour = LoaiTour::find($searchData['typetour']);
+            $typetourName = $typetour ? $typetour->tenloai : null;
+        }
+
+        $destinationName = null;
+        if (!empty($searchData['destination'])) {
+            $destination = DiemDuLich::find($searchData['destination']);
+            $destinationName = $destination ? $destination->tendiemdulich : null;
+        }
+
+        // Show các trường đã chọn để tìm kiếm
+        $query = collect([
+            $typetourName ? "Loại tour: \"$typetourName\"" : null,
+            $destinationName ? "Điểm đến: \"$destinationName\"" : null,
+            $searchData['departure'] ? "Nơi khởi hành: \"{$searchData['departure']}\"" : null,
+            $searchData['duration'] ? "Thời gian: \"{$searchData['duration']}\"" : null,
+            $searchData['date-start'] ? "Ngày bắt đầu: \"{$searchData['date-start']}\"" : null,
+            $searchData['date-end'] ? "Ngày kết thúc: \"{$searchData['date-end']}\"" : null
+        ])->filter()->implode(', ');
 
         $tours = Tour::query()
             ->where('tinhtrang', 1)
@@ -211,7 +231,6 @@ class TourController extends Controller
                     $q->where('ngayketthuc', $date);
                 });
             })
-
             ->with([
                 'khuyenmai',
                 'loaitour',
@@ -222,8 +241,9 @@ class TourController extends Controller
                 'phuongtien_tour'
             ])
             ->get();
-        return view('backend.tour.searchtour', compact('tours'));
+
+        $tourCount = $tours->count();
+
+        return view('backend.tour.searchtour', compact('tours', 'tourCount', 'query'));
     }
-
-
 }

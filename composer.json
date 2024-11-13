@@ -6,11 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-<<<<<<< HEAD
         "endroid/qr-code": "^6.0",
-=======
         "fakerphp/faker": "^1.23",
->>>>>>> defd6178187e7f82d845c64663e85e99dc01a35f
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",

@@ -53,8 +53,11 @@
         <section class="list-tour-section mt-4 mb-4">
             <div class="container-xl">
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <div class="row">
+                            <h3 class="mt-3 mb-5" style="color: #333;">Tìm thấy <b>{{ $tourCount }}</b> kết quả hiển thị
+                                cho
+                                từ khóa <b>"{{ $query }}"</b></h3>
                             @foreach ($tours as $item)
                                 <div class="owl-item col-6 col-lg-4 mb-4">
                                     <div class="popular-tours__single">
@@ -77,7 +80,8 @@
                                                     </h3>
 
                                                     <p class="popular-tours__rate">
-                                                        <span>{{ number_format($item->giachitiettour) }}đ</span> / Một người
+                                                        <span>{{ number_format($item->giachitiettour) }}đ</span> / Một
+                                                        người
                                                     </p>
                                                 </a>
                                             </div>
@@ -92,16 +96,6 @@
                                 <!-- Pagination here -->
                             </ul>
                         </nav>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="wsus__blog_search">
-                            <h4>Tìm kiếm</h4>
-                            <form action="" method="GET">
-                                <input type="text" placeholder="Tìm kiếm..." name="search">
-                                <button type="submit" class="common_btn"><i class="fas fa-search"></i></button>
-                            </form>
-                        </div>
                     </div>
                 </div>
             </div>
