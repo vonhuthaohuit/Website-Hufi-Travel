@@ -10,6 +10,7 @@ class LoaiTour extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'loaitour';
+    protected $primaryKey = 'maloaitour';
 
     public function tour()
     {

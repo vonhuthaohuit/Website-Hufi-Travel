@@ -80,7 +80,6 @@ Route::get('/auth/login-google-callback', [
     LoginController::class,
     'loginCallback'
 ])->name('Callback');
-Route::get('/tour-detail', [TourController::class, 'index'])->name('tour.detail');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
@@ -114,7 +113,8 @@ Route::get('/xacnhanthongtindattour/vnpay-returnPayment', [ThanhToanVNPayControl
 | Start route search tour
 |--------------------------------------------------------------------------
 */
-Route::post('/search-tour', [\App\Http\Controllers\backend\TourController::class, 'searchTour'])->name('tour.searchbox');
+
+Route::post('/search-tour', [\App\Http\Controllers\backend\TourController::class, 'searchTour'])->name('tour.searchbox')->middleware('check_request_is_post');
 
 /*
 |--------------------------------------------------------------------------
@@ -216,31 +216,8 @@ Route::prefix('admin')->group(function () {
 
 Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
 Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');
-
-Route::get('/gioi-thieu', [HomeController::class, 'about'])->name('about');
-Route::get('/lien-he', [HomeController::class, 'contact'])->name('contact');
-Route::get('/danh-sach-tour', [TourController::class, 'allTour'])->name('tour.all-tour');
-
-Route::resource('phuongtien_tour', PhuongTien_TourController::class);
-Route::get('phuongtien_tour/edit/{id}/{maphuongtien}', [PhuongTien_TourController::class, 'edit'])->name('phuongtien_tour.edit');
-Route::delete('admin/phuongtien_tour/delete/{id}/{maphuongtien}', [PhuongTien_TourController::class, 'destroy'])->name('phuongtien_tour.delete');
-
-Route::resource('khachsan_tour', KhachSan_TourController::class);
-Route::get('khachsan_tour/edit/{id}/{makhachsan}', [KhachSan_TourController::class, 'edit'])->name('khachsan_tour.edit');
-Route::delete('admin/khachsan_tour/delete/{id}/{makhachsan}', [KhachSan_TourController::class, 'destroy'])->name('khachsan_tour.delete');
-
-Route::resource('chitiettour', ChiTietTourController::class);
-Route::get('chitiettour/edit/{id}/{madiemdulich}', [ChiTietTourController::class, 'edit'])->name('chitiettour.edit');
-Route::delete('admin/chitiettour/delete/{id}/{madiemdulich}', [ChiTietTourController::class, 'destroy'])->name('chitiettour.delete');
-Route::get('/phancongcongviec', [PhanCongCongViecController::class, 'index'])->name('phancong');
-
-Route::prefix('nhanvien')->group(function () {
-    Route::get('/dashboard', [BackendHomeController::class, 'nhanvien_home'])->name('dashboard');
-});
-
-Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
-Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');
 Route::get('/search', [FrontendBlogController::class, 'search'])->name('blog.search');
+
 
 
 // Route::middleware('user')->group(function()

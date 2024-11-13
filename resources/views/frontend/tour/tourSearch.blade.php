@@ -74,7 +74,8 @@
                                                     </h3>
 
                                                     <p class="popular-tours__rate">
-                                                        <span>{{ number_format($item->giachitiettour) }}đ</span> / Một người
+                                                        <span>{{ number_format($item->giachitiettour) }}đ</span> / Một
+                                                        người
                                                     </p>
                                                 </a>
                                             </div>
