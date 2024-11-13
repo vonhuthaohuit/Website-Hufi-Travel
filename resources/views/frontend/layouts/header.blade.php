@@ -68,13 +68,16 @@
                             </div>
 
                             <ul class="dropdown-menu dropdown-column">
+                                @foreach ($listTours as $item)
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('tour.search', ['category' => $item->tenloai]) }}">{{ $item->tenloai }}</a>
+                                    </li>
+                                @endforeach
                                 {{-- <li><a class="dropdown-item" href="#">Action</a></li>
                                 <li><a class="dropdown-item" href="#">Another action</a></li>
                                 <li><a class="dropdown-item" href="#">Something else here</a></li>
                                 <li><a class="dropdown-item" href="#">Something else here</a></li> --}}
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
+
                                 <li><a class="dropdown-item" href="{{ route('tour.all-tour') }}">Tất cả tour</a></li>
                             </ul>
                         </li>
@@ -84,7 +87,11 @@
                             </div>
 
                             <ul class="dropdown-menu dropdown-column">
-                                <!-- Các mục dropdown -->
+                                @foreach ($destinationHeader as $item)
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('tour.byDestination', $item->tendiemdulich) }}">{{ $item->tendiemdulich }}</a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </li>
                         <li class="nav-item centro">

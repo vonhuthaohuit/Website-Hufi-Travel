@@ -18,7 +18,8 @@
                     aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Danh sách tour</li>
+                        <li class="breadcrumb-item"><a href="/">Địa điểm</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ $tenDiemDuLich }}</li>
                     </ol>
                 </nav>
             </div>
@@ -27,7 +28,6 @@
 
     <section class="list-tour-section mt-4 mb-4">
         <div class="container-xl">
-
             @if (request()->has('search'))
                 <h5></h5>
                 <hr>
@@ -35,12 +35,10 @@
                 <h5></h5>
                 <hr>
             @endif
-
             <div class="row">
                 <div class="col-md-9">
                     <div class="row">
-
-                        @if (count($tours) === 0)
+                        @if (count($tour) === 0)
                             <div class="row">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -49,10 +47,7 @@
                                 </div>
                             </div>
                         @else
-                            <h3 class="mt-3 mb-5" style="color: #333;">Tìm thấy <b>{{ $count }}</b> kết quả hiển thị
-                                cho
-                                từ khóa <b>"{{ $query }}"</b></h3>
-                            @foreach ($tours as $item)
+                            @foreach ($tour as $item)
                                 <div class="owl-item col-6 col-lg-4 mb-4">
                                     <div class="popular-tours__single">
                                         <a href="{{ route('tour.detail', $item->slug) }}">
@@ -86,8 +81,8 @@
                     </div>
 
                     <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-end pb-4 d-flex justify-content-between">
-                            {{ $tours->links('pagination::bootstrap-5') }}
+                        <ul class="pagination justify-content-end pb-4">
+                            {{ $tour->links('pagination::bootstrap-5') }}
                         </ul>
                     </nav>
                 </div>
@@ -98,4 +93,12 @@
             </div>
         </div>
     </section>
+
+    @push('style')
+        <style>
+            .text-muted {
+                display: none;
+            }
+        </style>
+    @endpush
 @endsection

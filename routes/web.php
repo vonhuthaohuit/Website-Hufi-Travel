@@ -187,3 +187,4 @@ Route::get('/lien-he', [HomeController::class, 'contact'])->name('contact');
 Route::get('/danh-sach-tour', [TourController::class, 'allTour'])->name('tour.all-tour');
 
 Route::post('/comment/create', [CommentController::class, 'createComment'])->name('comment.insert');
+Route::get('/dia-diem/{slug}', [TourController::class, 'tourByDestination'])->name('tour.byDestination');
