@@ -145,7 +145,7 @@ Route::prefix('admin')->group(function () {
 
     Route::prefix('nhanvien')->group(function ()
     {
-    Route::get('/dashboard', [BackendHomeController::class, 'nhanvien_home'])->name('dashboard');
+    Route::get('/dashboard', [BackendHomeController::class, 'nhanvien_home'])->name('nv.dashboard');
 
 
     });
