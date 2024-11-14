@@ -8,11 +8,13 @@
 
         @include('frontend.home.component.destination')
 
+        {{-- @include('frontend.home.component.destination-two') --}}
+
         @include('frontend.home.component.aboutOne')
         @include('frontend.home.component.toursPopular')
 
     </div>
-    @include('frontend.home.component.chooseTourType')
+    {{-- @include('frontend.home.component.chooseTourType') --}}
 
     @include('frontend.home.component.whyChoose')
 

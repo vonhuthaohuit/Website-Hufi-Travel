@@ -1499,7 +1499,7 @@ ul {
 }
 
 .about-page {
-    padding: 120px 0
+    padding: 80px 0
 }
 
 .banner-two__sub-title {
@@ -1931,7 +1931,8 @@ ul {
 
 .about-one__right-text,
 .news-two__text {
-    margin: 0
+    margin: 0;
+    text-align: justify;
 }
 
 .about-one__points {

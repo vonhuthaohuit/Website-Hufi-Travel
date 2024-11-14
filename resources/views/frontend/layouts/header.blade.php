@@ -11,6 +11,7 @@
                     </li>
 
                 </ul>
+                <a class="me-3 transaction centro" style="font-size: 15px;" href="{{ route('transaction') }}">Giao dịch của tôi</a>
                 <div class="d-flex align-items-center">
                     @if (session('user'))
                         <button href="#" class="show-form-search me-3"><i class="fas fa-search"></i></button>
@@ -21,7 +22,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="userDropdown">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" href="#">Setting</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -68,13 +69,12 @@
                             </div>
 
                             <ul class="dropdown-menu dropdown-column">
-                                {{-- <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li> --}}
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
+                                @foreach ($listTours as $item)
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('tour.search', ['category' => $item->tenloai]) }}">{{ $item->tenloai }}</a>
+                                    </li>
+                                @endforeach
+
                                 <li><a class="dropdown-item" href="{{ route('tour.all-tour') }}">Tất cả tour</a></li>
                             </ul>
                         </li>
@@ -84,7 +84,11 @@
                             </div>
 
                             <ul class="dropdown-menu dropdown-column">
-                                <!-- Các mục dropdown -->
+                                @foreach ($destinationHeader as $item)
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('tour.byDestination', $item->tendiemdulich) }}">{{ $item->tendiemdulich }}</a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </li>
                         <li class="nav-item centro">
@@ -115,7 +119,8 @@
             .navbar-custom .nav-item,
             .navbar-custom .navbar-toggler-icon,
             .navbar-brand-mobile,
-            .show-form-search {
+            .show-form-search,
+            .transaction {
                 color: #fff;
             }
 
