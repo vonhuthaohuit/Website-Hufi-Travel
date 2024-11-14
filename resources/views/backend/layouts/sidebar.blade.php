@@ -123,7 +123,7 @@
                 </ul>
             </li>
 
-            {{-- <li class="dropdown {{ setActive(['phancongnhanvien.*', 'admin.withdraw.index']) }}">
+            <li class="dropdown {{ setActive(['phancongnhanvien.*', 'admin.withdraw.index']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-wallet"></i>
                     <span>Phân công công việc</span></a>
                 <ul class="dropdown-menu">
@@ -134,9 +134,9 @@
                     <li class="{{ setActive(['admin.withdraw.index']) }}"><a class="nav-link"
                             href="">Withdraw List</a></li>
                 </ul>
-            </li> --}}
+            </li>
 
-            {{-- <li
+            <li
                 class="dropdown {{ setActive([
                     'admin.slider.*',
                     'admin.vendor-condition.index',
@@ -160,11 +160,11 @@
                             href="">Terms Page</a></li>
 
                 </ul>
-            </li> --}}
+            </li>
 
-            {{-- <li><a class="nav-link {{ setActive(['admin.advertisement.*']) }}" href=""><i
+            <li><a class="nav-link {{ setActive(['admin.advertisement.*']) }}" href=""><i
                         class="fas fa-ad"></i>
-                    <span>Advertisement</span></a></li> --}}
+                    <span>Advertisement</span></a></li>
 
             <li class="dropdown {{ setActive(['loaiblog.*', 'blog.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
@@ -178,9 +178,9 @@
                 </ul>
             </li>
 
-            {{-- <li><a class="nav-link {{ setActive(['admin.messages.index']) }}" href=""><i
+            <li><a class="nav-link {{ setActive(['admin.messages.index']) }}" href=""><i
                         class="fas fa-user"></i>
-                    <span>Messages</span></a></li> --}}
+                    <span>Messages</span></a></li>
 
 
 
@@ -208,7 +208,7 @@
                     </li>
                 </ul>
             </li>
-            {{-- <li
+            <li
                 class="dropdown {{ setActive([
                     'admin.vendor-requests.index',
                     'admin.customer.index',
@@ -233,7 +233,7 @@
                             href="">Manage user</a></li>
 
                 </ul>
-            </li> --}}
+            </li>
 
 
             <li><a class="nav-link {{ setActive(['subscribers.*']) }}" href="{{ route('subscribers.index') }}"><i

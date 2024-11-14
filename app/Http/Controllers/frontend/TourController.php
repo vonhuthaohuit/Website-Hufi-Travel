@@ -71,8 +71,8 @@ class TourController extends Controller
             ->paginate(12);
 
         $tenDiemDuLich = $slug;
-
         $tourCategories = LoaiTour::take(5)->get();
+
 
         return view('frontend.tour.tour-by-destination', compact('tour', 'tourCategories', 'tenDiemDuLich'));
     }
