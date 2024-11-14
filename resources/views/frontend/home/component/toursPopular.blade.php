@@ -2,7 +2,10 @@
     <span class="section-title__tagline">Featured tours</span>
     <h2 class="section-title__title">Các tour du lịch phổ biến nhất</h2>
 </div>
-
+<div class="destinations-two-shape wow slideInLeft animated" data-wow-delay="100ms" data-wow-duration="2500ms"
+    style="visibility: visible; animation-duration: 2500ms; animation-delay: 100ms; animation-name: slideInLeft;">
+    <img src="{{ asset('frontend/images/destinations-two-shape.png') }}" alt="">
+</div>
 <div class="row slick-slider">
     @foreach ($tours as $item)
         <div class="owl-item col-6 col-lg-3 mb-4">
@@ -25,7 +28,7 @@
                                     href="{{ route('tour.detail', $item->slug) }}">{{ $item->tentour }}</a></h3>
 
                             <p class="popular-tours__rate">
-                                <span>{{ number_format($item->giachitiettour) }}đ</span> / Một người
+                                <span>{{ number_format($item->giatour) }}đ</span> / Một người
                             </p>
                         </a>
                     </div>
