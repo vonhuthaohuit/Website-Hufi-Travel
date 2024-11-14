@@ -189,12 +189,7 @@ Route::prefix('admin')->group(function () {
 
 
 
-    Route::prefix('nhanvien')->group(function ()
-    {
-    Route::get('/dashboard', [BackendHomeController::class, 'nhanvien_home'])->name('dashboard');
-
-
-    });
+   
     Route::delete('loaiblog/mass-destroy', [LoaiBlogController::class, 'massDestroy'])->name('loaiblog.massDestroy');
 
     Route::resource('footer-grid-one', FooterGridOneController::class);
