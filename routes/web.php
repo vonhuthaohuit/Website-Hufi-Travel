@@ -114,7 +114,7 @@ Route::get('/xacnhanthongtindattour/vnpay-returnPayment', [ThanhToanVNPayControl
 |--------------------------------------------------------------------------
 */
 
-Route::post('/search-tour', [\App\Http\Controllers\backend\TourController::class, 'searchTour'])->name('tour.searchbox')->middleware('check_request_is_post');
+Route::post('/search-tour', [\App\Http\Controllers\backend\TourController::class, 'searchTour'])->name('tour.searchbox');
 
 /*
 |--------------------------------------------------------------------------

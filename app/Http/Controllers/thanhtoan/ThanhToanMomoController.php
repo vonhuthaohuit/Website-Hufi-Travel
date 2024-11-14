@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\thanhtoan;
 
 use App\Http\Controllers\Controller;
+use App\Models\HoaDon;
+use App\Models\PhieuDatTour;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -24,10 +27,14 @@ class ThanhToanMomoController extends Controller
     }
     public function createPayment(Request $request)
     {
+        $data = $request->all();
+        $maPhieuDatTour = $data['phieudattourid'];
+        $phieuDatTour = PhieuDatTour::find($maPhieuDatTour);
+        session(['phieuDatTour' => $phieuDatTour]);
+        Log::info('Phieu dat tour: ' . session(['phieuDatTour']));
+        $amount = $phieuDatTour->tongtienphieudattour;
         $orderId = time() + rand(1, 1000);
         $orderInfo = "Thanh toán qua MoMo";
-        $amount = $request['amount'];
-        $amount = str_replace(',', '', $amount);
         $redirectUrl = route('momo.return');
         $ipnUrl = route('momo.return');
         $extraData = "";
@@ -65,13 +72,45 @@ class ThanhToanMomoController extends Controller
     public function returnPayment(Request $request)
     {
         Log::info($request->all());
-        dd($request->all());
+
         $orderId = $request->get('orderId');
         $resultCode = $request->get('resultCode');
 
-        if ($resultCode == 0) {
-            return view('frontend/thanhtoan/payment_success');
-        } else {
+        $phieuDatTour = session('phieuDatTour');
+        $thongTinNguoiDaiDien = session('thongTinNguoiDaiDien');
+
+        if (!$phieuDatTour) {
+            Log::error('Phiếu đặt tour không tồn tại trong phiên.');
+            return view('frontend/thanhtoan/payment_failed');
+        }
+
+        $phuongThucThanhToan = 'Thanh toán online VNPay';
+
+        DB::beginTransaction();
+        try {
+            if ($resultCode == 0) {
+                $phieuDatTour->trangthaidattour = 'Đã thanh toán';
+                $phieuDatTour->save();
+
+                // Tạo hóa đơn với trạng thái thanh toán
+                HoaDon::create([
+                    'maphieudattour' => $phieuDatTour->maphieudattour,
+                    'tongsotien' => $phieuDatTour->tongtienphieudattour,
+                    'phuongthucthanhtoan' => $phuongThucThanhToan,
+                    'trangthaithanhtoan' => $phieuDatTour->trangthaidattour,
+                    'nguoidaidien' => $thongTinNguoiDaiDien['nguoiDaiDien'] ?? null,
+                    'tendonvi' => $thongTinNguoiDaiDien['tendonvi'] ?? null,
+                    'diachidonvi' => $thongTinNguoiDaiDien['diachi'] ?? null,
+                    'masothue' => $thongTinNguoiDaiDien['maSoThue'] ?? null,
+                ]);
+                DB::commit();
+                return view('frontend/thanhtoan/payment_success');
+            } else {
+                return view('frontend/thanhtoan/payment_failed');
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
             return view('frontend/thanhtoan/payment_failed');
         }
     }

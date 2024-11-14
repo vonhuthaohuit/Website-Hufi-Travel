@@ -246,8 +246,6 @@
                                 class="btn btn-primary">
                                 Đặt tour
                             </button>
-
-
                         </div>
                     </div>
                     <div class="alert alert-danger" style="margin-top:20px;">

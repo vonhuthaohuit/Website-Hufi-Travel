@@ -177,60 +177,44 @@ class TourController extends Controller
     public function searchTour(Request $request)
     {
         $searchData = $request->only(['typetour', 'destination', 'departure', 'date-start', 'date-end', 'duration', 'guests']);
+        $searchDataCount = count(array_filter($searchData)); // Đếm số lượng giá trị không rỗng
 
-        if (!empty($searchData['date-start']) || !empty($searchData['date-end'])) {
-            $searchData['date-start'] = Carbon::parse($searchData['date-start'])->format('Y-m-d');
-            $searchData['date-end'] = Carbon::parse($searchData['date-end'])->format('Y-m-d');
+        // Format date fields if provided
+        if (!empty($searchData['date-start'] ?? null) || !empty($searchData['date-end'] ?? null)) {
+            $searchData['date-start'] = !empty($searchData['date-start']) ? Carbon::parse($searchData['date-start'])->format('Y-m-d') : null;
+            $searchData['date-end'] = !empty($searchData['date-end']) ? Carbon::parse($searchData['date-end'])->format('Y-m-d') : null;
         }
 
-        $typetourName = null;
-        if (!empty($searchData['typetour'])) {
-            $typetour = LoaiTour::find($searchData['typetour']);
-            $typetourName = $typetour ? $typetour->tenloai : null;
-        }
+        $typetourName = $searchData['typetour'] ?? null ? optional(LoaiTour::find($searchData['typetour']))->tenloai : null;
+        $destinationName = $searchData['destination'] ?? null ? optional(DiemDuLich::find($searchData['destination']))->tendiemdulich : null;
 
-        $destinationName = null;
-        if (!empty($searchData['destination'])) {
-            $destination = DiemDuLich::find($searchData['destination']);
-            $destinationName = $destination ? $destination->tendiemdulich : null;
-        }
-
-        // Show các trường đã chọn để tìm kiếm
         $query = collect([
             $typetourName ? "Loại tour: \"$typetourName\"" : null,
             $destinationName ? "Điểm đến: \"$destinationName\"" : null,
-            $searchData['departure'] ? "Nơi khởi hành: \"{$searchData['departure']}\"" : null,
-            $searchData['duration'] ? "Thời gian: \"{$searchData['duration']}\"" : null,
-            $searchData['date-start'] ? "Ngày bắt đầu: \"{$searchData['date-start']}\"" : null,
-            $searchData['date-end'] ? "Ngày kết thúc: \"{$searchData['date-end']}\"" : null
+            $searchData['departure'] ?? null ? "Nơi khởi hành: \"{$searchData['departure']}\"" : null,
+            $searchData['duration'] ?? null ? "Thời gian: \"{$searchData['duration']}\"" : null,
+            $searchData['date-start'] ?? null ? "Ngày bắt đầu: \"{$searchData['date-start']}\"" : null,
+            $searchData['date-end'] ?? null ? "Ngày kết thúc: \"{$searchData['date-end']}\"" : null
         ])->filter()->implode(', ');
 
         $tours = Tour::query()
             ->where('tinhtrang', 1)
-            ->when($searchData['typetour'], function ($query, $typetour) {
-                $query->where('maloaitour', $typetour);
-            })
-            ->when($searchData['destination'], function ($query, $destination) {
-                $query->whereHas('chitiettour.diemdulich', function ($q) use ($destination) {
-                    $q->where('madiemdulich', $destination);
-                });
-            })
-            ->when($searchData['departure'], function ($query, $departure) {
-                $query->where('noikhoihanh', 'like', '%' . $departure . '%');
-            })
-            ->when($searchData['duration'], function ($query, $duration) {
-                $query->where('thoigiandi', 'like', '%' . $duration . '%');
-            })
-            ->when($searchData['date-start'], function ($query, $date) {
-                $query->whereHas('chitiettour', function ($q) use ($date) {
-                    $q->where('ngaybatdau', $date);
-                });
-            })
-            ->when($searchData['date-end'], function ($query, $date) {
-                $query->whereHas('chitiettour', function ($q) use ($date) {
-                    $q->where('ngayketthuc', $date);
-                });
-            })
+            ->when($searchData['typetour'] ?? null, fn($query, $typetour) => $query->where('maloaitour', $typetour))
+            ->when(
+                $searchData['destination'] ?? null,
+                fn($query, $destination) =>
+                $query->whereHas('chitiettour.diemdulich', fn($q) => $q->where('madiemdulich', $destination))
+            )
+            ->when(($searchData['departure'] ?? null) && $searchDataCount != 3, fn($query, $departure) => $query->where('noikhoihanh', 'like', '%' . $departure . '%'))
+            ->when(($searchData['duration'] ?? null) && $searchDataCount != 3, fn($query, $duration) => $query->where('thoigiandi', 'like', '%' . $duration . '%'))
+            ->when(($searchData['date-start'] ?? null) && $searchDataCount != 3,
+                fn($query, $date) =>
+                $query->whereHas('chitiettour', fn($q) => $q->where('ngaybatdau', $date))
+            )
+            ->when(($searchData['date-end'] ?? null) && $searchDataCount != 3,
+                fn($query, $date) =>
+                $query->whereHas('chitiettour', fn($q) => $q->where('ngayketthuc', $date))
+            )
             ->with([
                 'khuyenmai',
                 'loaitour',

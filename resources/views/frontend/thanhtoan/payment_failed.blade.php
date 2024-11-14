@@ -18,7 +18,7 @@
                         <h3>Đặt tour thất bại!</h3>
                     </header>
                     <div style="font-size: 40px; text-align:center; margin-top:30px">
-                        <img src="/public/frontend/images/success.png" alt="" width="100" height="100">
+                        <img src="{{ asset('frontend/images/error.png') }}" alt="" width="100" height="100">
                     </div>
                     <div style="max-width: 900px; text-align:center; margin:auto; margin-top:30px">
                         <p>Cám ơn quý khách đã đăng ký tour tại <b>HUFI Travel</b>.

@@ -15,7 +15,7 @@ document.querySelector("form").addEventListener("submit", function (event) {
 });
 
 // Hàm thêm hàng khách hàng
-// Hàm thêm hàng khách hàng
+
 function addCustomerRow() {
     var rowTemplate = document.getElementById("customerRowTemplate");
 
@@ -268,3 +268,5 @@ function selectTypeCustomer(selectElement) {
         currency: "VND",
     }).format(price);
 }
+
+
