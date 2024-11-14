@@ -62,6 +62,8 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+
+
 Route::get('/', [
     HomeController::class,
     "index"
@@ -85,28 +87,37 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 
 
-/*
-|--------------------------------------------------------------------------
-| Start route đặt tour
-|--------------------------------------------------------------------------
-*/
-Route::post('/dattour', [DatTourController::class, 'index'])->name('tour.dattour');
-Route::post('/xacnhanthongtindattour', [DatTourController::class, 'xacnhanthongtindattour'])->name("tour.xacnhanthongtindattour");
+
+Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
+    /*
+    |----------------------------------------------------------------------
+    | Start route đặt tour
+    |----------------------------------------------------------------------
+    */
+    Route::post('/dattour', [DatTourController::class, 'index'])
+        ->name('tour.dattour')
+        ->middleware('check.post');  // Sử dụng middleware mới
+
+    Route::post('/xacnhanthongtindattour', [DatTourController::class, 'xacnhanthongtindattour'])
+        ->name('tour.xacnhanthongtindattour')
+        ->middleware('check.post');  // Sử dụng middleware mới
+
+    // Momo
+    Route::post('/momo-payment', [ThanhToanMomoController::class, 'createPayment'])->name('momo.payment');
+    Route::get('/momo-return', [ThanhToanMomoController::class, 'returnPayment'])->name('momo.return');
+
+    // Vnpay
+    Route::post('/vnpay-payment', [ThanhToanVNPayController::class, 'createPayment'])->name('vnpay.payment');
+    Route::get('/xacnhanthongtindattour/vnpay-returnPayment', [ThanhToanVNPayController::class, 'returnPayment'])->name('vnpay.returnPayment');
+
+    /*
+    |----------------------------------------------------------------------
+    | End route đặt tour
+    |----------------------------------------------------------------------
+    */
+});
 
 
-//Momo
-Route::post('/momo-payment', [ThanhToanMomoController::class, 'createPayment'])->name('momo.payment');
-Route::get('/momo-return', [ThanhToanMomoController::class, 'returnPayment'])->name('momo.return');
-
-// Vnpay
-Route::post('/vnpay-payment', [ThanhToanVNPayController::class, 'createPayment'])->name('vnpay.payment');
-Route::get('/xacnhanthongtindattour/vnpay-returnPayment', [ThanhToanVNPayController::class, 'returnPayment'])->name('vnpay.returnPayment');
-
-/*
-|--------------------------------------------------------------------------
-| End route đặt tour
-|--------------------------------------------------------------------------
-*/
 
 /*
 |--------------------------------------------------------------------------
@@ -136,11 +147,10 @@ Route::get('/danh-sach-tour/search', [TourController::class, 'search'])->name('t
 
 
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
     Route::get('/dashboard', [BackendHomeController::class, 'index'])->name('dashboard');
     Route::resource('tour', BackendTourController::class);
     Route::post('tour/change-status', [BackendTourController::class, 'changeStatus'])->name('tour.change-status');
-    Route::get('/dashboard', [BackendHomeController::class, 'index'])->name('dashboard');
 
 
     Route::resource('diemdulich', DiemDuLichController::class);
@@ -185,16 +195,10 @@ Route::prefix('admin')->group(function () {
     Route::get('/chon-nhan-vien/{tenchucvu}', [PhanCongNhanVienController::class, 'chonNhanVienTheoChucVu'])->name('chon-nhan-vien');
     Route::post('/phan-cong-nhan-vien', [PhanCongNhanVienController::class, 'store']);
     Route::delete('phancongnhanvien/delete/{id}/{manhanvien}', [PhanCongNhanVienController::class, 'destroy'])->name('phancongnhanvien.delete');
-    Route::get('phancongnhanvien/dsNhanVien/{matour}',[PhanCongNhanVienController::class,'layDSNhanVienTheoTour'])->name('phancongnhanvien.dsNhanVien');
+    Route::get('phancongnhanvien/dsNhanVien/{matour}', [PhanCongNhanVienController::class, 'layDSNhanVienTheoTour'])->name('phancongnhanvien.dsNhanVien');
 
 
 
-    Route::prefix('nhanvien')->group(function ()
-    {
-    Route::get('/dashboard', [BackendHomeController::class, 'nhanvien_home'])->name('dashboard');
-
-
-    });
     Route::delete('loaiblog/mass-destroy', [LoaiBlogController::class, 'massDestroy'])->name('loaiblog.massDestroy');
 
     Route::resource('footer-grid-one', FooterGridOneController::class);
