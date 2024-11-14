@@ -15,7 +15,7 @@
                         <div class="tour-details__top-inner row">
                             <div class="tour-details__top-left col-lg-5">
                                 <h2 class="tour-details__top-title">{{ $tour->tentour }}</h2>
-                                <p class="tour-details__top-rate"><span>{{ number_format($tour->giachitiettour) }}đ</span> /
+                                <p class="tour-details__top-rate"><span>{{ number_format($tour->giatour) }}đ</span> /
                                     Một người</p>
                             </div>
                             <div class="tour-details__top-right col-lg-7">
@@ -53,7 +53,7 @@
                                         </div>
                                         <div class="text">
                                             <p>Địa điểm</p>
-                                            <h6>Los Angeles</h6>
+                                            <h6>{{ $tour->tendiemdulich }}</h6>
                                         </div>
                                     </li>
                                 </ul>
@@ -153,7 +153,7 @@
                                             </h3>
 
                                             <p class="popular-tours__rate">
-                                                <span>{{ number_format($item->giachitiettour) }}đ</span> / Một người
+                                                <span>{{ number_format($item->giatour) }}đ</span> / Một người
                                             </p>
                                         </a>
                                     </div>
@@ -170,7 +170,7 @@
                     <div class="form-group discount form-inline  ">
                         <div class="group-price-row">
                             {{-- <div class="price-old">54,900,000</div> --}}
-                            <div class="price-new">{{ number_format($item->giachitiettour) }}đ</div>
+                            <div class="price-new">{{ number_format($tour->giatour) }}đ</div>
                         </div>
 
                     </div>
@@ -190,7 +190,7 @@
                             </tr>
                             <tr>
                                 <td><b><i class="fa-solid fa-money-bill-1-wave"></i> Giá:</b></td>
-                                <td>{{ number_format($item->giachitiettour) }} VNĐ</td>
+                                <td>{{ number_format($tour->giatour) }} VNĐ</td>
                             </tr>
                             <tr>
                                 <td><b><span class="fa fa-phone"></span> Liên hệ tư vấn:</b></td>

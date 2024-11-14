@@ -32,7 +32,7 @@
                         <div class="row">
                             <div class="col-xl-12">
                                 <h2> Travel &amp; Adventures</h2>
-                                <p>Chuyến đi mơ ước, nơi hành trình trở thành kỷ niệm!</p>
+                                <p>Khám phá thế giới, chạm đến trái tim bạn!</p>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                         <div class="row">
                             <div class="col-xl-12">
                                 <h2> Travel &amp; Adventures</h2>
-                                <p>Chuyến đi mơ ước, nơi hành trình trở thành kỷ niệm!</p>
+                                <p>Nơi cảm xúc hòa quyện cùng thiên nhiên!</p>
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
             <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev" data-swiper-slide-index="0"
                 style="width: 100%; transition-duration: 0ms; opacity: 0; transform: translate3d(-6076px, 0px, 0px);">
                 <div class="image-layer"
-                    style="background-image: url({{ asset('frontend/images/main-slider-1-1.png') }})">
+                    style="background-image: url({{ asset('frontend/images/main-slider-1-4.png') }})">
                 </div>
                 <div class="image-layer-overlay"></div>
                 <div class="container">
@@ -66,7 +66,7 @@
                         <div class="row">
                             <div class="col-xl-12">
                                 <h2> Travel &amp; Adventures</h2>
-                                <p>Chuyến đi mơ ước, nơi hành trình trở thành kỷ niệm!</p>
+                                <p>Thế giới ngoài kia đang chờ bạn khám phá!</p>
                             </div>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
 
             <div class="swiper-slide" data-swiper-slide-index="2">
                 <div class="image-layer"
-                    style="background-image: url('{{ asset('frontend/images/background.png') }}');">
+                    style="background-image: url('{{ asset('frontend/images/main-slider-1-5.png') }}');">
                 </div>
                 <div class="image-layer-overlay"></div>
                 <div class="container">
@@ -83,7 +83,23 @@
                         <div class="row">
                             <div class="col-xl-12">
                                 <h2>Travel &amp; Adventures</h2>
-                                <p>Chuyến đi mơ ước, nơi hành trình trở thành kỷ niệm!</p>
+                                <p>Đi để trở về với những câu chuyện mới!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide" data-swiper-slide-index="2">
+                <div class="image-layer"
+                    style="background-image: url('{{ asset('frontend/images/main-slider-1-6.png') }}');">
+                </div>
+                <div class="image-layer-overlay"></div>
+                <div class="container">
+                    <div class="swiper-slide-inner">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <h2>Travel &amp; Adventures</h2>
+                                <p>Mỗi chuyến đi là một bước gần hơn với thế giới!</p>
                             </div>
                         </div>
                     </div>
