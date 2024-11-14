@@ -4,10 +4,13 @@ namespace App\Http\Controllers\backend;
 
 use App\DataTables\TourDatatables;
 use App\Http\Controllers\Controller;
+use App\Models\ChiTietTour;
+use App\Models\DiemDuLich;
 use App\Models\KhuyenMai;
 use App\Models\LoaiTour;
 use App\Models\Tour;
 use App\Traits\ImageUploadTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -44,7 +47,7 @@ class TourController extends Controller
             'tentour' => 'required',
             'motatour' => 'required',
             'tinhtrang' => 'required',
-            'giatour' =>'required',
+            'giatour' => 'required',
             'noikhoihanh' => 'required',
             'loaitour_id' => 'required|exists:loaitour,maloaitour',
             'khuyenmai_id' => 'nullable|exists:khuyenmai,makhuyenmai',
@@ -55,10 +58,9 @@ class TourController extends Controller
         if (!$imagePath) {
             return back()->withErrors(['hinhdaidien' => 'Hình ảnh không được tải lên.']);
         }
-        $khuyenmai_ID = $request->khuyenmai_id ;
-        if(!$khuyenmai_ID)
-        {
-            $khuyenmai_ID = null ;
+        $khuyenmai_ID = $request->khuyenmai_id;
+        if (!$khuyenmai_ID) {
+            $khuyenmai_ID = null;
         }
         $tour = new Tour();
         $tour->tentour = $request->tentour;
@@ -71,8 +73,8 @@ class TourController extends Controller
         $tour->maloaitour = $request->loaitour_id;
         $tour->makhuyenmai = $request->khuyenmai_id;
         $tour->hinhdaidien = $imagePath;
-        $tour->created_at = now() ;
-        $tour->updated_at = now() ;
+        $tour->created_at = now();
+        $tour->updated_at = now();
         $tour->save();
         DB::statement('CALL updateTourStatus(?)', [$tour->matour]);
         return redirect()->route('tour.index');
@@ -91,7 +93,7 @@ class TourController extends Controller
      */
     public function edit(string $id)
     {
-        $tour = Tour::where('matour',$id)->first();
+        $tour = Tour::where('matour', $id)->first();
         $khuyenMai = KhuyenMai::all();
         $loaiTour = LoaiTour::all();
         return view('backend.tour.edit', compact('tour', 'khuyenMai', 'loaiTour'));
@@ -107,14 +109,14 @@ class TourController extends Controller
             'motatour' => 'required|string',
             'tinhtrang' => 'required|string|max:100',
             'thoigiandi' => 'required',
-            'giatour' =>'required',
+            'giatour' => 'required',
             'hinhdaidien' => 'nullable|image',
             'noikhoihanh' => 'required|string|max:255',
             'loaitour_id' => 'required|exists:loaitour,maloaitour',
             'khuyenmai_id' => 'nullable|exists:khuyenmai,makhuyenmai',
         ]);
 
-        $tour = Tour::where('matour',$id)->first();
+        $tour = Tour::where('matour', $id)->first();
         $tour->tentour = $request->input('tentour');
         $tour->slug = Str::slug($request->tentour);
         $tour->motatour = $request->input('motatour');
@@ -124,7 +126,7 @@ class TourController extends Controller
         $tour->noikhoihanh = $request->input('noikhoihanh');
         $tour->maloaitour = $request->input('loaitour_id');
         $tour->makhuyenmai = $request->input('khuyenmai_id');
-        $tour->updated_at = now() ;
+        $tour->updated_at = now();
         if ($request->hasFile('hinhdaidien')) {
             if ($tour->hinhdaidien) {
                 Storage::delete($tour->hinhdaidien);
@@ -133,6 +135,14 @@ class TourController extends Controller
             $path = $request->file('hinhdaidien')->store('frontend/images/tour', 'public');
             $tour->hinhdaidien = $path;
         }
+
+        $tour->loaitour_id = $request->input('loaitour_id');
+        $tour->khuyenmai_id = $request->input('khuyenmai_id');
+        $tour->ngaytao = now();
+
+
+        $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour/uploads', $tour->hinhdaidien);
+        $tour->hinhdaidien = $imagePath;
 
         $tour->save();
         return redirect()->route('tour.index')->with('success', 'Cập nhật tour thành công!');
@@ -151,20 +161,73 @@ class TourController extends Controller
     public function changeStatus(Request $request)
     {
         $request->validate([
-            'id' => 'required',
+            'matour' => 'required',
             'tinhtrang' => 'required',
         ]);
-        $tour = Tour::findOrFail($request->id);
+        $tour = Tour::findOrFail($request->matour);
         $tour->tinhtrang = $request->tinhtrang === 'true' ? 1 : 0;
         $tour->save();
         return response()->json(['message' => 'Tình trạng cập nhật thành công!']);
     }
 
 
-    public function countChuongTrinhTourofTour()
+    public function countChuongTrinhTourofTour() {}
+
+
+    public function searchTour(Request $request)
     {
+        $searchData = $request->only(['typetour', 'destination', 'departure', 'date-start', 'date-end', 'duration', 'guests']);
+        $searchDataCount = count(array_filter($searchData)); // Đếm số lượng giá trị không rỗng
 
+        // Format date fields if provided
+        if (!empty($searchData['date-start'] ?? null) || !empty($searchData['date-end'] ?? null)) {
+            $searchData['date-start'] = !empty($searchData['date-start']) ? Carbon::parse($searchData['date-start'])->format('Y-m-d') : null;
+            $searchData['date-end'] = !empty($searchData['date-end']) ? Carbon::parse($searchData['date-end'])->format('Y-m-d') : null;
+        }
+
+        $typetourName = $searchData['typetour'] ?? null ? optional(LoaiTour::find($searchData['typetour']))->tenloai : null;
+        $destinationName = $searchData['destination'] ?? null ? optional(DiemDuLich::find($searchData['destination']))->tendiemdulich : null;
+
+        $query = collect([
+            $typetourName ? "Loại tour: \"$typetourName\"" : null,
+            $destinationName ? "Điểm đến: \"$destinationName\"" : null,
+            $searchData['departure'] ?? null ? "Nơi khởi hành: \"{$searchData['departure']}\"" : null,
+            $searchData['duration'] ?? null ? "Thời gian: \"{$searchData['duration']}\"" : null,
+            $searchData['date-start'] ?? null ? "Ngày bắt đầu: \"{$searchData['date-start']}\"" : null,
+            $searchData['date-end'] ?? null ? "Ngày kết thúc: \"{$searchData['date-end']}\"" : null
+        ])->filter()->implode(', ');
+
+        $tours = Tour::query()
+            ->where('tinhtrang', 1)
+            ->when($searchData['typetour'] ?? null, fn($query, $typetour) => $query->where('maloaitour', $typetour))
+            ->when(
+                $searchData['destination'] ?? null,
+                fn($query, $destination) =>
+                $query->whereHas('chitiettour.diemdulich', fn($q) => $q->where('madiemdulich', $destination))
+            )
+            ->when(($searchData['departure'] ?? null) && $searchDataCount != 3, fn($query, $departure) => $query->where('noikhoihanh', 'like', '%' . $departure . '%'))
+            ->when(($searchData['duration'] ?? null) && $searchDataCount != 3, fn($query, $duration) => $query->where('thoigiandi', 'like', '%' . $duration . '%'))
+            ->when(($searchData['date-start'] ?? null) && $searchDataCount != 3,
+                fn($query, $date) =>
+                $query->whereHas('chitiettour', fn($q) => $q->where('ngaybatdau', $date))
+            )
+            ->when(($searchData['date-end'] ?? null) && $searchDataCount != 3,
+                fn($query, $date) =>
+                $query->whereHas('chitiettour', fn($q) => $q->where('ngayketthuc', $date))
+            )
+            ->with([
+                'khuyenmai',
+                'loaitour',
+                'hinhanhtour',
+                'chitiettour',
+                'chuongtrinhtour',
+                'khachsan_tour',
+                'phuongtien_tour'
+            ])
+            ->get();
+
+        $tourCount = $tours->count();
+
+        return view('backend.tour.searchtour', compact('tours', 'tourCount', 'query'));
     }
-
-
 }

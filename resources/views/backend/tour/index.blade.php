@@ -34,10 +34,10 @@
         $(document).ready(function() {
             $('body').on('click', '.change-status', function() {
                 let isChecked = $(this).is(':checked');
-                let id = $(this).data('id');
+                let matour = $(this).data('id');
 
                 console.log({
-                    id: id,
+                    matour: matour,
                     tinhtrang: isChecked ? 'true' : 'false'
                 });
 
@@ -45,7 +45,7 @@
                     url: "{{ route('tour.change-status') }}",
                     method: 'POST',
                     data: {
-                        id: id,
+                        matour: matour,
                         tinhtrang: isChecked ? 'true' : 'false'
                     },
                     success: function(data) {

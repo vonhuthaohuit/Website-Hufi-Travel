@@ -15,4 +15,7 @@ class DiemDuLich extends Model
     public function chitiettour(){
         return $this->hasMany(ChiTietTour::class,'madiemdulich');
     }
+    public static function layTatCaDiemDuLich(){
+        return DiemDuLich::all();
+    }
 }

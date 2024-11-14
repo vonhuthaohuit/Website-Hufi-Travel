@@ -8,6 +8,7 @@ use App\Http\Controllers\backend\DiemDuLichController;
 use App\Http\Controllers\backend\HomeController as BackendHomeController;
 use App\Http\Controllers\frontend\TourController;
 use App\Http\Controllers\backend\AuthController;
+use App\Http\Controllers\dattour\DatTourController;
 use App\Http\Controllers\backend\BlogController;
 use App\Http\Controllers\backend\FooterGridOneController;
 use App\Http\Controllers\backend\FooterGridThreeController;
@@ -15,23 +16,27 @@ use App\Http\Controllers\backend\FooterGridTwoController;
 use App\Http\Controllers\backend\FooterSocialController;
 use App\Http\Controllers\backend\ChiTietTourController;
 use App\Http\Controllers\backend\ChucVuController;
-use App\Http\Controllers\backend\KhachSan_TourController;
-use App\Http\Controllers\backend\KhachSanController;
 use App\Http\Controllers\backend\NhanVienController;
 use App\Http\Controllers\backend\NhomQuyenController;
 use App\Http\Controllers\backend\PhanCongChucVuController;
 use App\Http\Controllers\backend\PhanCongNhanVienController;
 use App\Http\Controllers\backend\PhongBanController;
-use App\Http\Controllers\backend\PhuongTien_TourController;
-use App\Http\Controllers\backend\PhuongTienController;
 use App\Http\Controllers\backend\Quyen_NhomQuyenController;
 use App\Http\Controllers\backend\QuyenController;
 use App\Http\Controllers\backend\ChuongTrinhTourController;
+use App\Http\Controllers\backend\KhachSan_TourController;
+use App\Http\Controllers\backend\KhachSanController;
+use App\Http\Controllers\backend\PhanCongCongViecController;
+use App\Http\Controllers\backend\PhuongTien_TourController;
+use App\Http\Controllers\backend\PhuongTienController;
 use App\Http\Controllers\backend\LoaiBlogController;
 use App\Http\Controllers\backend\LoaiTourController;
 use App\Http\Controllers\backend\SubscriberController;
 use App\Http\Controllers\backend\TourController as BackendTourController;
+use App\Http\Controllers\thanhtoan\ThanhToanMomoController;
+use App\Http\Controllers\thanhtoan\ThanhToanVNPayController;
 use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
+use App\Http\Controllers\frontend\CommentController;
 use App\Models\ChiTietTour;
 use App\Models\DiemDuLich;
 use App\Models\KhachSan_Tour;
@@ -75,23 +80,64 @@ Route::get('/auth/login-google-callback', [
     LoginController::class,
     'loginCallback'
 ])->name('Callback');
-Route::get('/tour-detail', [TourController::class, 'index'])->name('tour.detail');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 
 
+/*
+|--------------------------------------------------------------------------
+| Start route đặt tour
+|--------------------------------------------------------------------------
+*/
+Route::post('/dattour', [DatTourController::class, 'index'])->name('tour.dattour');
+Route::post('/xacnhanthongtindattour', [DatTourController::class, 'xacnhanthongtindattour'])->name("tour.xacnhanthongtindattour");
+
+
+//Momo
+Route::post('/momo-payment', [ThanhToanMomoController::class, 'createPayment'])->name('momo.payment');
+Route::get('/momo-return', [ThanhToanMomoController::class, 'returnPayment'])->name('momo.return');
+
+// Vnpay
+Route::post('/vnpay-payment', [ThanhToanVNPayController::class, 'createPayment'])->name('vnpay.payment');
+Route::get('/xacnhanthongtindattour/vnpay-returnPayment', [ThanhToanVNPayController::class, 'returnPayment'])->name('vnpay.returnPayment');
+
+/*
+|--------------------------------------------------------------------------
+| End route đặt tour
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| Start route search tour
+|--------------------------------------------------------------------------
+*/
+
+Route::post('/search-tour', [\App\Http\Controllers\backend\TourController::class, 'searchTour'])->name('tour.searchbox');
+
+/*
+|--------------------------------------------------------------------------
+| End route search tour
+|--------------------------------------------------------------------------
+*/
+
+
+// Login
 Route::get('/index', [LoginController::class, 'index'])->name('login_view');
 Route::post('/register', [LoginController::class, 'register'])->name('register');
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
+Route::get('/tour/{slug}', [TourController::class, 'index'])->name('tour.detail');
+Route::get('/danh-sach-tour/search', [TourController::class, 'search'])->name('tour.search');
 
 
 
 
 Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', [BackendHomeController::class, 'index'])->name('dashboard');
     Route::resource('tour', BackendTourController::class);
     Route::post('tour/change-status', [BackendTourController::class, 'changeStatus'])->name('tour.change-status');
     Route::get('/dashboard', [BackendHomeController::class, 'index'])->name('dashboard');
@@ -143,12 +189,7 @@ Route::prefix('admin')->group(function () {
 
 
 
-    Route::prefix('nhanvien')->group(function ()
-    {
-    Route::get('/dashboard', [BackendHomeController::class, 'nhanvien_home'])->name('nv.dashboard');
-
-
-    });
+   
     Route::delete('loaiblog/mass-destroy', [LoaiBlogController::class, 'massDestroy'])->name('loaiblog.massDestroy');
 
     Route::resource('footer-grid-one', FooterGridOneController::class);
@@ -170,6 +211,8 @@ Route::prefix('admin')->group(function () {
 
 Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
 Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');
+Route::get('/search', [FrontendBlogController::class, 'search'])->name('blog.search');
+
 
 
 // Route::middleware('user')->group(function()
@@ -180,3 +223,7 @@ Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-al
 Route::get('/gioi-thieu', [HomeController::class, 'about'])->name('about');
 Route::get('/lien-he', [HomeController::class, 'contact'])->name('contact');
 Route::get('/danh-sach-tour', [TourController::class, 'allTour'])->name('tour.all-tour');
+
+Route::post('/comment/create', [CommentController::class, 'createComment'])->name('comment.insert');
+Route::get('/dia-diem/{slug}', [TourController::class, 'tourByDestination'])->name('tour.byDestination');
+Route::get('/transaction', [HomeController::class, 'transaction'])->name('transaction');

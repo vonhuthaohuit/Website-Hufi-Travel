@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
@@ -54,51 +55,51 @@ class LoginController extends Controller
     }
 
     public function register(Request $request)
-{
-    \Log::info('Register method started');
+    {
+        Log::info('Register method started');
 
-    try {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'password' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string',
+                'password' => 'required|string',
+                'email' => 'required|email|unique:users,email',
+            ]);
 
-        if ($validator->fails()) {
-            \Log::error('Validation failed', $validator->errors()->toArray());
-            return redirect()->back()->withErrors($validator)->withInput();
+            if ($validator->fails()) {
+                Log::error('Validation failed', $validator->errors()->toArray());
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $user = new User();
+            $user->tentaikhoan = $request->name;
+            $user->email = $request->email;
+            $user->matkhau = $request->password;
+            $user->manhomquyen = 1;
+            $user->trangthai = "Hoạt động";
+            $user->save();
+
+            Log::info('User created with ID:', ['user_id' => $user->id]);
+
+            // $nhanvien = new NhanVien();
+            // $nhanvien->hoten = $request->name;
+            // $nhanvien->gioitinh = null;
+            // $nhanvien->ngaysinh = now();
+            // $nhanvien->sodienthoai = "0211";
+            // $nhanvien->ngayvaolam = now();
+            // $nhanvien->hinhdaidien = null;
+            // $nhanvien->luong = 0;
+            // $nhanvien->maphongban = 1;
+            // $nhanvien->mataikhoan = $user->id;
+            // $nhanvien->save();
+
+            // \Log::info('NhanVien created successfully');
+            Session::put('success', 'Đăng kí thành công');
+            return redirect()->route('login_view');
+        } catch (\Throwable $th) {
+            Log::error('Error in registration process:', ['error' => $th->getMessage()]);
+            return redirect()->back()->with('error', $th->getMessage());
         }
-
-        $user = new User();
-        $user->tentaikhoan = $request->name;
-        $user->email = $request->email;
-        $user->matkhau = $request->password;
-        $user->manhomquyen = 1;
-        $user->trangthai = "Hoạt động";
-        $user->save();
-
-    \Log::info('User created with ID:', ['user_id' => $user->id]);
-
-        // $nhanvien = new NhanVien();
-        // $nhanvien->hoten = $request->name;
-        // $nhanvien->gioitinh = null;
-        // $nhanvien->ngaysinh = now();
-        // $nhanvien->sodienthoai = "0211";
-        // $nhanvien->ngayvaolam = now();
-        // $nhanvien->hinhdaidien = null;
-        // $nhanvien->luong = 0;
-        // $nhanvien->maphongban = 1;
-        // $nhanvien->mataikhoan = $user->id;
-        // $nhanvien->save();
-
-        // \Log::info('NhanVien created successfully');
-        Session::put('success', 'Đăng kí thành công');
-        return redirect()->route('login_view');
-    } catch (\Throwable $th) {
-    \Log::error('Error in registration process:', ['error' => $th->getMessage()]);
-        return redirect()->back()->with('error', $th->getMessage());
     }
-}
 
 
 
