@@ -130,10 +130,10 @@ Route::post('/register', [LoginController::class, 'register'])->name('register')
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-Route::get('/tour/{slug}', [TourController::class, 'index'])->name('tour.detail');
 Route::get('/danh-sach-tour/search', [TourController::class, 'search'])->name('tour.search');
 
 
+Route::get('/tour/{slug}', [TourController::class, 'index'])->name('tour.detail');
 
 
 Route::prefix('admin')->group(function () {
@@ -189,7 +189,7 @@ Route::prefix('admin')->group(function () {
 
 
 
-   
+
     Route::delete('loaiblog/mass-destroy', [LoaiBlogController::class, 'massDestroy'])->name('loaiblog.massDestroy');
 
     Route::resource('footer-grid-one', FooterGridOneController::class);
@@ -213,7 +213,10 @@ Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name(
 Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');
 Route::get('/search', [FrontendBlogController::class, 'search'])->name('blog.search');
 
-
+Route::prefix('nhanvien')->group(function ()
+    {
+    Route::get('/dashboard', [BackendHomeController::class, 'nhanvien_home'])->name('dashboard');
+    });
 
 // Route::middleware('user')->group(function()
 // {
