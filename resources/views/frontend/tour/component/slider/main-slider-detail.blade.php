@@ -17,7 +17,7 @@
 }}">
 
         <div class="swiper-wrapper" style="transition-duration: 300ms;">
-            <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next" data-swiper-slide-index="2"
+            {{-- <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next" data-swiper-slide-index="2"
                 style="width: 100%; transition-duration: 300ms; opacity: 1; transform: translate3d(0px, 0px, 0px);">
                 <div class="image-layer"
                     style="background-image: url({{ asset('frontend/images/tour/tour-details-bg-3.png') }});">
@@ -82,7 +82,23 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
+
+            @foreach ($tours as $item)
+                <div class="swiper-slide swiper-slide-next" data-swiper-slide-index="2"
+                    style="width: 100%; transition-duration: 300ms; opacity: 0; transform: translate3d(-4290px, 0px, 0px);">
+                    <div class="image-layer"
+                        style="background-image: url({{ asset('frontend/images/tour/tour-details-bg-3.png') }});"></div>
+                    <div class="container">
+                        <div class="swiper-slide-inner">
+                            <div class="tour-details-slider_icon">
+                                <a href="#"><i class="fab fa-youtube"></i></a>
+                                <a href="#"><i class="fa fa-heart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
 
         <div class="main-slider-nav">
@@ -95,27 +111,29 @@
     </div>
 </section>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var swiper = new Swiper('.swiper-container', {
-            slidesPerView: 1,
-            loop: true,
-            effect: 'fade',
-            pagination: {
-                el: '#main-slider-pagination',
-                type: 'bullets',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.main-slider-button-next',
-                prevEl: '.main-slider-button-prev',
-                clickable: true,
-            },
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
+@push('script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var swiper = new Swiper('.swiper-container', {
+                slidesPerView: 1,
+                loop: true,
+                effect: 'fade',
+                pagination: {
+                    el: '#main-slider-pagination',
+                    type: 'bullets',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.main-slider-button-next',
+                    prevEl: '.main-slider-button-prev',
+                    clickable: true,
+                },
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+            });
+            swiper.update();
         });
-        swiper.update();
-    });
-</script>
+    </script>
+@endpush

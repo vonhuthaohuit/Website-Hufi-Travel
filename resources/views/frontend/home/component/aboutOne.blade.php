@@ -56,16 +56,16 @@
                         <span class="section-title__tagline">Get to know us</span>
                         <h2 class="section-title__title">Lên kế hoạch cho chuyến đi của bạn với HUFI Travel</h2>
                     </div>
-                    <p class="about-one__right-text">There are many variations of passages of available but the
-                        majority have suffered alteration in some form, by injected hum randomised words which
-                        don't look even slightly.</p>
+                    <p class="about-one__right-text">"HUFI Travel là người bạn đồng hành đáng tin cậy giúp bạn lên kế
+                        hoạch cho những chuyến đi trọn vẹn và đầy cảm xúc. Với những ưu đãi hấp dẫn và dịch vụ chất
+                        lượng, chúng tôi cam kết mang lại cho bạn những trải nghiệm du lịch khó quên."</p>
                     <ul class="list-unstyled about-one__points">
                         <li>
                             <div class="icon">
                                 <i class="fa fa-check"></i>
                             </div>
                             <div class="text">
-                                <p>Invest in your simply neighborhood</p>
+                                <p>Đầu tư cho hành trình của bạn</p>
                             </div>
                         </li>
                         <li>
@@ -73,7 +73,7 @@
                                 <i class="fa fa-check"></i>
                             </div>
                             <div class="text">
-                                <p>Support people in free text extreme need</p>
+                                <p>Hỗ trợ 24/7 mọi nhu cầu</p>
                             </div>
                         </li>
                         <li>
@@ -81,11 +81,11 @@
                                 <i class="fa fa-check"></i>
                             </div>
                             <div class="text">
-                                <p>Largest global industrial business community</p>
+                                <p>Cộng đồng du lịch toàn cầu</p>
                             </div>
                         </li>
                     </ul>
-                    <a href="#" class="about-one__btn thm-btn">Đặt chỗ</a>
+                    <a href="{{ route('tour.all-tour', ['id' => 1]) }}" class="about-one__btn thm-btn">Đặt chỗ</a>
                 </div>
             </div>
         </div>

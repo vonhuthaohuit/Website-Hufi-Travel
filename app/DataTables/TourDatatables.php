@@ -68,13 +68,13 @@ class TourDatatables extends DataTable
                     // Nếu tinhtrang khác 2, cho phép thay đổi
                     $checked = $query->tinhtrang == 1 ? 'checked' : '';
                     return '<label class="custom-switch mt-2">
-                        <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->id . '" class="custom-switch-input change-status">
+                        <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->matour . '" class="custom-switch-input change-status">
                         <span class="custom-switch-indicator"></span>
                     </label>';
                 }
             })
             ->rawColumns(['action', "tinhtrang", 'hinhdaidien','maloaitour','makhuyenmai'])
-            ->setRowId('id');
+            ->setRowId('matour');
     }
 
     /**
@@ -132,7 +132,7 @@ class TourDatatables extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(300)
+                ->width(350)
                 ->addClass('text-center'),
         ];
     }

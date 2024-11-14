@@ -34,87 +34,32 @@
                 <h5></h5>
                 <hr>
             @endif
+
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                     <div class="row">
-                        @foreach ($blogs as $blog)
-                            <div class="col-xl-4 mb-4">
-                                <div class="wsus__single_blog wsus__single_blog_2">
-                                    <a class="wsus__blog_img" href="{{ route('blog.detail', $blog->slug) }}">
-                                        {{-- {{ route('blog-details', $blog->slug) }} --}}
-                                        <img src="{{ asset($blog->hinhanh) }}" alt="blog" class="img-fluid w-100">
-                                    </a>
-                                    <div class="wsus__blog_text">
-                                        <a class="blog_top red" href="#">{{ $blog->loaiblog->tenloaiblog }}</a>
-                                        <div class="wsus__blog_text_center">
-                                            <a href="{{ route('blog.detail', $blog->slug) }}">{{ $blog->tieude }}</a>
-                                            <p class="date">{{ date('d/m/Y', strtotime($blog->created_at)) }}</p>
-                                        </div>
+                        @if (count($blogs) === 0)
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h3>Sorry No Blog Found!</h3>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @endif
+                        @include('frontend.blog.component.blog-list')
+
                         <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-end">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
+                            <ul class="pagination justify-content-end pb-4">
+                                {{ $blogs->links('pagination::bootstrap-5') }}
                             </ul>
                         </nav>
+
                     </div>
 
                 </div>
-                <div class="col-lg-4">
-                    <div class="wsus__blog_sidebar" id="sticky_sidebar">
-                        <div class="wsus__blog_search">
-                            <h4>Tìm kiếm</h4>
-                            <form action="" method="GET">
-                                <input type="text" placeholder="Tìm kiếm..." name="search">
-                                <button type="submit" class="common_btn"><i class="fas fa-search"></i></button>
-                            </form>
-                        </div>
-                        <div class="wsus__blog_post">
-                            <h4>Các bài blog khác</h4>
-                            @foreach ($moreBlogs as $blog)
-                                <div class="wsus__blog_post_single">
-                                    <a href="{{ route('blog.detail', $blog->slug) }}" class="wsus__blog_post_img">
-                                        <img style="height: 71px;" src="{{ asset('frontend/images/destination-1-3.png') }}"
-                                            alt="blog" class="imgofluid w-100">
-                                    </a>
-                                    <div class="wsus__blog_post_text">
-                                        <a href="{{ route('blog.detail', $blog->slug) }}">{{ $blog->tieude }}</a>
-                                        <p> <span>{{ date('d/m/Y', strtotime($blog->created_at)) }} </span></p>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @if (count($blogs) === 0)
-                <div class="row">
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <h3>Sorry No Blog Found!</h3>
-                        </div>
-                    </div>
-                </div>
-            @endif
-            <div id="pagination">
-                <div class="mt-5">
-                    @if ($blogs->hasPages())
-                        {{ $blogs->withQueryString()->links() }}
-                    @endif
+                <div class="col-lg-3">
+                    @include('frontend.blog.component.blog-sidebar')
                 </div>
             </div>
         </div>

@@ -1,110 +1,117 @@
-.navbar-custom .navbar-brand,
-.navbar-custom .nav-link,
+.back-to-top,
+.call-animation,
+.zalo-animation {
+    position: fixed;
+    right: 35px;
+    margin: 0;
+    z-index: 9999
+}
+
+.breadcrumb-item,
+.contact-form h2,
+.phone,
+.submit-button {
+    font-weight: 700
+}
+
 .navbar-custom .nav-item,
+.navbar-custom .nav-link,
+.navbar-custom .navbar-brand,
 .navbar-custom .navbar-toggler-icon {
     font-weight: 700;
-    color: rgb(104, 113, 118);
+    color: #687176
 }
 
 .navbar-custom .navbar-nav .nav-link {
     padding-right: 1.2rem;
-    padding-left: 1.2rem;
+    padding-left: 1.2rem
 }
-
 
 footer {
     background-image: url('../images/background3.png');
-    color: #fff;
+    color: #fff
 }
-
 
 .call-animation {
     background: #e8604c;
     width: 39px;
     height: 39px;
-    position: fixed;
     bottom: 90px;
-    right: 35px;
-    margin: 0;
     border-radius: 100%;
-    border: solid 5px #e8604c;
-    animation: playAnimationPhone 2s ease infinite;
+    border: 5px solid #e8604c;
+    animation: 2s infinite playAnimationPhone;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     -ms-backface-visibility: hidden;
-    backface-visibility: hidden;
-    z-index: 9999;
+    backface-visibility: hidden
 }
 
 .zalo-animation {
     width: 40px;
     height: 40px;
-    position: fixed;
     bottom: 150px;
-    right: 35px;
-    margin: 0;
     border-radius: 100%;
-    animation: playAnimationZalo 2s ease infinite;
+    animation: 2s infinite playAnimationZalo;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     -ms-backface-visibility: hidden;
-    backface-visibility: hidden;
-    z-index: 9999;
+    backface-visibility: hidden
 }
 
-.back-to-top {
+#backToTop {
+    display: inline-block;
+    background-color: #777;
+    border: 1px solid #c5c5c5;
     width: 38px;
     height: 38px;
+    text-align: center;
+    border-radius: 8px;
     position: fixed;
     bottom: 30px;
-    right: 35px;
-    margin: 0;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #777777;
-    z-index: 9999;
-    border: 1px solid #c5c5c5;
+    transition: background-color .3s,
+        opacity .5s, visibility .5s;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1000;
+}
+
+#backToTop:active {
+    background-color: #555;
+}
+
+#backToTop.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 @keyframes playAnimationPhone {
-
     0% {
-        transform: scale(1);
+        transform: scale(1)
     }
 
     15% {
-        box-shadow: 0 0 0 2px rgba(232, 96, 76, 0.4);
+        box-shadow: 0 0 0 2px rgba(232, 96, 76, .4)
     }
 
     25% {
-        box-shadow: 0 0 0 4px rgba(232, 96, 76, 0.4), 0 0 0 8px rgba(232, 96, 76, 0.2);
-    }
-
-    25% {
-        box-shadow: 0 0 0 8px rgba(232, 96, 76, 0.4), 0 0 0 16px rgba(232, 96, 76, 0.2);
+        box-shadow: 0 0 0 4px rgba(232, 96, 76, .4), 0 0 0 8px rgba(232, 96, 76, .2);
+        box-shadow: 0 0 0 8px rgba(232, 96, 76, .4), 0 0 0 16px rgba(232, 96, 76, .2)
     }
 }
 
 @keyframes playAnimationZalo {
-
     0% {
-        transform: scale(1);
+        transform: scale(1)
     }
 
     15% {
-        box-shadow: 0 0 0 2px rgba(1, 148, 243, 0.4);
+        box-shadow: 0 0 0 2px rgba(1, 148, 243, .4)
     }
 
     25% {
-        box-shadow: 0 0 0 4px rgba(1, 148, 243, 0.4), 0 0 0 8px rgba(1, 148, 243, 0.2);
+        box-shadow: 0 0 0 4px rgba(1, 148, 243, .4), 0 0 0 8px rgba(1, 148, 243, .2);
+        box-shadow: 0 0 0 8px rgba(1, 148, 243, .4), 0 0 0 16px rgba(1, 148, 243, .2)
     }
-
-    25% {
-        box-shadow: 0 0 0 8px rgba(1, 148, 243, 0.4), 0 0 0 16px rgba(1, 148, 243, 0.2);
-    }
-
 }
 
 .phone {
@@ -112,9 +119,7 @@ footer {
     height: 35px;
     line-height: 32px;
     font-size: 18px;
-    font-weight: bold;
-    color: #333333;
-
+    color: #333
 }
 
 .call-animation .phone svg {
@@ -122,32 +127,32 @@ footer {
     height: 18px;
     float: left;
     margin-top: 6px;
-    margin-right: 5px;
+    margin-right: 5px
 }
 
 .about-one__call-icon .phone svg {
-    width: 25px;
+    width: 25px
 }
 
+.back-to-top svg,
 .call-animation .phone svg path {
-    fill: #fff;
+    fill: #fff
 }
 
 .about-one__call-icon .phone svg path {
-    fill: #e8604c;
+    fill: #e8604c
 }
 
 .phone svg path:nth-child(2) {
-    -webkit-animation: header-phone 1s infinite cubic-bezier(.1, .57, .5, 1);
-    animation: header-phone 1s infinite cubic-bezier(.1, .57, .5, 1);
+    -webkit-animation: 1s cubic-bezier(.1, .57, .5, 1) infinite header-phone;
+    animation: 1s cubic-bezier(.1, .57, .5, 1) infinite header-phone
 }
 
 .phone svg path:nth-child(3) {
-    -webkit-animation: header-phone2 1s infinite cubic-bezier(.1, .57, .5, 1);
-    animation: header-phone2 1s infinite cubic-bezier(.1, .57, .5, 1);
+    -webkit-animation: 1s cubic-bezier(.1, .57, .5, 1) infinite header-phone2;
+    animation: 1s cubic-bezier(.1, .57, .5, 1) infinite header-phone2
 }
 
-/* Animate phone */
 @-webkit-keyframes header-phone {
 
     0%,
@@ -228,186 +233,245 @@ footer {
 
 .icon-zalo {
     width: 40px;
-    height: 40px;
-}
-
-.back-to-top svg {
-    fill: #fff;
+    height: 40px
 }
 
 .main-content {
-    margin-top: 120px;
+    margin-top: 120px
 }
 
 .offcanvas-body {
-    padding-top: 0;
-}
-
-.breadcrumb-item {
-    font-weight: 700;
+    padding-top: 0
 }
 
 .breadcrumb-item.active {
-    color: rgb(1, 148, 243);
+    color: #0194f3
 }
 
 .btn-tour-type {
-    border: var(--bs-btn-active-border-color);
+    border: var(--bs-btn-active-border-color)
 }
 
 .map-container {
     width: 100%;
     margin: 0 auto;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
     border-radius: 8px;
-    overflow: hidden;
+    overflow: hidden
 }
 
 .contact-section {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url('../images/main-slider-1-1.png') no-repeat center center;
-    padding: 30px 0;
-    background-size: cover;
+    background: url('../images/main-slider-1-1.png') center center/cover no-repeat;
+    padding: 30px 0
 }
 
 .contact-image {
     display: flex;
     justify-content: flex-end;
-    padding-right: 15px;
+    padding-right: 15px
 }
 
 .contact-image img {
     width: 250px;
-    max-width: 100%;
+    max-width: 100%
 }
 
 .contact-form {
-    background-color: rgba(233, 233, 233, 0.4);
+    background-color: rgba(233, 233, 233, .4);
     padding: 50px 30px;
     color: #333;
     width: 100%;
     max-width: 550px;
     border-radius: 12px;
-    box-shadow: 0 0 10px rgba(141, 141, 141, 0.6), 0 0 18px rgba(141, 141, 141, 0.6);
+    box-shadow: 0 0 10px rgba(141, 141, 141, .6), 0 0 18px rgba(141, 141, 141, .6);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px)
+}
+
+.form-input,
+.submit-button {
+    padding: 10px;
+    font-size: 14px
 }
 
 .contact-form h2 {
     font-size: 24px;
-    font-weight: bold;
     color: #333;
-    margin-bottom: 10px;
+    margin-bottom: 10px
 }
 
 .contact-form p {
     font-size: 14px;
     margin-bottom: 20px;
-    color: #333;
+    color: #333
 }
 
 .form-input {
     width: 100%;
-    padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    font-size: 14px;
-    background-color: #fff;
+    background-color: rgb(255 255 255 / 60%);
     color: #333;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 5px 10px rgb(1 9 128 / 4%), 0 0 18px rgb(255 255 255 / 30%)
 }
 
 .form-input::placeholder {
-    color: #333;
+    color: #333
 }
 
 .form-input:focus {
-    outline: none;
-    border-color: #333;
+    outline: 0;
+    border-color: #333
 }
 
 .submit-button {
     background-color: var(--thm-primary);
     color: #fff;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 10px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
+    transition: background-color .3s;
+    width: 100%
 }
 
 .submit-button:hover {
-    background-color: #555;
+    background-color: #555
 }
 
 .contact-group {
     display: flex;
-    justify-content: center;
+    justify-content: center
+}
+
+.zoom-in {
+    animation: .3s forwards zoomIn
+}
+
+.zoom-out {
+    animation: .3s forwards zoomOut
+}
+
+.centro {
+    display: inline-block;
+    position: relative;
+    color: #333;
+    text-decoration: none
+}
+
+.centro:after {
+    content: "";
+    display: block;
+    margin: auto;
+    height: 2px;
+    width: 0;
+    transition: .5s
+}
+
+.centro:hover:after {
+    width: 100%;
+    background: #333
 }
 
 @keyframes zoomIn {
     from {
-        transform: scale(0.5);
-        opacity: 0;
+        transform: scale(.5);
+        opacity: 0
     }
 
     to {
         transform: scale(1);
-        opacity: 1;
+        opacity: 1
     }
 }
 
 @keyframes zoomOut {
     from {
         transform: scale(1);
-        opacity: 1;
+        opacity: 1
     }
 
     to {
-        transform: scale(0.5);
-        opacity: 0;
+        transform: scale(.5);
+        opacity: 0
     }
 }
 
-.zoom-in {
-    animation: zoomIn 0.3s ease forwards;
-}
-
-.zoom-out {
-    animation: zoomOut 0.3s ease forwards;
-}
-
-@media (max-width: 768px) {
+@media (max-width:768px) {
     .contact-section {
         flex-direction: column;
-        padding: 20px;
+        padding: 20px
     }
 
     .contact-form {
         max-width: 100%;
         padding: 30px;
-        margin-top: 20px;
+        margin-top: 20px
     }
 
     .contact-image img {
-        max-width: 150px;
+        max-width: 150px
     }
 
     .offcanvas {
-        max-width: 350px;
+        max-width: 350px
     }
 
     .contact-group {
         display: block;
-        justify-content: center;
+        justify-content: center
     }
 
     .contact-image {
-        justify-content: center;
+        justify-content: center
+    }
+}
+
+@keyframes hover {
+    0% {
+        transform: scaleX(0);
+        height: 5px
+    }
+
+    45% {
+        transform: scaleX(1.05);
+        height: 5px
+    }
+
+    55% {
+        height: 5px
+    }
+
+    100% {
+        transform: scaleX(1.05);
+        height: 2.8rem
+    }
+}
+
+@keyframes no-hover {
+    0% {
+        transform: scaleX(1.05);
+        height: 2.8rem
+    }
+
+    45% {
+        height: 5px
+    }
+
+    55% {
+        transform: scaleX(1.05);
+        height: 5px;
+        opacity: 1
+    }
+
+    100% {
+        transform: scaleX(0);
+        height: 5px;
+        opacity: .02
     }
 }

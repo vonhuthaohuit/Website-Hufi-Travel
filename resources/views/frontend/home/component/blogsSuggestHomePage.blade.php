@@ -19,33 +19,32 @@
         </div>
         <div class="news-one__bottom">
             <div class="row">
-                @for ($i = 0; $i < 3; $i++)
+                @foreach ($blogs as $item)
                     <div class="col-xl-4 col-lg-4 wow fadeInUp animated" data-wow-delay="100ms"
                         style="visibility: visible; animation-delay: 100ms; animation-name: fadeInUp;">
-                        <!--News One Single-->
                         <div class="news-one__single">
                             <div class="news-one__img">
-                                <img src="{{ asset('frontend/images/popular-tours__img.png') }}" alt="">
-                                <a href="#">
+                                <img src="{{ asset($item->hinhanh) }}" alt="{{$item->tieude}}">
+                                <a href="{{ route('blog.detail', $item->slug) }}">
                                     <span class="news-one__plus"></span>
                                 </a>
                                 <div class="news-one__date">
-                                    <p>28 <br> <span>Aug</span></p>
+                                    <p>{{ date('d M', strtotime($item->created_at)) }}</p>
                                 </div>
                             </div>
                             <div class="news-one__content">
                                 <ul class="list-unstyled news-one__meta">
-                                    <li><a href="news-details.html"><i class="far fa-user-circle"></i>Admin</a></li>
-                                    <li><a href="news-details.html"><i class="far fa-comments"></i>2 Comments</a>
+                                    <li><a href="news-details.html"><i class="far fa-user-circle"></i>{{ $item->nhanvien->hoten }}</a></li>
+                                    <li><a href="news-details.html"><i class="fas fa-calendar-alt"></i>{{ date('d/m/Y', strtotime($item->created_at)) }}</a>
                                     </li>
                                 </ul>
                                 <h3 class="news-one__title">
-                                    <a href="news-details.html">Things to See and Do When Visiting Japan</a>
+                                    <a href="{{ route('blog.detail', $item->slug) }}">{{ $item->tieude }}</a>
                                 </h3>
                             </div>
                         </div>
                     </div>
-                @endfor
+                @endforeach
             </div>
         </div>
     </div>
