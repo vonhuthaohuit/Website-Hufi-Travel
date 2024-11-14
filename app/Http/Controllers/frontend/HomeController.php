@@ -42,4 +42,8 @@ class HomeController extends Controller
     {
         return view('frontend.home.contact');
     }
+
+    public function transaction() {
+        return view('frontend.home.transactions');
+    }
 }
