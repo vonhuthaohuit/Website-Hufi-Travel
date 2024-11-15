@@ -111,8 +111,8 @@ class LoginController extends Controller
                 $user =  $request->user();
                 Session::put('user', $user);
                 if($user->manhomquyen == 1)
-                    return redirect()->route('home');
-                return redirect()->route('dashboard');
+                    return redirect()->route('dashboard');
+                return redirect()->route('home');
 
             }
             return back()->withErrors([
