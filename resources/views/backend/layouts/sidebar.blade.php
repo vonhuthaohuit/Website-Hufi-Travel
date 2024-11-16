@@ -183,6 +183,26 @@
                     <span>Messages</span></a></li> --}}
 
 
+            <li class="dropdown {{ setActive(['hoadon.*', 'blog.*']) }}">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
+                        class="fab fa-blogger-b"></i> <span>Quản lý hoá đơn</span></a>
+                <ul class="dropdown-menu">
+
+                    <li class="{{ setActive(['hoadon*']) }}"><a class="nav-link"
+                            href="{{ route('hoadon.index') }}">Hoá đơn</a></li>
+                    <li class="{{ setActive(['phieudattour.*']) }}"><a class="nav-link"
+                            href="{{ route('phieudattour.index') }}">Phiếu đặt tour</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown {{ setActive(['uploadanh.*', 'anh.*']) }}">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
+                        class="fab fa-blogger-b"></i> <span>Upload ảnh</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ setActive(['loaiblog*']) }}"><a class="nav-link"
+                            href="{{ route('loaiblog.index') }}">Cập nhật model ảnh</a></li>
+                </ul>
+            </li>
 
             <li class="menu-header">Settings & More</li>
 
