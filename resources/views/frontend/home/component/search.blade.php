@@ -15,13 +15,13 @@
                             <div class="tour-search-one__inputs">
                                 <div class="tour-search-one__input-box">
                                     <label for="place">Điểm đến</label>
-                                    <input type="text" placeholder="Nhập điểm đến" name="destination"
-                                        id="destination">
+                                    <input type="text" placeholder="Nhập điểm đến" name="name-destination"
+                                        id="name-destination">
                                 </div>
                                 <div class="tour-search-one__input-box">
                                     <label>Thời gian</label>
-                                    <input type="text" placeholder="Nhập thời gian đi" name="duration"
-                                        id="duration" class="hasDatepicker">
+                                    <input type="" placeholder="Nhập thời gian đi" name="date-start" id="datepicker"
+                                        class="">
                                 </div>
                                 <div class="tour-search-one__input-box tour-search-one__input-box-last">
                                     <label for="typetour">Loại tour</label>
@@ -43,4 +43,25 @@
             </div>
         </div>
     </div>
+    @push('style')
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/smoothness/jquery-ui.css">
+
+    <style>
+        .form-select {
+            border: none;
+        }
+    </style>
+@endpush
+@push('script')
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <script>
+        $(function() {
+            $("#datepicker").datepicker({
+                dateFormat: "dd/mm/yy"
+            });
+        });
+    </script>
+@endpush
+
 </section>
