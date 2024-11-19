@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -18,47 +19,20 @@ class BackupAndRestoreControlelr extends Controller
     public function backup()
     {
         try {
-            // Lấy thông tin kết nối từ file .env
-            $dbName = env('DB_DATABASE');
-            $dbUser = env('DB_USERNAME');
-            $dbPassword = env('DB_PASSWORD');
-            $dbHost = env('DB_HOST', '127.0.0.1');
+            // Thực thi lệnh backup từ Artisan command
+            $output = Artisan::call('backup:run', [
+                '--only-db' => true,    // Chỉ backup database
+                '--routines' => true,   // Bao gồm routines
+                '--triggers' => true,   // Bao gồm triggers
+            ]);
 
-            // Tạo thư mục lưu trữ backup nếu chưa tồn tại
-            $backupDirectory = storage_path('app/backup');
-            if (!file_exists($backupDirectory)) {
-                mkdir($backupDirectory, 0777, true); // Tạo thư mục với quyền truy cập đầy đủ
+            // Kiểm tra kết quả và trả về thông báo
+            if ($output === 0) {
+                return back()->with('success', 'Database backup completed successfully!');
+            } else {
+                return back()->with('error', 'Database backup failed!');
             }
-
-            // Tạo tên tệp backup
-            $backupFile = $backupDirectory . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.sql';
-            $zipBackupFile = $backupDirectory . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.zip'; // Tên tệp zip
-
-            // Lệnh backup bao gồm routines và triggers
-            $command = "mysqldump -h {$dbHost} -u {$dbUser} --password=\"{$dbPassword}\" --routines --triggers {$dbName} > \"{$backupFile}\"";
-
-            // Thực thi lệnh mysqldump
-            exec($command, $output, $return_var);
-
-            // Kiểm tra kết quả thực thi
-            if ($return_var !== 0) {
-                throw new \Exception('Backup command failed: ' . implode("\n", $output));
-            }
-
-            // Nén tệp sao lưu thành .zip
-            $zipCommand = "7z a \"{$zipBackupFile}\" \"{$backupFile}\"";
-            exec($zipCommand, $output, $return_var);
-
-            // Kiểm tra kết quả nén tệp
-            if ($return_var !== 0) {
-                throw new \Exception('Compression command failed: ' . implode("\n", $output));
-            }
-
-            // Xóa tệp .sql sau khi nén (tuỳ chọn)
-            unlink($backupFile);
-
-            return back()->with('success', "Backup created successfully! File: {$zipBackupFile}");
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return back()->with('error', 'Error: ' . $e->getMessage());
         }
     }
@@ -141,16 +115,4 @@ class BackupAndRestoreControlelr extends Controller
             return back()->with('error', 'Error: ' . $e->getMessage());
         }
     }
-
-    // 'mysql' => [
-    //     'dump' => [
-    //         'host' => env('DB_HOST', '127.0.0.1'),
-    //         'port' => env('DB_PORT', '3306'),
-    //         'database' => env('DB_DATABASE'),
-    //         'username' => env('DB_USERNAME'),
-    //         'password' => env('DB_PASSWORD'),
-    //         'useSingleTransaction' => true,
-    //         'add_extra_option' => '--routines --triggers', // Bổ sung routines và triggers
-    //     ],
-    // ],
 }
