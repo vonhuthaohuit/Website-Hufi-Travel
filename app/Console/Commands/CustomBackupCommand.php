@@ -2,11 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\BackupNotificationMail;
 use Illuminate\Console\Command;
-use Spatie\Backup\BackupDestination;
-use Spatie\Backup\Tasks\Backup\BackupJobFactory;
-use Spatie\Backup\Tasks\Backup\BackupJob;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
 class CustomBackupCommand extends Command
 {
@@ -33,7 +32,7 @@ class CustomBackupCommand extends Command
             $dbUser = env('DB_USERNAME');
             $dbPassword = env('DB_PASSWORD');
 
-            $command = "mysqldump -h {$dbHost} -u {$dbUser}  {$dbName}";
+            $command = "mysqldump  -h {$dbHost} -u {$dbUser}  {$dbName}";
 
             // Thêm tham số --routines nếu cần
             if ($includeRoutines) {
@@ -46,7 +45,7 @@ class CustomBackupCommand extends Command
             }
 
             // Tạo tên tệp backup hoặc sử dụng tên tùy chỉnh
-            $filename = $this->option('filename') ?? storage_path('app/backup') . '/' . $dbName . '_' . date('Y-m-d_H-i-s') . '.sql';
+            $filename = $this->option('filename') ?? storage_path('app/backup') . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.sql';
 
             // Thực thi lệnh mysqldump
             exec($command . " > {$filename}", $output, $returnVar);
@@ -56,9 +55,8 @@ class CustomBackupCommand extends Command
                 return;
             }
             // Thêm chức năng nén tệp sao lưu
-            \Log::info("message");
-            $zipBackupFile = storage_path('app/backup') . '/' . $dbName . '_' . date('Y-m-d_H-i-s') . '.zip';
-            $zipCommand = "D:\dowload\Game_UD\7-Zip -r {$zipBackupFile} {$filename}";
+            $zipBackupFile = storage_path('app/backup') . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.zip';
+            $zipCommand = "7z a {$zipBackupFile} {$filename}";
 
             exec($zipCommand, $zipOutput, $zipReturnVar);
 
@@ -71,8 +69,45 @@ class CustomBackupCommand extends Command
             unlink($filename);
             // Thông báo thành công
             $this->info("Backup created successfully at: {$filename}");
+            $this->sendBackupNotification('success', $filename);
         } catch (\Exception $e) {
             $this->error('Error: ' . $e->getMessage());
+            $this->sendBackupNotification('failed', $e->getMessage());
         }
+    }
+    protected function sendBackupNotification($isSuccessful)
+    {
+        // Lấy thông tin sao lưu từ hệ thống
+        $backupPath = storage_path('app/backup');
+        $backupFiles = File::files($backupPath);
+
+        // Lấy tệp sao lưu mới nhất
+        $newestBackupFile = collect($backupFiles)->sortByDesc(function ($file) {
+            return File::lastModified($file);
+        })->first();
+
+        $newestBackupSize = File::size($newestBackupFile) / 1024; // Kích thước tệp sao lưu mới nhất (KB)
+        $numberOfBackups = count($backupFiles);
+        $totalStorageUsed = collect($backupFiles)->sum(function ($file) {
+            return File::size($file);
+        }) / 1024 / 1024; // Tổng dung lượng sử dụng (MB)
+
+        // Lấy ngày sao lưu mới nhất
+        $newestBackupDate = date('Y/m/d H:i:s', File::lastModified($newestBackupFile));
+        $oldestBackupDate = date('Y/m/d H:i:s', File::lastModified($backupFiles[0])); // Ngày sao lưu cũ nhất
+
+        // Cập nhật thông số vào biến $details
+        $details = [
+            'backup_name' => 'Laravel',
+            'disk' => 'local',
+            'newest_backup_size' => number_format($newestBackupSize, 2), // Định dạng kích thước sao lưu
+            'number_of_backups' => $numberOfBackups,
+            'total_storage_used' => number_format($totalStorageUsed, 2),
+            'newest_backup_date' => $newestBackupDate,
+            'oldest_backup_date' => $oldestBackupDate,
+        ];
+
+        // Gửi email thông báo với chi tiết sao lưu
+        Mail::to('hoankien140703@gmail.com')->send(new BackupNotificationMail($isSuccessful ? 'Backup successful' : 'Backup failed', $details));
     }
 }

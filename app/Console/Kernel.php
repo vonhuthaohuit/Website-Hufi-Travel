@@ -10,11 +10,12 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      */
-    protected function schedule(Schedule $schedule): void
-    {
-        $schedule->command('backup:run --only-db')->daily();
-
-    }
+    // protected function schedule(Schedule $schedule): void
+    // {
+    //     $schedule->command('backup:run --only-db --routines --triggers')
+    //     ->cron('0 5 * * *') // Thay đổi thời gian theo ý muốn
+    //     ->appendOutputTo(storage_path('logs/backup.log'));
+    // }
 
     /**
      * Register the commands for the application.

@@ -165,7 +165,10 @@ return [
          * Set to `null` to disable encryption.
          */
         'password' => env('BACKUP_ARCHIVE_PASSWORD'),
-
+        'compression' => 'zip',  // Nén file sao lưu dưới dạng zip
+        'zip' => [
+            'compression_level' => 9, // Tùy chọn mức độ nén (1-9)
+        ],
         /*
          * The encryption algorithm to be used for archive encryption.
          * You can set it to `null` or `false` to disable encryption.
@@ -211,8 +214,8 @@ return [
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
+            'enabled' => true,
             'to' => 'hoankien140703@gmail.com',
-
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hoankien140703@gmail.com'),
                 'name' => env('MAIL_FROM_NAME', 'Example'),
