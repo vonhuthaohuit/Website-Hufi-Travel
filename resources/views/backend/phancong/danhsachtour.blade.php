@@ -21,8 +21,8 @@
                                     </p>
                                     <div class="text-muted small">
                                         <span class="mr-2"><i
-                                                class="fas fa-map-marker-alt"></i>{{ $tourItem->noikhoihanh }}</span>
-                                        <span><i class="fas fa-briefcase"></i> 3 năm</span>
+                                                class="fas fa-map-marker-alt"></i> - {{ $tourItem->noikhoihanh }}</span>
+                                        <span><i class="fas fa-briefcase"></i> - {{ $tourItem->thoigiandi }} ngày</span>
                                     </div>
 
                                     <p class="text-muted small">{{ $tourItem->tenloai }}</p>

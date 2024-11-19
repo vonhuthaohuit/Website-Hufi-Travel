@@ -22,8 +22,6 @@
                     'admin.products-image-gallery.*',
                     'admin.products-variant.*',
                     'admin.products-variant-item.*',
-                    'admin.seller-products.*',
-                    'admin.seller-pending-products.*',
                 ]) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i>
                     <span>Manage Tours</span></a>
@@ -40,13 +38,7 @@
                     <li class="{{ setActive(['diemdulich.*']) }}">
                         <a class="nav-link" href="{{ route('diemdulich.index') }}">Tourist Spot</a>
                     </li>
-                    <li class="{{ setActive(['admin.seller-pending-products.*']) }}">
-                        <a class="nav-link" href="">Seller Pending Products</a>
-                    </li>
 
-                    <li class="{{ setActive(['admin.reviews.*']) }}">
-                        <a class="nav-link" href="">Product Reviews</a>
-                    </li>
 
                 </ul>
             </li>
@@ -117,21 +109,6 @@
 
                 </ul>
             </li>
-
-            <li class="dropdown {{ setActive(['admin.withdraw-method.*', 'admin.withdraw.index']) }}">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-wallet"></i>
-                    <span>Phân công công việc</span></a>
-                <ul class="dropdown-menu">
-
-                    <li class="{{ setActive(['admin.withdraw-method.*']) }}"><a class="nav-link"
-                            href="">aaaaa</a></li>
-
-                    <li class="{{ setActive(['admin.withdraw.index']) }}"><a class="nav-link"
-                            href="">Withdraw List</a></li>
-
-                </ul>
-            </li>
-
             <li
                 class="dropdown {{ setActive([
                     'admin.slider.*',
@@ -170,7 +147,7 @@
                     <li class="{{ setActive(['loaiblog*']) }}"><a class="nav-link"
                             href="{{ route('loaiblog.index') }}">Blog Categories</a></li>
                     <li class="{{ setActive(['blog.*']) }}"><a class="nav-link"
-                            href="{{ route('blog.index') }}">Blogs</a></li>
+                            href="{{ route('nv.blog.index') }}">Blogs</a></li>
                 </ul>
             </li>
 

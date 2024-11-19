@@ -82,12 +82,12 @@ class PhuongTienDataTable extends DataTable
             ->printable(false)
             ->width(30)
             ->addClass('text-center'),
-            Column::make('tenphuongtien')->width(300)->title('Tên phương tiện'),
-            Column::make('sochongoi')->width(50)->title('Số chỗ ngồi'),
-            Column::make('sodienthoai')->width(200)->title('Số điện thoại'),
-            Column::make('giaphuongtien')->width(150)->title('Giá tiền'),
-            Column::make('created_at')->width(150)->title('Ngày tạo'),
-            Column::make('updated_at')->width(150)->title('Cập nhật lần cuối'),
+            Column::make('tenphuongtien')->width(150)->title('Tên phương tiện'),
+            Column::make('sochongoi')->width(50)->title('Số chỗ ngồi')->addClass('text-center'),
+            Column::make('sodienthoai')->width(150)->title('Số điện thoại')->addClass('text-center'),
+            Column::make('giaphuongtien')->width(150)->title('Giá tiền')
+            ->addClass('text-center'),
+
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)

@@ -85,16 +85,17 @@ class NhanVienDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')
-                ->title('STT')
-                ->exportable(false)
-                ->printable(false)
-                ->width(30)
-                ->addClass('text-center'),
+            ->title('STT')
+            ->exportable(false)
+            ->printable(false)
+            ->width(30)
+            ->addClass('text-center'),
             Column::make('hoten')->width(200)->title('Họ và Tên'),
             Column::make('gioitinh')->width(100)->title('Giới tính'),
             Column::make('sodienthoai')->width(200)->title('Liên lạc'),
             Column::make('ngayvaolam')->width(120)->title('Ngày vào làm'),
             Column::make('maphongban')->width(150)->title('Phòng ban'),
+
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)

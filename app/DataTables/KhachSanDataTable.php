@@ -84,17 +84,17 @@ class KhachSanDataTable extends DataTable
            ->printable(false)
            ->width(30)
            ->addClass('text-center'),
-            Column::make('tenkhachsan'),
-            Column::make('diachi'),
-            Column::make('sodienthoai'),
-            Column::make('chatluong'),
-            Column::make('giakhachsan'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('tenkhachsan')->width(150)->title('Tên khách sạn'),
+            Column::make('diachi')->width(150)->title('Địa chỉ'),
+            Column::make('sodienthoai')->width(150)->title('Số điện thoại'),
+            Column::make('chatluong')->width(100)->title('Chất lượng')
+            ->addClass('text-center'),
+            Column::make('giakhachsan')->width(100)->title('Giá')
+            ->addClass('text-center'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  ->width(150)
                   ->addClass('text-center')
 
         ];
