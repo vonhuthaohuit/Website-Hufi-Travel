@@ -132,7 +132,7 @@ class TourDatatables extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(350)
+                ->width(500)
                 ->addClass('text-center'),
         ];
     }

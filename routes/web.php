@@ -8,6 +8,7 @@ use App\Http\Controllers\backend\DiemDuLichController;
 use App\Http\Controllers\backend\HomeController as BackendHomeController;
 use App\Http\Controllers\frontend\TourController;
 use App\Http\Controllers\backend\AuthController;
+use App\Http\Controllers\backend\BackupAndRestoreControlelr;
 use App\Http\Controllers\dattour\DatTourController;
 use App\Http\Controllers\backend\BlogController;
 use App\Http\Controllers\backend\FooterGridOneController;
@@ -31,6 +32,8 @@ use App\Http\Controllers\backend\PhuongTien_TourController;
 use App\Http\Controllers\backend\PhuongTienController;
 use App\Http\Controllers\backend\LoaiBlogController;
 use App\Http\Controllers\backend\LoaiTourController;
+use App\Http\Controllers\backend\nhanvien\DashboardController;
+use App\Http\Controllers\backend\StatisticController;
 use App\Http\Controllers\backend\SubscriberController;
 use App\Http\Controllers\backend\TourController as BackendTourController;
 use App\Http\Controllers\thanhtoan\ThanhToanMomoController;
@@ -216,16 +219,27 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
     Route::get('subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
     Route::delete('subscribers/{id}', [SubscriberController::class, 'destory'])->name('subscribers.destory');
     Route::post('subscribers-send-mail', [SubscriberController::class, 'sendMail'])->name('subscribers-send-mail');
+
+    //Thống kê báo cáo
+    Route::get('statistic/khachhang/index',[StatisticController::class,'viewStatisticKhachHang'])->name('statistic.khachhang.index') ;
+   // Route::get('statistic/doanhthu',[StatisticController::class,'statisticDoanhThu'])->name('statistic.doanhthu');
+    Route::get('statistic/khachhang',[StatisticController::class,'statisticKhachHang'])->name('statistic.khachhang');
+    // Sao lưu phục hồi
+    Route::get('backup-restore', [BackupAndRestoreControlelr::class, 'index'])->name('backup.index');
+    Route::get('/backup', [BackupAndRestoreControlelr::class, 'backup'])->name('backup.create');
+    Route::post('restore', [BackupAndRestoreControlelr::class, 'restore'])->name('backup.restore');
 });
 
 Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
 Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');
 Route::get('/search', [FrontendBlogController::class, 'search'])->name('blog.search');
 
-Route::prefix('nhanvien')->group(function ()
-    {
-    Route::get('/dashboard', [BackendHomeController::class, 'nhanvien_home'])->name('nv.dashboard');
-    });
+Route::prefix('nhanvien')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('nv.dashboard');
+    Route::resource('loaitour', LoaiTourController::class);
+    Route::resource('khuyenmai', KhuyenMaiController::class);
+    Route::resource('blog', BlogController::class, ['as' => 'nv']);
+});
 
 // Route::middleware('user')->group(function()
 // {

@@ -14,9 +14,10 @@
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Todays Orders</h4>
+                                <h4>Số lượng tour</h4>
                             </div>
                             <div class="card-body">
+                                {{ $totalTour }}
                             </div>
                         </div>
                     </div>
@@ -231,7 +232,7 @@
                             <h4>Total Blogs</h4>
                         </div>
                         <div class="card-body">
-                            {{-- {{$totalBlogs}} --}}
+                            {{$totalBlogs}}
                         </div>
                     </div>
                 </div>
@@ -286,7 +287,7 @@
                              <h4>Total Users</h4>
                          </div>
                          <div class="card-body">
-                             {{-- {{$totalUsers}} --}}
+                        {{$totalUsers}}
                          </div>
                      </div>
                  </div>
