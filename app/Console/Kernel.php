@@ -10,12 +10,12 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      */
-    // protected function schedule(Schedule $schedule): void
-    // {
-    //     $schedule->command('backup:run --only-db --routines --triggers')
-    //     ->cron('0 5 * * *') // Thay đổi thời gian theo ý muốn
-    //     ->appendOutputTo(storage_path('logs/backup.log'));
-    // }
+    protected function schedule(Schedule $schedule): void
+    {
+        $schedule->command('backup:run --only-db --routines --triggers')
+        ->dailyAt('05:00')
+        ->appendOutputTo(storage_path('logs/backup.log'));
+    }
 
     /**
      * Register the commands for the application.
@@ -31,3 +31,6 @@ class Kernel extends ConsoleKernel
     ];
 
 }
+
+
+//// Tạo task chedular để lên lịch hàng ngày
