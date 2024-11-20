@@ -5,6 +5,7 @@ namespace App\Http\Controllers\frontend;
 use App\Http\Controllers\Controller;
 use App\Models\BlogTour;
 use App\Models\DiemDuLich;
+use App\Models\KhachHang;
 use App\Models\LoaiBlog;
 use App\Models\Tour;
 use Illuminate\Contracts\Session\Session;
@@ -45,5 +46,14 @@ class HomeController extends Controller
 
     public function transaction() {
         return view('frontend.home.transactions');
+    }
+
+    public function showProfile() {
+
+        return view('frontend.home.profile');
+    }
+
+    public function showAddress() {
+        return view('frontend.home.address');
     }
 }
