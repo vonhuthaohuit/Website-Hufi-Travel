@@ -1,3 +1,22 @@
+@php
+    $diemDens = \App\Models\DiemDuLich::layTatCaDiemDuLich();
+    $noiKhoiHanhs = \App\Models\Tour::layTatCaNoiKhoiHanh();
+    $loaiTours = \App\Models\LoaiTour::layTatCaLoaiTour();
+    // Thời gian đi
+    $durations = [
+        '1' => '1 Ngày',
+        '2-1' => '2 Ngày 1 Đêm',
+        '3-2' => '3 Ngày 2 Đêm',
+        '4-3' => '4 Ngày 3 Đêm',
+        '5-4' => '5 Ngày 4 Đêm',
+        '6-5' => '6 Ngày 5 Đêm',
+        '7-6' => '7 Ngày 6 Đêm',
+        '7' => 'Trên 7 Ngày',
+    ];
+
+    // Nơi khởi hành
+
+@endphp
 <div class="box-search-group">
     <div class="form-search-group">
         <div class="search-form">
@@ -7,47 +26,58 @@
                         d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
                 </svg>
             </button>
-            <form>
+            <form action="{{ route('tour.searchbox') }}" method="POST" class="">
+                @csrf
                 <h2 class="text-center mb-4">Tìm kiếm</h2>
                 <div class="search-group-one">
                     <div class="row g-3">
                         <div class="col-md-2">
+                            <label for="typetour">Loại tour</label>
+                            <select name="typetour" class="form-select" id="typetour">
+                                <option value="">Chọn loại tour</option>
+                                @foreach ($loaiTours as $loaiTour)
+                                    <option value="{{ $loaiTour->maloaitour }}">{{ $loaiTour->tenloai }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
                             <label for="destination">Điểm đến</label>
-                            <select class="form-select" id="destination">
-                                <option>Hà Nội</option>
-                                <option>Đà Nẵng</option>
-                                <option>Phú Quốc</option>
+                            <select name="destination" class="form-select" id="destination">
+                                <option value="">Chọn điểm đến</option>
+                                @foreach ($diemDens as $diemDen)
+                                    <option value="{{ $diemDen->madiemdulich }}">{{ $diemDen->tendiemdulich }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-2">
                             <label for="departure">Nơi khởi hành</label>
-                            <select class="form-select" id="departure">
-                                <option>TP. HCM</option>
-                                <option>Hà Nội</option>
+                            <select name="departure" class="form-select" id="departure">
+                                <option value="">Chọn nơi khởi hành</option>
+                                @foreach ($noiKhoiHanhs as $noiKhoiHanh)
+                                    <option value="{{ $noiKhoiHanh->noikhoihanh }}">{{ $noiKhoiHanh->noikhoihanh }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <label for="date">Ngày đi</label>
-                            <input type="date" class="form-control" id="date">
+                            <label for="date-start">Ngày bắt đầu</label>
+                            <input type="date" name="date-start" class="form-control" id="date-start">
                         </div>
                         <div class="col-md-2">
-                            <label for="duration">Khoảng thời gian</label>
-                            <select class="form-select" id="duration">
-                                <option>7 ngày</option>
-                                <option>10 ngày</option>
-                                <option>14 ngày</option>
-                            </select>
+                            <label for="date-end">Ngày kết thúc</label>
+                            <input type="date" name="date-end" class="form-control" id="date-end">
                         </div>
                         <div class="col-md-2">
-                            <label for="guests">Số người</label>
-                            <select class="form-select" id="guests">
-                                <option>2 người lớn</option>
-                                <option>2 người lớn, 1 trẻ em</option>
-                                <option>3 người lớn</option>
+                            <label for="duration">Thời gian đi tour</label>
+                            <select name="duration" class="form-select" id="duration">
+                                <option value="">Chọn thời gian</option>
+                                @foreach ($durations as $value => $label)
+                                    <option value="{{ $value }}">{{ $label }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-2 align-self-end">
-                            <button type="button" class="btn btn-search">Tìm kiếm</button>
+                            <button type="submit" id="btn-search" class="btn btn-search">Tìm kiếm</button>
                         </div>
                     </div>
                 </div>
@@ -120,3 +150,14 @@
         </div>
     </div>
 </div>
+<script>
+    document.querySelector("form").addEventListener("submit", function(event) {
+        var startDate = document.getElementById("date-start").value;
+        var endDate = document.getElementById("date-end").value;
+
+        if (startDate && endDate && startDate > endDate) {
+            alert("Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.");
+            event.preventDefault();
+        }
+    });
+</script>

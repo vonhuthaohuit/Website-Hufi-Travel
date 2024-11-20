@@ -45,4 +45,8 @@ class Tour extends Model
     {
         return $this->hasMany(PhuongTien_Tour::class,'matour');
     }
+    public static function layTatCaNoiKhoiHanh()
+    {
+        return Tour::select('noikhoihanh')->distinct()->get();
+    }
 }

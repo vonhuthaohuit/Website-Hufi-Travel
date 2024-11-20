@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('backend.dashboard.index');
+        return view('frontend.home.index');
     }
     public function nhanvien_home()
     {
