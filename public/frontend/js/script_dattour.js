@@ -4,15 +4,19 @@ document
     .addEventListener("click", function () {
         addCustomerRow();
     });
-document.querySelector("form").addEventListener("submit", function (event) {
-    const input = document.getElementById("td_birthday_1");
-    const errorMessage = validateDateInput(input);
-
-    if (errorMessage) {
-        event.preventDefault();
-        alert(errorMessage);
-    }
-});
+document
+    .getElementById("form-booking")
+    .addEventListener("submit", function (event) {
+        const nameField = document.querySelector(".name-khach-hang-di-tour");
+        const dateField = document.querySelector(
+            ".ngay-sinh-khach-hang-di-tour"
+        );
+        console.log(nameField.value.trim());
+        if (!nameField.value.trim() || !dateField.value) {
+            event.preventDefault();
+            alert("Vui lòng nhập đủ thông tin khách hàng đi tour đã tạo.");
+        }
+    });
 
 // Hàm thêm hàng khách hàng
 
@@ -27,10 +31,8 @@ function addCustomerRow() {
     var newRow = rowTemplate.cloneNode(true);
     newRow.style.display = "";
 
-
     setTimeout(function () {
-        var index =
-            document.querySelectorAll(".add_plus_tr").length + 1;
+        var index = document.querySelectorAll(".add_plus_tr").length + 1;
 
         newRow.querySelector(
             'input[name="td_ticket[1][td_name]"]'
@@ -132,6 +134,20 @@ document.addEventListener("DOMContentLoaded", function () {
         hasError = checkPhoneField("ticket_phone") || hasError;
         hasError = checkEmailField("ticket_email") || hasError;
 
+        let i = 1;
+        while (
+            document.querySelector(`input[name="td_ticket[${i}][td_name]"]`)
+        ) {
+            hasError =
+                checkHoTenKhachHangDiTourField(`td_ticket[${i}][td_name]`) ||
+                hasError;
+            hasError =
+                checkNgaySinhKhachHangDiTourField(
+                    `td_ticket[${i}][td_birthday]`
+                ) || hasError;
+            i++;
+        }
+
         return !hasError;
     }
 
@@ -171,6 +187,33 @@ document.addEventListener("DOMContentLoaded", function () {
         return false;
     }
 
+    function checkHoTenKhachHangDiTourField(fieldName) {
+        const hoTenKhachHang = document.querySelector(
+            `input[name="${fieldName}"]`
+        );
+        if (!hoTenKhachHang.value) {
+            showError(
+                hoTenKhachHang,
+                "Vui lòng nhập đủ họ tên danh sách khách hàng đi tour!"
+            );
+            return true;
+        }
+        return false;
+    }
+    function checkNgaySinhKhachHangDiTourField(fieldName) {
+        const ngaySinhKhachHang = document.querySelector(
+            `input[name="${fieldName}"]`
+        );
+        if (!ngaySinhKhachHang.value) {
+            showError(
+                ngaySinhKhachHang,
+                "Vui lòng nhập đủ ngày sinh danh sách khách hàng đi tour!"
+            );
+            return true;
+        }
+        return false;
+    }
+
     function showError(field, message) {
         field.classList.add("is-invalid");
         const errorMessage = field.nextElementSibling;
@@ -178,6 +221,10 @@ document.addEventListener("DOMContentLoaded", function () {
             errorMessage.style.display = "block";
             errorMessage.textContent = message;
         }
+        field.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
     }
 
     function resetErrorMessages() {
@@ -236,7 +283,7 @@ function selectTypeCustomer(selectElement) {
 
     priceInput.value = price;
 
-    // Format the price and display it
+    // Format giá
     priceDisplay.innerText = new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
@@ -251,22 +298,3 @@ document.addEventListener("DOMContentLoaded", function () {
         selectTypeCustomer(select);
     });
 });
-
-function selectTypeCustomer(selectElement) {
-    const selectedOption = selectElement.options[selectElement.selectedIndex];
-    const price = selectedOption.getAttribute("data-price") || "0";
-
-    const row = selectElement.closest("tr");
-    const priceInput = row.querySelector(".js-input-price");
-    const priceDisplay = row.querySelector(".td-price");
-
-    priceInput.value = price;
-
-    // Format the price and display it
-    priceDisplay.innerText = new Intl.NumberFormat("vi-VN", {
-        style: "currency",
-        currency: "VND",
-    }).format(price);
-}
-
-
