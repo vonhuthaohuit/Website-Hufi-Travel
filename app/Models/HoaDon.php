@@ -10,7 +10,16 @@ class HoaDon extends Model
     use HasFactory;
     protected $table = 'hoadon';
     protected $primaryKey = 'mahoadon';
-
+    protected $fillable = [
+        'maphieudattour',
+        'tongsotien',
+        'phuongthucthanhtoan',
+        'trangthaithanhtoan',
+        'nguoidaidien',
+        'tendonvi',
+        'diachidonvi',
+        'masothue',
+    ];
 
     public function phieudattour(){
         return $this->belongsTo(PhieuDatTour::class,'maphieudattour','maphieudattour');

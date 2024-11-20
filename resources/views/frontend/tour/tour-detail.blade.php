@@ -188,10 +188,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a class="btn btn-danger btn-lg btn-booking" href="#">
-                                        Đặt tour
-                                    </a>
-
+                                    <a class="btn btn-danger btn-lg btn-booking" href="#" onclick="submitBookingForm(<?php echo 1 ?>)">Đặt tour</a>
                                     <button class="btn btn-success btn-lg btn-down-pdf" id="download-pdf">
                                         Tải chi tiết tour
                                     </button>
@@ -205,6 +202,161 @@
     </div>
 
     @include('frontend.home.component.bookNow')
+
+    <style>
+        .table-responsive {
+            margin: 20px auto;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            font-size: 14px;
+            position: sticky;
+            top: 180px;
+            z-index: 1000;
+        }
+
+        .form-group {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .per-discount {
+            font-size: 1.5em;
+            color: red;
+        }
+
+        .group-price-row {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .price-old {
+            text-decoration: line-through;
+            color: #999;
+            margin-right: 10px;
+        }
+
+        .price-new {
+            font-size: 1.5em;
+            color: green;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 0;
+        }
+
+        .table td {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table b {
+            color: #333;
+        }
+
+        .btn-booking {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            background-color: var(--thm-primary);
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn-booking:hover {
+            background-color: #c9302c;
+        }
+
+        .social-plugin {
+            margin: 15px 0;
+            text-align: center;
+
+        }
+
+        .comment-box {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0;
+        }
+
+        .comment-group {
+            padding: 10px;
+            background-color: #f7f7f7;
+        }
+
+        .comment-avatar {
+            margin-right: 10px;
+        }
+
+        .comment-avatar img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-content textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            resize: none;
+            height: 80px;
+            margin-bottom: 10px;
+            color: #777;
+        }
+
+        .comment-content textarea::before {
+            border: 1px solid #adadad;
+        }
+
+        .comment-content button {
+            background-color: #339af0;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .comment-content button:hover {
+            background-color: #228be6;
+        }
+    </style>
+    <script> // Lấy ra tour id khi bấm đặt tour
+        function submitBookingForm(tourId) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = "{{ route('tour.dattour') }}";
+
+            const csrfTokenInput = document.createElement('input');
+            csrfTokenInput.type = 'hidden';
+            csrfTokenInput.name = '_token';
+            csrfTokenInput.value = "{{ csrf_token() }}";
+            form.appendChild(csrfTokenInput);
+
+            const tourIdInput = document.createElement('input');
+            tourIdInput.type = 'hidden';
+            tourIdInput.name = 'tourid';
+            tourIdInput.value = tourId;
+            form.appendChild(tourIdInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
 
     @push('script')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>

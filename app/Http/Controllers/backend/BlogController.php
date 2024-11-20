@@ -91,7 +91,7 @@ class BlogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $mablogtour)
     {
         if (Session::has('user')) {
             $user = Session::get('user');
@@ -103,7 +103,7 @@ class BlogController extends Controller
                 'maloaiblog' => 'required',
             ]);
 
-            $blog = BlogTour::findOrFail($id);
+            $blog = BlogTour::findOrFail($mablogtour);
             $blog->tieude = $request->input('tieude');
             $blog->slug = Str::slug($request->tieude);
             $blog->noidung = $request->input('noidung');

@@ -8,9 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class ChiTietPhieuDatTour extends Model
 {
     protected $table = 'chitietphieudattour';
-
+    public $timestamps = false;
     use HasFactory;
 
+    protected $fillable = [
+        'makhachhang',
+        'maphieudattour',
+        'chitietsotiendat',
+    ];
     public function phieudattour(){
         return $this->belongsTo(PhieuDatTour::class,'maphieudattour','maphieudattour');
     }

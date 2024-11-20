@@ -9,12 +9,22 @@ class PhieuDatTour extends Model
 {
     use HasFactory;
     protected $table = 'phieudattour';
-    public function chitietphieudattour(){
-        return $this->hasMany(ChiTietPhieuDatTour::class,'maphieudattour');
+    protected $primaryKey = 'maphieudattour';
+    public $timestamps = false;
+    protected $fillable = [
+        'maphieudattour',
+        'ngaydattour',
+        'tongtienphieudattour',
+        'tongsoluong',
+        'trangthaidattour',
+        'matour'
+    ];
+    public function chitietphieudattour()
+    {
+        return $this->hasMany(ChiTietPhieuDatTour::class, 'maphieudattour');
     }
-    public function tour(){
-        return $this->belongsTo(Tour::class,'matour','matour');
+    public function tour()
+    {
+        return $this->belongsTo(Tour::class, 'matour', 'matour');
     }
-
-
 }
