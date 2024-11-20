@@ -22,7 +22,7 @@ class NhanVienController extends Controller
      */
     public function show(string $id)
     {
-        
+
     }
 
     /**

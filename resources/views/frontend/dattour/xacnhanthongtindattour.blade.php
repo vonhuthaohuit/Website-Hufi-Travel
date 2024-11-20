@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="panel panel-1">
                 <div class="panel-body">
-                    <form name="tourBooking" method="post" class="form-horizontal frm-tour-booking" role="form"
+                    <form action="{{ route('tour.step4') }}" name="tourBooking" method="post" class="form-horizontal frm-tour-booking" role="form"
                         id="form-booking-step2">
                         @csrf
 
