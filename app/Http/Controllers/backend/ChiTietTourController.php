@@ -52,17 +52,18 @@ class ChiTietTourController extends Controller
         $chuongtrinhtour->ngaybatdau = $request->ngaybatdau;
         $chuongtrinhtour->matour = $request->tour_id;
         $chuongtrinhtour->madiemdulich = $request->madiemdulich;
-        $ngayketthuc = $this->createNgayKetThuc($chuongtrinhtour->matour,$chuongtrinhtour->ngaybatdau);
+        $ngayketthuc = $this->createNgayKetThuc($chuongtrinhtour->matour,$chuongtrinhtour->madiemdulich,$chuongtrinhtour->ngaybatdau);
         $chuongtrinhtour->ngayketthuc = $ngayketthuc;
         $chuongtrinhtour->giachitiettour = $request->gia;
         $chuongtrinhtour->save();
         return redirect()->route('chitiettour.index',['tour_id' =>$request->tour_id])->with('success', 'Product updated successfully');;
     }
 
-    public function createNgayKetThuc($id,$ngaybatdau)
+    public function createNgayKetThuc($id,$diemdulichID,$ngaybatdau)
     {
-        $ngayketthuc = DB::select("SELECT func_create_NgayKetThuc(?,?) AS ngayketthuc", [
+        $ngayketthuc = DB::select("SELECT func_create_NgayKetThuc(?,?,?) AS ngayketthuc", [
             $id,          // Tham số mã tour (id)
+            $diemdulichID,
             $ngaybatdau  // Tham số ngày bắt đầu
         ]);
         return $ngayketthuc[0]->ngayketthuc;
