@@ -7,10 +7,11 @@ use App\Models\BlogTour;
 use App\Models\DiemDuLich;
 use App\Models\KhachHang;
 use App\Models\LoaiBlog;
+use App\Models\PhieuDatTour;
 use App\Models\Tour;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -44,16 +45,23 @@ class HomeController extends Controller
         return view('frontend.home.contact');
     }
 
-    public function transaction() {
-        return view('frontend.home.transactions');
-    }
+    public function transaction()
+    {
+        $user = Session::get('user');
+        $maTaiKhoan = $user['mataikhoan'];
 
-    public function showProfile() {
+        $toursDaDat = PhieuDatTour::query()
+            ->join('tour', 'phieudattour.matour', '=', 'tour.matour')
+            ->join('chitietphieudattour', 'phieudattour.maphieudattour', '=', 'chitietphieudattour.maphieudattour')
+            ->join('khachhang', 'chitietphieudattour.makhachhang', '=', 'khachhang.makhachhang')
+            ->leftJoin('users', 'khachhang.mataikhoan', '=', 'users.mataikhoan')
+            ->where('users.mataikhoan', $maTaiKhoan)
+            ->select('tour.*', 'phieudattour.trangthaidattour')
+            ->groupBy('phieudattour.maphieudattour')
+            ->get();
 
-        return view('frontend.home.profile');
-    }
+        // dd($toursDaDat);
 
-    public function showAddress() {
-        return view('frontend.home.address');
+        return view('frontend.home.transactions', compact('toursDaDat'));
     }
 }

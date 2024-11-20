@@ -189,7 +189,7 @@ Route::prefix('admin')->group(function () {
 
 
 
-   
+
     Route::delete('loaiblog/mass-destroy', [LoaiBlogController::class, 'massDestroy'])->name('loaiblog.massDestroy');
 
     Route::resource('footer-grid-one', FooterGridOneController::class);
