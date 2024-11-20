@@ -7,6 +7,7 @@ use App\Http\Controllers\thanhtoan\PhieuDatTourController;
 use App\Http\Controllers\thanhtoan\ThanhToanController;
 use App\Models\ChiTietTour;
 use App\Models\ChuongTrinhTour;
+use App\Models\HoaDon;
 use App\Models\KhachHang;
 use App\Models\KhachSan_Tour;
 use App\Models\LoaiKhachHang;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DatTourController extends Controller
 {
@@ -70,7 +73,6 @@ class DatTourController extends Controller
         | Kiểm tra đăng nhập
         |--------------------------------------------------------------------------
         */
-
         if (Session::get('user') == null) {
             return redirect()->route('login');
         }
@@ -102,7 +104,6 @@ class DatTourController extends Controller
 
     public function xacnhanthongtindattour(Request $request)
     {
-
         if (Session::get('user') == null) {
             return redirect()->route('login');
         }
@@ -121,8 +122,8 @@ class DatTourController extends Controller
             'ticket_address' => $request->input('ticket_address'),
             'ticket_phone' => $request->input('ticket_phone'),
             'ticket_email' => $request->input('ticket_email'),
-            'ticket_tendonvi'=> $request->input('ticket_tendonvi'),
-            'ticket_masothue'=> $request->input('ticket_masothue'),
+            'ticket_tendonvi' => $request->input('ticket_tendonvi'),
+            'ticket_masothue' => $request->input('ticket_masothue'),
             'ticket_note' => $request->input('ticket_note'),
             'ticket_total_customer' => count($request->input('td_ticket', [])),
             'td_ticket' => $request->input('td_ticket', []),
@@ -161,6 +162,34 @@ class DatTourController extends Controller
             $this->chiTietPhieuDatTour->TaoChiTietPhieuDatTour($danhSachKhachHangDiTour[$key - 1]->makhachhang, $phieuDatTour['maphieudattour'], $chiTietSoTienDat);
         }
         return view('frontend.dattour.xacnhanthongtindattour', compact('data', 'tour', 'phieuDatTour'));
+    }
+    public function tieptucdattour(Request $request)
+    {
+        $data = $request->all();
+        $phieuDatTour = \App\Models\PhieuDatTour::find($data['phieuDatTourid']);
+        $trangThaiDatTour = 'Đang chờ xác nhận đặt tour';
+        $phuongThucThanhToan = 'Thanh toán trực tiếp';
+        $thongTinNguoiDaiDien = session('thongTinNguoiDaiDien');
+        DB::beginTransaction();
+        try {
+            // Tạo hóa đơn với trạng thái thanh toán
+            HoaDon::create([
+                'maphieudattour' => $phieuDatTour->maphieudattour,
+                'tongsotien' => $phieuDatTour->tongtienphieudattour,
+                'phuongthucthanhtoan' => $phuongThucThanhToan,
+                'trangthaithanhtoan' => $trangThaiDatTour,
+                'nguoidaidien' => $thongTinNguoiDaiDien['nguoiDaiDien'] ?? null,
+                'tendonvi' => $thongTinNguoiDaiDien['tendonvi'] ?? null,
+                'diachidonvi' => $thongTinNguoiDaiDien['diachi'] ?? null,
+                'masothue' => $thongTinNguoiDaiDien['maSoThue'] ?? null,
+            ]);
+            DB::commit();
+            return view('frontend/thanhtoan/payment_success');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error("Lỗi trong quá trình lưu hóa đơn: " . $e->getMessage());
+            return view('frontend/thanhtoan/payment_failed');
+        }
     }
 
 

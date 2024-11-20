@@ -121,8 +121,8 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Ghi chú</label>
-                            <div class="col-sm-10">
-                                <textarea name="ticket_note" class="form-control" rows="3"></textarea>
+                            <div class="col-sm-12">
+                                <textarea name="ticket_note" class="form-control" rows="4"></textarea>
                             </div>
                         </div>
                         <div class="content_book">
@@ -146,11 +146,11 @@
                                             <td>
                                                 <input type="hidden" class="form-control" name="stt"
                                                     value="1">
-                                                <input type="text" class="form-control" id="td_name_1"
+                                                <input type="text" class="form-control name-khach-hang-di-tour" id="td_name_1"
                                                     name="td_ticket[1][td_name]" placeholder="Tên" required=""
                                                     data-msg="Trường này là bắt buộc!">
                                             </td>
-                                            <td><input type="date" class="form-control" id="td_birthday_1"
+                                            <td><input type="date" class="form-control ngay-sinh-khach-hang-di-tour" id="td_birthday_1"
                                                     name="td_ticket[1][td_birthday]" placeholder="01/01/1990"
                                                     required="" data-msg="Trường này là bắt buộc!"></td>
                                             <td>
