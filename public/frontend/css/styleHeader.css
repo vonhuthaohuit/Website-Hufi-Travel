@@ -19,6 +19,14 @@
     font-weight: 700;
 }
 
+.navbar-custom.navbar-scrolled .transaction {
+    color: rgb(104, 113, 118);
+}
+
+.transaction {
+    font-weight: 700;
+}
+
 .navbar-custom.navbar-scrolled .centro:hover:after {
     background: #333;
 }

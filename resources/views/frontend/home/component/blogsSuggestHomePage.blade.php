@@ -29,13 +29,13 @@
                                     <span class="news-one__plus"></span>
                                 </a>
                                 <div class="news-one__date">
-                                    <p>28 <br> <span>Aug</span></p>
+                                    <p>{{ date('d M', strtotime($item->created_at)) }}</p>
                                 </div>
                             </div>
                             <div class="news-one__content">
                                 <ul class="list-unstyled news-one__meta">
-                                    <li><a href="news-details.html"><i class="far fa-user-circle"></i>Admin</a></li>
-                                    <li><a href="news-details.html"><i class="far fa-comments"></i>2 Comments</a>
+                                    <li><a href="news-details.html"><i class="far fa-user-circle"></i>{{ $item->nhanvien->hoten }}</a></li>
+                                    <li><a href="news-details.html"><i class="fas fa-calendar-alt"></i>{{ date('d/m/Y', strtotime($item->created_at)) }}</a>
                                     </li>
                                 </ul>
                                 <h3 class="news-one__title">

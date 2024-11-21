@@ -64,7 +64,7 @@
                                     class="text-danger">*</span></label>
                             <div class="col-md-10">
                                 <input type="text" class="form-control" name="ticket_fullname"
-                                    value="{{ $khachHang->hoten ?? '' }}" required="" data-msg="Trường này là bắt buộc!">
+                                    value="{{ @$khachHang->hoten }}" required="" data-msg="Trường này là bắt buộc!">
                                 <span class="text-danger error-message" style="display: none;"></span>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                             <label class="col-sm-2 control-label">Địa chỉ (Cá nhân/đơn vị) <span class="text-danger">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="ticket_address"
-                                    value="{{ $khachHang->diachi ?? '' }}" required="" data-msg="Trường này là bắt buộc!">
+                                    value="{{ @$khachHang->diachi }}" required="" data-msg="Trường này là bắt buộc!">
                                 <span class="text-danger error-message" style="display: none;"></span>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                                             class="text-danger">*</span></label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" name="ticket_phone"
-                                            value="{{ $khachHang->sodienthoai ? '' }}" required=""
+                                            value="{{ @$khachHang->sodienthoai }}" required=""
                                             data-msg="Trường này là bắt buộc!">
                                         <span class="text-danger error-message" style="display: none;"></span>
                                     </div>
@@ -94,7 +94,7 @@
                                     <label class="col-sm-4 control-label">Email <span class="text-danger">*</span></label>
                                     <div class="col-sm-8">
                                         <input type="email" class="form-control" name="ticket_email"
-                                            value="{{ $user->email ? '' }}" required="" data-msg="Trường này là bắt buộc!"
+                                            value="{{ @$user->email }}" required="" data-msg="Trường này là bắt buộc!"
                                             data-msg-email="Email không đúng định dạng!">
                                         <span class="text-danger error-message" style="display: none;"></span>
                                     </div>

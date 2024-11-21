@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 <link rel="stylesheet" href="{{ asset('frontend/css/style_dattour.css') }}">
 @section('renderBody')
-<div class="content container">
+<div class="content container pt-5">
     <div class="container-fluid">
         <div class="panel panel-1">
         <div class="panel-body">
@@ -15,7 +15,7 @@
 
                 <div class="content_book tour-des">
                     <header class="content-header">
-                        <h3>Đặt tour thất bại!</h3>
+                        <h3 class="py-3">Đặt tour thất bại!</h3>
                     </header>
                     <div style="font-size: 40px; text-align:center; margin-top:30px">
                         <img src="{{ asset('frontend/images/error.png') }}" alt="" width="100" height="100">
