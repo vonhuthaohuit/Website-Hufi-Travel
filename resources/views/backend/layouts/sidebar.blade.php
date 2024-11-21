@@ -163,7 +163,7 @@
         <li class="menu-header">Settings & More</li>
 
 
-            <li class="dropdown {{ setActive(['hoadon.*', 'blog.*']) }}">
+            {{-- <li class="dropdown {{ setActive(['hoadon.*', 'blog.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fab fa-blogger-b"></i> <span>Quản lý hoá đơn</span></a>
                 <ul class="dropdown-menu">
@@ -182,7 +182,7 @@
                     <li class="{{ setActive(['loaiblog*']) }}"><a class="nav-link"
                             href="{{ route('loaiblog.index') }}">Cập nhật model ảnh</a></li>
                 </ul>
-            </li>
+            </li> --}}
 
                 <li class="{{ setActive(['footer-grid-two.*']) }}">
                     <a class="nav-link" href="{{ route('footer-grid-two.index') }}">Footer Grid Two</a>

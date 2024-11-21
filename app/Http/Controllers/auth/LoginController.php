@@ -4,6 +4,7 @@ namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Models\KhachHang;
 use App\Models\NhanVien;
 use App\Models\User;
 use Exception;
@@ -38,26 +39,35 @@ class LoginController extends Controller
                 return redirect()->route('home')->with('success', 'Đăng nhập thành công');
             } else {
                 $newUser = User::create([
-                    'tentaikhoan' => $user->name,
+                    'tentaikhoan' => $user->email,
                     'email' => $user->email,
                     'google_id' => $user->id,
                     'matkhau' => bcrypt('123456dumy'),
                     'trangthai' => 'Hoạt động',
                     'manhomquyen' => '1',
                 ]);
+                $khachhang = new KhachHang();
+                $khachhang->hoten = $user->name;
+                $khachhang->gioitinh = null;
+                $khachhang->ngaysinh = null;
+                $khachhang->sodienthoai = "0000000000";
+                $khachhang->diachi = null;
+                $khachhang->hinhdaidien = null;
+                $khachhang->maloaikhachhang = 1;
+                $khachhang->mataikhoan = $newUser->id;
+                $khachhang->save();
                 Auth::login($newUser);
                 Session::put('user', $newUser);
                 return redirect()->route('home')->with('success', 'Đăng nhập thành công');
             }
         } catch (Exception $e) {
-            dd($e->getMessage());
+            return redirect()->route('login_view')->with('error', 'Đăng nhập không thành công');
         }
     }
 
     public function register(Request $request)
     {
         Log::info('Register method started');
-
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
@@ -74,52 +84,62 @@ class LoginController extends Controller
             $user->tentaikhoan = $request->name;
             $user->email = $request->email;
             $user->matkhau = $request->password;
-            $user->manhomquyen = 1;
+            $user->manhomquyen = 2;
             $user->trangthai = "Hoạt động";
             $user->save();
-
             Log::info('User created with ID:', ['user_id' => $user->id]);
-
-            // $nhanvien = new NhanVien();
-            // $nhanvien->hoten = $request->name;
-            // $nhanvien->gioitinh = null;
-            // $nhanvien->ngaysinh = now();
-            // $nhanvien->sodienthoai = "0211";
-            // $nhanvien->ngayvaolam = now();
-            // $nhanvien->hinhdaidien = null;
-            // $nhanvien->luong = 0;
-            // $nhanvien->maphongban = 1;
-            // $nhanvien->mataikhoan = $user->id;
-            // $nhanvien->save();
-
-            // \Log::info('NhanVien created successfully');
+            $khachhang = new KhachHang();
+            $khachhang->hoten = "Chưa có tên";
+            $khachhang->ngaysinh = now();
+            $khachhang->sodienthoai = "0211";
+            $khachhang->diachi = null;
+            $khachhang->hinhdaidien = null;
+            $khachhang->maloaikhachhang = 1;
+            $khachhang->mataikhoan = $user->id;
+            $khachhang->save();
             Session::put('success', 'Đăng kí thành công');
             return redirect()->route('login_view');
         } catch (\Throwable $th) {
             Log::error('Error in registration process:', ['error' => $th->getMessage()]);
-            return redirect()->back()->with('error', $th->getMessage());
+            User::where('mataikhoan', $user->id)->delete();
+            return redirect()->back()->with('error', 'Đăng kí không thành công');
         }
     }
-
-
 
     public function login(Request $request)
     {
         try {
-            if (Auth::attempt(['email' => $request->email_login, 'password' => $request->password_login])) {
+            $validator = Validator::make($request->all(), [
+                'email_or_username' => 'required',
+                'password' => 'required'
+            ]);
+            if ($validator->fails()) {
+
+                return redirect()->back()->with('error', "Đăng nhập không thành công");
+            }
+            if (filter_var($request['email_or_username'], FILTER_VALIDATE_EMAIL)) {
+                $user = User::where('email', $request['email_or_username'])->first();
+            } else {
+                $user = User::where('tentaikhoan', $request['email_or_username'])->first();
+
+            }
+            if ($user && Hash::check($request['password'], $user->matkhau)) {
+                Auth::login($user);
                 $request->session()->regenerate(); // Regenerate session for security
                 $user =  $request->user();
                 Session::put('user', $user);
-                if($user->manhomquyen == 1)
+                if ($user->manhomquyen == 1) {
                     return redirect()->route('dashboard');
+                }
                 return redirect()->route('home');
-
             }
             return back()->withErrors([
                 'message' => 'Thông tin đăng nhập không chính xác.',
             ])->withInput();
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', $th->getMessage());
+        } catch (\Exception $th) {
+            Log::error('Error in registration process:', ['error' => $th->getMessage()]);
+
+            return redirect()->back()->with('error', "Đăng nhập không thành công");
         }
     }
 
@@ -129,12 +149,9 @@ class LoginController extends Controller
             Auth::logout(); // Log the user out
             $request->session()->invalidate(); // Invalidate session
             $request->session()->regenerateToken(); // Regenerate CSRF token
-            Session::put('success', 'Đăng xuất thành công');
             return redirect()->route('login_view');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
-
-    public function create_Info($mataikhoan) {}
 }

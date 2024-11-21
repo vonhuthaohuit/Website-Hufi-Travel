@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\thanhtoan\HoaDonController;
 use App\Models\HoaDon;
+use App\Models\KhachHang;
+use Illuminate\Support\Facades\Session;
 
 class ThanhToanController extends Controller
 {
@@ -14,7 +16,9 @@ class ThanhToanController extends Controller
     {
         $hoaDonController = new HoaDonController();
         $phieuDatTourController = new PhieuDatTourController();
-
+        $user = Session::get('user');
+        $maTaiKhoan = $user['mataikhoan'];
+        $khachHang = KhachHang::where('mataikhoan', $maTaiKhoan)->first();
         $request->validate([
             'maTour' => 'required',
             'tongTienPhieuDatTour' => 'required|numeric',
