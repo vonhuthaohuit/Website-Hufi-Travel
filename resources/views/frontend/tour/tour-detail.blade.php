@@ -15,7 +15,7 @@
                         <div class="tour-details__top-inner row">
                             <div class="tour-details__top-left col-lg-5">
                                 <h2 class="tour-details__top-title">{{ $tour->tentour }}</h2>
-                                <p class="tour-details__top-rate"><span>{{ number_format($tour->giachitiettour) }}đ</span> /
+                                <p class="tour-details__top-rate"><span>{{ number_format($tour->giatour) }}đ</span> /
                                     Một người</p>
                             </div>
                             <div class="tour-details__top-right col-lg-7">
@@ -53,7 +53,7 @@
                                         </div>
                                         <div class="text">
                                             <p>Địa điểm</p>
-                                            <h6>Los Angeles</h6>
+                                            <h6>{{ $tour->tendiemdulich }}</h6>
                                         </div>
                                     </li>
                                 </ul>
@@ -70,14 +70,6 @@
                         <div class="tour-details__bottom-inner">
                             <div class="tour-details__bottom-left">
                                 <ul class="list-unstyled tour-details__bottom-list">
-                                    {{-- <li>
-                                        <div class="icon">
-                                            <span class="icon-clock"></span>
-                                        </div>
-                                        <div class="text">
-                                            <p>Posted 2 days ago</p>
-                                        </div>
-                                    </li> --}}
                                     <li>
                                         <div class="icon">
                                             <i class="fa fa-star"></i>
@@ -105,22 +97,15 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <h3 class="mt-4 mb-3">{!! $tour->tieude !!}</h3>
-                {!! $tour->mota !!}
+                <div id="content">
+                    <h3 class="mt-4 mb-3" style="color: #444;">{!! $tour->tieude !!}</h3>
+                    <p>{!! $tour->mota !!}</p>
+                </div>
 
                 @include('frontend.tour.component.tour-note')
 
                 <div class="comment-group-box">
                     <h4>Bình luận</h4>
-                    {{-- <div class="comment-box">
-                        <div class="comment-avatar">
-                            <img src="{{ asset('frontend/images/icon/user.png') }}" alt="avatar">
-                        </div>
-                        <div class="comment-content">
-                            <textarea placeholder="Để lại bình luận của bạn"></textarea>
-                            <button type="submit">Gửi bình luận</button>
-                        </div>
-                    </div> --}}
                     <button class="btn-create-comment">Thêm đánh giá</button>
                     @include('frontend.tour.comment.createComment')
                 </div>
@@ -153,7 +138,7 @@
                                             </h3>
 
                                             <p class="popular-tours__rate">
-                                                <span>{{ number_format($item->giachitiettour) }}đ</span> / Một người
+                                                <span>{{ number_format($item->giatour) }}đ</span> / Một người
                                             </p>
                                         </a>
                                     </div>
@@ -162,23 +147,19 @@
                         </div>
                     @endforeach
                 </div>
-
-
             </div>
             <div class="col-lg-4">
                 <div class="table-responsive table-detail-info ">
                     <div class="form-group discount form-inline  ">
                         <div class="group-price-row">
-                            {{-- <div class="price-old">54,900,000</div> --}}
-                            <div class="price-new">{{ number_format($item->giachitiettour) }}đ</div>
+                            <div class="price-new">{{ number_format($tour->giatour) }}đ</div>
                         </div>
-
                     </div>
                     <table class="table info-product">
                         <tbody>
                             <tr>
                                 <td><b><i class="fa-solid fa-calendar-days"></i> Khởi hành:</b></td>
-                                <td>17/11, 17/12/2024; 19/03/2025</td>
+                                <td>17/11, 17/12/2024; 19/03/5</td>
                             </tr>
                             <tr>
                                 <td><b><i class="fa-regular fa-clock"></i> Thời gian: </b></td>
@@ -190,7 +171,7 @@
                             </tr>
                             <tr>
                                 <td><b><i class="fa-solid fa-money-bill-1-wave"></i> Giá:</b></td>
-                                <td>{{ number_format($item->giachitiettour) }} VNĐ</td>
+                                <td>{{ number_format($tour->giatour) }} VNĐ</td>
                             </tr>
                             <tr>
                                 <td><b><span class="fa fa-phone"></span> Liên hệ tư vấn:</b></td>
@@ -205,12 +186,15 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a class="btn btn-danger btn-lg btn-booking" href="#" onclick="submitBookingForm(<?php echo 1 ?>)">Đặt tour</a>
+                                    <a class="btn btn-danger btn-lg btn-booking" href="#"
+                                        onclick="submitBookingForm(<?php echo 1; ?>)">Đặt tour</a>
+                                    <button class="btn btn-success btn-lg btn-down-pdf" id="download-pdf">
+                                        Tải chi tiết tour
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <!--END: detail-info-->
                 </div>
             </div>
         </div>
@@ -218,162 +202,9 @@
 
     @include('frontend.home.component.bookNow')
 
-    <style>
-        .table-responsive {
-            margin: 20px auto;
-            max-width: 800px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            overflow: hidden;
-            font-size: 14px;
-            position: sticky;
-            top: 180px;
-            z-index: 1000;
-        }
-
-        .form-group {
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .per-discount {
-            font-size: 1.5em;
-            color: red;
-        }
-
-        .group-price-row {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        .price-old {
-            text-decoration: line-through;
-            color: #999;
-            margin-right: 10px;
-        }
-
-        .price-new {
-            font-size: 1.5em;
-            color: green;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 0;
-        }
-
-        .table td {
-            border-bottom: 1px solid #ddd;
-        }
-
-        .table b {
-            color: #333;
-        }
-
-        .btn-booking {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            background-color: var(--thm-primary);
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-
-        .btn-booking:hover {
-            background-color: #c9302c;
-        }
-
-        .social-plugin {
-            margin: 15px 0;
-            text-align: center;
-
-        }
-
-        .comment-box {
-            display: flex;
-            align-items: flex-start;
-            margin: 20px 0;
-        }
-
-        .comment-group {
-            padding: 10px;
-            background-color: #f7f7f7;
-        }
-
-        .comment-avatar {
-            margin-right: 10px;
-        }
-
-        .comment-avatar img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-
-        .comment-content {
-            flex: 1;
-        }
-
-        .comment-content textarea {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-            resize: none;
-            height: 80px;
-            margin-bottom: 10px;
-            color: #777;
-        }
-
-        .comment-content textarea::before {
-            border: 1px solid #adadad;
-        }
-
-        .comment-content button {
-            background-color: #339af0;
-            color: white;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .comment-content button:hover {
-            background-color: #228be6;
-        }
-    </style>
-    <script> // Lấy ra tour id khi bấm đặt tour
-        function submitBookingForm(tourId) {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = "{{ route('tour.dattour') }}";
-
-            const csrfTokenInput = document.createElement('input');
-            csrfTokenInput.type = 'hidden';
-            csrfTokenInput.name = '_token';
-            csrfTokenInput.value = "{{ csrf_token() }}";
-            form.appendChild(csrfTokenInput);
-
-            const tourIdInput = document.createElement('input');
-            tourIdInput.type = 'hidden';
-            tourIdInput.name = 'tourid';
-            tourIdInput.value = tourId;
-            form.appendChild(tourIdInput);
-
-            document.body.appendChild(form);
-            form.submit();
-        }
-    </script>
-
     @push('script')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 $('.slick-slider').slick({
@@ -405,6 +236,76 @@
                     ]
                 });
             });
+        </script>
+        <script>
+            document.getElementById('download-pdf').addEventListener('click', async function() {
+                const {
+                    jsPDF
+                } = window.jspdf;
+
+                const content = document.getElementById('content'); // Lấy toàn bộ nội dung trang web
+                const slug = @json($tour->slug);
+                try {
+                    // Sử dụng html2canvas để render phần tử thành canvas
+                    const canvas = await html2canvas(content, {
+                        scale: 2, // Tăng độ phân giải
+                        useCORS: true // Cho phép tải ảnh từ nguồn bên ngoài
+                    });
+
+                    const imgData = canvas.toDataURL('image/png');
+
+                    // Thiết lập PDF
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const imgWidth = 190; // Chiều rộng hình ảnh trong PDF
+                    const pageHeight = 297; // Chiều cao của trang A4
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                    let heightLeft = imgHeight;
+
+                    let position = 20; // Vị trí bắt đầu
+
+                    // Thêm hình ảnh vào PDF
+                    pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+
+                    // Nếu nội dung dài hơn 1 trang, tạo các trang tiếp theo
+                    while (heightLeft > 0) {
+                        position = heightLeft - imgHeight;
+                        pdf.addPage();
+                        pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+                    }
+
+                    // Lưu file PDF
+
+                    pdf.save(slug + '.pdf');
+                } catch (error) {
+                    console.error('Error generating PDF:', error);
+                }
+            });
+        </script>
+
+        <script>
+            // Lấy ra tour id khi bấm đặt tour
+            function submitBookingForm(tourId) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = "{{ route('tour.dattour') }}";
+
+                const csrfTokenInput = document.createElement('input');
+                csrfTokenInput.type = 'hidden';
+                csrfTokenInput.name = '_token';
+                csrfTokenInput.value = "{{ csrf_token() }}";
+                form.appendChild(csrfTokenInput);
+
+                const tourIdInput = document.createElement('input');
+                tourIdInput.type = 'hidden';
+                tourIdInput.name = 'tourid';
+                tourIdInput.value = tourId;
+                form.appendChild(tourIdInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
         </script>
     @endpush
 @endsection

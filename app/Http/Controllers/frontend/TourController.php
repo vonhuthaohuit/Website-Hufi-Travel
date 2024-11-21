@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\DiemDuLich;
 use App\Models\LoaiTour;
 use App\Models\Tour;
 use Illuminate\Http\Request;
@@ -15,7 +16,9 @@ class TourController extends Controller
             ->leftJoin('chitiettour', 'tour.matour', '=', 'chitiettour.matour')
             ->leftJoin('diemdulich', 'chitiettour.madiemdulich', '=', 'diemdulich.madiemdulich')
             ->leftJoin('chuongtrinhtour', 'tour.matour', '=', 'chuongtrinhtour.matour')
-            ->select('tour.*', 'chitiettour.giachitiettour', 'chuongtrinhtour.mota', 'chuongtrinhtour.tieude')
+            ->leftJoin('hinhanhtour', 'tour.matour', '=', 'hinhanhtour.matour')
+            ->leftJoin('loaitour', 'tour.maloaitour', '=', 'loaitour.maloaitour')
+            ->select('tour.*', 'chitiettour.giachitiettour', 'chuongtrinhtour.mota', 'chuongtrinhtour.tieude', 'diemdulich.tendiemdulich', 'loaitour.tenloai', 'hinhanhtour.duongdan')
             ->where('tour.slug', $slug)
             ->first();
 
@@ -56,5 +59,21 @@ class TourController extends Controller
         $count = $tours->count();
 
         return view('frontend.tour.tourSearch', compact('tours',  'tourCategories', 'query', 'count'));
+    }
+
+    public function tourByDestination($slug)
+    {
+        $tour = Tour::query()
+            ->leftJoin('chitiettour', 'tour.matour', '=', 'chitiettour.matour')
+            ->leftJoin('diemdulich', 'chitiettour.madiemdulich', '=', 'diemdulich.madiemdulich')
+            ->select('tour.*', 'diemdulich.tendiemdulich')
+            ->where('diemdulich.tendiemdulich', $slug)
+            ->paginate(12);
+
+        $tenDiemDuLich = $slug;
+
+        $tourCategories = LoaiTour::take(5)->get();
+
+        return view('frontend.tour.tour-by-destination', compact('tour', 'tourCategories', 'tenDiemDuLich'));
     }
 }

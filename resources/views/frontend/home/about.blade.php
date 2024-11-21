@@ -44,11 +44,19 @@
                                     <span class="section-title__tagline">Learn about us</span>
                                     <h2 class="section-title__title">Cùng khám phá cùng HUFI Travel</h2>
                                 </div>
-                                <p class="about-page__text-1">A Simply Perfect Place to Get Lost</p>
-                                <p class="about-page__text-2">We are trusted by our clients and have a reputation for the
-                                    best services in the field. Lorem ipsum is simply free text dolor sit amett consectetur
-                                    adipiscing elit. It is a long established fact that a reader will be distracted by the
-                                    readable content of a page.</p>
+                                <p class="about-page__text-1">Nơi lý tưởng để trải nghiệm và thư giãn</p>
+                                <p class="about-page__text-2" style="text-align: justify;">Tại HUFI Travel, chúng tôi tự hào là người bạn đồng hành đáng
+                                    tin cậy trong mỗi chuyến đi của bạn. Với đội ngũ chuyên gia du lịch giàu kinh nghiệm và
+                                    dịch vụ chuyên nghiệp, chúng tôi cam kết mang đến cho khách hàng những hành trình độc
+                                    đáo, an toàn và đầy thú vị. HUFI Travel không chỉ đưa bạn đến những địa danh tuyệt đẹp,
+                                    mà còn mở ra cơ hội khám phá sâu sắc văn hóa, con người và vẻ đẹp thiên nhiên kỳ diệu
+                                    tại mỗi nơi dừng chân.
+                                    </br></br>
+
+                                    Chúng tôi hiểu rằng mỗi chuyến đi là một trải nghiệm riêng biệt, và luôn cố gắng tạo ra
+                                    những khoảnh khắc đáng nhớ, phù hợp với nhu cầu và mong muốn của từng khách hàng. Dù bạn
+                                    yêu thích phiêu lưu, thư giãn hay khám phá lịch sử, HUFI Travel đều sẵn sàng giúp bạn
+                                    hiện thực hóa những giấc mơ ấy.</p>
                             </div>
                         </div>
                     </div>
@@ -59,23 +67,21 @@
                 <div class="service-item col-lg-4">
                     <img src="{{ asset('frontend/images/icon/target.png') }}" alt="Mục tiêu">
                     <h3>MỤC TIÊU</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                        laoreet
-                        dolore magna aliquam erat volutpat.</p>
+                    <p>Hướng tới việc xây dựng một thương hiệu du lịch uy tín, đáp ứng tối đa nhu cầu của khách
+                        hàng bằng những trải nghiệm tuyệt vời và dịch vụ chất lượng.</p>
                 </div>
                 <div class="service-item col-lg-4">
                     <img src="{{ asset('frontend/images/icon/mission.png') }}" alt="Sứ mệnh">
                     <h3>SỨ MỆNH</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                        laoreet
-                        dolore magna aliquam erat volutpat.</p>
+                    <p>Kết nối khách hàng với những hành trình ý nghĩa, giúp họ khám phá những nét
+                        đẹp văn hóa, cảnh quan và con người Việt Nam, đồng thời lan tỏa giá trị tốt đẹp của du lịch bền
+                        vững.</p>
                 </div>
                 <div class="service-item col-lg-4">
                     <img src="{{ asset('frontend/images/icon/telescope.png') }}" alt="Tương lai">
                     <h3>TƯƠNG LAI</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                        laoreet
-                        dolore magna aliquam erat volutpat.</p>
+                    <p>Cam kết phát triển những sản phẩm du lịch thân thiện với môi trường, tạo ra những hành
+                        trình không chỉ tuyệt vời cho du khách mà còn góp phần bảo vệ và gìn giữ tài nguyên thiên nhiên.</p>
                 </div>
             </div>
         </div>

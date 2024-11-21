@@ -13,18 +13,17 @@
                     <span class="section-title__tagline">Our benefit lists</span>
                     <h2 class="section-title__title">Tại sao chon HUFI Travel</h2>
                 </div>
-                <p class="why-choose__right-text">There are many variations of passages of Lorem Ipsum is simply
-                    free text available in the market for you, but the majority have suffered alteration in some
-                    form.</p>
+                <p class="why-choose__right-text">"Chúng tôi mang đến những trải nghiệm du lịch khác biệt, giúp bạn khám
+                    phá thế giới với dịch vụ chất lượng và tận tâm."</p>
                 <ul class="list-unstyled why-choose__list">
                     <li>
                         <div class="icon">
                             <span class="icon-travel"></span>
                         </div>
                         <div class="text">
-                            <h4>Professional and Certified</h4>
-                            <p>Lorem ipsum is simply free text dolor sit but the majority have suffered amet,
-                                consectetur notted.</p>
+                            <h4>Chuyên nghiệp và được chứng nhận</h4>
+                            <p>Đội ngũ của chúng tôi là những chuyên gia được đào tạo và cấp chứng nhận chuyên nghiệp,
+                                đảm bảo cung cấp dịch vụ tốt nhất.</p>
                         </div>
                     </li>
                     <li>
@@ -32,9 +31,9 @@
                             <span class="icon-travel-map"></span>
                         </div>
                         <div class="text">
-                            <h4>Get Instant Tour Bookings</h4>
-                            <p>Lorem ipsum is simply free text dolor sit but the majority have suffered amet,
-                                consectetur notted.</p>
+                            <h4>Nhận đặt tour ngay lập tức</h4>
+                            <p>Hệ thống đặt tour nhanh chóng và dễ dàng giúp bạn có thể lên lịch trình ngay lập tức chỉ
+                                với vài thao tác.</p>
                         </div>
                     </li>
                 </ul>
