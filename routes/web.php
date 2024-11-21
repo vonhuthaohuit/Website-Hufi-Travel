@@ -37,6 +37,9 @@ use App\Http\Controllers\thanhtoan\ThanhToanMomoController;
 use App\Http\Controllers\thanhtoan\ThanhToanVNPayController;
 use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
 use App\Http\Controllers\frontend\CommentController;
+use App\Http\Controllers\thanhtoan\HoaDonController;
+use App\Http\Controllers\thanhtoan\PhieuDatTourController;
+use App\Http\Controllers\thanhtoan\PhieuHuyTourController;
 use App\Models\ChiTietTour;
 use App\Models\DiemDuLich;
 use App\Models\KhachSan_Tour;
@@ -219,7 +222,16 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
     Route::get('subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
     Route::delete('subscribers/{id}', [SubscriberController::class, 'destory'])->name('subscribers.destory');
     Route::post('subscribers-send-mail', [SubscriberController::class, 'sendMail'])->name('subscribers-send-mail');
+
+
+    // Hoá đơn, phiếu đặt tour
+    Route::get('hoadon', [HoaDonController::class, 'index'])->name('hoadon.index');
+    Route::get('phieudattour', [PhieuDatTourController::class, 'index'])->name('phieudattour.index');
+    Route::get('phieuhuytour', [PhieuHuyTourController::class, 'index'])->name('phieuhuytour.index');
+
+    Route::resource('hoadon', HoaDonController::class);
 });
+Route::get('/get-tour-details/{tourId}', [ \App\Http\Controllers\backend\TourController::class, 'getTourDetails']);
 
 Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
 Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');

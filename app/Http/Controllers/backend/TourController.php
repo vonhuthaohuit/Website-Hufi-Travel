@@ -4,9 +4,11 @@ namespace App\Http\Controllers\backend;
 
 use App\DataTables\TourDatatables;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\dattour\DatTourController;
 use App\Models\ChiTietTour;
 use App\Models\DiemDuLich;
 use App\Models\KhuyenMai;
+use App\Models\LoaiKhachHang;
 use App\Models\LoaiTour;
 use App\Models\Tour;
 use App\Traits\ImageUploadTrait;
@@ -20,6 +22,12 @@ use Illuminate\Support\Str;
 class TourController extends Controller
 {
     use ImageUploadTrait;
+    protected $datTourController;
+
+    public function __construct()
+    {
+        $this->datTourController = new DatTourController();
+    }
     /**
      * Display a listing of the resource.
      */
@@ -243,5 +251,25 @@ class TourController extends Controller
         $tourCount = $tours->count();
 
         return view('backend.tour.searchtour', compact('tours', 'tourCount', 'query'));
+    }
+    public function getTourDetails($tourId)
+    {
+        $tour = Tour::find($tourId);
+        $loaiKhachHang = LoaiKhachHang::all();
+        if ($tour) {
+            $giaTour_LoaiKhachHang = $this->datTourController->TinhGiaTourLoaiKhachHang($tourId);
+
+            return response()->json([
+                'tentour' => $tour->tentour,
+                'thoigiandi' => $tour->thoigiandi,
+                'ngaybatdau' => optional($tour->chitiettour->first())->ngaybatdau,
+                'noikhoihanh' => $tour->noikhoihanh,
+                'giatour' => number_format($tour->giatour),
+                'loaikhachhang' => $loaiKhachHang,
+                'giaTourLoaiKhachHang' => $giaTour_LoaiKhachHang,
+            ]);
+        }
+
+        return response()->json([], 404);
     }
 }
