@@ -32,7 +32,7 @@
 
             <div class="col-md-8">
                 @if (session('user'))
-                    @if (count($toursDaDat) === 0)
+                    @if (count($tours) === 0)
                         <div class="transaction-status mt-3">
                             <img src="https://ik.imagekit.io/tvlk/image/imageResource/2020/07/10/1594367281441-5ec1b573d106b7aec243b19efa02ac56.svg?tr=h-96,q-75,w-96"
                                 alt="No transaction icon">
@@ -44,12 +44,13 @@
                             </div>
                         </div>
                     @else
-                        @foreach ($toursDaDat as $item)
+                        @foreach ($tours as $item)
                             <div class="transaction-item mt-3">
-                                <img src="{{ asset($item->hinhdaidien) }}" alt="No transaction icon">
+                                <img src="{{ asset($item->phieuDatTour->tour->hinhdaidien ?? 'default.jpg') }}"
+                                    alt="No transaction icon">
                                 <div>
-                                    <h5>{{ $item->tentour }}</h5>
-                                    <p>Giá: {{ number_format($item->giatour) }}đ - <span style="color: green;">{{ $item->trangthaidattour }}</span></p>
+                                    <h5>{{ $item->phieuDatTour->tour->tentour ?? 'Không có tên tour' }}</h5>
+                                    <p>Giá: {{ number_format($item->phieuDatTour->tour->giatour ?? 0) }}đ</p>
                                 </div>
                             </div>
                         @endforeach

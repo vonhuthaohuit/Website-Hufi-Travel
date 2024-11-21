@@ -130,10 +130,18 @@ class DatTourController extends Controller
             'payment_id' => $request->input('payment_id'),
         ];
         $thongTinNguoiDaiDien = [];
+        $thongTinNguoiDaiDien['makhachhang'] = $khachHang->makhachhang;
         $thongTinNguoiDaiDien['nguoidaidien'] = $data['ticket_fullname'];
         $thongTinNguoiDaiDien['tendonvi'] = $data['ticket_tendonvi'];
         $thongTinNguoiDaiDien['diachidonvi'] = $data['ticket_address'];
         $thongTinNguoiDaiDien['masothue'] = $data['ticket_masothue'];
+
+        $khachHang->hoten = $data['ticket_fullname'];
+        $khachHang->diachi = $data['ticket_address'];
+        $khachHang->sodienthoai = $data['ticket_phone'];
+        $user->email = $data['ticket_email'];
+        $khachHang->save();
+
         session()->put('thongTinNguoiDaiDien', $thongTinNguoiDaiDien);
         $tongTienPhieuDatTour = 0;
         $tongSoLuong = $data['ticket_total_customer'];
@@ -157,9 +165,17 @@ class DatTourController extends Controller
             return redirect()->back()->with('error', 'Không thể tạo phiếu đặt tour.');
         }
 
+
+
+        // Tạo danh sách khách hàng đi tour
         foreach ($data['td_ticket'] as $key => $value) {
             $chiTietSoTienDat = $value['td_price'];
-            $this->chiTietPhieuDatTour->TaoChiTietPhieuDatTour($danhSachKhachHangDiTour[$key - 1]->makhachhang, $phieuDatTour['maphieudattour'], $chiTietSoTienDat);
+            $this->chiTietPhieuDatTour->TaoChiTietPhieuDatTour(
+                $danhSachKhachHangDiTour[$key - 1]->makhachhang,
+                $phieuDatTour['maphieudattour'],
+                $chiTietSoTienDat,
+                $thongTinNguoiDaiDien['makhachhang']
+            );
         }
         return view('frontend.dattour.xacnhanthongtindattour', compact('data', 'tour', 'phieuDatTour'));
     }
@@ -172,17 +188,17 @@ class DatTourController extends Controller
         $thongTinNguoiDaiDien = session('thongTinNguoiDaiDien');
         DB::beginTransaction();
         try {
-            // Tạo hóa đơn với trạng thái thanh toán
             HoaDon::create([
                 'maphieudattour' => $phieuDatTour->maphieudattour,
                 'tongsotien' => $phieuDatTour->tongtienphieudattour,
                 'phuongthucthanhtoan' => $phuongThucThanhToan,
                 'trangthaithanhtoan' => $trangThaiDatTour,
-                'nguoidaidien' => $thongTinNguoiDaiDien['nguoiDaiDien'] ?? null,
+                'nguoidaidien' => $thongTinNguoiDaiDien['nguoidaidien'] ?? null,
                 'tendonvi' => $thongTinNguoiDaiDien['tendonvi'] ?? null,
-                'diachidonvi' => $thongTinNguoiDaiDien['diachi'] ?? null,
-                'masothue' => $thongTinNguoiDaiDien['maSoThue'] ?? null,
+                'diachidonvi' => $thongTinNguoiDaiDien['diachidonvi'] ?? null,
+                'masothue' => $thongTinNguoiDaiDien['masothue'] ?? null,
             ]);
+
             DB::commit();
             return view('frontend/thanhtoan/payment_success');
         } catch (\Exception $e) {
@@ -191,6 +207,7 @@ class DatTourController extends Controller
             return view('frontend/thanhtoan/payment_failed');
         }
     }
+
 
 
     public function create()

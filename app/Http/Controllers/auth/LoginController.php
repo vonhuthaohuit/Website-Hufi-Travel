@@ -74,7 +74,7 @@ class LoginController extends Controller
             $user->tentaikhoan = $request->name;
             $user->email = $request->email;
             $user->matkhau = $request->password;
-            $user->manhomquyen = 1;
+            $user->manhomquyen = 2;
             $user->trangthai = "Hoạt động";
             $user->save();
 

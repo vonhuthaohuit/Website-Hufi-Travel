@@ -2,29 +2,35 @@
 
 namespace App\Http\Controllers\thanhtoan;
 
+use App\DataTables\HoaDonDataTable;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\dattour\DatTourController;
 use App\Models\HoaDon;
 use App\Models\KhachHang;
 use App\Models\LoaiKhachHang;
 use App\Models\Tour;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class HoaDonController extends Controller
 {
     protected $hoaDon;
+    protected $datTourController;
     public function __construct()
     {
         $this->hoaDon = new HoaDon();
+        $this->datTourController = new DatTourController();
     }
-    public function index()
+    public function index(HoaDonDataTable $dataTable)
     {
         if (Session::get("user") == null) {
             return redirect()->route('login');
         }
-        $hoaDons = $this->hoaDon->paginate(5);
-        return view("frontend.thanhtoan.hoadon", compact('hoaDons'));
+
+        return $dataTable->render("backend.hoadon.index");
     }
+
 
     public function TaoHoaDon($phieuDatTour, $thongTinNguoiDatTour, $tongSoTien, $phuongThucThanhToan, $trangThaiThanhToan)
     {
@@ -90,31 +96,27 @@ class HoaDonController extends Controller
     public function create()
     {
         $tours = Tour::all();
-        $loaikhachs = LoaiKhachHang::all();
+        $users = User::all();
 
-
-        return view('frontend.thanhtoan.taohoadon', compact('tours'));
+        return view('frontend.thanhtoan.taohoadon', compact('tours', 'users'));
     }
 
     public function store(Request $request)
     {
-        // Xử lý lưu dữ liệu vào cơ sở dữ liệu
         $validatedData = $request->validate([
             'ticket_fullname' => 'required|string|max:255',
             'ticket_address' => 'required|string|max:255',
             'ticket_phone' => 'required|string|max:20',
             'ticket_email' => 'required|email',
             'ticket_note' => 'nullable|string',
-            // Validate customer data
         ]);
 
-        // Logic lưu hóa đơn và khách hàng
+
         $hoadon = new HoaDon();
         $hoadon->tour_id = $request->tourId;
         $hoadon->fullname = $request->ticket_fullname;
         $hoadon->address = $request->ticket_address;
         $hoadon->phone = $request->ticket_phone;
-        $hoadon->email = $request->ticket_email;
         $hoadon->note = $request->ticket_note;
         $hoadon->save();
 
@@ -156,5 +158,14 @@ class HoaDonController extends Controller
         $hoadon->delete();
 
         return redirect()->route('hoadon.index')->with('success', 'Hóa đơn được xóa thành công!');
+    }
+    public function show($id)
+    {
+        $hoaDon = HoaDon::with(['phieudattour.tour'])->findOrFail($id);
+
+        $html = view('backend.hoadon.detailshoadon', compact('hoaDon'))->render();
+
+
+        return response()->json(['html' => $html]);
     }
 }

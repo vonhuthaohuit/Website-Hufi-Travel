@@ -98,10 +98,10 @@ class ThanhToanMomoController extends Controller
                     'tongsotien' => $phieuDatTour->tongtienphieudattour,
                     'phuongthucthanhtoan' => $phuongThucThanhToan,
                     'trangthaithanhtoan' => $phieuDatTour->trangthaidattour,
-                    'nguoidaidien' => $thongTinNguoiDaiDien['nguoiDaiDien'] ?? null,
+                    'nguoidaidien' => $thongTinNguoiDaiDien['nguoidaidien'] ?? null,
                     'tendonvi' => $thongTinNguoiDaiDien['tendonvi'] ?? null,
-                    'diachidonvi' => $thongTinNguoiDaiDien['diachi'] ?? null,
-                    'masothue' => $thongTinNguoiDaiDien['maSoThue'] ?? null,
+                    'diachidonvi' => $thongTinNguoiDaiDien['diachidonvi'] ?? null,
+                    'masothue' => $thongTinNguoiDaiDien['masothue'] ?? null,
                 ]);
                 DB::commit();
                 return view('frontend/thanhtoan/payment_success');

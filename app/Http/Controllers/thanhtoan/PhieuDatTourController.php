@@ -64,12 +64,13 @@ class PhieuDatTourController extends Controller
         }
     }
 
-    public function TaoChiTietPhieuDatTour($makhachhang, $maphieudattour, $dongiadattour)
+    public function TaoChiTietPhieuDatTour($makhachhang, $maphieudattour, $dongiadattour, $nguoidaidien)
     {
         $chiTietPhieuDatTour = ChiTietPhieuDatTour::create([
             'makhachhang' => $makhachhang,
             'maphieudattour' => $maphieudattour,
             'chitietsotiendat' => $dongiadattour,
+            'nguoidat' => $nguoidaidien,
         ]);
         return $chiTietPhieuDatTour;
     }

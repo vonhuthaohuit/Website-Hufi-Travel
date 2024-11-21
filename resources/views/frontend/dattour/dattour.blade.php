@@ -69,7 +69,8 @@
                             </div>
                         </div>
                         <div class="form-group row mt-3 mb-3">
-                            <label class="col-sm-2 control-label">Địa chỉ (Cá nhân/đơn vị) <span class="text-danger">*</span></label>
+                            <label class="col-sm-2 control-label">Địa chỉ (Cá nhân/đơn vị) <span
+                                    class="text-danger">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="ticket_address"
                                     value="{{ @$khachHang->diachi }}" required="" data-msg="Trường này là bắt buộc!">
@@ -114,7 +115,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 control-label">Tên đơn vị </label>
                                     <div class="col-sm-8">
-                                        <input type="email" class="form-control" name="ticket_tendonvi" value="">
+                                        <input type="email" class="form-control" name="ticket_tendonvi"
+                                            value="">
                                     </div>
                                 </div>
                             </div>
@@ -146,13 +148,14 @@
                                             <td>
                                                 <input type="hidden" class="form-control" name="stt"
                                                     value="1">
-                                                <input type="text" class="form-control name-khach-hang-di-tour" id="td_name_1"
-                                                    name="td_ticket[1][td_name]" placeholder="Tên" required=""
-                                                    data-msg="Trường này là bắt buộc!">
+                                                <input type="text" class="form-control name-khach-hang-di-tour"
+                                                    id="td_name_1" name="td_ticket[1][td_name]" placeholder="Tên"
+                                                    required="" data-msg="Trường này là bắt buộc!">
                                             </td>
-                                            <td><input type="date" class="form-control ngay-sinh-khach-hang-di-tour" id="td_birthday_1"
-                                                    name="td_ticket[1][td_birthday]" placeholder="01/01/1990"
-                                                    required="" data-msg="Trường này là bắt buộc!"></td>
+                                            <td><input type="date" class="form-control ngay-sinh-khach-hang-di-tour"
+                                                    id="td_birthday_1" name="td_ticket[1][td_birthday]"
+                                                    placeholder="01/01/1990" required=""
+                                                    data-msg="Trường này là bắt buộc!"></td>
                                             <td>
                                                 <select name="td_ticket[1][td_gender]" id="td_gender_1"
                                                     class="form-control">
@@ -170,7 +173,6 @@
                                                             {{ $LKH->tenloaikhachhang }}
                                                         </option>
                                                     @endforeach
-
                                                 </select>
                                             </td>
                                             <td class="price-cell">

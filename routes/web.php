@@ -33,6 +33,7 @@ use App\Http\Controllers\backend\LoaiBlogController;
 use App\Http\Controllers\backend\LoaiTourController;
 use App\Http\Controllers\backend\SubscriberController;
 use App\Http\Controllers\backend\TourController as BackendTourController;
+use App\Http\Controllers\backend\UserBEController;
 use App\Http\Controllers\thanhtoan\ThanhToanMomoController;
 use App\Http\Controllers\thanhtoan\ThanhToanVNPayController;
 use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
@@ -231,6 +232,8 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
 
     Route::resource('hoadon', HoaDonController::class);
 });
+Route::get('/get-users', [UserBEController::class, 'getUsers'])->name('get.users');
+
 Route::get('/get-tour-details/{tourId}', [ \App\Http\Controllers\backend\TourController::class, 'getTourDetails']);
 
 Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
