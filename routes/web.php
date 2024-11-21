@@ -4,6 +4,7 @@ use App\DataTables\PhanCongNhanVienDataTable;
 use App\Http\Controllers\backend\KhuyenMaiController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\auth\ResetPasswordController;
 use App\Http\Controllers\backend\DiemDuLichController;
 use App\Http\Controllers\backend\HomeController as BackendHomeController;
 use App\Http\Controllers\frontend\TourController;
@@ -72,10 +73,6 @@ Route::get('/', [
     "index"
 ])->name('home');
 
-Route::middleware('auth:sanctum')->post('/logout', [LoginController::class, 'logout']);
-
-
-
 Route::get('/google-sign-in', [
     LoginController::class,
     'getGoogleSignInUrl'
@@ -86,9 +83,7 @@ Route::get('/auth/login-google-callback', [
     'loginCallback'
 ])->name('Callback');
 
-Route::post('/login', [LoginController::class, 'login'])->name('login');
-
-
+Route::post('/login', [LoginController::class, 'login'])->name('PostLogin');
 
 
 Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
@@ -141,10 +136,17 @@ Route::post('/search-tour', [\App\Http\Controllers\backend\TourController::class
 
 
 // Login
-Route::get('/index', [LoginController::class, 'index'])->name('login_view');
+Route::get('/login', [LoginController::class, 'index'])->name('login_view');
 Route::post('/register', [LoginController::class, 'register'])->name('register');
 
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/forget-password',[ResetPasswordController::class,'forgetPassword'])->name('auth.forget') ;
+Route::post('/forget-password',[ResetPasswordController::class,'forgetPasswordPost'])->name('auth.forget.post') ;
+
+Route::get('/reset-password/{token}',[ResetPasswordController::class,'resetPassword'])->name('auth.reset') ;
+Route::post('/reset-password',[ResetPasswordController::class,'resetPasswordPost'])->name('auth.reset.post') ;
+
 
 
 Route::get('/danh-sach-tour/search', [TourController::class, 'search'])->name('tour.search');

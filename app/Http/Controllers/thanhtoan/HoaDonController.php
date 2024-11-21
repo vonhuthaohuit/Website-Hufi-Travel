@@ -4,15 +4,20 @@ namespace App\Http\Controllers\thanhtoan;
 
 use App\Http\Controllers\Controller;
 use App\Models\HoaDon;
+use App\Models\KhachHang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class HoaDonController extends Controller
 {
     protected $hoaDon;
+    protected $khachHangs;
+
     public function __construct()
     {
         $this->hoaDon = new HoaDon();
+        $this->khachHangs = new KhachHang();
+
     }
     public function index(){
         if(Session::get("user") == null){
@@ -23,7 +28,12 @@ class HoaDonController extends Controller
     }
     public function TaoHoaDon($phieuDatTour, $thongTinNguoiDatTour, $tongSoTien, $phuongThucThanhToan, $trangThaiThanhToan)
     {
+        $user = Session::get('user');
+        $maTaiKhoan = $user['mataikhoan'];
+        $khachHang = $this->khachHangs->where('mataikhoan', $maTaiKhoan)->first();
+        dd($khachHang) ;
         HoaDon::create([
+            'makhachhang' =>$khachHang->makhachhang ,
             'phieuDatTour' => $phieuDatTour,
             'tongsotien' => $tongSoTien,
             'phuongthucthanhtoan' => $phuongThucThanhToan,
@@ -60,7 +70,7 @@ class HoaDonController extends Controller
                 'diachidonvi' => $request->diaChiDonVi ?? $hoaDon->diachidonvi,
                 'masothue' => $request->maSoThue ?? $hoaDon->masothue,
             ]);
-
+            
             return response()->json(['message' => 'Hóa đơn đã được cập nhật thành công.']);
         } else {
             return response()->json(['message' => 'Không tìm thấy hóa đơn.'], 404);

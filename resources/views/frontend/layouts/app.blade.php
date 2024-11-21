@@ -34,6 +34,8 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/styleHeader.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleSearch.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleFooter.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
     @stack('style')
 </head>
 
@@ -49,18 +51,18 @@
 
     <script src="{{ asset('frontend/js/tevily.js') }}"></script>
     <script src="{{ asset('frontend/library/swiper/swiper.min.js') }}"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
-    <script src="{{ asset('frontend/js/script.js') }}"></script>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="{{ asset('frontend/js/script.js') }}"></script>
     @stack('script')
     <script lang="javascript">
         var __vnp = {
@@ -78,22 +80,31 @@
             s[0].parentNode.insertBefore(ga, s[0]);
         })();
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <script>
-        @if (session('success'))
-            Toastify({
-                text: "{{ session('success') }}",
-                duration: 3000, // Thời gian hiển thị (miliseconds)
-                close: true, // Có hiển thị nút đóng không
-                gravity: "top", // Vị trí hiển thị (top, bottom)
-                position: 'right', // Vị trí bên trái hay bên phải
-                backgroundColor: "blue", // Màu nền
-                stopOnFocus: true, // Dừng khi hover chuột
-            }).showToast();
-            @php
-                session()->forget('success');
-            @endphp
-        @endif
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('success'))
+                Toastify({
+                    text: "{{ session('success') }}",
+                    duration: 700,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                    stopOnFocus: true,
+                }).showToast();
+            @endif
+
+            @if (session('error'))
+                Toastify({
+                    text: "{{ session('error') }}",
+                    duration: 700,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                    stopOnFocus: true,
+                }).showToast();
+            @endif
+        });
     </script>
 
 </body>

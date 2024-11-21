@@ -138,7 +138,6 @@ class DatTourController extends Controller
         $tongTienPhieuDatTour = 0;
         $tongSoLuong = $data['ticket_total_customer'];
         $danhSachKhachHangDiTour = new Collection();
-
         foreach ($data['td_ticket'] as $key => $value) {
             $khachHangDiTour = KhachHang::create([
                 'hoten' => $value['td_name'],
@@ -156,7 +155,6 @@ class DatTourController extends Controller
         if (!$phieuDatTour || !isset($phieuDatTour['maphieudattour'])) {
             return redirect()->back()->with('error', 'Không thể tạo phiếu đặt tour.');
         }
-
         foreach ($data['td_ticket'] as $key => $value) {
             $chiTietSoTienDat = $value['td_price'];
             $this->chiTietPhieuDatTour->TaoChiTietPhieuDatTour($danhSachKhachHangDiTour[$key - 1]->makhachhang, $phieuDatTour['maphieudattour'], $chiTietSoTienDat);
@@ -170,10 +168,14 @@ class DatTourController extends Controller
         $trangThaiDatTour = 'Đang chờ xác nhận đặt tour';
         $phuongThucThanhToan = 'Thanh toán trực tiếp';
         $thongTinNguoiDaiDien = session('thongTinNguoiDaiDien');
+        $user = Session::get('user');
+        $maTaiKhoan = $user['mataikhoan'];
+        $khachHang = $this->khachHangs->where('mataikhoan', $maTaiKhoan)->first();
         DB::beginTransaction();
         try {
             // Tạo hóa đơn với trạng thái thanh toán
             HoaDon::create([
+                'makhachhang' => $khachHang->makhachhang ,
                 'maphieudattour' => $phieuDatTour->maphieudattour,
                 'tongsotien' => $phieuDatTour->tongtienphieudattour,
                 'phuongthucthanhtoan' => $phuongThucThanhToan,

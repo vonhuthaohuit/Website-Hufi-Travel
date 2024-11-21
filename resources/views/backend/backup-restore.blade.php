@@ -4,27 +4,27 @@
 
     <div class="container">
         <div class="header">
-            <h1>Backup and Restore Interface</h1>
+            <h1>Giao diện sao lưu và phục hồi dữ liệu</h1>
         </div>
         <div class="grid">
             <div class="card">
-                <h2>Backup</h2>
-                <p>Click the button below to start the backup process.</p>
+                <h2>Sao lưu</h2>
+                <p>Chọn vào nút ở dưới để bắt đầu quá trình sao lưu dữ liệu.</p>
                 <form action="{{ route('backup.create') }}" method="GET">
                     <button>
-                        <i class="fas fa-cloud-upload-alt"></i> Start Backup
+                        <i class="fas fa-cloud-upload-alt"></i> Bắt đầu sao lưu
                     </button>
                 </form>
 
             </div>
             <div class="card">
-                <h2>Restore</h2>
-                <p>Click the button below to start the restore process.</p>
+                <h2>Phục hồi</h2>
+                <p>Chọn vào nút ở dưới để bắt đầu quá trình phục hồi dữ liệu.</p>
                 <form action="{{ route('backup.restore') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="file" name="backup_file" class="border border-gray-300 rounded p-2 mb-4">
                     <button>
-                        <i class="fas fa-cloud-download-alt"></i> Start Restore
+                        <i class="fas fa-cloud-download-alt"></i> Bắt đầu phục hồi
                     </button>
                 </form>
 
@@ -42,8 +42,6 @@
                 @endif
             </div>
         </div>
-        <div class="footer">
-            <p>&copy; 2024 Backup and Restore Interface. All rights reserved.</p>
-        </div>
+
     </div>
 @endsection
