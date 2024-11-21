@@ -106,14 +106,15 @@ function removeCustomer(element) {
 
     if (row && row.id !== "customerRowTemplate") {
         row.remove();
-    } else {
+    }
+    else{
         alert("Không thể xóa hàng này!");
     }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
     document
-        .getElementById("tour_tep1")
+        .getElementById("tao-hoa-don")
         .addEventListener("click", function (event) {
             event.preventDefault();
             if (validateBookingForm()) {
@@ -283,6 +284,8 @@ function validateDateInput(inputElement) {
 function selectTypeCustomer(selectElement) {
     const selectedOption = selectElement.options[selectElement.selectedIndex];
     const price = selectedOption.getAttribute("data-price");
+
+    console.log(price);
 
     const row = selectElement.closest("tr");
     const priceInput = row.querySelector(".js-input-price");

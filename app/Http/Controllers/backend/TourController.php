@@ -7,15 +7,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\dattour\DatTourController;
 use App\Models\ChiTietTour;
 use App\Models\DiemDuLich;
+use App\Models\KhachHang;
 use App\Models\KhuyenMai;
 use App\Models\LoaiKhachHang;
 use App\Models\LoaiTour;
 use App\Models\Tour;
+use App\Models\User;
 use App\Traits\ImageUploadTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -266,7 +269,7 @@ class TourController extends Controller
                 'noikhoihanh' => $tour->noikhoihanh,
                 'giatour' => number_format($tour->giatour),
                 'loaikhachhang' => $loaiKhachHang,
-                'giaTourLoaiKhachHang' => $giaTour_LoaiKhachHang,
+                'giatourloaikhachhang' => $giaTour_LoaiKhachHang,
             ]);
         }
 

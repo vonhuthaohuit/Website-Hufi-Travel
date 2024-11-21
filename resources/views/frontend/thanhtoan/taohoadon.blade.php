@@ -1,4 +1,6 @@
 @extends('backend.layouts.master')
+<link rel="stylesheet" href="{{ asset('frontend/css/style_dattour.css') }}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
 @section('content')
     <div class="container-fluid mt-5">
@@ -20,6 +22,18 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="content_book select-khach-hang mt-3">
+                            <label class="col-md-2 control-label">Chọn tài khoản</label>
+                            <div class="col-md-10">
+                                <select name="user_id" id="taiKhoanSelect" class="form-control">
+                                    <option value="">Chọn tài khoản</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->email }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="content-body" id="tourDetails">
                             <p><b id="tourName"></b></p>
                             <p id="tourTime"></p>
@@ -33,7 +47,7 @@
                                 <h3>Giá tour</h3>
                             </header>
                             <div class="content-body">
-                                <table class="table table-striped table-hover">
+                                <table id="customerPriceTable" class="table table-striped table-hover">
                                     <thead>
                                         <tr>
                                             <th>Loại khách</th>
@@ -94,7 +108,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Notes & Customer Table -->
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Ghi chú</label>
                                     <div class="col-sm-12">
@@ -102,7 +115,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Customer List Table -->
                                 <div class="content_book">
                                     <header class="content-header">
                                         <h3>Danh sách khách hàng đi tour</h3>
@@ -120,7 +132,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="add_plus_tbd">
-                                                <!-- Customer Row Template -->
                                                 <tr class="add_plus_tr" id="customerRowTemplate">
                                                     <td>
                                                         <input type="hidden" class="form-control" name="stt"
@@ -141,10 +152,17 @@
                                                         </select>
                                                     </td>
                                                     <td>
-
+                                                        <select name="td_ticket[1][td_loaikhach]" id="td_loaikhach_1"
+                                                            class="form-control js-type-customer"
+                                                            onchange="updatePrice(this)">
+                                                            <option value="">Chọn loại khách</option>
+                                                        </select>
                                                     </td>
                                                     <td class="price-cell">
-
+                                                        <input type="hidden" class="form-control js-input-price"
+                                                            id="td_price_1" name="td_ticket[1][td_price]" value="">
+                                                        <span class="td-price">
+                                                            VNĐ</span>
                                                     </td>
                                                     <td align="right" class="action-cell">
                                                         <a class="text-danger" href="javascript:;"
@@ -166,7 +184,7 @@
                         </div>
 
                         <div class="form-group text-center">
-                            <button type="submit" class="btn btn-success btn-lg">Tạo hóa đơn</button>
+                            <button id="tao-hoa-don" type="submit" class="btn btn-success btn-lg">Tạo hóa đơn</button>
                         </div>
                     </div>
                 </form>
@@ -174,8 +192,9 @@
         </div>
     </div>
     @push('scripts')
-        <script src="{{ asset('frontend/js/script_dattour.js') }}" defer></script>
+        <script src="{{ asset('frontend/js/script_dattour_admin.js') }}" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
         <script>
             $(document).ready(function() {
                 $('#tourSelect').change(function() {
@@ -196,18 +215,34 @@
                                 $('#tourPrice').text('Giá tour: ' + data.giatour);
 
                                 var tableBody = '';
-                                if (data.giaTourLoaiKhachHang && data.loaiKhachHang) {
-                                    data.giaTourLoaiKhachHang.forEach(function(price, index) {
+
+                                if (data.giatourloaikhachhang && data.loaikhachhang) {
+                                    tableBody = '';
+                                    data.giatourloaikhachhang.forEach(function(price, index) {
                                         tableBody += '<tr>';
-                                        tableBody += '<td>' + data.loaiKhachHang[index]
+                                        tableBody += '<td>' + data.loaikhachhang[index]
                                             .tenloaikhachhang + '</td>';
                                         tableBody += '<td>' + number_format(price) +
                                             ' VNĐ</td>';
                                         tableBody += '</tr>';
                                     });
+                                    $('#customerPriceTable tbody').html(tableBody);
+                                } else {
+                                    $('#customerPriceTable tbody').html(
+                                        '<tr><td colspan="2">Không có dữ liệu</td></tr>');
                                 }
 
-                                $('#customerPriceTable tbody').html(tableBody);
+                                $('.js-type-customer').each(function() {
+                                    if (data.loaikhachhang && data.giatourloaikhachhang) {
+                                        data.loaikhachhang.forEach(function(item, index) {
+                                            $(this).append(`
+                                    <option value="${item.maloaikhachhang}" data-price="${data.giatourloaikhachhang[index]}">
+                                        ${item.tenloaikhachhang}
+                                    </option>
+                                `);
+                                        }.bind(this));
+                                    }
+                                });
                             },
                             error: function() {
                                 alert('Có lỗi xảy ra khi tải dữ liệu tour.');
@@ -217,11 +252,58 @@
                         $('#customerPriceTable tbody').html('');
                     }
                 });
+
+                $(document).on('change', '.js-type-customer', function() {
+                    var selectedOption = $(this).find(":selected");
+
+                    var price = selectedOption.data("price");
+
+                    var priceCell = $(this).closest('tr').find('.price-cell');
+                    priceCell.html(number_format(price) + " VNĐ");
+
+                    $(this).closest('td').find('.js-type-customer').show();
+                });
+
             });
 
             function number_format(number) {
                 return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
             }
+            $(document).ready(function() {
+                $('#taiKhoanSelect').select2({
+                    placeholder: "Chọn tài khoản",
+                    allowClear: true,
+                    minimumInputLength: 0,
+                    ajax: {
+                        url: '{{ route('get.users') }}',
+                        dataType: 'json',
+                        delay: 500,
+                        data: function(params) {
+                            return {
+                                q: params.term,
+                                page: params.page || 1
+                            };
+                        },
+                        processResults: function(data, params) {
+                            params.page = params.page || 1;
+
+                            return {
+                                results: data.items,
+                                pagination: {
+                                    more: data.pagination.more
+                                }
+                            };
+                        },
+                        cache: true
+                    }
+                });
+
+                $('#taiKhoanSelect').on('select2:select', function(e) {
+                    var selectedData = e.params.data;
+                    console.log(selectedData);
+                    $('#taiKhoanSelect').val(selectedData.id).trigger('change');
+                });
+            });
         </script>
     @endpush
 @endsection

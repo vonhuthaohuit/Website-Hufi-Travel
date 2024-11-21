@@ -15,12 +15,18 @@ class ChiTietPhieuDatTour extends Model
         'makhachhang',
         'maphieudattour',
         'chitietsotiendat',
+        'nguoidat'
     ];
-    public function phieudattour(){
-        return $this->belongsTo(PhieuDatTour::class,'maphieudattour','maphieudattour');
+    public function phieudattour()
+    {
+        return $this->belongsTo(PhieuDatTour::class, 'maphieudattour', 'maphieudattour');
     }
-    public function khachhang(){
-        return $this->belongsTo(KhachHang::class,'makhachhang','makhachhang');
+    public function khachhang()
+    {
+        return $this->belongsTo(KhachHang::class, 'makhachhang', 'makhachhang');
     }
-
+    public function tour()
+    {
+        return $this->belongsTo(Tour::class, 'matour', 'matour');
+    }
 }
