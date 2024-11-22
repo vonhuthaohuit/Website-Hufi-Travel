@@ -24,6 +24,7 @@ use App\Http\Controllers\backend\PhongBanController;
 use App\Http\Controllers\backend\Quyen_NhomQuyenController;
 use App\Http\Controllers\backend\QuyenController;
 use App\Http\Controllers\backend\ChuongTrinhTourController;
+use App\Http\Controllers\Backend\KhachHangController;
 use App\Http\Controllers\backend\KhachSan_TourController;
 use App\Http\Controllers\backend\KhachSanController;
 use App\Http\Controllers\backend\PhanCongCongViecController;
@@ -43,6 +44,7 @@ use App\Http\Controllers\thanhtoan\PhieuDatTourController;
 use App\Http\Controllers\thanhtoan\PhieuHuyTourController;
 use App\Models\ChiTietTour;
 use App\Models\DiemDuLich;
+use App\Models\KhachHang;
 use App\Models\KhachSan_Tour;
 use App\Models\NhomQuyen;
 use App\Models\PhanCongChucVu;
@@ -232,8 +234,9 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
 
     Route::resource('hoadon', HoaDonController::class);
 });
+Route::post('/check-cccd', [KhachHangController::class, 'validateCCCD'])->name('check.cccd');
 Route::get('/get-users', [UserBEController::class, 'getUsers'])->name('get.users');
-
+Route::get('/get-khachhang-details/{userId}', [KhachHangController::class, 'getKhachHangDetails'])->name('get.khachhang.details');
 Route::get('/get-tour-details/{tourId}', [ \App\Http\Controllers\backend\TourController::class, 'getTourDetails']);
 
 Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');

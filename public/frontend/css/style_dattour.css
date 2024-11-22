@@ -112,10 +112,10 @@
     text-align: center;
 }
 .table {
-    width: 500px;      /* Đặt chiều rộng cố định */
-    height: 100px;     /* Đặt chiều cao cố định */
-    overflow: auto;    /* Cho phép cuộn cả ngang và dọc nếu nội dung vượt quá */
-    border: 1px solid #ccc; /* Tạo khung cho dễ nhìn */
+    width: 500px;
+    height: 100px;
+    overflow: auto;
+    border: 1px solid #ccc;
     padding: 10px;
 }
 .content-header h3 {
