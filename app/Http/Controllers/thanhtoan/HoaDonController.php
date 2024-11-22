@@ -5,6 +5,7 @@ namespace App\Http\Controllers\thanhtoan;
 use App\DataTables\HoaDonDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\dattour\DatTourController;
+use App\Models\ChiTietPhieuDatTour;
 use App\Models\HoaDon;
 use App\Models\KhachHang;
 use App\Models\LoaiKhachHang;
@@ -12,15 +13,23 @@ use App\Models\Tour;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class HoaDonController extends Controller
 {
     protected $hoaDon;
     protected $datTourController;
+    protected $phieuDatTourController;
+    protected $chiTietPhieuDatTourController;
     public function __construct()
     {
         $this->hoaDon = new HoaDon();
         $this->datTourController = new DatTourController();
+        $this->phieuDatTourController = new PhieuDatTourController();
+        $this->chiTietPhieuDatTourController = new PhieuDatTourController();
     }
     public function index(HoaDonDataTable $dataTable)
     {
@@ -98,40 +107,135 @@ class HoaDonController extends Controller
         $tours = Tour::all();
         $users = User::all();
 
+
+
         return view('frontend.thanhtoan.taohoadon', compact('tours', 'users'));
     }
+    private function generateUsername($fullname)
+    {
+        $username = Str::slug($fullname, '');
 
+        return $username;
+    }
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'ticket_fullname' => 'required|string|max:255',
-            'ticket_address' => 'required|string|max:255',
-            'ticket_phone' => 'required|string|max:20',
-            'ticket_email' => 'required|email',
-            'ticket_note' => 'nullable|string',
-        ]);
+        $user = null;
+        $khachHang = null;
+        DB::beginTransaction();
+        try {
+            if ($request['user_id'] == null) {
+                $username = $this->generateUsername($request['ticket_fullname']);
+
+                while (User::where('tentaikhoan', $username)->exists()) {
+                    $username = $this->generateUsername($request['ticket_fullname']) . rand(0, 999);
+                }
+
+                $user = User::create([
+                    'tentaikhoan' => $username,
+                    'email' => $request['ticket_email'],
+                    'matkhau' => bcrypt('123456789'),
+                    'trangthai' => 'Hoạt động',
+                    'manhomquyen' => 2,
+                ]);
+                $khachHang = KhachHang::create([
+                    'mataikhoan' => $user->mataikhoan,
+                    'cccd' => $request['ticket_cccd'],
+                    'hoten' => $request['ticket_fullname'],
+                    'sodienthoai' => $request['ticket_phone'],
+                    'diachi' => $request['ticket_address'],
+                    'maloaikhachhang' => 1,
+                ]);
+                DB::commit();
+            } else {
+                $user = User::findOrFail($request['user_id']);
+
+                $khachHang = KhachHang::updateOrCreate(
+                    ['mataikhoan' => $user->mataikhoan],
+                    [
+                        'hoten' => $request['ticket_fullname'],
+                        'cccd' => $request['ticket_cccd'],
+                        'sodienthoai' => $request['ticket_phone'],
+                        'diachi' => $request['ticket_address'],
+                    ]
+                );
+                DB::commit();
+            }
 
 
-        $hoadon = new HoaDon();
-        $hoadon->tour_id = $request->tourId;
-        $hoadon->fullname = $request->ticket_fullname;
-        $hoadon->address = $request->ticket_address;
-        $hoadon->phone = $request->ticket_phone;
-        $hoadon->note = $request->ticket_note;
-        $hoadon->save();
 
-        foreach ($request->td_ticket as $customer) {
-            $khachHang = new KhachHang();
-            $khachHang->hoadon_id = $hoadon->id;
-            $khachHang->name = $customer['td_name'];
-            $khachHang->birthday = $customer['td_birthday'];
-            $khachHang->gender = $customer['td_gender'];
-            $khachHang->loaikhach_id = $customer['td_loaikhach'];
-            $khachHang->price = $customer['td_price'];
-            $khachHang->save();
+            $data = [
+                'tourId' => $request['tour_id'],
+                'ticket_fullname' => $request->input('ticket_fullname'),
+                'ticket_address' => $request->input('ticket_address'),
+                'ticket_phone' => $request->input('ticket_phone'),
+                'ticket_email' => $request->input('ticket_email'),
+                'ticket_tendonvi' => $request->input('ticket_tendonvi'),
+                'ticket_masothue' => $request->input('ticket_masothue'),
+                'ticket_note' => $request->input('ticket_note'),
+                'ticket_total_customer' => count($request->input('td_ticket', [])),
+                'td_ticket' => $request->input('td_ticket', []),
+                'phuongthucthanhtoan' => $request->input('phuongthucthanhtoan'),
+                //'trangthaithanhtoan' => $request->input('trangthaithanhtoan'),
+            ];
+
+            $thongTinNguoiDaiDien = [];
+            $thongTinNguoiDaiDien['makhachhang'] = $khachHang->makhachhang;
+            $thongTinNguoiDaiDien['nguoidaidien'] = $data['ticket_fullname'];
+            $thongTinNguoiDaiDien['tendonvi'] = $data['ticket_tendonvi'];
+            $thongTinNguoiDaiDien['diachidonvi'] = $data['ticket_address'];
+            $thongTinNguoiDaiDien['masothue'] = $data['ticket_masothue'];
+
+            $tourId = $data['tourId'];
+            $tongTienPhieuDatTour = 0;
+            $tongSoLuong = $data['ticket_total_customer'];
+            $danhSachKhachHangDiTour = new Collection();
+
+            foreach ($data['td_ticket'] as $key => $value) {
+                $khachHangDiTour = KhachHang::create([
+                    'hoten' => $value['td_name'],
+                    'ngaysinh' => $value['td_birthday'],
+                    'gioitinh' => $value['td_gender'],
+                    'maloaikhachhang' => $value['td_loaikhach'],
+                ]);
+                $danhSachKhachHangDiTour->push($khachHangDiTour);
+                $tongTienPhieuDatTour += $value['td_price'];
+            }
+
+            $trangThaiDatTour = 'Đã thanh toán';
+            $toDay = date('Y-m-d');
+            $phieuDatTour = $this->phieuDatTourController->TaoPhieuDatTour($tourId, $tongTienPhieuDatTour, $tongSoLuong, $trangThaiDatTour, $toDay);
+            if (!$phieuDatTour || !isset($phieuDatTour['maphieudattour'])) {
+                return redirect()->back()->with('error', 'Không thể tạo phiếu đặt tour.');
+            }
+
+            foreach ($data['td_ticket'] as $key => $value) {
+                $chiTietSoTienDat = $value['td_price'];
+                $this->chiTietPhieuDatTourController->TaoChiTietPhieuDatTour(
+                    $danhSachKhachHangDiTour[$key - 1]->makhachhang,
+                    $phieuDatTour['maphieudattour'],
+                    $chiTietSoTienDat,
+                    $khachHang->makhachhang
+                );
+            }
+
+            $phuongThucThanhToan = $data['phuongthucthanhtoan'];
+            $hoaDon = HoaDon::create([
+                'maphieudattour' => $phieuDatTour['maphieudattour'],
+                'tongsotien' => $phieuDatTour['tongtienphieudattour'],
+                'phuongthucthanhtoan' => $phuongThucThanhToan,
+                'trangthaithanhtoan' => $trangThaiDatTour,
+                'nguoidaidien' => $thongTinNguoiDaiDien['nguoidaidien'] ?? null,
+                'tendonvi' => $thongTinNguoiDaiDien['tendonvi'] ?? null,
+                'diachidonvi' => $thongTinNguoiDaiDien['diachidonvi'] ?? null,
+                'masothue' => $thongTinNguoiDaiDien['masothue'] ?? null,
+            ]);
+            DB::commit();
+            return redirect()->route('hoadon.index')->with('success', 'Hóa đơn đã được tạo thành công');
+        } catch (\Exception $e) {
+            dd($e);
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại sau.');
         }
-
-        return redirect()->route('hoadon.index')->with('success', 'Hóa đơn đã được tạo thành công');
     }
 
 
@@ -153,18 +257,31 @@ class HoaDonController extends Controller
         return redirect()->route('hoadon.index')->with('success', 'Hóa đơn được cập nhật thành công!');
     }
 
-    public function destroy(HoaDon $hoadon)
+    public function destroy($id)
     {
-        $hoadon->delete();
+        $hoadon = HoaDon::find($id);
 
-        return redirect()->route('hoadon.index')->with('success', 'Hóa đơn được xóa thành công!');
+        if (!$hoadon) {
+            return response(['status' => 'error', 'message' => 'Hóa đơn không tồn tại'], 404);
+        }
+
+        $hoadon->is_delete = 1;
+        $hoadon->save();
+
+
+        Log::info($hoadon);
+        return response(['status' => 'success', 'message' => 'Xóa hoá đơn thành công']);
     }
+
     public function show($id)
     {
-        $hoaDon = HoaDon::with(['phieudattour.tour'])->findOrFail($id);
+        $hoaDon = HoaDon::with([
+            'phieudattour.tour',
+            'phieudattour.chitietphieudattour.khachhang'
+        ])->findOrFail($id);
 
+        Log::info($hoaDon);
         $html = view('backend.hoadon.detailshoadon', compact('hoaDon'))->render();
-
 
         return response()->json(['html' => $html]);
     }

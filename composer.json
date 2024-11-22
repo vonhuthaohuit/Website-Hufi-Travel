@@ -27,7 +27,8 @@
     },
     "autoload": {
         "files": [
-            "app/Helper/helpers.php"
+            "app/Helper/helpers.php",
+            "app/Helper/number_to_words.php"
         ],
         "psr-4": {
             "App\\": "app/",

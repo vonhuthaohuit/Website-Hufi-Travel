@@ -1,22 +1,4 @@
 // Thêm danh sách khách hàng
-document
-    .getElementById("btn-add-more-customer")
-    .addEventListener("click", function () {
-        addCustomerRow();
-    });
-document
-    .getElementById("form-booking")
-    .addEventListener("submit", function (event) {
-        const nameField = document.querySelector(".name-khach-hang-di-tour");
-        const dateField = document.querySelector(
-            ".ngay-sinh-khach-hang-di-tour"
-        );
-        console.log(nameField.value.trim());
-        if (!nameField.value.trim() || !dateField.value) {
-            event.preventDefault();
-            alert("Vui lòng nhập đủ thông tin khách hàng đi tour đã tạo.");
-        }
-    });
 
 // Hàm thêm hàng khách hàng
 
@@ -48,6 +30,12 @@ function addCustomerRow() {
         newRow.querySelector(
             'input[name="td_ticket[1][td_birthday]"]'
         ).name = `td_ticket[${index}][td_birthday]`;
+        newRow.querySelector(
+            'input[name="td_ticket[1][td_sdt]"]'
+        ).name = `td_ticket[${index}][td_sdt]`;
+        newRow.querySelector(
+            'input[name="td_ticket[1][td_cccd]"]'
+        ).name = `td_ticket[${index}][td_cccd]`;
         newRow.querySelector(
             'select[name="td_ticket[1][td_gender]"]'
         ).name = `td_ticket[${index}][td_gender]`;
@@ -98,7 +86,7 @@ function validateNameAndBirthday() {
         }
     });
 
-    return isValid; // Return true if both fields are filled in, false otherwise
+    return isValid;
 }
 
 function removeCustomer(element) {
@@ -135,6 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "ticket_fullname",
             "Trường này là bắt buộc!"
         );
+        hasError = checkCCCD("ticket_cccd", "Trường này là bắt buộc!");
         hasError =
             checkRequiredField("ticket_address", "Trường này là bắt buộc!") ||
             hasError;
@@ -152,9 +141,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 checkNgaySinhKhachHangDiTourField(
                     `td_ticket[${i}][td_birthday]`
                 ) || hasError;
+            hasError = checkPhoneField(`td_ticket[${i}][td_sdt]`) || hasError;
+            hasError = checkCCCD(`td_ticket[${i}][td_cccd]`) || hasError;
+
             i++;
         }
-
+        console.log("Has error:", hasError);
         return !hasError;
     }
 
@@ -216,6 +208,27 @@ document.addEventListener("DOMContentLoaded", function () {
                 ngaySinhKhachHang,
                 "Vui lòng nhập đủ ngày sinh danh sách khách hàng đi tour!"
             );
+            return true;
+        }
+        return false;
+    }
+    function checkCCCD(fieldName) {
+        const cmnd = document.querySelector(`input[name="${fieldName}"]`);
+        const cmndValue = cmnd.value.trim();
+
+        if (!cmndValue) {
+            showError(cmnd, "Vui lòng nhập số CMND/CCCD của khách hàng!");
+            return true;
+        }
+
+        const digitPattern = /^\d+$/;
+        if (!digitPattern.test(cmndValue)) {
+            showError(cmnd, "CMND/CCCD chỉ được chứa các chữ số!");
+            return true;
+        }
+
+        if (cmndValue.length !== 9 && cmndValue.length !== 12) {
+            showError(cmnd, "CMND phải có 9 hoặc CCCD phải có 12 chữ số!");
             return true;
         }
         return false;
@@ -297,6 +310,136 @@ function selectTypeCustomer(selectElement) {
     }).format(price);
 }
 
+function validateAndRestrictCCCDInput(fieldSelector) {
+    const cccdInputs = document.querySelectorAll(fieldSelector);
+
+    cccdInputs.forEach(function (input) {
+        input.addEventListener("input", function () {
+            this.value = this.value.replace(/\D/g, "");
+
+            if (this.value.length > 12) {
+                this.value = this.value.slice(0, 12);
+            }
+        });
+
+        input.addEventListener("blur", function () {
+            const cmndValue = this.value.trim();
+
+            if (!cmndValue) {
+                showError(this, "Vui lòng nhập số CMND/CCCD của khách hàng!");
+                return;
+            }
+
+            if (cmndValue.length < 9 || cmndValue.length > 12) {
+                showError(this, "CMND phải có 9 hoặc CCCD phải có 12 chữ số!");
+                this.focus();
+                return;
+            }
+
+            clearError(this);
+        });
+    });
+}
+
+function validateAndRestrictPhoneInput(fieldSelector) {
+    const phoneInputs = document.querySelectorAll(fieldSelector);
+
+    phoneInputs.forEach(function (input) {
+        input.addEventListener("input", function () {
+            this.value = this.value.replace(/\D/g, "");
+
+            if (this.value.length > 10) {
+                this.value = this.value.slice(0, 10);
+            }
+        });
+
+        input.addEventListener("blur", function () {
+            const phoneValue = this.value.trim();
+
+            if (!phoneValue) {
+                showError(this, "Vui lòng nhập số điện thoại!");
+                return;
+            }
+
+            if (phoneValue.length !== 10) {
+                showError(this, "Số điện thoại phải có đúng 10 chữ số!");
+                this.focus();
+                return;
+            }
+
+            clearError(this);
+        });
+    });
+}
+
+function showError(field, message) {
+    field.classList.add("is-invalid");
+    const errorMessage = field.nextElementSibling;
+    if (errorMessage) {
+        errorMessage.style.display = "block";
+        errorMessage.textContent = message;
+    }
+}
+
+function clearError(field) {
+    field.classList.remove("is-invalid");
+    const errorMessage = field.nextElementSibling;
+    if (errorMessage) {
+        errorMessage.style.display = "none";
+        errorMessage.textContent = "";
+    }
+}
+
+function checkDuplicateCCCDInDatabase(cccdInput) {
+    const cccd = cccdInput.value.trim();
+    console.log(cccd);
+
+    if (!cccd) return;
+
+    fetch("/check-cccd", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute("content"),
+        },
+        body: JSON.stringify({
+            ticket_cccd: cccd,
+        }),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.error) {
+                showError(cccdInput, data.error);
+            } else {
+                clearError(cccdInput);
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}
+
+document
+    .getElementById("btn-add-more-customer")
+    .addEventListener("click", function () {
+        addCustomerRow();
+    });
+document
+    .getElementById("form-booking")
+    .addEventListener("submit", function (event) {
+        const nameField = document.querySelector(".name-khach-hang-di-tour");
+        const dateField = document.querySelector(
+            ".ngay-sinh-khach-hang-di-tour"
+        );
+        console.log(nameField.value.trim());
+        if (!nameField.value.trim() || !dateField.value) {
+            event.preventDefault();
+            alert("Vui lòng nhập đủ thông tin khách hàng đi tour đã tạo.");
+        }
+    });
+
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".js-type-customer").forEach((select) => {
         select.addEventListener("change", function () {
@@ -305,3 +448,18 @@ document.addEventListener("DOMContentLoaded", function () {
         selectTypeCustomer(select);
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    validateAndRestrictCCCDInput('input[name^="td_ticket"][name$="[td_cccd]"]');
+    validateAndRestrictPhoneInput('input[name^="td_ticket"][name$="[td_sdt]"]');
+    validateAndRestrictCCCDInput('input[name^="ticket_cccd"]');
+});
+// document
+//     .querySelectorAll(
+//         'input[name^="td_ticket"][name$="[td_cccd]"], input[name="ticket_cccd"]'
+//     )
+//     .forEach((input) => {
+//         input.addEventListener("blur", function () {
+//             checkDuplicateCCCDInDatabase(this);
+//         });
+//     });
