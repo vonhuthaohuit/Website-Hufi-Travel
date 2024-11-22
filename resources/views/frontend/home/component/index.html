@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .camp-timer-container {
+            color: #333;
+            margin: 0 auto;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        .camp-timer-item {
+            display: inline-block;
+            font-size: 1em;
+            list-style-type: none;
+            padding: 1em;
+        }
+
+        .camp-timer-item span {
+            display: block;
+            font-size: 3.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="camp-timer-container">
+        <ul id="timeControl">
+            <li class="camp-timer-item"><span id="days"></span>Ngày</li>
+            <li class="camp-timer-item"><span id="hours"></span>Giờ</li>
+            <li class="camp-timer-item"><span id="minutes"></span>Phút</li>
+            <li class="camp-timer-item"><span id="seconds"></span>Giây</li>
+        </ul>
+    </div>
+
+
+    <script>
+
+        let timeToStart = document.querySelector('#timeToStart')
+        let timeControl = document.querySelector('#timeControl')
+        let second = 1000
+        let minute = second * 60
+        let hour = minute * 60
+        let day = hour * 24
+
+        let countDown = new Date('Dec 2, 2024 00:00:00').getTime();
+
+        const myRacing = () => {
+
+            let nowDate = new Date().getTime(),
+                distance = countDown - nowDate;
+
+            document.getElementById('days').innerText = Math.floor(distance / (day)),
+                document.getElementById('hours').innerText = Math.floor((distance % (day)) / (hour)),
+                document.getElementById('minutes').innerText = Math.floor((distance % (hour)) / (minute)),
+                document.getElementById('seconds').innerText = Math.floor((distance % (minute)) / second);
+
+            if (distance < 0) {
+                clearInterval(MyTimer);
+                timeToStart.innerHTML = 'The camp began ☻'
+                timeControl.innerHTML = ''
+            }
+
+        }
+
+        MyTimer = setInterval(myRacing, 1000);
+    </script>
+</body>
+
+</html>

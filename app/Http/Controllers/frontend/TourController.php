@@ -18,9 +18,12 @@ class TourController extends Controller
             ->leftJoin('chuongtrinhtour', 'tour.matour', '=', 'chuongtrinhtour.matour')
             ->leftJoin('hinhanhtour', 'tour.matour', '=', 'hinhanhtour.matour')
             ->leftJoin('loaitour', 'tour.maloaitour', '=', 'loaitour.maloaitour')
-            ->select('tour.*', 'chitiettour.giachitiettour', 'chuongtrinhtour.mota', 'chuongtrinhtour.tieude', 'diemdulich.tendiemdulich', 'loaitour.tenloai', 'hinhanhtour.duongdan')
+            ->leftJoin('khuyenmai', 'tour.makhuyenmai', '=', 'khuyenmai.makhuyenmai')
+            ->select('tour.*', 'chitiettour.giachitiettour', 'chuongtrinhtour.mota', 'chuongtrinhtour.tieude', 'diemdulich.tendiemdulich', 'loaitour.tenloai', 'hinhanhtour.duongdan', 'khuyenmai.phantramgiam')
             ->where('tour.slug', $slug)
             ->first();
+
+            // dd($tour->makhuyenmai);
 
         return view('frontend.tour.tour-detail', compact('tour'));
     }

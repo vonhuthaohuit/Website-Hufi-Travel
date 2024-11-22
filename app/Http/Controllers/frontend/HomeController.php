@@ -30,9 +30,16 @@ class HomeController extends Controller
             ->limit(5)
             ->get();
 
+        $tourDiscount = Tour::query()
+            ->leftJoin('khuyenmai', 'tour.makhuyenmai', '=', 'khuyenmai.makhuyenmai')
+            ->select('tour.*')
+            ->where('tour.tinhtrang', 1)
+            ->where('khuyenmai.thoigianketthuc', '>', now())
+            ->get();
+
         // dd($destinations);
 
-        return view("index", compact('tours', 'blogs', 'destinations'));
+        return view("index", compact('tours', 'blogs', 'destinations', 'tourDiscount'));
     }
 
     public function about()
@@ -51,9 +58,9 @@ class HomeController extends Controller
         $maTaiKhoan = $user['mataikhoan'];
 
         $toursDaDat = PhieuDatTour::query()
-            ->join('tour', 'phieudattour.matour', '=', 'tour.matour')
-            ->join('chitietphieudattour', 'phieudattour.maphieudattour', '=', 'chitietphieudattour.maphieudattour')
-            ->join('khachhang', 'chitietphieudattour.makhachhang', '=', 'khachhang.makhachhang')
+            ->leftJoin('tour', 'phieudattour.matour', '=', 'tour.matour')
+            ->leftJoin('chitietphieudattour', 'phieudattour.maphieudattour', '=', 'chitietphieudattour.maphieudattour')
+            ->leftJoin('khachhang', 'chitietphieudattour.makhachhang', '=', 'khachhang.makhachhang')
             ->leftJoin('users', 'khachhang.mataikhoan', '=', 'users.mataikhoan')
             ->where('users.mataikhoan', $maTaiKhoan)
             ->select('tour.*', 'phieudattour.trangthaidattour')

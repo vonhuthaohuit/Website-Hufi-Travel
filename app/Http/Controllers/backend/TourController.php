@@ -242,6 +242,6 @@ class TourController extends Controller
 
         $tourCount = $tours->count();
 
-        return view('backend.tour.searchtour', compact('tours', 'tourCount', 'query'));
+        return view('frontend.tour.searchtour', compact('tours', 'tourCount', 'query'));
     }
 }

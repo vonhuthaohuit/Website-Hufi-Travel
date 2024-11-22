@@ -44,7 +44,7 @@ th, td {
 th {
     font-weight: 500;
     color: #3b82f6; /* Blue color */
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     letter-spacing: 1px;
 }
 

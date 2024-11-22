@@ -26,7 +26,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+                                <li><a class="dropdown-item" href="{{ route('logout') }}">Đăng xuất</a></li>
                             </ul>
                         </div>
                     @else
@@ -92,7 +92,7 @@
                             </ul>
                         </li>
                         <li class="nav-item centro">
-                            <a class="nav-link" href="{{ route('blog.blog-all') }}">Tin tức</a>
+                            <a class="nav-link" href="{{ route('blog.blog-all') }}">Blog</a>
                         </li>
                         <li class="nav-item centro">
                             <a class="nav-link" href="{{ route('about') }}">Giới thiệu</a>

@@ -29,11 +29,11 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/tevilyIcon.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/library/animation/animation.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/library/animation/custom-animation.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/styleBlog.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleTour.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleHeader.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleSearch.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleFooter.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/styleBlog.css') }}">
     @stack('style')
 </head>
 
@@ -47,10 +47,10 @@
     @include('frontend.layouts.footer')
     @include('frontend.layouts.component.abs-fixed')
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('frontend/js/tevily.js') }}"></script>
     <script src="{{ asset('frontend/library/swiper/swiper.min.js') }}"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

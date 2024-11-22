@@ -19,11 +19,7 @@
                     'tour.*',
                     'loaitour.*',
                     'khuyenmai.*',
-                    'admin.products-image-gallery.*',
-                    'admin.products-variant.*',
-                    'admin.products-variant-item.*',
-                    'admin.seller-products.*',
-                    'admin.seller-pending-products.*',
+                    'diemdulich.*',
                 ]) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i>
                     <span>Manage Tours</span></a>
@@ -40,14 +36,6 @@
                     <li class="{{ setActive(['diemdulich.*']) }}">
                         <a class="nav-link" href="{{ route('diemdulich.index') }}">Tourist Spot</a>
                     </li>
-                    <li class="{{ setActive(['admin.seller-pending-products.*']) }}">
-                        <a class="nav-link" href="">Seller Pending Products</a>
-                    </li>
-
-                    <li class="{{ setActive(['admin.reviews.*']) }}">
-                        <a class="nav-link" href="">Product Reviews</a>
-                    </li>
-
                 </ul>
             </li>
 
@@ -55,12 +43,6 @@
                 class="dropdown {{ setActive([
                     'khachsan.*',
                     'phuongtien.*',
-                    'admin.processed-orders',
-                    'admin.dropped-off-orders',
-                    'admin.shipped-orders',
-                    'admin.out-for-delivery-orders',
-                    'admin.delivered-orders',
-                    'admin.canceled-orders',
                 ]) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-cart-plus"></i>
                     <span>Quản lý dịch vụ</span></a>
@@ -71,23 +53,6 @@
                     <li class="{{ setActive(['phuongtien.*']) }}"><a class="nav-link"
                             href="{{ route('phuongtien.index') }}">
                             Vehicle</a></li>
-                    <li class="{{ setActive(['admin.processed-orders']) }}"><a class="nav-link" href="">All
-                            processed Orders</a></li>
-                    <li class="{{ setActive(['admin.dropped-off']) }}"><a class="nav-link" href="">All Dropped
-                            Off Orders</a></li>
-
-                    <li class="{{ setActive(['admin.shipped-orders']) }}"><a class="nav-link" href="">All
-                            Shipped Orders</a></li>
-                    <li class="{{ setActive(['admin.out-for-delivery-orders']) }}"><a class="nav-link"
-                            href="">All Out For Delivery Orders</a></li>
-
-
-                    <li class="{{ setActive(['admin.delivered-orders']) }}"><a class="nav-link" href="">All
-                            Delivered Orders</a></li>
-
-                    <li class="{{ setActive(['admin.canceled-orders']) }}"><a class="nav-link" href="">All
-                            Canceled Orders</a></li>
-
                 </ul>
             </li>
 
@@ -168,13 +133,13 @@
 
             <li class="dropdown {{ setActive(['loaiblog.*', 'blog.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fab fa-blogger-b"></i> <span>Manage Blog</span></a>
+                        class="fab fa-blogger-b"></i> <span>Quản lý Blog</span></a>
                 <ul class="dropdown-menu">
 
                     <li class="{{ setActive(['loaiblog*']) }}"><a class="nav-link"
-                            href="{{ route('loaiblog.index') }}">Blog Categories</a></li>
+                            href="{{ route('loaiblog.index') }}">Loại Blog</a></li>
                     <li class="{{ setActive(['blog.*']) }}"><a class="nav-link"
-                            href="{{ route('blog.index') }}">Blogs</a></li>
+                            href="{{ route('blog.index') }}">Blog</a></li>
                 </ul>
             </li>
 
@@ -183,7 +148,7 @@
                     <span>Messages</span></a></li> --}}
 
 
-            <li class="dropdown {{ setActive(['hoadon.*', 'blog.*']) }}">
+            {{-- <li class="dropdown {{ setActive(['hoadon.*', 'blog.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fab fa-blogger-b"></i> <span>Quản lý hoá đơn</span></a>
                 <ul class="dropdown-menu">
@@ -193,7 +158,7 @@
                     <li class="{{ setActive(['phieudattour.*']) }}"><a class="nav-link"
                             href="{{ route('phieudattour.index') }}">Phiếu đặt tour</a></li>
                 </ul>
-            </li>
+            </li> --}}
 
             <li class="dropdown {{ setActive(['uploadanh.*', 'anh.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
