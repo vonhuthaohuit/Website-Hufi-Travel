@@ -4,6 +4,7 @@ namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\BlogTour;
+use App\Models\ChiTietPhieuDatTour;
 use App\Models\DiemDuLich;
 use App\Models\KhachHang;
 use App\Models\LoaiBlog;
@@ -15,6 +16,11 @@ use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
+    protected $chiTietPhieuDatTour;
+    public function __construct()
+    {
+        $this->chiTietPhieuDatTour = new ChiTietPhieuDatTour();
+    }
     public function index()
     {
         $tours = Tour::with('chitiettour.giachitiettour', 'hinhanhtour:tenhinh,duongdan');
@@ -52,23 +58,31 @@ class HomeController extends Controller
         return view('frontend.home.contact');
     }
 
-    public function transaction()
+    public function transaction($trangThai = null)
     {
         $user = Session::get('user');
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để xem các giao dịch.');
+        }
+
         $maTaiKhoan = $user['mataikhoan'];
+        $khachHang = KhachHang::where('mataikhoan', $maTaiKhoan)->first();
+        if (!$khachHang) {
+            return redirect()->back()->with('error', 'Không tìm thấy thông tin khách hàng.');
+        }
 
-        $toursDaDat = PhieuDatTour::query()
-            ->leftJoin('tour', 'phieudattour.matour', '=', 'tour.matour')
-            ->leftJoin('chitietphieudattour', 'phieudattour.maphieudattour', '=', 'chitietphieudattour.maphieudattour')
-            ->leftJoin('khachhang', 'chitietphieudattour.makhachhang', '=', 'khachhang.makhachhang')
-            ->leftJoin('users', 'khachhang.mataikhoan', '=', 'users.mataikhoan')
-            ->where('users.mataikhoan', $maTaiKhoan)
-            ->select('tour.*', 'phieudattour.trangthaidattour')
-            ->groupBy('phieudattour.maphieudattour')
+
+        $tours = ChiTietPhieuDatTour::where('nguoidat', $khachHang->makhachhang)
+            ->whereHas('phieuDatTour', function ($query) use ($trangThai) {
+                if ($trangThai) {
+                    $query->where('trangthai', $trangThai);
+                }
+            })
+            ->with(['phieuDatTour.tour'])
+            ->groupBy('maphieudattour')
+            ->orderBy('maphieudattour', 'desc')
+
             ->get();
-
-        // dd($toursDaDat);
-
-        return view('frontend.home.transactions', compact('toursDaDat'));
+        return view('frontend.home.transactions', compact('tours'));
     }
 }

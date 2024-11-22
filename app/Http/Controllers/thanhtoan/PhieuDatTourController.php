@@ -6,9 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Models\ChiTietPhieuDatTour;
 use App\Models\PhieuDatTour;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class PhieuDatTourController extends Controller
 {
+    protected $phieuDatTour;
+    public function __construct()
+    {
+        $this->phieuDatTour = new PhieuDatTour();
+    }
+    public function index()
+    {
+        if(Session::get("user") == null){
+            return redirect()->route('login');
+        }
+        $phieuDatTours = $this->phieuDatTour->all();
+        return view("frontend.thanhtoan.phieudattour", compact('phieuDatTours'));
+    }
     public function TaoPhieuDatTour($maTour, $tongTienPhieuDatTour, $tongSoLuong, $trangThaiDatTour, $ngayDatTour = null)
     {
         $phieuDatTour = PhieuDatTour::create([
@@ -50,12 +64,13 @@ class PhieuDatTourController extends Controller
         }
     }
 
-    public function TaoChiTietPhieuDatTour($makhachhang, $maphieudattour, $dongiadattour)
+    public function TaoChiTietPhieuDatTour($makhachhang, $maphieudattour, $dongiadattour, $nguoidaidien)
     {
         $chiTietPhieuDatTour = ChiTietPhieuDatTour::create([
             'makhachhang' => $makhachhang,
             'maphieudattour' => $maphieudattour,
             'chitietsotiendat' => $dongiadattour,
+            'nguoidat' => $nguoidaidien,
         ]);
         return $chiTietPhieuDatTour;
     }

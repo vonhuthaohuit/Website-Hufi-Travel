@@ -225,7 +225,7 @@
                             <tr>
                                 <td colspan="2">
                                     <a class="btn btn-danger btn-lg btn-booking" href="#"
-                                        onclick="submitBookingForm(<?php echo 1; ?>)">Đặt tour</a>
+                                        onclick="submitBookingForm({{ $tour->matour }})">Đặt tour</a>
                                     <button class="btn btn-success btn-lg btn-down-pdf" id="download-pdf">
                                         Tải chi tiết tour
                                     </button>
@@ -323,7 +323,6 @@
         </script>
 
         <script>
-            // Lấy ra tour id khi bấm đặt tour
             function submitBookingForm(tourId) {
                 const form = document.createElement('form');
                 form.method = 'POST';
