@@ -12,6 +12,7 @@
 
         @include('frontend.home.component.aboutOne')
         @include('frontend.home.component.toursPopular')
+        @include('frontend.home.component.tourSale')
 
     </div>
     {{-- @include('frontend.home.component.chooseTourType') --}}

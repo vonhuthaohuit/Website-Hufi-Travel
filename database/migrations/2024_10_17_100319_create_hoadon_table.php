@@ -22,8 +22,6 @@ return new class extends Migration
             $table->string('nguoidaidien');
             $table->integer('maphieuhuytour')->unsigned()->nullable();
             $table->integer('maphieudattour')->unsigned();
-            $table->integer('makhachhang')->unsigned();
-            $table->foreign('makhachhang')->references('makhachhang')->on('khachhang')->onDelete('cascade');
             $table->foreign('maphieudattour')->references('maphieudattour')->on('phieudattour')->onDelete('cascade');
             $table->foreign('maphieuhuytour')->references('maphieuhuytour')->on('phieuhuytour')->onDelete('cascade');
             $table->timestamps();

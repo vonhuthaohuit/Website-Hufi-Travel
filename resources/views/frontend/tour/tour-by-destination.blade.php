@@ -68,9 +68,17 @@
                                                             href="{{ route('tour.detail', $item->slug) }}">{{ $item->tentour }}</a>
                                                     </h3>
 
-                                                    <p class="popular-tours__rate">
-                                                        <span>{{ number_format($item->giatour) }}đ</span> / Một người
-                                                    </p>
+                                                    @if ($item->makhuyenmai == null)
+                                                        <p class="popular-tours__rate">
+                                                            <span>{{ number_format($item->giatour) }}đ</span> / Một người
+                                                        </p>
+                                                    @else
+                                                        <p class="popular-tours__rate">
+                                                            <span><del
+                                                                    class="original-price">{{ number_format($item->giatour) }}đ</del>
+                                                                {{ number_format($item->giatourgiam) }}đ</span> / Một người
+                                                        </p>
+                                                    @endif
                                                 </a>
                                             </div>
                                         </a>

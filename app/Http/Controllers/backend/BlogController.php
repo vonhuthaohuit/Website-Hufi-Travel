@@ -99,7 +99,6 @@ class BlogController extends Controller
                 'tieude' => 'required|string|max:255',
                 'noidung' => 'required',
                 'trangthaiblog' => 'required',
-                'hinhanh' => 'required',
                 'maloaiblog' => 'required',
             ]);
 
@@ -112,8 +111,13 @@ class BlogController extends Controller
             // $blog->manhanvien = $user->manhanvien;
             $blog->updated_at = now();
 
-            $imagePath = $this->updateImage($request, 'hinhanh', 'frontend/images/blog/uploads', $blog->hinhanh);
-            $blog->hinhanh = $imagePath;
+            if ($request->hasFile('hinhanh')) {
+                $imagePath = $this->updateImage($request, 'hinhanh', 'frontend/images/blog/uploads', $blog->hinhanh);
+                $blog->hinhanh = $imagePath;
+            }
+            else {
+                $blog->hinhanh = $blog->hinhanh;
+            }
 
             $blog->save();
 

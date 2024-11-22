@@ -2,6 +2,12 @@
 
 @push('style')
     <link rel="stylesheet" href="{{ asset('frontend/css/slickCarousel.css') }}">
+
+    <style>
+        #content p {
+            text-align: justify;
+        }
+    </style>
 @endpush
 
 @section('renderBody')
@@ -15,8 +21,15 @@
                         <div class="tour-details__top-inner row">
                             <div class="tour-details__top-left col-lg-5">
                                 <h2 class="tour-details__top-title">{{ $tour->tentour }}</h2>
-                                <p class="tour-details__top-rate"><span>{{ number_format($tour->giatour) }}đ</span> /
-                                    Một người</p>
+                                <p class="tour-details__top-rate">
+                                    @if (empty($tour->makhuyenmai))
+                                        <span>{{ number_format($tour->giatour) }}đ</span> / Một người
+                                    @else
+                                        <span><del class="original-price">{{ number_format($tour->giatour) }}đ</del>
+                                            {{ number_format($tour->giatourgiam) }}đ</span> /
+                                        Một người
+                                    @endif
+                                </p>
                             </div>
                             <div class="tour-details__top-right col-lg-7">
                                 <ul class="list-unstyled tour-details__top-list">
@@ -26,10 +39,10 @@
                                         </div>
                                         <div class="text">
                                             <p>Khoảng thời gian</p>
-                                            <h6>{{ $tour->thoigiandi }}</h6>
+                                            <h6>{{ $tour->thoigiandi }} ngày</h6>
                                         </div>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <div class="icon">
                                             <span class="icon-user"></span>
                                         </div>
@@ -37,7 +50,7 @@
                                             <p>Độ tuổi</p>
                                             <h6>12 +</h6>
                                         </div>
-                                    </li>
+                                    </li> --}}
                                     <li>
                                         <div class="icon">
                                             <span class="icon-plane"></span>
@@ -53,7 +66,12 @@
                                         </div>
                                         <div class="text">
                                             <p>Địa điểm</p>
-                                            <h6>{{ $tour->tendiemdulich }}</h6>
+
+                                            @if ($tour->tendiemdulich == null)
+                                                <h6>Đang cập nhật</h6>
+                                            @else
+                                                <h6>{{ $tour->tendiemdulich }}</h6>
+                                            @endif
                                         </div>
                                     </li>
                                 </ul>
@@ -137,9 +155,17 @@
                                                     href="{{ route('tour.detail', $item->slug) }}">{{ $item->tentour }}</a>
                                             </h3>
 
-                                            <p class="popular-tours__rate">
-                                                <span>{{ number_format($item->giatour) }}đ</span> / Một người
-                                            </p>
+                                            @if (empty($item->makhuyenmai))
+                                                <p class="popular-tours__rate">
+                                                    <span>{{ number_format($item->giatour) }}đ</span> / Một người
+                                                </p>
+                                            @else
+                                                <p class="popular-tours__rate">
+                                                    <span><del
+                                                            class="original-price">{{ number_format($item->giatour) }}đ</del>
+                                                        {{ number_format($item->giatourgiam) }}đ</span> / Một người
+                                                </p>
+                                            @endif
                                         </a>
                                     </div>
                                 </a>
@@ -152,7 +178,14 @@
                 <div class="table-responsive table-detail-info ">
                     <div class="form-group discount form-inline  ">
                         <div class="group-price-row">
-                            <div class="price-new">{{ number_format($tour->giatour) }}đ</div>
+                            @if (empty($tour->makhuyenmai))
+                                <div class="price-new">{{ number_format($tour->giatour) }}đ</div>
+                            @else
+                                <div class="price-new"><del
+                                        class="original-price">{{ number_format($tour->giatour) }}đ</del>
+                                    {{ number_format($tour->giatourgiam) }}đ</div>
+                            @endif
+
                         </div>
                     </div>
                     <table class="table info-product">
@@ -163,7 +196,7 @@
                             </tr>
                             <tr>
                                 <td><b><i class="fa-regular fa-clock"></i> Thời gian: </b></td>
-                                <td>2 Ngày - 1 Đêm</td>
+                                <td>{{ $tour->thoigiandi }} ngày</td>
                             </tr>
                             <tr>
                                 <td><b><i class="fa-solid fa-road"></i> Phương tiện:</b></td>
@@ -171,7 +204,11 @@
                             </tr>
                             <tr>
                                 <td><b><i class="fa-solid fa-money-bill-1-wave"></i> Giá:</b></td>
-                                <td>{{ number_format($tour->giatour) }} VNĐ</td>
+                                @if (empty($tour->makhuyenmai))
+                                    <td>{{ number_format($tour->giatour) }} VNĐ</td>
+                                @else
+                                    <td>{{ number_format($tour->giatourgiam) }} VNĐ</td>
+                                @endif
                             </tr>
                             <tr>
                                 <td><b><span class="fa fa-phone"></span> Liên hệ tư vấn:</b></td>
@@ -182,7 +219,8 @@
                             <tr>
                                 <td><b><span class="fa fa-cubes"></span> Số chỗ còn nhận:</b></td>
                                 <td>
-                                    Liên hệ </td>
+                                    Liên hệ
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="2">
