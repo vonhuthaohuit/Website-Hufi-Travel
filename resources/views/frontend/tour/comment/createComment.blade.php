@@ -11,7 +11,7 @@
             <form class="form-comment" role="comment" action="{{ route('comment.insert') }}" method="POST">
                 @csrf
                 <p class="title-comment mb-3 text-center">Đánh giá tour</p>
-                {{-- <input type="hidden" name="matour" value=""> --}}
+                <input type="hidden" name="matour" value="{{ $tour->phieuDatTour->tour->matour }}">
                 <div class="avaliacou" align="center">
                     <label for="star1" class="star-icon" data-avaliacao="1">
                         <input type="radio" name="diemdanhgia" id="star1" value="1">

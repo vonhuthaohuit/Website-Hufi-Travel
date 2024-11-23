@@ -169,7 +169,9 @@
         let hour = minute * 60
         let day = hour * 24
 
-        let countDown = new Date('Dec 2, 2024 00:00:00').getTime();
+        let dateDiscount = new Date("{{ $nearestFutureDate }}");
+
+        let countDown = dateDiscount.getTime();
 
         const myRacing = () => {
 

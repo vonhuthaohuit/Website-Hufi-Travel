@@ -5911,7 +5911,8 @@ ul {
 }
 
 .tour-details__review-form-stars {
-    margin-bottom: 50px
+    margin-top: 10px;
+    margin-bottom: 5px
 }
 
 .tour-details__review-form-stars p {

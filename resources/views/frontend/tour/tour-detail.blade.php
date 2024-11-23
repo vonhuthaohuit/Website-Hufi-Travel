@@ -122,11 +122,7 @@
 
                 @include('frontend.tour.component.tour-note')
 
-                <div class="comment-group-box">
-                    <h4>Bình luận</h4>
-                    <button class="btn-create-comment">Thêm đánh giá</button>
-                    @include('frontend.tour.comment.createComment')
-                </div>
+                @include('frontend.tour.comment.comment-of-tour')
 
                 <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
                     <h4>Tour tương tự</h4>
