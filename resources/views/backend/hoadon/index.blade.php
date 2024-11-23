@@ -20,6 +20,7 @@
                                 <th>Tên tour</th>
                                 <th>Người đại diện</th>
                                 <th>Tổng số tiền</th>
+                                <th>Trạng thái thanh toán</th>
                                 <th class="text-center">Chức năng</th>
                             </tr>
                         </thead>
@@ -66,7 +67,7 @@
                         name: 'DT_RowIndex',
                         orderable: false,
                         searchable: false,
-                        width: '10%'
+                        width: '5%'
                     },
                     {
                         data: 'mahoadon',
@@ -81,7 +82,7 @@
                     {
                         data: 'nguoidaidien',
                         name: 'nguoidaidien',
-                        width: '20%'
+                        width: '10%'
                     },
                     {
                         data: 'tongsotien',
@@ -89,6 +90,15 @@
                         width: '15%',
                         render: function(data, type, row) {
                             return data + ' VNĐ';
+                        }
+                    },
+                    {
+                        data: 'trangthaithanhtoan',
+                        name: 'trangthaithanhtoan',
+                        width: '15%',
+                        render: function(data, type, row) {
+                            return data === 'Đã thanh toán' ? '<span class="badge badge-success">' + data +
+                                '</span>' : '<span class="badge badge-danger">' + data + '</span>';
                         }
                     },
                     {

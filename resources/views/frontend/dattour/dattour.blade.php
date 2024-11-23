@@ -123,7 +123,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 control-label">Mã số thuế </label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" name="ticket_masothue" value="">
+                                        <input type="text" class="form-control" name="ticket_masothue"
+                                            value="">
                                     </div>
                                 </div>
                             </div>
@@ -177,13 +178,14 @@
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control sdt" id="td_sdt_1"
-                                                    name="td_ticket[1][td_sdt]" placeholder="Số điện thoại" required=""
-                                                    data-msg="Trường này là bắt buộc!">
+                                                    name="td_ticket[1][td_sdt]" placeholder="Số điện thoại"
+                                                    required="" data-msg="Trường này là bắt buộc!">
                                             </td>
                                             <td>
                                                 <input type="date" class="form-control ngay-sinh-khach-hang-di-tour"
                                                     id="td_birthday_1" name="td_ticket[1][td_birthday]"
-                                                    placeholder="01/01/1990" required=""
+                                                    placeholder="01/01/1990"
+                                                    onchange="calculateAgeAndUpdateCustomerType(this)" required=""
                                                     data-msg="Trường này là bắt buộc!">
                                             </td>
                                             <td>

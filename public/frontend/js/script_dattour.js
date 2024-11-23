@@ -463,3 +463,32 @@ document.addEventListener("DOMContentLoaded", function () {
 //             checkDuplicateCCCDInDatabase(this);
 //         });
 //     });
+
+function calculateAgeAndUpdateCustomerType(input) {
+    const birthday = new Date(input.value);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthday.getFullYear();
+    const monthDifference = today.getMonth() - birthday.getMonth();
+    if (
+        monthDifference < 0 ||
+        (monthDifference === 0 && today.getDate() < birthday.getDate())
+    ) {
+        age--;
+    }
+
+    const customerTypeSelect = input
+        .closest("tr")
+        .querySelector(".js-type-customer");
+
+    if (age < 5) {
+        customerTypeSelect.value = "3";
+    } else if (age >= 5 && age <= 18) {
+        customerTypeSelect.value = "2";
+    } else if (age > 18) {
+        customerTypeSelect.value = "1";
+    }
+    console.log(age);
+
+    selectTypeCustomer(customerTypeSelect);
+}
