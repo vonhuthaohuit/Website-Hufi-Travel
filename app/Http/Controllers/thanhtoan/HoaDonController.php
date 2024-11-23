@@ -11,6 +11,7 @@ use App\Models\KhachHang;
 use App\Models\LoaiKhachHang;
 use App\Models\Tour;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -239,23 +240,78 @@ class HoaDonController extends Controller
     }
 
 
-    public function edit(HoaDon $hoadon)
+    public function edit($id)
     {
+        $hoadon = HoaDon::with([
+            'phieudattour.tour',
+            'phieudattour.chitietphieudattour.khachhang'
+        ])->findOrFail($id);
+
         return view('frontend.thanhtoan.suahoadon', compact('hoadon'));
     }
 
-    public function update(Request $request, HoaDon $hoadon)
+    public function update(Request $request)
     {
-        $request->validate([
-            'maphieudattour' => 'required',
-            'tongsotien' => 'required|numeric',
-            'phuongthucthanhtoan' => 'required',
-        ]);
+        DB::beginTransaction();
 
-        $hoadon->update($request->all());
+        try {
+            $hoadon = HoaDon::find($request->mahoadon);
 
-        return redirect()->route('hoadon.index')->with('success', 'Hóa đơn được cập nhật thành công!');
+            $hoadon->update([
+                'tongsotien' => $request->tongsotien,
+                'phuongthucthanhtoan' => $request->phuongthucthanhtoan,
+                'trangthaithanhtoan' => $request->trangthaithanhtoan,
+            ]);
+            foreach ($request->khachhang as $value) {
+                $chitietphieudattour = ChiTietPhieuDatTour::find($value['maphieudattour']);
+                if ($chitietphieudattour) {
+                    $chitietphieudattour->update(['chitietsotiendat' => $value['chitietsotiendat']]);
+                    $loaiKhachHang = LoaiKhachHang::where('tenloaikhachhang', $value['tenloaikhachhang'])->first();
+                    $khachHang = KhachHang::find($chitietphieudattour->makhachhang);
+                    $khachHang->update([
+                        'hoten' => $value['hoten'],
+                        'cccd' => $value['cccd'],
+                        'sodienthoai' => $value['sodienthoai'],
+                        'ngaysinh' => $value['ngaysinh'],
+                        'gioitinh' => $value['gioitinh'],
+                        'maloaikhachhang' => $loaiKhachHang->maloaikhachhang,
+                    ]);
+                }
+            }
+            DB::commit();
+
+            return redirect()->route('hoadon.index')->with('success', 'Hóa đơn được cập nhật thành công!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('hoadon.index')->with('error', 'Có lỗi xảy ra, vui lòng thử lại sau.');
+        }
     }
+
+
+    public function getCustomerPrice($age, $tourId)
+    {
+        $datTourController = new DatTourController();
+        $loaiKhachHang = LoaiKhachHang::all();
+        $giaTheoLoaiKhachHang = $datTourController->TinhGiaTourLoaiKhachHang($tourId);
+
+        if ($age < 5) {
+            $loaiKhachHang = $loaiKhachHang->where('maloaikhachhang', 3)->first();
+        } else if ($age >= 5 && $age < 18) {
+            $loaiKhachHang = $loaiKhachHang->where('maloaikhachhang', 2)->first();
+        } else {
+            $loaiKhachHang = $loaiKhachHang->where('maloaikhachhang', 1)->first();
+        }
+
+        $price = $giaTheoLoaiKhachHang[$loaiKhachHang->maloaikhachhang - 1] ?? 0;
+
+        return response()->json([
+            'price' => $price,
+            'customerType' => $loaiKhachHang->tenloaikhachhang,
+        ]);
+    }
+
+
+
 
     public function destroy($id)
     {
@@ -284,5 +340,16 @@ class HoaDonController extends Controller
         $html = view('backend.hoadon.detailshoadon', compact('hoaDon'))->render();
 
         return response()->json(['html' => $html]);
+    }
+    public function printInvoice($hoaDonId)
+    {
+        $hoaDon = HoaDon::with([
+            'phieudattour.tour',
+            'phieudattour.chitietphieudattour.khachhang'
+        ])->findOrFail($hoaDonId);
+
+        $pdf = PDF::loadView('backend.hoadon.detailshoadon', ['hoaDon' => $hoaDon]);
+
+        return $pdf->download('hoa_don_' . $hoaDon->mahoadon . '.pdf');
     }
 }

@@ -234,10 +234,13 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
 
     Route::resource('hoadon', HoaDonController::class);
 });
+Route::get('hoadon/{hoaDonId}/print', [HoaDonController::class, 'printInvoice'])->name('hoadon.print');
+
+Route::get('/get-customer-price/{age}/{tourId}', [HoaDonController::class, 'getCustomerPrice']);
 Route::post('/check-cccd', [KhachHangController::class, 'validateCCCD'])->name('check.cccd');
 Route::get('/get-users', [UserBEController::class, 'getUsers'])->name('get.users');
 Route::get('/get-khachhang-details/{userId}', [KhachHangController::class, 'getKhachHangDetails'])->name('get.khachhang.details');
-Route::get('/get-tour-details/{tourId}', [ \App\Http\Controllers\backend\TourController::class, 'getTourDetails']);
+Route::get('/get-tour-details/{tourId}', [\App\Http\Controllers\backend\TourController::class, 'getTourDetails']);
 
 Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
 Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');
