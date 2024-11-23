@@ -93,6 +93,21 @@
             @php
                 session()->forget('success');
             @endphp
+        @else
+            @if (session('error'))
+                Toastify({
+                    text: "{{ session('error') }}",
+                    duration: 3000, // Thời gian hiển thị (miliseconds)
+                    close: true, // Có hiển thị nút đóng không
+                    gravity: "top", // Vị trí hiển thị (top, bottom)
+                    position: 'right', // Vị trí bên trái hay bên phải
+                    backgroundColor: "red", // Màu nền
+                    stopOnFocus: true, // Dừng khi hover chuột
+                }).showToast();
+                @php
+                    session()->forget('error');
+                @endphp
+            @endif
         @endif
     </script>
 

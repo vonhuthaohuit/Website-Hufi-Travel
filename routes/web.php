@@ -38,6 +38,7 @@ use App\Http\Controllers\thanhtoan\ThanhToanMomoController;
 use App\Http\Controllers\thanhtoan\ThanhToanVNPayController;
 use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
 use App\Http\Controllers\frontend\CommentController;
+use App\Http\Controllers\frontend\PhieuHuyController;
 use App\Http\Controllers\thanhtoan\HoaDonController;
 use App\Http\Controllers\thanhtoan\PhieuDatTourController;
 use App\Http\Controllers\thanhtoan\PhieuHuyTourController;
@@ -254,3 +255,6 @@ Route::get('/danh-sach-tour', [TourController::class, 'allTour'])->name('tour.al
 Route::post('/comment/create', [CommentController::class, 'createComment'])->name('comment.insert');
 Route::get('/dia-diem/{slug}', [TourController::class, 'tourByDestination'])->name('tour.byDestination');
 Route::get('/transaction', [HomeController::class, 'transaction'])->name('transaction');
+Route::get('/history/tour-order/{matour}/{maphieudattour}', [HomeController::class, 'tourOrder'])->name('tour.tourOrder');
+Route::get('/history/tour-booked', [HomeController::class, 'tourBooked'])->name('tour.tour-booked');
+Route::post('/history/tour-booked', [PhieuHuyController::class, 'cancelTour'])->name('tour.cancelTour');

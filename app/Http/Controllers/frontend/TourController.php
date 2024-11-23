@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\DanhGia;
 use App\Models\DiemDuLich;
 use App\Models\LoaiTour;
 use App\Models\Tour;
@@ -23,9 +24,15 @@ class TourController extends Controller
             ->where('tour.slug', $slug)
             ->first();
 
-            // dd($tour->makhuyenmai);
+        $commentOfTour = DanhGia::query()
+            ->join('tour', 'danhgia.matour', '=', 'tour.matour')
+            ->join('khachhang', 'danhgia.makhachhang', '=', 'khachhang.makhachhang')
+            ->where('tour.matour', $tour->matour)
+            ->get();
 
-        return view('frontend.tour.tour-detail', compact('tour'));
+        // dd($tour->makhuyenmai);
+
+        return view('frontend.tour.tour-detail', compact('tour', 'commentOfTour'));
     }
 
     public function allTour()
