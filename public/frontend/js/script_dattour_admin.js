@@ -46,6 +46,12 @@ function addCustomerRow() {
             'input[name="td_ticket[1][td_name]"]'
         ).name = `td_ticket[${index}][td_name]`;
         newRow.querySelector(
+            'input[name="td_ticket[1][td_sdt]"]'
+        ).name = `td_ticket[${index}][td_sdt]`;
+        newRow.querySelector(
+            'input[name="td_ticket[1][td_cccd]"]'
+        ).name = `td_ticket[${index}][td_cccd]`;
+        newRow.querySelector(
             'input[name="td_ticket[1][td_birthday]"]'
         ).name = `td_ticket[${index}][td_birthday]`;
         newRow.querySelector(
@@ -106,8 +112,7 @@ function removeCustomer(element) {
 
     if (row && row.id !== "customerRowTemplate") {
         row.remove();
-    }
-    else{
+    } else {
         alert("Không thể xóa hàng này!");
     }
 }
@@ -118,7 +123,15 @@ document.addEventListener("DOMContentLoaded", function () {
         .addEventListener("click", function (event) {
             event.preventDefault();
             if (validateBookingForm()) {
-                document.getElementById("form-booking").submit();
+                Swal.fire({
+                    icon: "success",
+                    title: "Tạo hóa đơn thành công!",
+                    text: "Nhấn OK để tiếp tục.",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("form-booking").submit();
+                    }
+                });
             }
         });
 
@@ -136,11 +149,13 @@ document.addEventListener("DOMContentLoaded", function () {
             "ticket_fullname",
             "Trường này là bắt buộc!"
         );
+        hasError = checkCCCD("ticket_cccd", "Trường này là bắt buộc!");
         hasError =
             checkRequiredField("ticket_address", "Trường này là bắt buộc!") ||
             hasError;
         hasError = checkPhoneField("ticket_phone") || hasError;
         hasError = checkEmailField("ticket_email") || hasError;
+        hasError = checkTourField("tour_id") || hasError;
 
         let i = 1;
         while (
@@ -153,12 +168,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 checkNgaySinhKhachHangDiTourField(
                     `td_ticket[${i}][td_birthday]`
                 ) || hasError;
+            hasError = checkPhoneField(`td_ticket[${i}][td_sdt]`) || hasError;
+            hasError = checkCCCD(`td_ticket[${i}][td_cccd]`) || hasError;
             i++;
         }
 
         return !hasError;
     }
 
+    function checkTourField(fieldName) {
+        const tourSelect = document.querySelector(
+            `select[name="${fieldName}"]`
+        );
+        if (!tourSelect.value) {
+            showError(tourSelect, "Vui lòng chọn tour!");
+            return true;
+        }
+        return false;
+    }
     function checkRequiredField(fieldName, errorMessage) {
         const field = document.querySelector(`input[name="${fieldName}"]`);
         if (!field.value) {
@@ -178,6 +205,28 @@ document.addEventListener("DOMContentLoaded", function () {
             return true;
         } else if (!/^\d+$/.test(phone.value)) {
             showError(phone, "Số điện thoại chỉ được phép nhập số!");
+            return true;
+        }
+        return false;
+    }
+
+    function checkCCCD(fieldName) {
+        const cmnd = document.querySelector(`input[name="${fieldName}"]`);
+        const cmndValue = cmnd.value.trim();
+
+        if (!cmndValue) {
+            showError(cmnd, "Vui lòng nhập số CMND/CCCD của khách hàng!");
+            return true;
+        }
+
+        const digitPattern = /^\d+$/;
+        if (!digitPattern.test(cmndValue)) {
+            showError(cmnd, "CMND/CCCD chỉ được chứa các chữ số!");
+            return true;
+        }
+
+        if (cmndValue.length !== 9 && cmndValue.length !== 12) {
+            showError(cmnd, "CMND phải có 9 hoặc CCCD phải có 12 chữ số!");
             return true;
         }
         return false;
@@ -281,6 +330,87 @@ function validateDateInput(inputElement) {
 
     return null;
 }
+
+function showError(field, message) {
+    field.classList.add("is-invalid");
+    const errorMessage = field.nextElementSibling;
+    if (errorMessage) {
+        errorMessage.style.display = "block";
+        errorMessage.textContent = message;
+    }
+}
+
+function clearError(field) {
+    field.classList.remove("is-invalid");
+    const errorMessage = field.nextElementSibling;
+    if (errorMessage) {
+        errorMessage.style.display = "none";
+        errorMessage.textContent = "";
+    }
+}
+
+function validateAndRestrictCCCDInput(fieldSelector) {
+    const cccdInputs = document.querySelectorAll(fieldSelector);
+
+    cccdInputs.forEach(function (input) {
+        input.addEventListener("input", function () {
+            this.value = this.value.replace(/\D/g, "");
+
+            if (this.value.length > 12) {
+                this.value = this.value.slice(0, 12);
+            }
+        });
+
+        input.addEventListener("blur", function () {
+            const cmndValue = this.value.trim();
+
+            if (!cmndValue) {
+                showError(this, "Vui lòng nhập số CMND/CCCD của khách hàng!");
+                return;
+            }
+
+            if (cmndValue.length < 9 || cmndValue.length > 12) {
+                showError(this, "CMND phải có 9 hoặc CCCD phải có 12 chữ số!");
+                this.focus();
+                return;
+            }
+
+            clearError(this);
+        });
+    });
+}
+
+function validateAndRestrictPhoneInput(fieldSelector) {
+    const phoneInputs = document.querySelectorAll(fieldSelector);
+
+    phoneInputs.forEach(function (input) {
+        input.addEventListener("input", function () {
+            this.value = this.value.replace(/\D/g, "");
+
+            if (this.value.length > 10) {
+                this.value = this.value.slice(0, 10);
+            }
+        });
+
+        input.addEventListener("blur", function () {
+            const phoneValue = this.value.trim();
+
+            if (!phoneValue) {
+                showError(this, "Vui lòng nhập số điện thoại!");
+                return;
+            }
+
+            if (phoneValue.length !== 10) {
+                showError(this, "Số điện thoại phải có đúng 10 chữ số!");
+                this.focus();
+                return;
+            }
+
+            clearError(this);
+        });
+    });
+}
+
 function selectTypeCustomer(selectElement) {
     const selectedOption = selectElement.options[selectElement.selectedIndex];
     const price = selectedOption.getAttribute("data-price");
@@ -308,3 +438,36 @@ document.addEventListener("DOMContentLoaded", function () {
         selectTypeCustomer(select);
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    validateAndRestrictCCCDInput('input[name^="td_ticket"][name$="[td_cccd]"]');
+    validateAndRestrictPhoneInput('input[name^="td_ticket"][name$="[td_sdt]"]');
+    validateAndRestrictCCCDInput('input[name^="ticket_cccd"]');
+});
+
+function calculateAgeAndUpdateCustomerType(input) {
+    const birthday = new Date(input.value);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthday.getFullYear();
+    const monthDifference = today.getMonth() - birthday.getMonth();
+    if (
+        monthDifference < 0 ||
+        (monthDifference === 0 && today.getDate() < birthday.getDate())
+    ) {
+        age--;
+    }
+
+    const customerTypeSelect = input
+        .closest("tr")
+        .querySelector(".js-type-customer");
+
+    if (age < 5) {
+        customerTypeSelect.value = "3";
+    } else if (age >= 5 && age <= 18) {
+        customerTypeSelect.value = "2";
+    } else if (age > 18) {
+        customerTypeSelect.value = "1";
+    }
+    selectTypeCustomer(customerTypeSelect);
+}

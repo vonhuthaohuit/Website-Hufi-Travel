@@ -14,7 +14,6 @@ class UserBEController extends Controller
 
         $usersQuery = User::select('mataikhoan', 'email', 'tentaikhoan');
 
-        // Kiểm tra nếu có giá trị tìm kiếm
         if ($search) {
             $usersQuery->where(function ($query) use ($search) {
                 $query->where('email', 'like', "%$search%")

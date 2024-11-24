@@ -47,7 +47,10 @@
                             </header>
                             <div class="content-body">
                                 <p>
-                                    <b>Họ tên:</b> {{ $data['ticket_fullname'] }}
+                                    <b>Họ tên (Người đại diện):</b> {{ $data['ticket_fullname'] }}
+                                </p>
+                                <p>
+                                    <b>Căn cước công dân:</b> {{ $data['ticket_cccd'] }}
                                 </p>
                                 <p>
                                     <b>Địa chỉ:</b> {{ $data['ticket_address'] }}
@@ -57,6 +60,12 @@
                                 </p>
                                 <p>
                                     <b>Email:</b> {{ $data['ticket_email'] }}
+                                </p>
+                                <p>
+                                    <b>Mã số thuế:</b> {{ $data['ticket_masothue'] ?? 'Không có'}}
+                                </p>
+                                <p>
+                                    <b>Tên đơn vị:</b> {{ $data['ticket_tendonvi'] ?? 'Không có' }}
                                 </p>
                                 <p>
                                     <b>Ghi chú:</b> {{ $data['ticket_note'] }}
@@ -80,7 +89,9 @@
                                                 <tr>
                                                     <th width="20">STT</th>
                                                     <th>Họ tên</th>
-                                                    <th>Khách hàng</th>
+                                                    <th>Căn cước công dân</th>
+                                                    <th>Số điện thoại</th>
+                                                    <th>Loại khách hàng</th>
                                                     <th>Ngày sinh</th>
                                                     <th>Giới tính</th>
                                                     <th>Giá</th>
@@ -88,15 +99,16 @@
                                             </thead>
                                             <tbody class="add_plus_tbd">
                                                 @php
-                                                    $totalAmount = 0; // Khởi tạo tổng tiền
+                                                    $totalAmount = 0;
                                                 @endphp
 
                                                 @foreach ($data['td_ticket'] as $index => $ticket)
                                                     @if (!empty($ticket['td_name']))
-                                                        <!-- Kiểm tra nếu td_name có giá trị -->
                                                         <tr>
                                                             <td>{{ $index }}</td>
                                                             <td>{{ $ticket['td_name'] }}</td>
+                                                            <td>{{ $ticket['td_cccd'] }}</td>
+                                                            <td>{{ $ticket['td_sdt'] }}</td>
                                                             <td>{{ $ticket['td_loaikhach'] == '1' ? 'Người lớn' : 'Trẻ em' }}
                                                             </td>
                                                             <td>{{ $ticket['td_birthday'] }}</td>
@@ -110,7 +122,7 @@
                                                 @endforeach
 
                                                 <tr>
-                                                    <td colspan="4"></td>
+                                                    <td colspan="6"></td>
                                                     <td><strong>Tổng tiền :</strong></td>
                                                     <td>
                                                         <input type="hidden" name="phieuDatTourid"
@@ -119,7 +131,6 @@
                                                         <span>{{ number_format($totalAmount) }}</span>
                                                     </td>
                                                 </tr>
-
                                             </tbody>
                                         </table>
                                     </div>

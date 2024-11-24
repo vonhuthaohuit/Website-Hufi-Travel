@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ChiTietPhieuDatTour extends Model
 {
     protected $table = 'chitietphieudattour';
+    protected $primaryKey = 'maphieudattour';
     public $timestamps = false;
     use HasFactory;
 
