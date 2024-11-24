@@ -26,6 +26,7 @@ use App\Http\Controllers\backend\PhongBanController;
 use App\Http\Controllers\backend\Quyen_NhomQuyenController;
 use App\Http\Controllers\backend\QuyenController;
 use App\Http\Controllers\backend\ChuongTrinhTourController;
+use App\Http\Controllers\Backend\KhachHangController;
 use App\Http\Controllers\backend\KhachSan_TourController;
 use App\Http\Controllers\backend\KhachSanController;
 use App\Http\Controllers\backend\PhanCongCongViecController;
@@ -48,6 +49,7 @@ use App\Http\Controllers\thanhtoan\PhieuDatTourController;
 use App\Http\Controllers\thanhtoan\PhieuHuyTourController;
 use App\Models\ChiTietTour;
 use App\Models\DiemDuLich;
+use App\Models\KhachHang;
 use App\Models\KhachSan_Tour;
 use App\Models\NhomQuyen;
 use App\Models\PhanCongChucVu;
@@ -99,14 +101,14 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     */
     Route::post('/dattour', [DatTourController::class, 'index'])
         ->name('tour.dattour')
-        ->middleware('check.post');  // Sử dụng middleware mới
+        ->middleware('check.post');
 
     Route::post('/xacnhanthongtindattour', [DatTourController::class, 'xacnhanthongtindattour'])
         ->name('tour.xacnhanthongtindattour')
-        ->middleware('check.post');  // Sử dụng middleware mới
+        ->middleware('check.post');
     Route::post('/step4', [DatTourController::class, 'tieptucdattour'])
         ->name('tour.step4')
-        ->middleware('check.post');  // Sử dụng middleware mới
+        ->middleware('check.post');
 
     // Momo
     Route::post('/momo-payment', [ThanhToanMomoController::class, 'createPayment'])->name('momo.payment');
@@ -244,9 +246,13 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
 
     Route::resource('hoadon', HoaDonController::class);
 });
-Route::get('/get-users', [UserBEController::class, 'getUsers'])->name('get.users');
+Route::get('hoadon/{hoaDonId}/print', [HoaDonController::class, 'printInvoice'])->name('hoadon.print');
 
-Route::get('/get-tour-details/{tourId}', [ \App\Http\Controllers\backend\TourController::class, 'getTourDetails']);
+Route::get('/get-customer-price/{age}/{tourId}', [HoaDonController::class, 'getCustomerPrice']);
+Route::post('/check-cccd', [KhachHangController::class, 'validateCCCD'])->name('check.cccd');
+Route::get('/get-users', [UserBEController::class, 'getUsers'])->name('get.users');
+Route::get('/get-khachhang-details/{userId}', [KhachHangController::class, 'getKhachHangDetails'])->name('get.khachhang.details');
+Route::get('/get-tour-details/{tourId}', [\App\Http\Controllers\backend\TourController::class, 'getTourDetails']);
 
 Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
 Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');
