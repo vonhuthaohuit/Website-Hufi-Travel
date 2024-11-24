@@ -26,8 +26,15 @@
                         </p>
 
                         <p>Nơi khởi hành: {{ $tour->noikhoihanh }}</p>
+                        @if ($tour->giatourgiam == null || $tour->giatourgiam == 0)
+                            <p>Giá tour: {{ number_format($tour->giatour) }}</p>
+                        @endif
 
-                        <p>Giá tour: {{ number_format($tour->giatour) }}</p>
+                        @if ($tour->giatourgiam != null && $tour->giatourgiam != 0)
+                            <p>Giá tour: <del>{{ number_format($tour->giatour) }}</del>
+                                {{ number_format($tour->giatourgiam) }}</p>
+                        @endif
+
                     </div>
                 </div>
                 <div class="content_book tour-price-advance">
@@ -65,6 +72,15 @@
                             <div class="col-md-10">
                                 <input type="text" class="form-control" name="ticket_fullname"
                                     value="{{ @$khachHang->hoten }}" required="" data-msg="Trường này là bắt buộc!">
+                                <span class="text-danger error-message" style="display: none;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-3 mb-3">
+                            <label class="col-sm-2 control-label">Căn cước công dân <span
+                                    class="text-danger">*</span></label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="ticket_cccd"
+                                    value="{{ @$khachHang->cccd }}" required="" data-msg="Trường này là bắt buộc!">
                                 <span class="text-danger error-message" style="display: none;"></span>
                             </div>
                         </div>
@@ -107,7 +123,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 control-label">Mã số thuế </label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" name="ticket_masothue" value="">
+                                        <input type="text" class="form-control" name="ticket_masothue"
+                                            value="">
                                     </div>
                                 </div>
                             </div>
@@ -136,6 +153,8 @@
                                     <thead>
                                         <tr>
                                             <th>Họ tên <span class="text-danger">*</span></th>
+                                            <th>CMND <span class="text-danger">*</span></th>
+                                            <th>Số điện thoại <span class="text-danger">*</span></th>
                                             <th>Ngày sinh <span class="text-danger">*</span></th>
                                             <th style="width:90px">Giới tính</th>
                                             <th>Khách hàng</th>
@@ -152,10 +171,23 @@
                                                     id="td_name_1" name="td_ticket[1][td_name]" placeholder="Tên"
                                                     required="" data-msg="Trường này là bắt buộc!">
                                             </td>
-                                            <td><input type="date" class="form-control ngay-sinh-khach-hang-di-tour"
+                                            <td>
+                                                <input type="text" class="form-control cmnd" id="td_cccd_1"
+                                                    name="td_ticket[1][td_cccd]" placeholder="CMND" required=""
+                                                    data-msg="Trường này là bắt buộc!">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control sdt" id="td_sdt_1"
+                                                    name="td_ticket[1][td_sdt]" placeholder="Số điện thoại"
+                                                    required="" data-msg="Trường này là bắt buộc!">
+                                            </td>
+                                            <td>
+                                                <input type="date" class="form-control ngay-sinh-khach-hang-di-tour"
                                                     id="td_birthday_1" name="td_ticket[1][td_birthday]"
-                                                    placeholder="01/01/1990" required=""
-                                                    data-msg="Trường này là bắt buộc!"></td>
+                                                    placeholder="01/01/1990"
+                                                    onchange="calculateAgeAndUpdateCustomerType(this)" required=""
+                                                    data-msg="Trường này là bắt buộc!">
+                                            </td>
                                             <td>
                                                 <select name="td_ticket[1][td_gender]" id="td_gender_1"
                                                     class="form-control">
@@ -214,7 +246,7 @@
                             </label>
                             <ul>
                                 <p>
-                                    <strong>HUFI TRAVEL - Hài Hước Store</strong><br>
+                                    <strong>HUFI TRAVEL</strong><br>
                                     <strong>Địa chỉ:</strong> 140 Lê Trọng Tấn Phường Tây Thạnh Quận Tân Phú TP.HCM<br>
                                     <strong>Điện thoại:</strong> 0388533247<br>
                                     <strong>Hotline:</strong> 0965682178 & 0938533247<br>

@@ -13,7 +13,10 @@ class KhachHang extends Model
     protected $primaryKey = 'makhachhang';
     public $timestamps = false;
     protected $fillable = [
+        'mataikhoan',
         'hoten',
+        'cccd',
+        'sodienthoai',
         'gioitinh',
         'ngaysinh',
         'maloaikhachhang',

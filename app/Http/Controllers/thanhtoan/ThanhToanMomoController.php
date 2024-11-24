@@ -84,7 +84,7 @@ class ThanhToanMomoController extends Controller
             return view('frontend/thanhtoan/payment_failed');
         }
 
-        $phuongThucThanhToan = 'Thanh toán online VNPay';
+        $phuongThucThanhToan = 'Thanh toán online Momo';
 
         DB::beginTransaction();
         try {

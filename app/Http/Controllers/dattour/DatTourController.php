@@ -60,7 +60,12 @@ class DatTourController extends Controller
         $giaTour_LoaiKhachHang = [];
 
         foreach ($loaiKhachHang as $index => $item) {
-            $giaTour_LoaiKhachHang[$index] = round($tour->giatour - ($tour->giatour * ($item->mucapdunggia / 100)));
+            if($tour->giatourgiam == null || $tour->giatourgiam == 0){
+                $giaTour_LoaiKhachHang[$index] = round($tour->giatour - ($tour->giatour * ($item->mucapdunggia / 100)));
+            }
+            else{
+                $giaTour_LoaiKhachHang[$index] = round($tour->giatourgiam - ($tour->giatourgiam * ($item->mucapdunggia / 100)));
+            }
         }
 
         return $giaTour_LoaiKhachHang;
@@ -119,6 +124,7 @@ class DatTourController extends Controller
         $data = [
             'tourId' => $tourId,
             'ticket_fullname' => $request->input('ticket_fullname'),
+            'ticket_cccd' => $request->input('ticket_cccd'),
             'ticket_address' => $request->input('ticket_address'),
             'ticket_phone' => $request->input('ticket_phone'),
             'ticket_email' => $request->input('ticket_email'),
@@ -137,6 +143,7 @@ class DatTourController extends Controller
         $thongTinNguoiDaiDien['masothue'] = $data['ticket_masothue'];
 
         $khachHang->hoten = $data['ticket_fullname'];
+        $khachHang->cccd = $data['ticket_cccd'];
         $khachHang->diachi = $data['ticket_address'];
         $khachHang->sodienthoai = $data['ticket_phone'];
         $user->email = $data['ticket_email'];
@@ -150,6 +157,8 @@ class DatTourController extends Controller
         foreach ($data['td_ticket'] as $key => $value) {
             $khachHangDiTour = KhachHang::create([
                 'hoten' => $value['td_name'],
+                'sodienthoai' => $value['td_sdt'],
+                'cccd' => $value['td_cccd'],
                 'ngaysinh' => $value['td_birthday'],
                 'gioitinh' => $value['td_gender'],
                 'maloaikhachhang' => $value['td_loaikhach'],
@@ -183,7 +192,7 @@ class DatTourController extends Controller
     {
         $data = $request->all();
         $phieuDatTour = \App\Models\PhieuDatTour::find($data['phieuDatTourid']);
-        $trangThaiDatTour = 'Đang chờ xác nhận đặt tour';
+        $trangThaiDatTour = 'Đang chờ thanh toán';
         $phuongThucThanhToan = 'Thanh toán trực tiếp';
         $thongTinNguoiDaiDien = session('thongTinNguoiDaiDien');
         DB::beginTransaction();
