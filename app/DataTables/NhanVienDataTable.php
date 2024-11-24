@@ -23,12 +23,12 @@ class NhanVienDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addIndexColumn()
+            ->addIndexColumn()
 
-        ->addColumn('action', function ($query) {
-            $editBtn = "<a href='" . route('nhanvien.edit', $query->manhanvien) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-            $deleteBtn = "<a href='" . route('nhanvien.destroy', $query->manhanvien) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->manhanvien}'><i class='far fa-trash-alt'></i></a>";
-            $moreBtn = '<div class="dropdown dropleft d-inline">
+            ->addColumn('action', function ($query) {
+                $editBtn = "<a href='" . route('nhanvien.edit', $query->manhanvien) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+                $deleteBtn = "<a href='" . route('nhanvien.destroy', $query->manhanvien) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->manhanvien}'><i class='far fa-trash-alt'></i></a>";
+                $moreBtn = '<div class="dropdown dropleft d-inline">
              <button class="btn btn-primary dropdown-toggle ml-1" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-cog"></i>
             </button>
@@ -36,15 +36,18 @@ class NhanVienDataTable extends DataTable
                <a class="dropdown-item has-icon" href="' . route('phancongchucvu.index', ['manhanvien' => $query->manhanvien]) . '" ><i class="far fa-heart"></i>Phân công chức vụ</a>
                </div>
           </div>';
-           return $editBtn . $deleteBtn . $moreBtn ;
-        })
-        ->editColumn('ngayvaolam', function ($query) {
-            return Carbon::parse($query->ngayvaolam)->format('d-m-Y'); // Định dạng ngày
-        })
-        ->addColumn('maphongban',function($query)
-        {
-            return $query->phongban->tenphongban ;
-        })
+                return $editBtn . $deleteBtn . $moreBtn;
+            })
+            ->editColumn('ngayvaolam', function ($query) {
+                return Carbon::parse($query->ngayvaolam)->format('d-m-Y'); // Định dạng ngày
+            })
+            ->addColumn('maphongban', function ($query) {
+                return $query->phongban->tenphongban;
+            })
+            ->addColumn('manhomquyen', function ($query) {
+                return $query->user && $query->user->nhomquyen ? $query->user->nhomquyen->tennhomquyen : 'Chưa có quyền';
+            })
+
             ->setRowId('id');
     }
 
@@ -53,8 +56,10 @@ class NhanVienDataTable extends DataTable
      */
     public function query(NhanVien $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->with('user.nhomquyen');  // Thêm eager loading cho mối quan hệ users và nhomquyen
     }
+
 
     /**
      * Optional method if you want to use the html builder.
@@ -62,20 +67,20 @@ class NhanVienDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('nhanvien-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('nhanvien-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -85,22 +90,22 @@ class NhanVienDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')
-            ->title('STT')
-            ->exportable(false)
-            ->printable(false)
-            ->width(30)
-            ->addClass('text-center'),
-            Column::make('hoten')->width(200)->title('Họ và Tên'),
+                ->title('STT')
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center'),
+            Column::make('hoten')->width(150)->title('Họ và Tên'),
             Column::make('gioitinh')->width(100)->title('Giới tính'),
-            Column::make('sodienthoai')->width(200)->title('Liên lạc'),
+            Column::make('sodienthoai')->width(150)->title('Liên lạc'),
             Column::make('ngayvaolam')->width(120)->title('Ngày vào làm'),
+            Column::make('manhomquyen')->width(150)->title('Quyền'),
             Column::make('maphongban')->width(150)->title('Phòng ban'),
-
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(200   )
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(200)
+                ->addClass('text-center'),
 
         ];
     }

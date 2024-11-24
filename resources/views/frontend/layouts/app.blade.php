@@ -34,7 +34,7 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/styleHeader.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleSearch.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleFooter.css') }}">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 
     @stack('style')
 </head>
@@ -51,6 +51,7 @@
 
     <script src="{{ asset('frontend/js/tevily.js') }}"></script>
     <script src="{{ asset('frontend/library/swiper/swiper.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/script_password.js') }}"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
@@ -60,8 +61,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
-
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="{{ asset('frontend/js/script.js') }}"></script>
     @stack('script')
     <script lang="javascript">
@@ -79,31 +79,37 @@
             var s = document.getElementsByTagName('script');
             s[0].parentNode.insertBefore(ga, s[0]);
         })();
-    </script>
 
-    <script>
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Kiểm tra nếu có thông báo thành công
             @if (session('success'))
-                Toastify({
-                    text: "{{ session('success') }}",
-                    duration: 700,
-                    gravity: "top",
-                    position: "right",
-                    backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-                    stopOnFocus: true,
-                }).showToast();
+                toastr.success("{{ session('success') }}");
+           @endif
+
+            // Kiểm tra nếu có thông báo lỗi
+            @if (session('error'))
+                toastr.error("{{ session('error') }}");
             @endif
 
-            @if (session('error'))
-                Toastify({
-                    text: "{{ session('error') }}",
-                    duration: 700,
-                    gravity: "top",
-                    position: "right",
-                    backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
-                    stopOnFocus: true,
-                }).showToast();
-            @endif
+            // Cấu hình mặc định cho toastr (tuỳ chỉnh nếu cần)
+            toastr.options = {
+                "closeButton": true, // Hiển thị nút đóng
+                "debug": false, // Tắt chế độ debug
+                "newestOnTop": true, // Hiển thị thông báo mới nhất trên cùng
+                "progressBar": true, // Hiển thị thanh tiến trình
+                "positionClass": "toast-top-right", // Vị trí thông báo
+                "preventDuplicates": false, // Không ngăn thông báo trùng lặp
+                "onclick": null,
+                "showDuration": "300", // Thời gian hiển thị (ms)
+                "hideDuration": "1000", // Thời gian ẩn đi (ms)
+                "timeOut": "5000", // Thời gian tự động đóng (ms)
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
         });
     </script>
 

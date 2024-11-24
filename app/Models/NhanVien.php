@@ -23,6 +23,7 @@ class NhanVien extends Model
     public function phongban(){
         return $this->belongsTo(PhongBan::class,'maphongban','maphongban');
     }
+  
 
     public function phancongchucvu(){
         return $this->hasMany(PhanCongChucVu::class,'manhanvien');

@@ -26,7 +26,8 @@
 
                                 <div class="form-group">
                                     <label>Tên nhân viên</label>
-                                    <input type="text" class="form-control" name="hoten"  readonly value="{{ $nhanvien->hoten }}">
+                                    <input type="text" class="form-control" name="hoten" readonly
+                                        value="{{ $nhanvien->hoten }}">
                                 </div>
 
                                 <div class="form-group">
@@ -49,7 +50,21 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Quyền</label>
+                                            <select class="form-control" name="manhomquyen">
+                                                @foreach ($nhomquyen as $nhomquyenItem)
+                                                    <option value="{{ $nhomquyenItem->manhomquyen }}"
+                                                        {{ $nhanvien->manhomquyen == $nhomquyenItem->manhomquyen ? 'selected' : '' }}>
+                                                        {{ $nhomquyenItem->tennhomquyen }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
+
 
                                 <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
                             </form>
@@ -64,5 +79,4 @@
 @endsection
 
 @push('scripts')
-
 @endpush
