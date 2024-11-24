@@ -32,4 +32,28 @@ class CommentController extends Controller
 
         return redirect()->back()->with('success', 'Đánh giá của bạn đã được gửi thành công');
     }
+
+    public function update(Request $request, $madanhgia) {
+        $request->validate([
+            'noidung' => 'required',
+            'diemdanhgia' => 'required',
+            'matour' => 'required|exists:tour,matour'
+        ]);
+
+        $danhgia = DanhGia::find($madanhgia);
+        $danhgia->noidung = $request->noidung;
+        $danhgia->diemdanhgia = $request->diemdanhgia;
+        $danhgia->matour = $request->matour;
+
+        $danhgia->save();
+
+        return redirect()->back()->with('success', 'Đánh giá của bạn đã được cập nhật thành công');
+    }
+
+    public function delete($madanhgia) {
+        $danhgia = DanhGia::find($madanhgia);
+        $danhgia->delete();
+
+        return redirect()->back()->with('success', 'Đánh giá của bạn đã được xóa thành công');
+    }
 }
