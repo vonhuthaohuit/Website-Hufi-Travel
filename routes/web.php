@@ -37,10 +37,15 @@ use App\Http\Controllers\backend\nhanvien\DashboardController;
 use App\Http\Controllers\backend\StatisticController;
 use App\Http\Controllers\backend\SubscriberController;
 use App\Http\Controllers\backend\TourController as BackendTourController;
+use App\Http\Controllers\backend\UserBEController;
 use App\Http\Controllers\thanhtoan\ThanhToanMomoController;
 use App\Http\Controllers\thanhtoan\ThanhToanVNPayController;
 use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
 use App\Http\Controllers\frontend\CommentController;
+use App\Http\Controllers\frontend\PhieuHuyController;
+use App\Http\Controllers\thanhtoan\HoaDonController;
+use App\Http\Controllers\thanhtoan\PhieuDatTourController;
+use App\Http\Controllers\thanhtoan\PhieuHuyTourController;
 use App\Models\ChiTietTour;
 use App\Models\DiemDuLich;
 use App\Models\KhachSan_Tour;
@@ -231,7 +236,17 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
     Route::get('backup-restore', [BackupAndRestoreControlelr::class, 'index'])->name('backup.index');
     Route::get('/backup', [BackupAndRestoreControlelr::class, 'backup'])->name('backup.create');
     Route::post('restore', [BackupAndRestoreControlelr::class, 'restore'])->name('backup.restore');
+
+    // Hoá đơn, phiếu đặt tour
+    Route::get('hoadon', [HoaDonController::class, 'index'])->name('hoadon.index');
+    Route::get('phieudattour', [PhieuDatTourController::class, 'index'])->name('phieudattour.index');
+    Route::get('phieuhuytour', [PhieuHuyTourController::class, 'index'])->name('phieuhuytour.index');
+
+    Route::resource('hoadon', HoaDonController::class);
 });
+Route::get('/get-users', [UserBEController::class, 'getUsers'])->name('get.users');
+
+Route::get('/get-tour-details/{tourId}', [ \App\Http\Controllers\backend\TourController::class, 'getTourDetails']);
 
 Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name('blog.detail');
 Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');
@@ -256,3 +271,6 @@ Route::get('/danh-sach-tour', [TourController::class, 'allTour'])->name('tour.al
 Route::post('/comment/create', [CommentController::class, 'createComment'])->name('comment.insert');
 Route::get('/dia-diem/{slug}', [TourController::class, 'tourByDestination'])->name('tour.byDestination');
 Route::get('/transaction', [HomeController::class, 'transaction'])->name('transaction');
+Route::get('/history/tour-order/{matour}/{maphieudattour}', [HomeController::class, 'tourOrder'])->name('tour.tourOrder');
+Route::get('/history/tour-booked', [HomeController::class, 'tourBooked'])->name('tour.tour-booked');
+Route::post('/history/tour-booked', [PhieuHuyController::class, 'cancelTour'])->name('tour.cancelTour');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\DanhGia;
 use App\Models\DiemDuLich;
 use App\Models\LoaiTour;
 use App\Models\Tour;
@@ -18,11 +19,20 @@ class TourController extends Controller
             ->leftJoin('chuongtrinhtour', 'tour.matour', '=', 'chuongtrinhtour.matour')
             ->leftJoin('hinhanhtour', 'tour.matour', '=', 'hinhanhtour.matour')
             ->leftJoin('loaitour', 'tour.maloaitour', '=', 'loaitour.maloaitour')
-            ->select('tour.*', 'chitiettour.giachitiettour', 'chuongtrinhtour.mota', 'chuongtrinhtour.tieude', 'diemdulich.tendiemdulich', 'loaitour.tenloai', 'hinhanhtour.duongdan')
+            ->leftJoin('khuyenmai', 'tour.makhuyenmai', '=', 'khuyenmai.makhuyenmai')
+            ->select('tour.*', 'chitiettour.giachitiettour', 'chuongtrinhtour.mota', 'chuongtrinhtour.tieude', 'diemdulich.tendiemdulich', 'loaitour.tenloai', 'hinhanhtour.duongdan', 'khuyenmai.phantramgiam')
             ->where('tour.slug', $slug)
             ->first();
 
-        return view('frontend.tour.tour-detail', compact('tour'));
+        $commentOfTour = DanhGia::query()
+            ->join('tour', 'danhgia.matour', '=', 'tour.matour')
+            ->join('khachhang', 'danhgia.makhachhang', '=', 'khachhang.makhachhang')
+            ->where('tour.matour', $tour->matour)
+            ->get();
+
+        // dd($tour->makhuyenmai);
+
+        return view('frontend.tour.tour-detail', compact('tour', 'commentOfTour'));
     }
 
     public function allTour()

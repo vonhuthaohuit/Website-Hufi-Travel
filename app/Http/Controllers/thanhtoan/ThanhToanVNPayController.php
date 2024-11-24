@@ -122,10 +122,10 @@ class ThanhToanVNPayController extends Controller
                 'tongsotien' => $phieuDatTour->tongtienphieudattour,
                 'phuongthucthanhtoan' => $phuongThucThanhToan,
                 'trangthaithanhtoan' => $trangThaiThanhToan,
-                'nguoidaidien' => $thongTinNguoiDaiDien['nguoiDaiDien'] ?? null,
+                'nguoidaidien' => $thongTinNguoiDaiDien['nguoidaidien'] ?? null,
                 'tendonvi' => $thongTinNguoiDaiDien['tendonvi'] ?? null,
-                'diachidonvi' => $thongTinNguoiDaiDien['diachi'] ?? null,
-                'masothue' => $thongTinNguoiDaiDien['maSoThue'] ?? null,
+                'diachidonvi' => $thongTinNguoiDaiDien['diachidonvi'] ?? null,
+                'masothue' => $thongTinNguoiDaiDien['masothue'] ?? null,
             ]);
 
             DB::commit();

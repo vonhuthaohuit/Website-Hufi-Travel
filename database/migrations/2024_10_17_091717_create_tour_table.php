@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('noikhoihanh');
             $table->string('thoigiandi');
             $table->bigInteger('giatour');
+            $table->float('giatourgiam')->nullable();
             $table->integer('maloaitour')->unsigned();
             $table->foreign('maloaitour')->references('maloaitour')->on('loaitour')->onDelete('cascade');
             $table->integer('makhuyenmai')->unsigned()->nullable();

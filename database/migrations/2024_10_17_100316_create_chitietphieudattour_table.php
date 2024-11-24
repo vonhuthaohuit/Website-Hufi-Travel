@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('chitietphieudattour', function (Blueprint $table) {
             $table->integer('makhachhang')->unsigned() ;
             $table->integer('maphieudattour')->unsigned() ;
+            $table->string('nguoidat')->nullable() ;
             $table->primary(['makhachhang', 'maphieudattour']);
             $table->float('chitietsotiendat') ;
             $table->foreign('makhachhang')->references('makhachhang')->on('khachhang')->onDelete('cascade');

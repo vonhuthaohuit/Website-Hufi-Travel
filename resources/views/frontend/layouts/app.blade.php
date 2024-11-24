@@ -29,13 +29,10 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/tevilyIcon.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/library/animation/animation.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/library/animation/custom-animation.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/styleBlog.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleTour.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleHeader.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleSearch.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleFooter.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
-
     @stack('style')
 </head>
 
@@ -49,10 +46,10 @@
     @include('frontend.layouts.footer')
     @include('frontend.layouts.component.abs-fixed')
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('frontend/js/tevily.js') }}"></script>
     <script src="{{ asset('frontend/library/swiper/swiper.min.js') }}"></script>
-    <script src="{{ asset('frontend/js/script_password.js') }}"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -79,38 +76,23 @@
             var s = document.getElementsByTagName('script');
             s[0].parentNode.insertBefore(ga, s[0]);
         })();
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Kiểm tra nếu có thông báo thành công
-            @if (session('success'))
-                toastr.success("{{ session('success') }}");
-           @endif
-
-            // Kiểm tra nếu có thông báo lỗi
-            @if (session('error'))
-                toastr.error("{{ session('error') }}");
-            @endif
-
-            // Cấu hình mặc định cho toastr (tuỳ chỉnh nếu cần)
-            toastr.options = {
-                "closeButton": true, // Hiển thị nút đóng
-                "debug": false, // Tắt chế độ debug
-                "newestOnTop": true, // Hiển thị thông báo mới nhất trên cùng
-                "progressBar": true, // Hiển thị thanh tiến trình
-                "positionClass": "toast-top-right", // Vị trí thông báo
-                "preventDuplicates": false, // Không ngăn thông báo trùng lặp
-                "onclick": null,
-                "showDuration": "300", // Thời gian hiển thị (ms)
-                "hideDuration": "1000", // Thời gian ẩn đi (ms)
-                "timeOut": "5000", // Thời gian tự động đóng (ms)
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            };
-        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+        @if (session('success'))
+            Toastify({
+                text: "{{ session('success') }}",
+                duration: 3000, // Thời gian hiển thị (miliseconds)
+                close: true, // Có hiển thị nút đóng không
+                gravity: "top", // Vị trí hiển thị (top, bottom)
+                position: 'right', // Vị trí bên trái hay bên phải
+                backgroundColor: "blue", // Màu nền
+                stopOnFocus: true, // Dừng khi hover chuột
+            }).showToast();
+            @php
+                session()->forget('success');
+            @endphp
+        @endif
     </script>
 
 </body>

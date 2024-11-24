@@ -1,6 +1,6 @@
 .navbar-transparent {
     background-color: rgba(0, 0, 0, 0);
-    border-bottom: 1px solid #ccc;
+    /* border-bottom: 1px solid #ccc; */
     transition: background-color 0.3s ease;
 }
 

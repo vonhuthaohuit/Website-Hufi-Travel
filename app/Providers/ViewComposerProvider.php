@@ -49,5 +49,17 @@ class ViewComposerProvider extends ServiceProvider
 
             $view->with('listTours', $listTours);
         });
+
+        // View::composer('*', function ($view) {
+        //     $khuyenmai = Tour::query()
+        //         ->leftJoin('khuyenmai', 'tour.makhuyenmai', '=', 'khuyenmai.makhuyenmai')
+        //         ->select('khuyenmai.*')
+        //         ->where('tour.tinhtrang', 1)
+        //         ->get();
+
+        //         $giagoc = $tours->giatour;
+        //         $phantramgiam = $tours->phantramgiam;
+        //         $giagiam = $giagoc - ($giagoc * $phantramgiam) / 100;
+        // })
     }
 }

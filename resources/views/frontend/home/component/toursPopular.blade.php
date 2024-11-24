@@ -6,7 +6,7 @@
     style="visibility: visible; animation-duration: 2500ms; animation-delay: 100ms; animation-name: slideInLeft;">
     <img src="{{ asset('frontend/images/destinations-two-shape.png') }}" alt="">
 </div>
-<div class="row slick-slider">
+<div class="row slick-slider-tour-popular">
     @foreach ($tours as $item)
         <div class="owl-item col-6 col-lg-3 mb-4">
             <div class="popular-tours__single">
@@ -27,9 +27,16 @@
                             <h3 class="popular-tours__title"><a
                                     href="{{ route('tour.detail', $item->slug) }}">{{ $item->tentour }}</a></h3>
 
-                            <p class="popular-tours__rate">
-                                <span>{{ number_format($item->giatour) }}đ</span> / Một người
-                            </p>
+                            @if (empty($item->makhuyenmai))
+                                <p class="popular-tours__rate">
+                                    <span>{{ number_format($item->giatour) }}đ</span> / Một người
+                                </p>
+                            @else
+                                <p class="popular-tours__rate">
+                                    <span><del class="original-price">{{ number_format($item->giatour) }}đ</del>
+                                        {{ number_format($item->giatourgiam) }}đ</span> / Một người
+                                </p>
+                            @endif
                         </a>
                     </div>
                 </a>
@@ -88,7 +95,7 @@
 @push('script')
     <script type="text/javascript">
         $(document).ready(function() {
-            $('.slick-slider').slick({
+            $('.slick-slider-tour-popular').slick({
                 slidesToShow: 4,
                 slidesToScroll: 1,
                 autoplay: true,

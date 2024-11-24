@@ -178,7 +178,7 @@
                     Các điều kiện hủy tour đối với ngày thường
                     <i class="fa-solid fa-chevron-down tour-note-icon"></i>
                 </button>
-                <div class="tour-note-details text-center">
+                <div class="tour-note-details">
                     - Được chuyển sang các tuyến du lịch khác trước ngày khởi hành 20 ngày: Không mất chi phí.
                     <br>- Nếu hủy hoặc chuyển sang các chuyến du lịch khác ngay sau khi đăng ký từ 15-19 ngày
                     trước ngày khởi hành: Chi phí hủy tour: 50% tiền cọc tour.
@@ -201,7 +201,7 @@
                     Các điều kiện hủy tour đối với ngày lễ, Tết
                     <i class="fa-solid fa-chevron-down tour-note-icon"></i>
                 </button>
-                <div class="tour-note-details text-center">
+                <div class="tour-note-details">
                     - Được chuyển sang các tuyến du lịch khác trước ngày khởi hành 30 ngày : Không mất chi phí.
                     <br>- Nếu hủy hoặc chuyển sang các chuyến du lịch khác ngay sau khi đăng ký từ 25-29 ngày
                     trước ngày khởi hành: Chi phí hủy tour: 50% tiền cọc tour.
@@ -224,7 +224,7 @@
                     Trường hợp bất khả kháng
                     <i class="fa-solid fa-chevron-down tour-note-icon"></i>
                 </button>
-                <div class="tour-note-details text-center">
+                <div class="tour-note-details">
                     Nếu chương trình du lịch bị hủy bỏ hoặc thay đổi bởi một trong hai bên vì lý do bất khả
                     kháng (hỏa hoạn, thời tiết, tai nạn, thiên tai, chiến tranh, dịch bệnh, hoãn, dời, và hủy
                     chuyến hoặc thay đổi khác của các phương tiện vận chuyển công cộng hoặc các sự việc bất khả
@@ -240,7 +240,7 @@
                     Liên hệ
                     <i class="fa-solid fa-chevron-down tour-note-icon"></i>
                 </button>
-                <div class="tour-note-details text-center">
+                <div class="tour-note-details">
                     <p style="text-align:center"><strong>Mọi chi tiết vui lòng liên hệ<br>
                             KHỐI KHÁCH LẺ - DU LỊCH TRONG NƯỚC<br>
                             140 Lê Trọng Tấn, Tây Thạnh, Tân Phú, TP.HCM<br>
@@ -269,7 +269,7 @@
         }
 
         .tour-note-item {
-            border: 1px solid #ddd;
+            /* border: 1px solid #ddd; */
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -311,6 +311,7 @@
             transition: max-height 0.3s ease;
             padding: 0 15px;
             font-size: 15px;
+            text-align: justify;
         }
 
         ::-webkit-scrollbar {

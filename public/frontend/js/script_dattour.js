@@ -28,12 +28,20 @@ function addCustomerRow() {
         return;
     }
 
+    // Nhân bản mẫu
     var newRow = rowTemplate.cloneNode(true);
-    newRow.style.display = "";
+
+    // Kiểm tra xem nếu dòng mới là mẫu, không cho phép thêm
+    if (newRow.id === "customerRowTemplate") {
+        newRow.removeAttribute("id"); // Bỏ id để tránh nhầm là mẫu
+    }
+
+    newRow.style.display = ""; // Hiển thị dòng mới
 
     setTimeout(function () {
         var index = document.querySelectorAll(".add_plus_tr").length + 1;
 
+        // Cập nhật tên các trường input/select
         newRow.querySelector(
             'input[name="td_ticket[1][td_name]"]'
         ).name = `td_ticket[${index}][td_name]`;
@@ -50,7 +58,6 @@ function addCustomerRow() {
             'input[name="td_ticket[1][td_price]"]'
         ).name = `td_ticket[${index}][td_price]`;
 
-        // Cập nhật giá trị của các trường khác sau khi tính toán index
         var customerTypeSelect = newRow.querySelector(
             `select[name="td_ticket[${index}][td_loaikhach]"]`
         );
@@ -64,19 +71,14 @@ function addCustomerRow() {
                 defaultPrice
             ).toLocaleString("vi-VN", { style: "currency", currency: "VND" });
 
-            // Thêm sự kiện change để cập nhật giá khi thay đổi loại khách hàng
             customerTypeSelect.addEventListener("change", function () {
                 selectTypeCustomer(customerTypeSelect);
             });
-        } else {
-            console.error(
-                "Không tìm thấy option nào trong select td_loaikhach!"
-            );
         }
 
         // Thêm hàng mới vào bảng
         document.querySelector("#customerTable tbody").appendChild(newRow);
-    }, 0); // Đảm bảo việc tính toán index xảy ra sau khi DOM cập nhật
+    }, 0);
 }
 
 function validateNameAndBirthday() {
@@ -101,7 +103,12 @@ function validateNameAndBirthday() {
 
 function removeCustomer(element) {
     var row = element.closest("tr");
-    row.remove();
+
+    if (row && row.id !== "customerRowTemplate") {
+        row.remove();
+    } else {
+        alert("Không thể xóa hàng này!");
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -223,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         field.scrollIntoView({
             behavior: "smooth",
-            block: "center"
+            block: "center",
         });
     }
 
