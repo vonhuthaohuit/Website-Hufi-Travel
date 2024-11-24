@@ -83,8 +83,8 @@
                         @if ($tour->phieuDatTour->trangthaidattour != 'Đã thanh toán')
                             <div class="d-flex justify-content-between">
                                 <h5 class="mb-3" style="color: #08c; font-weight: 700;">Thông tin người đặt</h5>
-                                <div class="" style="color: #08c; cursor: pointer;"><i
-                                        class="fa-solid fa-pen-to-square"></i></div>
+                                <a class="" href="{{ route('profile') }}" style="color: #08c; cursor: pointer;"><i
+                                        class="fa-solid fa-pen-to-square"></i></a>
                             </div>
                         @else
                             <h5 class="mb-3" style="color: #08c; font-weight: 700;">Thông tin người đặt</h5>
@@ -105,9 +105,9 @@
                         @if ($tour->phieuDatTour->trangthaidattour != 'Đã thanh toán')
                             <div class="d-flex justify-content-between">
                                 <h5 class="mb-3" style="color: #08c; font-weight: 700;">Danh sách thành viên đi tour</h5>
-                                <div class="" style="color: #08c; cursor: pointer;">
+                                <a class="" href="" style="color: #08c; cursor: pointer;">
                                     <i class="fa-solid fa-pen-to-square"></i>
-                                </div>
+                                </a>
                             </div>
                         @else
                             <h5 class="mb-3" style="color: #08c; font-weight: 700;">Danh sách thành viên đi tour</h5>

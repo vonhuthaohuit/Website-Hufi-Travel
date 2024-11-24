@@ -37,7 +37,8 @@
                 <div class="tour-details__review-score__bar">
                     <div class="tour-details__review-score__bar-top">
                         <p>{{ $rating->diemdanhgia }} <i class="fa fa-star" style="color: #ffa801;"></i>
-                            ({{ $rating->count }})</p>
+                            ({{ $rating->count }})
+                        </p>
                     </div>
                     <div class="tour-details__review-score__bar-line">
                         <span class="wow slideInLeft animated" style="width: {{ $rating->percentage }}%;"></span>
@@ -65,23 +66,34 @@
                     </div>
                 </div>
 
-                <div class="dropdown">
-                    <a class="p-3" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </a>
+                @if (Session::has('user'))
+                    @php
+                        $user = Session::get('user');
+                        $currentAccountId = $user['mataikhoan'];
+                    @endphp
 
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-                        <li>
-                            <button class="dropdown-item btn-edit-comment" data-id="{{ $item->madanhgia }}">
-                                <i class="fa-solid fa-pen-to-square me-2" style="color: green;"></i> Sửa bình luận
-                            </button>
-                            <a class="dropdown-item" href="{{ route('comment.delete', $item->madanhgia) }}">
-                                <i class="fa-solid fa-trash-can me-2" style="color: red;"></i> Xóa bình luận
+                    @if ($item->khachhang->mataikhoan == $currentAccountId)
+                        <div class="dropdown">
+                            <a class="p-3" href="#" role="button" id="dropdownMenuLink"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
                             </a>
-                        </li>
-                    </ul>
-                </div>
+
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                                <li>
+                                    <button class="dropdown-item btn-edit-comment" data-id="{{ $item->madanhgia }}">
+                                        <i class="fa-solid fa-pen-to-square me-2" style="color: green;"></i> Sửa bình
+                                        luận
+                                    </button>
+                                    <a class="dropdown-item" href="{{ route('comment.delete', $item->madanhgia) }}">
+                                        <i class="fa-solid fa-trash-can me-2" style="color: red;"></i> Xóa bình luận
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    @endif
+                @else
+                @endif
             </div>
 
 
