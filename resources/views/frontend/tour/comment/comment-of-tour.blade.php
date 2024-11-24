@@ -1,73 +1,81 @@
-<div class="tour-details__review-score">
-    <div class="tour-details__review-score-ave">
-        <div class="my-auto">
-            <h3>7.0</h3>
-            <p><i class="fa fa-star"></i> Super</p>
+@if (!@$averageRating->avg_rating)
+@else
+    <div class="tour-details__review-score">
+        <div class="tour-details__review-score-ave">
+            <div class="my-auto">
+                <h3>{{ number_format(@$averageRating->avg_rating, 1) }}</h3>
+                @php
+                    $soSaoNguyen = floor($averageRating->avg_rating);
+                    $soSaoDu = $averageRating->avg_rating - $soSaoNguyen;
+                    $soSaoTrong = 5 - $soSaoNguyen - ($soSaoDu >= 0.5 ? 1 : 0);
+                @endphp
+                <p class="icon">
+                    @if (!empty($averageRating->avg_rating))
+                        @for ($i = 1; $i <= $soSaoNguyen; $i++)
+                            <i class="fa fa-star"></i>
+                        @endfor
+
+                        @if ($soSaoDu >= 0.5)
+                            <i class="fas fa-star-half-stroke"></i>
+                        @endif
+
+                        @for ($i = 1; $i <= $soSaoTrong; $i++)
+                            <i class="fa-regular fa-star"></i>
+                        @endfor
+                    @else
+                    @endif
+                </p>
+            </div>
         </div>
+        <div class="tour-details__review-score__content">
+            <div class="tour-details__review-score__bar">
+                <div class="tour-details__review-score__bar-top">
+                    <p>5 <i class="fa fa-star" style="color: #ffa801;"></i></p>
+                </div>
+                <div class="tour-details__review-score__bar-line">
+                    <span class="wow slideInLeft animated" style="width: 50%;"></span>
+                </div>
+            </div>
+
+            <div class="tour-details__review-score__bar">
+                <div class="tour-details__review-score__bar-top">
+                    <p>4 <i class="fa fa-star" style="color: #ffa801;"></i></p>
+                </div>
+                <div class="tour-details__review-score__bar-line">
+                    <span class="wow slideInLeft animated" style="width: 87%;"></span>
+                </div>
+            </div>
+
+            <div class="tour-details__review-score__bar">
+                <div class="tour-details__review-score__bar-top">
+                    <p>3 <i class="fa fa-star" style="color: #ffa801;"></i></p>
+                </div>
+                <div class="tour-details__review-score__bar-line">
+                    <span class="wow slideInLeft animated" style="width: 77%;"></span>
+                </div>
+            </div>
+
+            <div class="tour-details__review-score__bar">
+                <div class="tour-details__review-score__bar-top">
+                    <p>2 <i class="fa fa-star" style="color: #ffa801;"></i></p>
+                </div>
+                <div class="tour-details__review-score__bar-line">
+                    <span class="wow slideInLeft animated" style="width: 69%;"></span>
+                </div>
+            </div>
+
+            <div class="tour-details__review-score__bar">
+                <div class="tour-details__review-score__bar-top">
+                    <p>1 <i class="fa fa-star" style="color: #ffa801;"></i></p>
+                </div>
+                <div class="tour-details__review-score__bar-line">
+                    <span class="wow slideInLeft animated" style="width: 40%;"></span>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <div class="tour-details__review-score__content">
-        <!--Tour Details Review Score Bar-->
-        <div class="tour-details__review-score__bar">
-            <div class="tour-details__review-score__bar-top">
-                <h3>Services</h3>
-                <p>50%</p>
-
-            </div>
-            <div class="tour-details__review-score__bar-line">
-                <span class="wow slideInLeft animated" data-wow-duration="1500ms"
-                    style="width: 50%; visibility: visible; animation-duration: 1500ms; animation-name: slideInLeft;"></span>
-            </div>
-        </div>
-        <!--Tour Details Review Score Bar-->
-        <div class="tour-details__review-score__bar">
-            <div class="tour-details__review-score__bar-top">
-                <h3>Locations</h3>
-                <p>87%</p>
-
-            </div>
-            <div class="tour-details__review-score__bar-line">
-                <span class="wow slideInLeft animated" data-wow-duration="1500ms"
-                    style="width: 87%; visibility: visible; animation-duration: 1500ms; animation-name: slideInLeft;"></span>
-            </div>
-        </div>
-        <!--Tour Details Review Score Bar-->
-        <div class="tour-details__review-score__bar">
-            <div class="tour-details__review-score__bar-top">
-                <h3>Amenities</h3>
-                <p>77%</p>
-
-            </div>
-            <div class="tour-details__review-score__bar-line">
-                <span class="wow slideInLeft animated" data-wow-duration="1500ms"
-                    style="width: 77%; visibility: visible; animation-duration: 1500ms; animation-name: slideInLeft;"></span>
-            </div>
-        </div>
-        <!--Tour Details Review Score Bar-->
-        <div class="tour-details__review-score__bar">
-            <div class="tour-details__review-score__bar-top">
-                <h3>Prices</h3>
-                <p>69%</p>
-
-            </div>
-            <div class="tour-details__review-score__bar-line">
-                <span class="wow slideInLeft animated" data-wow-duration="1500ms"
-                    style="width: 69%; visibility: visible; animation-duration: 1500ms; animation-name: slideInLeft;"></span>
-            </div>
-        </div>
-        <!--Tour Details Review Score Bar-->
-        <div class="tour-details__review-score__bar">
-            <div class="tour-details__review-score__bar-top">
-                <h3>Food</h3>
-                <p>40%</p>
-
-            </div>
-            <div class="tour-details__review-score__bar-line">
-                <span class="wow slideInLeft animated" data-wow-duration="1500ms"
-                    style="width: 40%; visibility: visible; animation-duration: 1500ms; animation-name: slideInLeft;"></span>
-            </div>
-        </div>
-    </div>
-</div>
+@endif
 
 <div class="tour-details__review-comment">
     @foreach ($commentOfTour as $item)
@@ -101,11 +109,23 @@
                 </div>
             </div>
 
-
             <div class="tour-details__review-comment-content">
-                {{-- <h3>Fun Was To Discover This</h3> --}}
                 <p>{{ $item->noidung }}</p>
             </div>
         </div>
     @endforeach
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const progressBars = document.querySelectorAll('.tour-details__review-score__bar-line span');
+
+        progressBars.forEach(bar => {
+            const targetWidth = bar.style.width;
+            bar.style.width = '0';
+            setTimeout(() => {
+                bar.style.width = targetWidth;
+            }, 100);
+        });
+    });
+</script>

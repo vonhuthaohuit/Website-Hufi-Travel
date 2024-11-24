@@ -65,6 +65,9 @@
                     <a class="history-link {{ setActive(['tour.tour-booked']) }}"
                         href="{{ route('tour.tour-booked') }}">Tour đã
                         đặt</a>
+                    <a class="history-link {{ setActive(['tour.tour-canceled']) }}"
+                        href="{{ route('tour.tour-canceled') }}">Tour đã
+                        hủy</a>
                 </div>
 
             </div>

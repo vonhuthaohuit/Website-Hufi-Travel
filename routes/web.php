@@ -258,3 +258,4 @@ Route::get('/transaction', [HomeController::class, 'transaction'])->name('transa
 Route::get('/history/tour-order/{matour}/{maphieudattour}', [HomeController::class, 'tourOrder'])->name('tour.tourOrder');
 Route::get('/history/tour-booked', [HomeController::class, 'tourBooked'])->name('tour.tour-booked');
 Route::post('/history/tour-booked', [PhieuHuyController::class, 'cancelTour'])->name('tour.cancelTour');
+Route::get('/history/tour-canceled', [HomeController::class, 'tourCanceled'])->name('tour.tour-canceled');

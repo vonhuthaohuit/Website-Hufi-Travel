@@ -66,12 +66,31 @@
                                             </div>
                                             <div class="popular-tours__content">
                                                 <a href="{{ route('tour.detail', $item->slug) }}">
-                                                    <div class="popular-tours__stars">
-                                                        <i class="fa fa-star"></i> 8.0 Superb
-                                                    </div>
                                                     <h3 class="popular-tours__title"><a
                                                             href="{{ route('tour.detail', $item->slug) }}">{{ $item->tentour }}</a>
                                                     </h3>
+                                                    @php
+                                                        $soSaoNguyen = floor($item->avg_rating); // Số sao đầy
+                                                        $soSaoDu = $item->avg_rating - $soSaoNguyen; // Phần dư
+                                                        $soSaoTrong = 5 - $soSaoNguyen - ($soSaoDu >= 0.5 ? 1 : 0); // Số sao trống
+                                                    @endphp
+
+                                                    <div class="popular-tours__stars mb-2">
+                                                        @if (!empty($item->avg_rating))
+                                                            @for ($i = 1; $i <= $soSaoNguyen; $i++)
+                                                                <i class="fa fa-star"></i>
+                                                            @endfor
+
+                                                            @if ($soSaoDu >= 0.5)
+                                                                <i class="fa-solid fa-star-half-stroke"></i>
+                                                            @endif
+
+                                                            @for ($i = 1; $i <= $soSaoTrong; $i++)
+                                                                <i class="fa-regular fa-star"></i>
+                                                            @endfor
+                                                        @else
+                                                        @endif
+                                                    </div>
 
                                                     @if (empty($item->makhuyenmai))
                                                         <p class="popular-tours__rate">
