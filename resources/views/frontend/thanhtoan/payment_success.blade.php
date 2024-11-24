@@ -36,3 +36,10 @@
     </div>
 </div>
 @endsection
+@push('scripts')
+<script>
+    setTimeout(function() {
+        window.location.href = '/';
+    }, 5000);
+</script>
+@endpush

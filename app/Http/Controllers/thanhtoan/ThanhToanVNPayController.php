@@ -88,8 +88,6 @@ class ThanhToanVNPayController extends Controller
 
         $hashData = http_build_query($inputData, '', '&');
         $generatedSecureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
-        Log::info('Chữ ký bảo mật: ' . $generatedSecureHash);
-        Log::info('Chữ ký bảo mật nhận được: ' . $vnp_SecureHash);
         if ($generatedSecureHash !== $vnp_SecureHash) {
             Log::error('Chữ ký bảo mật không hợp lệ.');
             return view('frontend/thanhtoan/payment_failed');

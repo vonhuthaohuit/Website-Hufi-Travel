@@ -1,8 +1,16 @@
 @extends('backend.layouts.master')
 <link rel="stylesheet" href="{{ asset('frontend/css/style_dattour.css') }}">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<style>
+    .select2-selection__clear {
+        margin-top: 50px;
 
+    }
+</style>
 @section('content')
+    @php
+        $trangThaiThanhToan = ['Đang chờ xác nhận đặt tour', 'Chưa thanh toán', 'Đã thanh toán'];
+    @endphp
     <div class="container-fluid mt-5">
         <div class="row">
             <div class="col-md-12">
@@ -14,7 +22,7 @@
                         <div class="content_book tour-des">
                             <label class="col-md-2 control-label">Chọn tour</label>
                             <div class="col-md-10">
-                                <select name="tour_id" id="tourSelect" class="form-control">
+                                <select name="tour_id" id="tourSelect" class="form-control" required>
                                     <option value="">Chọn tour</option>
                                     @foreach ($tours as $tour)
                                         <option value="{{ $tour->matour }}">{{ $tour->tentour }}</option>
@@ -75,8 +83,16 @@
                                             required="">
                                     </div>
                                 </div>
-
-                                <!-- More fields -->
+                                <div class="form-group row mt-3 mb-3">
+                                    <label class="col-sm-2 control-label">Căn cước công dân <span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="ticket_cccd"
+                                            value="{{ @$khachHang->cccd }}" required=""
+                                            data-msg="Trường này là bắt buộc!">
+                                        <span class="text-danger error-message" style="display: none;"></span>
+                                    </div>
+                                </div>
                                 <div class="form-group row mt-3 mb-3">
                                     <label class="col-sm-2 control-label">Địa chỉ (Cá nhân/đơn vị) <span
                                             class="text-danger">*</span></label>
@@ -115,6 +131,27 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Phương thức thanh toán</label>
+                                    <div class="col-sm-10">
+                                        <select name="phuongthucthanhtoan" class="form-control">
+                                            <option value="Chuyển khoản">Chuyển khoản</option>
+                                            <option value="Tiền mặt">Tiền mặt</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {{-- <div class="form-group">
+                                    <label class="col-sm-2 control-label">Trạng thái thanh toán</label>
+                                    <div class="col-sm-10">
+                                        <select name="trangthaithanhtoan" class="form-control">
+                                            @foreach ($trangThaiThanhToan as $item)
+                                                <option value="{{ $loop->index }}">{{ $item }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div> --}}
+
                                 <div class="content_book">
                                     <header class="content-header">
                                         <h3>Danh sách khách hàng đi tour</h3>
@@ -124,11 +161,13 @@
                                             <thead>
                                                 <tr>
                                                     <th>Họ tên <span class="text-danger">*</span></th>
+                                                    <th>CCCD <span class="text-danger">*</span></th>
+                                                    <th>Số điện thoại <span class="text-danger">*</span></th>
                                                     <th>Ngày sinh <span class="text-danger">*</span></th>
-                                                    <th style="width:90px">Giới tính</th>
-                                                    <th>Khách hàng</th>
+                                                    <th style="width:140px">Giới tính</th>
+                                                    <th style="width: 230px">Khách hàng</th>
                                                     <th>Giá</th>
-                                                    <th style="text-align: right">Action</th>
+                                                    <th style="text-align: right">Chức năng</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="add_plus_tbd">
@@ -138,12 +177,22 @@
                                                             value="1">
                                                         <input type="text" class="form-control name-khach-hang-di-tour"
                                                             id="td_name_1" name="td_ticket[1][td_name]" placeholder="Tên"
-                                                            required="">
+                                                            required>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control cccd" id="td_cccd_1"
+                                                            name="td_ticket[1][td_cccd]" placeholder="CCCD" required>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control sdt" id="td_sdt_1"
+                                                            name="td_ticket[1][td_sdt]" placeholder="Số điện thoại"
+                                                            required>
                                                     </td>
                                                     <td><input type="date"
                                                             class="form-control ngay-sinh-khach-hang-di-tour"
                                                             id="td_birthday_1" name="td_ticket[1][td_birthday]"
-                                                            placeholder="01/01/1990" required=""></td>
+                                                            placeholder="01/01/1990" required
+                                                            onchange="calculateAgeAndUpdateCustomerType(this)"></td>
                                                     <td>
                                                         <select name="td_ticket[1][td_gender]" id="td_gender_1"
                                                             class="form-control">
@@ -151,20 +200,20 @@
                                                             <option value="Nữ">Nữ</option>
                                                         </select>
                                                     </td>
+
                                                     <td>
                                                         <select name="td_ticket[1][td_loaikhach]" id="td_loaikhach_1"
                                                             class="form-control js-type-customer"
-                                                            onchange="updatePrice(this)">
+                                                            onchange="selectTypeCustomer(this)">
                                                             <option value="">Chọn loại khách</option>
                                                         </select>
                                                     </td>
                                                     <td class="price-cell">
                                                         <input type="hidden" class="form-control js-input-price"
                                                             id="td_price_1" name="td_ticket[1][td_price]" value="">
-                                                        <span class="td-price">
-                                                            VNĐ</span>
+                                                        <span class="td-price">VNĐ</span>
                                                     </td>
-                                                    <td align="right" class="action-cell">
+                                                    <td class="action-cell" style="text-align: right;">
                                                         <a class="text-danger" href="javascript:;"
                                                             onclick="removeCustomer(this)" title="Xóa">
                                                             <i class="fas fa-trash" aria-hidden="true"></i>
@@ -173,6 +222,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+
                                     </div>
                                     <div style="text-align: right">
                                         <button type="button" id="btn-add-more-customer" class="btn btn-info">
@@ -184,7 +234,8 @@
                         </div>
 
                         <div class="form-group text-center">
-                            <button id="tao-hoa-don" type="submit" class="btn btn-success btn-lg">Tạo hóa đơn</button>
+                            <button id="tao-hoa-don" type="submit" class="btn btn-success btn-lg">Tạo hóa
+                                đơn</button>
                         </div>
                     </div>
                 </form>
@@ -199,7 +250,6 @@
             $(document).ready(function() {
                 $('#tourSelect').change(function() {
                     var tourId = $(this).val();
-
                     if (tourId) {
                         $.ajax({
                             url: '/get-tour-details/' + tourId,
@@ -217,13 +267,15 @@
                                 var tableBody = '';
 
                                 if (data.giatourloaikhachhang && data.loaikhachhang) {
-                                    tableBody = '';
+                                    let tableBody = '';
                                     data.giatourloaikhachhang.forEach(function(price, index) {
                                         tableBody += '<tr>';
                                         tableBody += '<td>' + data.loaikhachhang[index]
                                             .tenloaikhachhang + '</td>';
-                                        tableBody += '<td>' + number_format(price) +
-                                            ' VNĐ</td>';
+                                        tableBody += '<td class="price-cell">';
+                                        tableBody += '<span class="td-price">' +
+                                            number_format(price) + ' VNĐ</span>';
+                                        tableBody += '</td>';
                                         tableBody += '</tr>';
                                     });
                                     $('#customerPriceTable tbody').html(tableBody);
@@ -232,37 +284,59 @@
                                         '<tr><td colspan="2">Không có dữ liệu</td></tr>');
                                 }
 
+
                                 $('.js-type-customer').each(function() {
-                                    if (data.loaikhachhang && data.giatourloaikhachhang) {
-                                        data.loaikhachhang.forEach(function(item, index) {
-                                            $(this).append(`
-                                    <option value="${item.maloaikhachhang}" data-price="${data.giatourloaikhachhang[index]}">
-                                        ${item.tenloaikhachhang}
-                                    </option>
-                                `);
-                                        }.bind(this));
-                                    }
+                                    $(this).html(
+                                        '<option value="">Chọn loại khách</option>'
+                                    );
                                 });
+
+                                if (data.loaikhachhang && data.giatourloaikhachhang) {
+                                    data.loaikhachhang.forEach(function(item, index) {
+                                        $('.js-type-customer').each(function() {
+                                            $(this).append(`
+                                <option value="${item.maloaikhachhang}" data-price="${data.giatourloaikhachhang[index]}">
+                                    ${item.tenloaikhachhang}
+                                </option>
+                            `);
+                                        });
+                                    });
+                                }
                             },
                             error: function() {
                                 alert('Có lỗi xảy ra khi tải dữ liệu tour.');
                             }
                         });
                     } else {
+                        $('#tourName').text('');
+                        $('#tourTime').text('');
+                        $('#tourStartDate').text('');
+                        $('#tourDepartureLocation').text('');
+                        $('#tourPrice').text('');
                         $('#customerPriceTable tbody').html('');
+                        $('.js-type-customer').each(function() {
+                            $(this).html('<option value="">Chọn loại khách</option>');
+                        });
                     }
                 });
 
                 $(document).on('change', '.js-type-customer', function() {
                     var selectedOption = $(this).find(":selected");
-
                     var price = selectedOption.data("price");
 
                     var priceCell = $(this).closest('tr').find('.price-cell');
-                    priceCell.html(number_format(price) + " VNĐ");
+                    priceCell.html(
+                        '<input type="hidden" class="form-control js-input-price" ' +
+                        'id="td_price_' + ($(this).closest('tr').index() + 1) + '" ' +
+                        'name="td_ticket[' + ($(this).closest('tr').index() + 1) + '][td_price]" ' +
+                        'value="' + price + '">' +
+                        '<span class="td-price">' + number_format(price) + ' VNĐ</span>'
+                    );
+
 
                     $(this).closest('td').find('.js-type-customer').show();
                 });
+
 
             });
 
@@ -297,11 +371,71 @@
                         cache: true
                     }
                 });
+                $('#taiKhoanSelect').on('select2:open', function() {
+                    $('.select2-selection__clear').css({
+                        'width': '20px',
+                        'height': '20px',
+                        'padding': '5px'
+                    });
+                });
 
                 $('#taiKhoanSelect').on('select2:select', function(e) {
                     var selectedData = e.params.data;
-                    console.log(selectedData);
                     $('#taiKhoanSelect').val(selectedData.id).trigger('change');
+                });
+                $(document).ready(function() {
+                    $('#taiKhoanSelect').change(function() {
+                        var userId = $(this).val();
+                        if (userId) {
+                            $.ajax({
+                                url: '/get-khachhang-details/' + userId,
+                                type: 'GET',
+                                success: function(data) {
+                                    $('input[name="ticket_fullname"]').val(data.hoten ||
+                                        '');
+                                    $('input[name="ticket_phone"]').val(data.sodienthoai ||
+                                        '');
+                                    $('input[name="ticket_address"]').val(data.address ||
+                                        '');
+                                    $('input[name="ticket_email"]').val(data.email || '');
+                                },
+                                error: function() {
+                                    $('input[name="ticket_fullname"]').val('');
+                                    $('input[name="ticket_phone"]').val('');
+                                    $('input[name="ticket_address"]').val('');
+                                    $('input[name="ticket_email"]').val('');
+                                }
+                            });
+                        } else {
+                            $('input[name="ticket_fullname"]').val('');
+                            $('input[name="ticket_phone"]').val('');
+                            $('input[name="ticket_address"]').val('');
+                            $('input[name="ticket_email"]').val('');
+                        }
+                    });
+                });
+                $(document).ready(function() {
+                    $('#taiKhoanSelect').change(function() {
+                        var selectedUserId = $(this).val();
+
+                        if (selectedUserId) {
+                            $('#existingCustomer').prop('checked', true);
+                            $('#newCustomer').prop('checked', false);
+                        } else {
+                            $('#newCustomer').prop('checked', true);
+                            $('#existingCustomer').prop('checked', false);
+                        }
+                    });
+
+                    if ($('#taiKhoanSelect').val()) {
+                        $('#existingCustomer').prop('checked', true);
+                        $('#newCustomer').prop('checked', false);
+                    }
+                });
+                $(document).ready(function() {
+                    $('#resetButton').click(function() {
+                        $('#taiKhoanSelect').val('0');
+                    });
                 });
             });
         </script>
