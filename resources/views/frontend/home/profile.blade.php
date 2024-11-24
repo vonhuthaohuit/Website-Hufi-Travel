@@ -3,15 +3,24 @@
 @section('content-history')
     <div class="container-xl">
         <h3 class="mb-3">Hồ sơ của tôi</h3>
-        <form action="" method="POST">
+        <form action="{{ route('profile.update') }}" method="POST">
             @csrf
 
-            <div class="form-group mb-3 row">
+            <div class="form-group row">
                 <div class="col-md-3">
                     <label for="tentaikhoan"><strong>Tên đăng nhập</strong></label>
                 </div>
                 <div class="col-md-9">
                     <p>{{ $user->tentaikhoan }}</p>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <div class="col-md-3">
+                    <label for="email"><strong>Email</strong></label>
+                </div>
+                <div class="col-md-9">
+                    <p>{{ $user->email }}</p>
                 </div>
             </div>
 
@@ -22,16 +31,6 @@
                 <div class="col-md-9">
                     <input type="text" class="form-control" id="hoten" name="hoten"
                         value="{{ $khachhang->hoten ?? '' }}" placeholder="Nhập tên của bạn">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-md-3">
-                    <label for="email"><strong>Email</strong></label>
-                </div>
-                <div class="col-md-9">
-                    <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}"
-                        placeholder="Nhập email của bạn">
                 </div>
             </div>
 
@@ -71,7 +70,7 @@
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="form-group row mb-3">
                 <div class="col-md-3">
                     <label for="diachi"><strong>Địa chỉ</strong></label>
                 </div>
@@ -81,7 +80,7 @@
                 </div>
             </div>
 
-            <div class="form-group row mb-3">
+            {{-- <div class="form-group row mb-3">
                 <div class="col-md-3">
                     <label for="hinhdaidien"><strong>Hình đại diện</strong></label>
                 </div>
@@ -89,7 +88,7 @@
                     <input type="file" class="form-control" id="hinhdaidien" name="hinhdaidien"
                         value="{{ $khachhang->hinhdaidien ?? '' }}" >
                 </div>
-            </div>
+            </div> --}}
 
             <button type="submit" class="btn btn-primary w-100">Cập nhật</button>
         </form>

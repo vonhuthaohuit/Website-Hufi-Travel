@@ -11,13 +11,17 @@ use App\Models\KhachHang;
 use App\Models\LoaiBlog;
 use App\Models\PhieuDatTour;
 use App\Models\Tour;
+use App\Models\User;
+use App\Traits\ImageUploadTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
+    use ImageUploadTrait;
     protected $chiTietPhieuDatTour;
     public function __construct()
     {
@@ -181,6 +185,32 @@ class HomeController extends Controller
         $user = Session::get('user');
         $mataikhoan = $user['mataikhoan'];
         $khachhang = KhachHang::where('mataikhoan', $mataikhoan)->first();
+
         return view('frontend.home.profile', compact('user', 'khachhang'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'hoten' => 'required',
+            'ngaysinh' => 'required',
+            'gioitinh' => 'required',
+            'sodienthoai' => 'required',
+            'diachi' => 'required',
+            // 'hinhdaidien' => 'nullable|image'
+        ]);
+
+        $user = Session::get('user');
+        $mataikhoan = $user['mataikhoan'];
+        $khachhang = KhachHang::where('mataikhoan', $mataikhoan)->first();
+        $khachhang->hoten = $request->hoten;
+        $khachhang->ngaysinh = $request->ngaysinh;
+        $khachhang->gioitinh = $request->gioitinh;
+        $khachhang->sodienthoai = $request->sodienthoai;
+        $khachhang->diachi = $request->diachi;
+
+        $khachhang->save();
+
+        return redirect()->back()->with('success', 'Cập nhật thông tin thành công');
     }
 }
