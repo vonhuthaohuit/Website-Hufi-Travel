@@ -100,7 +100,7 @@
                             </ul>
                         </li>
                         <li class="nav-item centro">
-                            <a class="nav-link" href="{{ route('blog.blog-all') }}">Tin tức</a>
+                            <a class="nav-link" href="{{ route('blog.blog-all') }}">Blog</a>
                         </li>
                         <li class="nav-item centro">
                             <a class="nav-link" href="{{ route('about') }}">Giới thiệu</a>

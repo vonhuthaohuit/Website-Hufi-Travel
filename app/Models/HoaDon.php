@@ -9,6 +9,8 @@ class HoaDon extends Model
 {
     use HasFactory;
     protected $table = 'hoadon';
+    public $timestamps = false;
+
     protected $primaryKey = 'mahoadon';
     protected $fillable = [
         'makhachhang',
@@ -22,7 +24,13 @@ class HoaDon extends Model
         'masothue',
     ];
 
-    public function phieudattour(){
-        return $this->belongsTo(PhieuDatTour::class,'maphieudattour','maphieudattour');
+    public function phieudattour()
+    {
+        return $this->belongsTo(PhieuDatTour::class, 'maphieudattour', 'maphieudattour');
+    }
+
+    public function tour()
+    {
+        return $this->belongsTo(Tour::class, 'matour', 'matour');
     }
 }

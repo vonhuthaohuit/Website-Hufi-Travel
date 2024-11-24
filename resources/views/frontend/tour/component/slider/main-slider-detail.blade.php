@@ -84,11 +84,11 @@
                 </div>
             </div> --}}
 
-            @foreach ($tours as $item)
+            @foreach (@$tour->hinhanhtour as $item)
                 <div class="swiper-slide swiper-slide-next" data-swiper-slide-index="2"
                     style="width: 100%; transition-duration: 300ms; opacity: 0; transform: translate3d(-4290px, 0px, 0px);">
                     <div class="image-layer"
-                        style="background-image: url({{ asset('frontend/images/tour/tour-details-bg-3.png') }});"></div>
+                        style="background-image: url({{ asset(@$item->duongdan) }});"></div>
                     <div class="container">
                         <div class="swiper-slide-inner">
                             <div class="tour-details-slider_icon">

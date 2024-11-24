@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments('makhuyenmai');
             $table->date('thoigianbatdau');
             $table->date('thoigianketthuc');
-            $table->float('phantramgiam') ;
+            $table->integer('phantramgiam') ;
             $table->timestamps();
         });
     }
