@@ -271,3 +271,4 @@ Route::post('/history/tour-booked', [PhieuHuyController::class, 'cancelTour'])->
 Route::get('/history/tour-canceled', [HomeController::class, 'tourCanceled'])->name('tour.tour-canceled');
 Route::post('/comment/{madanhgia}', [CommentController::class, 'update'])->name('comment.update');
 Route::get('/comment/delete/{madanhgia}', [CommentController::class, 'delete'])->name('comment.delete');
+Route::get('/profile', [HomeController::class, 'profile'])->name('profile');

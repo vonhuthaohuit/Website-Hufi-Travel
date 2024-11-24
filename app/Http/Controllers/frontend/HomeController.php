@@ -175,4 +175,12 @@ class HomeController extends Controller
 
         return view('frontend.home.tour-canceled', compact('tours'));
     }
+
+    public function profile()
+    {
+        $user = Session::get('user');
+        $mataikhoan = $user['mataikhoan'];
+        $khachhang = KhachHang::where('mataikhoan', $mataikhoan)->first();
+        return view('frontend.home.profile', compact('user', 'khachhang'));
+    }
 }
