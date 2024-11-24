@@ -1,4 +1,5 @@
-.box-create-comment {
+.box-create-comment,
+.box-edit-comment  {
     display: none;
     position: fixed;
     top: 0;
@@ -13,11 +14,13 @@
     overflow-y: auto;
 }
 
-.box-create-comment.show {
+.box-create-comment.show,
+.box-edit-comment.show {
     display: block;
 }
 
-.form-create-comment {
+.form-create-comment,
+.form-edit-comment {
     width: 100%;
     height: 100%;
 }
@@ -89,7 +92,8 @@
     color: #fff;
 }
 
-#close-box-comment {
+#close-box-comment,
+.close-box-comment {
     position: relative;
     top: -20px;
     left: 20px;
@@ -114,7 +118,7 @@
     color: #757575;
 }
 
-.title-comment-point.select {
+.title-comment-point.ativo  {
     color: #ffbf00;
     font-weight: bold;
 }
@@ -171,6 +175,8 @@
 .content-comment::placeholder {
     color: #777;
 }
+
+
 
 
 @media (max-width: 768px) {

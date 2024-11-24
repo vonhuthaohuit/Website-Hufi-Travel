@@ -25,54 +25,28 @@
                     @else
                     @endif
                 </p>
+                <p class="mt-3">
+                    ({{ $averageRating->total_reviews }}
+                    lượt đánh giá)
+                </p>
             </div>
         </div>
+
         <div class="tour-details__review-score__content">
-            <div class="tour-details__review-score__bar">
-                <div class="tour-details__review-score__bar-top">
-                    <p>5 <i class="fa fa-star" style="color: #ffa801;"></i></p>
+            @foreach ($ratingsWithPercentage as $rating)
+                <div class="tour-details__review-score__bar">
+                    <div class="tour-details__review-score__bar-top">
+                        <p>{{ $rating->diemdanhgia }} <i class="fa fa-star" style="color: #ffa801;"></i>
+                            ({{ $rating->count }})</p>
+                    </div>
+                    <div class="tour-details__review-score__bar-line">
+                        <span class="wow slideInLeft animated" style="width: {{ $rating->percentage }}%;"></span>
+                    </div>
                 </div>
-                <div class="tour-details__review-score__bar-line">
-                    <span class="wow slideInLeft animated" style="width: 50%;"></span>
-                </div>
-            </div>
-
-            <div class="tour-details__review-score__bar">
-                <div class="tour-details__review-score__bar-top">
-                    <p>4 <i class="fa fa-star" style="color: #ffa801;"></i></p>
-                </div>
-                <div class="tour-details__review-score__bar-line">
-                    <span class="wow slideInLeft animated" style="width: 87%;"></span>
-                </div>
-            </div>
-
-            <div class="tour-details__review-score__bar">
-                <div class="tour-details__review-score__bar-top">
-                    <p>3 <i class="fa fa-star" style="color: #ffa801;"></i></p>
-                </div>
-                <div class="tour-details__review-score__bar-line">
-                    <span class="wow slideInLeft animated" style="width: 77%;"></span>
-                </div>
-            </div>
-
-            <div class="tour-details__review-score__bar">
-                <div class="tour-details__review-score__bar-top">
-                    <p>2 <i class="fa fa-star" style="color: #ffa801;"></i></p>
-                </div>
-                <div class="tour-details__review-score__bar-line">
-                    <span class="wow slideInLeft animated" style="width: 69%;"></span>
-                </div>
-            </div>
-
-            <div class="tour-details__review-score__bar">
-                <div class="tour-details__review-score__bar-top">
-                    <p>1 <i class="fa fa-star" style="color: #ffa801;"></i></p>
-                </div>
-                <div class="tour-details__review-score__bar-line">
-                    <span class="wow slideInLeft animated" style="width: 40%;"></span>
-                </div>
-            </div>
+            @endforeach
         </div>
+
+
 
     </div>
 @endif
@@ -91,7 +65,23 @@
                     </div>
                 </div>
 
-                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <div class="dropdown">
+                    <a class="p-3" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                        <li>
+                            <button class="dropdown-item btn-edit-comment" data-id="{{ $item->madanhgia }}">
+                                <i class="fa-solid fa-pen-to-square me-2" style="color: green;"></i> Sửa bình luận
+                            </button>
+                            <a class="dropdown-item" href="{{ route('comment.delete', $item->madanhgia) }}">
+                                <i class="fa-solid fa-trash-can me-2" style="color: red;"></i> Xóa bình luận
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
 
@@ -102,7 +92,7 @@
                             @if ($i <= $item->diemdanhgia)
                                 <i class="fa fa-star active"></i>
                             @else
-                                <i class="fa fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
                             @endif
                         @endfor
                     </div>
@@ -113,8 +103,11 @@
                 <p>{{ $item->noidung }}</p>
             </div>
         </div>
+        @include('frontend.tour.comment.edit-comment')
     @endforeach
 </div>
+
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

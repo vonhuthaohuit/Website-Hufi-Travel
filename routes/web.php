@@ -269,3 +269,5 @@ Route::get('/history/tour-order/{matour}/{maphieudattour}', [HomeController::cla
 Route::get('/history/tour-booked', [HomeController::class, 'tourBooked'])->name('tour.tour-booked');
 Route::post('/history/tour-booked', [PhieuHuyController::class, 'cancelTour'])->name('tour.cancelTour');
 Route::get('/history/tour-canceled', [HomeController::class, 'tourCanceled'])->name('tour.tour-canceled');
+Route::post('/comment/{madanhgia}', [CommentController::class, 'update'])->name('comment.update');
+Route::get('/comment/delete/{madanhgia}', [CommentController::class, 'delete'])->name('comment.delete');
