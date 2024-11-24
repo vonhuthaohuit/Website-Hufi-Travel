@@ -67,27 +67,26 @@ class LoginController extends Controller
 
     public function register(Request $request)
     {
-        Log::info('Register method started');
         try {
+        Log::info('Register method started');
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string',
-                'password' => 'required|string',
-                'email' => 'required|email|unique:users,email',
+                'name' => 'required|string|unique:users,tentaikhoan',
+                'password_register' => 'required',
+                'email' => 'required|email',
             ]);
 
             if ($validator->fails()) {
-                Log::error('Validation failed', $validator->errors()->toArray());
-                return redirect()->back()->withErrors($validator)->withInput();
+                Log::info('Validation failed', $validator->errors()->toArray());
+                return redirect()->route('login_view')->with('error','Đăng kí không thành công');
             }
-
             $user = new User();
             $user->tentaikhoan = $request->name;
             $user->email = $request->email;
-            $user->matkhau = $request->password;
+            $user->matkhau = $request->password_register;
             $user->manhomquyen = 2;
             $user->trangthai = "Hoạt động";
             $user->save();
-            Log::info('User created with ID:', ['user_id' => $user->id]);
+            Log::info('User created with ID:'.$user->mataikhoan);
             $khachhang = new KhachHang();
             $khachhang->hoten = "Chưa có tên";
             $khachhang->ngaysinh = now();
@@ -95,14 +94,19 @@ class LoginController extends Controller
             $khachhang->diachi = null;
             $khachhang->hinhdaidien = null;
             $khachhang->maloaikhachhang = 1;
-            $khachhang->mataikhoan = $user->id;
+            $khachhang->mataikhoan = $user->mataikhoan;
             $khachhang->save();
-            Session::put('success', 'Đăng kí thành công');
-            return redirect()->route('login_view');
-        } catch (\Throwable $th) {
-            Log::error('Error in registration process:', ['error' => $th->getMessage()]);
-            User::where('mataikhoan', $user->id)->delete();
-            return redirect()->back()->with('error', 'Đăng kí không thành công');
+            if(!$khachhang && $user)
+            {
+                User::where($user->mataikhoan)->delete() ;
+                return redirect()->route('login_view')->with('error', 'Đăng kí không thành công');
+            }
+            Log::info('User created with ID:'.$khachhang->makhachhang);
+            return redirect()->route('login_view')->with('success','Đăng kí thành công');
+        }
+        catch(Exception $e)
+        {
+            return redirect()->route('login_view')->with('error', 'Đăng kí không thành công');
         }
     }
 

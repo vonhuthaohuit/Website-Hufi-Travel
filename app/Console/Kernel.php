@@ -7,13 +7,11 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * Define the application's command schedule.
-     */
+
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('backup:run --only-db --routines --triggers')
-        ->dailyAt('05:00')
+        ->dailyAt('09:37')
         ->appendOutputTo(storage_path('logs/backup.log'));
     }
 

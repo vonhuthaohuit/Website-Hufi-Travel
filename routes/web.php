@@ -138,9 +138,7 @@ Route::post('/search-tour', [\App\Http\Controllers\backend\TourController::class
 // Login
 Route::get('/login', [LoginController::class, 'index'])->name('login_view');
 Route::post('/register', [LoginController::class, 'register'])->name('register');
-
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
 Route::get('/forget-password',[ResetPasswordController::class,'forgetPassword'])->name('auth.forget') ;
 Route::post('/forget-password',[ResetPasswordController::class,'forgetPasswordPost'])->name('auth.forget.post') ;
 

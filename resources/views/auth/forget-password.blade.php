@@ -6,7 +6,7 @@
 @section('renderBody')
 <div class="container">
     <div class="forget-password">
-        <h2 class="title">Forgot Password</h2>
+        <h2 class="title">Forget Password</h2>
         <form action="{{ route('auth.forget.post') }}" method="POST">
             @csrf
             <div class="form-group">
@@ -20,6 +20,5 @@
 </div>
 
 @push('script')
-    <script src="{{ asset('frontend/js/scriptLogin.js') }}"></script>
 @endpush
 @endsection

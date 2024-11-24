@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\DataTables\NhanVienDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\NhanVien;
+use App\Models\NhomQuyen;
 use App\Models\PhongBan;
 use Illuminate\Http\Request;
 
@@ -31,7 +32,8 @@ class NhanVienController extends Controller
     {
         $nhanvien = NhanVien::findOrFail($id);
         $phongban = PhongBan::all() ;
-        return view('backend.quanlynhanvien.edit', compact('nhanvien','phongban'));
+        $nhomquyen = NhomQuyen::all() ;
+        return view('backend.quanlynhanvien.edit', compact('nhanvien','phongban','nhomquyen'));
     }
 
     /**
@@ -42,6 +44,7 @@ class NhanVienController extends Controller
         $nhanvien = NhanVien::findOrFail($id);
         $nhanvien->bangcap = $request->bangcap;
         $nhanvien->maphongban = $request->maphongban;
+        $nhanvien->manhomquyen = $request->manhomquyen;
         $nhanvien->save() ;
         return redirect()->route('nhanvien.index') ;
     }
