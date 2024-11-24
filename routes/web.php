@@ -103,14 +103,14 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     */
     Route::post('/dattour', [DatTourController::class, 'index'])
         ->name('tour.dattour')
-        ->middleware('check.post');  // Sử dụng middleware mới
+        ->middleware('check.post');
 
     Route::post('/xacnhanthongtindattour', [DatTourController::class, 'xacnhanthongtindattour'])
         ->name('tour.xacnhanthongtindattour')
-        ->middleware('check.post');  // Sử dụng middleware mới
+        ->middleware('check.post');
     Route::post('/step4', [DatTourController::class, 'tieptucdattour'])
         ->name('tour.step4')
-        ->middleware('check.post');  // Sử dụng middleware mới
+        ->middleware('check.post');
 
     // Momo
     Route::post('/momo-payment', [ThanhToanMomoController::class, 'createPayment'])->name('momo.payment');
