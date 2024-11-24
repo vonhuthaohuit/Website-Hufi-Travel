@@ -53,6 +53,7 @@ body {
 .transaction-item img {
     width: 120px;
     margin-right: 20px;
+    height: 80px;
 }
 
 .alert-link {

@@ -32,7 +32,7 @@
                     <div class="row">
                         <h3 class="mt-3 mb-5" style="color: #333;">Tìm thấy <b>{{ $tourCount }}</b> kết quả hiển thị
                             cho
-                            từ khóa <b>"{{ $query }}"</b></h3>
+                            từ khóa <b>{{ $query }}</b></h3>
                         @foreach ($tours as $item)
                             <div class="owl-item col-6 col-lg-4 mb-4">
                                 <div class="popular-tours__single">
@@ -54,10 +54,17 @@
                                                         href="{{ route('tour.detail', $item->slug) }}">{{ $item->tentour }}</a>
                                                 </h3>
 
-                                                <p class="popular-tours__rate">
-                                                    <span>{{ number_format($item->giachitiettour) }}đ</span> / Một
-                                                    người
-                                                </p>
+                                                @if (empty($item->makhuyenmai))
+                                                    <p class="popular-tours__rate">
+                                                        <span>{{ number_format($item->giatour) }}đ</span> / Một người
+                                                    </p>
+                                                @else
+                                                    <p class="popular-tours__rate">
+                                                        <span><del
+                                                                class="original-price">{{ number_format($item->giatour) }}đ</del>
+                                                            {{ number_format($item->giatourgiam) }}đ</span> / Một người
+                                                    </p>
+                                                @endif
                                             </a>
                                         </div>
                                     </a>
