@@ -24,6 +24,7 @@ use App\Http\Controllers\backend\PhongBanController;
 use App\Http\Controllers\backend\Quyen_NhomQuyenController;
 use App\Http\Controllers\backend\QuyenController;
 use App\Http\Controllers\backend\ChuongTrinhTourController;
+use App\Http\Controllers\backend\DanhGiaController;
 use App\Http\Controllers\Backend\KhachHangController;
 use App\Http\Controllers\backend\KhachSan_TourController;
 use App\Http\Controllers\backend\KhachSanController;
@@ -234,6 +235,9 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
     Route::get('phieuhuytour', [PhieuHuyTourController::class, 'index'])->name('phieuhuytour.index');
 
     Route::resource('hoadon', HoaDonController::class);
+
+    Route::resource('danhgia', DanhGiaController::class);
+    Route::post('danhgia/change-status', [DanhGiaController::class, 'changeStatus'])->name('danhgia.change-status');
 });
 Route::get('hoadon/{hoaDonId}/print', [HoaDonController::class, 'printInvoice'])->name('hoadon.print');
 

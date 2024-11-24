@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <h2 class="mb-4">Danh sách hóa đơn</h2>
                 <div class="d-flex justify-content-end mb-3">
-                    <a href="{{ route('hoadon.create') }}" class="btn btn-success">
+                    <a href="{{ route('hoadon.create') }}" class="btn btn-primary">
                         <i class="bi bi-plus-circle"></i> Thêm hóa đơn
                     </a>
                 </div>
@@ -46,7 +46,7 @@
                     <div id="modal-content"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </div>

@@ -142,8 +142,8 @@
                     <span>Messages</span></a></li> --}}
 
 
-        <li class="dropdown {{ setActive(['hoadon.*', 'blog.*']) }}">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-blogger-b"></i>
+        <li class="dropdown {{ setActive(['hoadon.*', 'phieudattour.*', 'phieuhuytour.*']) }}">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-file-invoice"></i>
                 <span>Quản lý hoá đơn</span></a>
             <ul class="dropdown-menu">
 
@@ -153,6 +153,17 @@
                         href="{{ route('phieudattour.index') }}">Phiếu đặt tour</a></li>
                 <li class="{{ setActive(['phieuhuytour.*']) }}"><a class="nav-link"
                         href="{{ route('phieuhuytour.index') }}">Phiếu huỷ tour</a></li>
+            </ul>
+        </li>
+
+        <li class="dropdown {{ setActive(['danhgia.*']) }}">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-comments"></i>
+                <span>Quản lý đánh giá</span></a>
+
+            <ul class="dropdown-menu">
+                <li class="{{ setActive(['danhgia.index']) }}">
+                    <a class="nav-link" href="{{ route('danhgia.index') }}">Bình luận</a>
+                </li>
             </ul>
         </li>
 
