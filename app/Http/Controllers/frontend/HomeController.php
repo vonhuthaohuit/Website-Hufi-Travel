@@ -40,9 +40,11 @@ class HomeController extends Controller
 
         $tourDiscount = Tour::query()
             ->leftJoin('khuyenmai', 'tour.makhuyenmai', '=', 'khuyenmai.makhuyenmai')
-            ->select('tour.*')
+            ->leftJoin('danhgia', 'tour.matour', '=', 'danhgia.matour')
+            ->select('tour.*', DB::raw('AVG(danhgia.diemdanhgia) as avg_rating'), DB::raw('COUNT(danhgia.madanhgia) as review_count'), 'khuyenmai.phantramgiam')
             ->where('tour.tinhtrang', 1)
             ->where('khuyenmai.thoigianketthuc', '>', now())
+            ->groupBy('tour.matour')
             ->get();
 
         $nearestFutureDate = collect($tourDiscount)
@@ -148,5 +150,29 @@ class HomeController extends Controller
             ->get();
 
         return view('frontend.home.tour-booked', compact('tours'));
+    }
+
+    public function tourCanceled($trangThai = null)
+    {
+        $user = Session::get('user');
+        @$maTaiKhoan = $user['mataikhoan'];
+        $khachHang = KhachHang::where('mataikhoan', $maTaiKhoan)->first();
+        if (!$khachHang) {
+            return redirect()->back()->with('error', 'Không tìm thấy thông tin khách hàng.');
+        }
+
+        $tours = ChiTietPhieuDatTour::where('nguoidat', $khachHang->makhachhang)
+            ->whereHas('phieuDatTour', function ($query) use ($trangThai) {
+                if ($trangThai) {
+                    $query->where('trangthai', $trangThai);
+                }
+                $query->where('trangthaidattour', 'Đã hủy');
+            })
+            ->with(['phieuDatTour.tour'])
+            ->groupBy('maphieudattour')
+            ->orderBy('maphieudattour', 'desc')
+            ->get();
+
+        return view('frontend.home.tour-canceled', compact('tours'));
     }
 }

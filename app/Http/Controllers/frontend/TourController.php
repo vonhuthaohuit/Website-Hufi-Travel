@@ -8,6 +8,7 @@ use App\Models\DiemDuLich;
 use App\Models\LoaiTour;
 use App\Models\Tour;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TourController extends Controller
 {
@@ -30,9 +31,15 @@ class TourController extends Controller
             ->where('tour.matour', $tour->matour)
             ->get();
 
-        // dd($tour->makhuyenmai);
+        $averageRating = DanhGia::query()
+            ->selectRaw('matour, AVG(diemdanhgia) as avg_rating, COUNT(*) as total_reviews')
+            ->where('matour', $tour->matour)
+            ->groupBy('matour')
+            ->first();
 
-        return view('frontend.tour.tour-detail', compact('tour', 'commentOfTour'));
+        // dump($averageRating->avg_rating);
+
+        return view('frontend.tour.tour-detail', compact('tour', 'commentOfTour', 'averageRating'));
     }
 
     public function allTour()
@@ -45,19 +52,34 @@ class TourController extends Controller
     {
         if ($request->has('search_query')) {
             $tours = Tour::with('chitiettour', 'loaitour', 'chuongtrinhtour')
+                ->leftJoin('danhgia', 'tour.matour', '=', 'danhgia.matour')
+                ->select('tour.*', DB::raw('AVG(danhgia.diemdanhgia) as avg_rating'), DB::raw('COUNT(danhgia.madanhgia) as review_count'))
                 ->where('tentour', 'like', '%' . $request->search_query . '%')
                 ->where('tinhtrang', 1)
-                ->orderBy('matour', 'DESC')
+                ->groupBy('tour.matour')
+                ->orderBy('avg_rating', 'DESC') // Sắp xếp theo điểm đánh giá trung bình
                 ->paginate(12);
+
 
             $tourCategories = LoaiTour::take(5)->get();
             $query = $request->search_query;
         } elseif ($request->has('category')) {
             $category = LoaiTour::where('tenloai', $request->category)->firstOrFail();
 
-            $tours = Tour::with('loaitour')->where('maloaitour', $category->maloaitour)
-                ->where('tinhtrang', 1)->orderBy('matour', 'DESC')
+            $tours = Tour::with('loaitour')
+                ->where('maloaitour', $category->maloaitour)
+                ->leftJoin('danhgia', 'tour.matour', '=', 'danhgia.matour')
+                ->where('tinhtrang', 1)
+                ->select(
+                    'tour.*',
+                    DB::raw('AVG(danhgia.diemdanhgia) as avg_rating'),
+                    DB::raw('COUNT(danhgia.madanhgia) as review_count')
+                )
+                ->groupBy('tour.matour', 'tour.tentour', 'tour.tinhtrang', 'tour.maloaitour', 'tour.giatour') // Nhóm theo các cột của bảng `tour`
+                ->orderBy('tour.matour', 'DESC')
                 ->paginate(12);
+
+
 
             $tourCategories = LoaiTour::take(5)->get();
 
