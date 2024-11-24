@@ -237,6 +237,14 @@
                                 @endif
                             </tr>
                             <tr>
+                                <td><b><i class="fa-solid fa-road"></i> Khách sạn:</b></td>
+                                @if (empty($khachsan))
+                                    <td>Đang cập nhật</td>
+                                @else
+                                    <td>{{ @$khachsan->tenkhachsan }}</td>
+                                @endif
+                            </tr>
+                            <tr>
                                 <td><b><i class="fa-solid fa-money-bill-1-wave"></i> Giá:</b></td>
                                 @if (empty($tour->makhuyenmai))
                                     <td>{{ number_format($tour->giatour) }} VNĐ</td>

@@ -51,7 +51,7 @@ class DanhGiaDataTables extends DataTable
      */
     public function query(DanhGia $model): QueryBuilder
     {
-        return $model->newQuery()->with('khachhang')->orderBy('madanhgia', 'desc');
+        return $model->newQuery()->with('khachhang')->orderBy('madanhgia', 'asc');
     }
 
     /**

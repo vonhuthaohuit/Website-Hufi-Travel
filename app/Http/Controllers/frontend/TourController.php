@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ChiTietTour;
 use App\Models\DanhGia;
 use App\Models\DiemDuLich;
+use App\Models\KhachSan;
 use App\Models\LoaiTour;
 use App\Models\PhuongTien;
 use App\Models\Tour;
@@ -32,6 +33,7 @@ class TourController extends Controller
             ->join('khachhang', 'danhgia.makhachhang', '=', 'khachhang.makhachhang')
             ->where('tour.matour', $tour->matour)
             ->where('danhgia.tinhtrang', 1)
+            ->select('danhgia.*', 'khachhang.hoten')
             ->get();
 
         $averageRating = DanhGia::query()
@@ -66,9 +68,14 @@ class TourController extends Controller
             ->where('chitietphuongtientour.matour', $tour->matour)
             ->first();
 
+        $khachsan = KhachSan::query()
+            ->join('chitietkhachsantour', 'khachsan.makhachsan', '=', 'chitietkhachsantour.makhachsan')
+            ->where('chitietkhachsantour.matour', $tour->matour)
+            ->first();
+
         $ngaybatdau = ChiTietTour::where('matour', $tour->matour)->first();
 
-        return view('frontend.tour.tour-detail', compact('tour', 'commentOfTour', 'averageRating', 'ratingsWithPercentage', 'totalRatings', 'phuongtien', 'ngaybatdau'));
+        return view('frontend.tour.tour-detail', compact('tour', 'commentOfTour', 'averageRating', 'ratingsWithPercentage', 'totalRatings', 'phuongtien', 'ngaybatdau', 'khachsan'));
     }
 
     public function allTour()

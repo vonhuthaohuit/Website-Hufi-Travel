@@ -272,3 +272,4 @@ Route::get('/history/tour-canceled', [HomeController::class, 'tourCanceled'])->n
 Route::post('/comment/{madanhgia}', [CommentController::class, 'update'])->name('comment.update');
 Route::get('/comment/delete/{madanhgia}', [CommentController::class, 'delete'])->name('comment.delete');
 Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
+Route::post('/profile/update', [HomeController::class, 'updateProfile'])->name('profile.update');
