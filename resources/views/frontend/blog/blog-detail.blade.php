@@ -1,5 +1,13 @@
 @extends('frontend.layouts.app')
 
+@push('style')
+    <style>
+        .wsus__description_area p {
+            text-align: justify;
+        }
+    </style>
+@endpush
+
 @section('renderBody')
     <section class="page-header">
         <div class="page-header__bottom">
@@ -59,7 +67,7 @@
                             </ul>
                         </div>
 
-                        <div class="comment-group mb-4">
+                        {{-- <div class="comment-group mb-4">
                             <h4>Bình luận</h4>
                             <div class="comment-box">
                                 <div class="comment-avatar">
@@ -70,7 +78,7 @@
                                     <button type="submit">Gửi bình luận</button>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 

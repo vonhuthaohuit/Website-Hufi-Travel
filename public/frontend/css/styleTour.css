@@ -138,3 +138,10 @@
 .comment-content button:hover {
     background-color: #228be6;
 }
+
+.original-price {
+    color: #444;
+    font-weight: 500;
+    font-size: 16px;
+    margin-right: 5px;
+}
