@@ -237,7 +237,7 @@
                                 @endif
                             </tr>
                             <tr>
-                                <td><b><i class="fa-solid fa-road"></i> Khách sạn:</b></td>
+                                <td><b><i class="fa-solid fa-hotel"></i> Khách sạn:</b></td>
                                 @if (empty($khachsan))
                                     <td>Đang cập nhật</td>
                                 @else
