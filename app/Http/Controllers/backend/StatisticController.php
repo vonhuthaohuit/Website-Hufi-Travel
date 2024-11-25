@@ -21,4 +21,10 @@ class StatisticController extends Controller
         $data = DB::select('CALL proc_statisticKhachHang()') ;
         return response()->json($data);
     }
+
+    public function  viewstatisticDoanhThu ()
+    {
+        return view('backend.statistic.statistic_doanhthu') ;
+
+    }
 }

@@ -22,7 +22,7 @@
                     <input type="password" id="confirm-password" name="confirm_password" placeholder="Xác nhận mật khẩu mới"
                         required>
                 </div>
-                <button type="submit" class="btn">Cập Nhật Mật Khẩu</button>
+                <button type="submit" class="btn-new">Cập Nhật Mật Khẩu</button>
             </form>
             <p class="note">Nếu gặp vấn đề, vui lòng liên hệ <a href="{{ route('home') }}">bộ phận hỗ trợ</a>.</p>
         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Backup;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -35,6 +36,37 @@ class BackupAndRestoreControlelr extends Controller
         } catch (Exception $e) {
             return back()->with('error', 'Error: ' . $e->getMessage());
         }
+    }
+
+    public function scheduleBackup(Request $request)
+    {
+        $request->validate([
+            'backup_frequency' => 'required|in:daily,weekly,monthly',
+            'backup_time' => 'required',
+            'backup_day' => 'nullable|required_if:backup_frequency,weekly',
+            'backup_day_of_month' => 'nullable|required_if:backup_frequency,monthly|integer|min:1|max:31',
+        ]);
+        // Lưu vào bảng backup_schedules
+        $schedule = new Backup();
+        $schedule->frequency = $request->backup_frequency;
+        $schedule->backup_time = $request->backup_time;
+        $schedule->backup_day = $request->backup_day;
+        $schedule->backup_day_of_month = $request->backup_day_of_month;
+        $schedule->save();
+        return back()->with('success', 'Chọn lịch sao lưu thành công!');
+    }
+    public function removeSchedules()
+    {
+        try
+        {
+            Backup::truncate();
+            return redirect()->route('backup.index')->with('success', 'Xoá lịch thành công.');
+        }
+        catch(Exception $e)
+        {
+            return redirect()->route('backup.index')->with('error', 'Xoá lịch không thành công.');
+        }
+
     }
 
 
@@ -115,4 +147,7 @@ class BackupAndRestoreControlelr extends Controller
             return back()->with('error', 'Error: ' . $e->getMessage());
         }
     }
+
+
+
 }

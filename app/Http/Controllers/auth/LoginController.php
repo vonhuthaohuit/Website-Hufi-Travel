@@ -74,7 +74,6 @@ class LoginController extends Controller
                 'password_register' => 'required',
                 'email' => 'required|email',
             ]);
-
             if ($validator->fails()) {
                 Log::info('Validation failed', $validator->errors()->toArray());
                 return redirect()->route('login_view')->with('error','Đăng kí không thành công');
@@ -89,8 +88,8 @@ class LoginController extends Controller
             Log::info('User created with ID:'.$user->mataikhoan);
             $khachhang = new KhachHang();
             $khachhang->hoten = "Chưa có tên";
-            $khachhang->ngaysinh = now();
-            $khachhang->sodienthoai = "0211";
+            $khachhang->ngaysinh = null;
+            $khachhang->sodienthoai = null;
             $khachhang->diachi = null;
             $khachhang->hinhdaidien = null;
             $khachhang->maloaikhachhang = 1;
@@ -118,7 +117,6 @@ class LoginController extends Controller
                 'password' => 'required'
             ]);
             if ($validator->fails()) {
-
                 return redirect()->back()->with('error', "Đăng nhập không thành công");
             }
             if (filter_var($request['email_or_username'], FILTER_VALIDATE_EMAIL)) {
@@ -142,7 +140,6 @@ class LoginController extends Controller
             ])->withInput();
         } catch (\Exception $th) {
             Log::error('Error in registration process:', ['error' => $th->getMessage()]);
-
             return redirect()->back()->with('error', "Đăng nhập không thành công");
         }
     }

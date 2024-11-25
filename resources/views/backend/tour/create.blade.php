@@ -30,14 +30,15 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-4">
+
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Hình ảnh đại diện</label>
                                             <input type="file" class="form-control" name="hinhdaidien">
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    {{-- <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Tình trạng</label>
                                             <select class="form-control" name="tinhtrang">
@@ -46,22 +47,22 @@
                                                 <option value="0">Không kích hoạt</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="col-md-2">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Thời gian đi</label>
                                             <input type="text" class="form-control" name="thoigiandi"
                                                 value="{{ old('thoigiandi') }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    {{-- <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Giá (VND)</label>
                                             <input type="text" class="form-control" name="giatour"
                                                 value="{{ old('giatour') }}">
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                                 <div class="form-group">

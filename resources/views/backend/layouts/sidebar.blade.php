@@ -1,7 +1,7 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href=""><img src="{{ asset('frontend/images/logo.png') }}" alt="HUFI Travel" width="50px"> HUFI
+            <a href="{{ route('dashboard') }}"><img src="{{ asset('frontend/images/logo.png') }}" alt="HUFI Travel" width="50px"> HUFI
                 Travel</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
@@ -14,13 +14,7 @@
                         class="fas fa-fire"></i><span>Dashboard</span></a>
             </li>
             <li class="menu-header">Quản lý chức năng</li>
-            <li
-                class="dropdown {{ setActive([
-                    'tour.*',
-                    'loaitour.*',
-                    'khuyenmai.*',
-                    'diemdulich.*',
-                ]) }}">
+            <li class="dropdown {{ setActive(['tour.*', 'loaitour.*', 'khuyenmai.*', 'diemdulich.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i>
                     <span>Quản lý tour</span></a>
                 <ul class="dropdown-menu">
@@ -41,11 +35,7 @@
                 </ul>
             </li>
 
-            <li
-                class="dropdown {{ setActive([
-                    'khachsan.*',
-                    'phuongtien.*',
-                ]) }}">
+            <li class="dropdown {{ setActive(['khachsan.*', 'phuongtien.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-cart-plus"></i>
                     <span>Quản lý dịch vụ</span></a>
                 <ul class="dropdown-menu">
@@ -59,8 +49,7 @@
                 </ul>
             </li>
 
-            <li
-                class="dropdown {{ setActive(['chucvu.*', 'nhanvien.*', 'phongban.*', 'quyen.*', 'nhomquyen.*']) }}">
+            <li class="dropdown {{ setActive(['chucvu.*', 'nhanvien.*', 'phongban.*', 'quyen.*', 'nhomquyen.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
                     <span>Quản lý quyền hạn</span></a>
                 <ul class="dropdown-menu">
@@ -122,18 +111,34 @@
         {{-- <li><a class="nav-link {{ setActive(['admin.advertisement.*']) }}" href=""><i
                         class="fas fa-ad"></i>
                     <span>Advertisement</span></a></li> --}}
+        <li><a class="nav-link {{ setActive(['']) }}" href="{{ route('backup.index') }}"><i class="fas fa-user"></i>
+                <span>Sao lưu và phục hồi</span></a></li>
+        <li class="dropdown {{ setActive(['Statistic.*']) }}">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-blogger-b"></i>
+                <span>Thống kê báo cáo</span></a>
+            <ul class="dropdown-menu">
 
-            <li class="dropdown {{ setActive(['loaiblog.*', 'blog.*']) }}">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fab fa-blogger-b"></i> <span>Quản lý Blog</span></a>
-                <ul class="dropdown-menu">
+                <li class="{{ setActive(['Statistic.*']) }}"><a class="nav-link" href="{{ route('statistic.doanhthu') }}">Thống kê doanh thu</a>
+                </li>
+                <li class="{{ setActive(['statistic.khachhang.*']) }}"><a class="nav-link"
+                        href="{{ route('statistic.khachhang.index') }}">Thống kê khách hàng</a></li>
 
-                    <li class="{{ setActive(['loaiblog*']) }}"><a class="nav-link"
-                            href="{{ route('loaiblog.index') }}">Loại Blog</a></li>
-                    <li class="{{ setActive(['blog.*']) }}"><a class="nav-link"
-                            href="{{ route('blog.index') }}">Blog</a></li>
-                </ul>
-            </li>
+            </ul>
+        </li>
+
+
+        <li class="dropdown {{ setActive(['loaiblog.*', 'blog.*']) }}">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-blogger-b"></i>
+                <span>Quản lý Blog</span></a>
+            <ul class="dropdown-menu">
+
+                <li class="{{ setActive(['loaiblog*']) }}"><a class="nav-link"
+                        href="{{ route('loaiblog.index') }}">Loại Blog</a></li>
+                <li class="{{ setActive(['blog.*']) }}"><a class="nav-link"
+                        href="{{ route('blog.index') }}">Blog</a>
+                </li>
+            </ul>
+        </li>
 
         {{-- <li><a class="nav-link {{ setActive(['admin.messages.index']) }}" href=""><i
                         class="fas fa-user"></i>
@@ -206,17 +211,17 @@
                 </ul>
             </li> --}}
 
-                <li class="{{ setActive(['footer-grid-two.*']) }}">
-                    <a class="nav-link" href="{{ route('footer-grid-two.index') }}">Footer Grid Two</a>
-                </li>
+        <li class="{{ setActive(['footer-grid-two.*']) }}">
+            <a class="nav-link" href="{{ route('footer-grid-two.index') }}">Footer Grid Two</a>
+        </li>
 
-                <li class="{{ setActive(['footer-grid-three.*']) }}">
-                    <a class="nav-link" href="{{ route('footer-grid-three.index') }}">Footer Grid Three</a>
-                </li>
-                <li class="{{ setActive(['footer-socials.*']) }}">
-                    <a class="nav-link" href="{{ route('footer-socials.index') }}">Footer Socials</a>
-                </li>
-            </ul>
+        <li class="{{ setActive(['footer-grid-three.*']) }}">
+            <a class="nav-link" href="{{ route('footer-grid-three.index') }}">Footer Grid Three</a>
+        </li>
+        <li class="{{ setActive(['footer-socials.*']) }}">
+            <a class="nav-link" href="{{ route('footer-socials.index') }}">Footer Socials</a>
+        </li>
+        </ul>
         </li>
         <li
             class="dropdown {{ setActive([

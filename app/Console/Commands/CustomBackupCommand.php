@@ -16,16 +16,13 @@ class CustomBackupCommand extends Command
                             {--filename= : Specify the filename for the backup}
                             {--only-to-disk= : Specify which disk to store the backup on}
                             ';
-
     protected $description = 'Backup the database including routines and triggers if specified';
-
     public function handle()
     {
         try {
             // Kiểm tra các tùy chọn có được cung cấp không
             $includeRoutines = $this->option('routines');
             $includeTriggers = $this->option('triggers');
-
             // Tạo câu lệnh mysqldump cho cơ sở dữ liệu
             $dbHost = env('DB_HOST', '127.0.0.1');
             $dbName = env('DB_DATABASE');
