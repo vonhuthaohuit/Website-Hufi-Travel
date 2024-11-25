@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\BlogTour;
+use App\Models\DanhGia;
 use App\Models\DiemDuLich;
 use App\Models\LoaiTour;
 use App\Models\Tour;
@@ -29,7 +30,8 @@ class ViewComposerProvider extends ServiceProvider
             $tours = Tour::query()
                 ->leftJoin('chitiettour', 'tour.matour', '=', 'chitiettour.matour')
                 ->leftJoin('diemdulich', 'chitiettour.madiemdulich', '=', 'diemdulich.madiemdulich')
-                ->select('tour.*', 'diemdulich.tendiemdulich')
+                ->leftJoin('danhgia', 'tour.matour', '=', 'danhgia.matour')
+                ->select('tour.*', 'diemdulich.tendiemdulich', DB::raw('AVG(danhgia.diemdanhgia) as avg_rating'))
                 ->where('tour.tinhtrang', 1)
                 ->groupBy('tour.matour')
                 ->paginate(6);

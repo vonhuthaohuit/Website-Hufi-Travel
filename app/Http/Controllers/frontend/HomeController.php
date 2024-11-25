@@ -11,13 +11,17 @@ use App\Models\KhachHang;
 use App\Models\LoaiBlog;
 use App\Models\PhieuDatTour;
 use App\Models\Tour;
+use App\Models\User;
+use App\Traits\ImageUploadTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
+    use ImageUploadTrait;
     protected $chiTietPhieuDatTour;
     public function __construct()
     {
@@ -40,9 +44,11 @@ class HomeController extends Controller
 
         $tourDiscount = Tour::query()
             ->leftJoin('khuyenmai', 'tour.makhuyenmai', '=', 'khuyenmai.makhuyenmai')
-            ->select('tour.*')
+            ->leftJoin('danhgia', 'tour.matour', '=', 'danhgia.matour')
+            ->select('tour.*', DB::raw('AVG(danhgia.diemdanhgia) as avg_rating'), DB::raw('COUNT(danhgia.madanhgia) as review_count'), 'khuyenmai.phantramgiam')
             ->where('tour.tinhtrang', 1)
             ->where('khuyenmai.thoigianketthuc', '>', now())
+            ->groupBy('tour.matour')
             ->get();
 
         $nearestFutureDate = collect($tourDiscount)
@@ -148,5 +154,63 @@ class HomeController extends Controller
             ->get();
 
         return view('frontend.home.tour-booked', compact('tours'));
+    }
+
+    public function tourCanceled($trangThai = null)
+    {
+        $user = Session::get('user');
+        @$maTaiKhoan = $user['mataikhoan'];
+        $khachHang = KhachHang::where('mataikhoan', $maTaiKhoan)->first();
+        if (!$khachHang) {
+            return redirect()->back()->with('error', 'Không tìm thấy thông tin khách hàng.');
+        }
+
+        $tours = ChiTietPhieuDatTour::where('nguoidat', $khachHang->makhachhang)
+            ->whereHas('phieuDatTour', function ($query) use ($trangThai) {
+                if ($trangThai) {
+                    $query->where('trangthai', $trangThai);
+                }
+                $query->where('trangthaidattour', 'Đã hủy');
+            })
+            ->with(['phieuDatTour.tour'])
+            ->groupBy('maphieudattour')
+            ->orderBy('maphieudattour', 'desc')
+            ->get();
+
+        return view('frontend.home.tour-canceled', compact('tours'));
+    }
+
+    public function profile()
+    {
+        $user = Session::get('user');
+        $mataikhoan = $user['mataikhoan'];
+        $khachhang = KhachHang::where('mataikhoan', $mataikhoan)->first();
+
+        return view('frontend.home.profile', compact('user', 'khachhang'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'hoten' => 'required',
+            'ngaysinh' => 'required',
+            'gioitinh' => 'required',
+            'sodienthoai' => 'required',
+            'diachi' => 'required',
+            // 'hinhdaidien' => 'nullable|image'
+        ]);
+
+        $user = Session::get('user');
+        $mataikhoan = $user['mataikhoan'];
+        $khachhang = KhachHang::where('mataikhoan', $mataikhoan)->first();
+        $khachhang->hoten = $request->hoten;
+        $khachhang->ngaysinh = $request->ngaysinh;
+        $khachhang->gioitinh = $request->gioitinh;
+        $khachhang->sodienthoai = $request->sodienthoai;
+        $khachhang->diachi = $request->diachi;
+
+        $khachhang->save();
+
+        return redirect()->back()->with('success', 'Cập nhật thông tin thành công');
     }
 }
