@@ -54,7 +54,7 @@ class LoginController extends Controller
                 $khachhang->diachi = null;
                 $khachhang->hinhdaidien = null;
                 $khachhang->maloaikhachhang = 1;
-                $khachhang->mataikhoan = $newUser->id;
+                $khachhang->mataikhoan = $newUser->mataikhoan;
                 $khachhang->save();
                 Auth::login($newUser);
                 Session::put('user', $newUser);

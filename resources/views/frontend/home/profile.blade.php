@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-md-9">
                     <input type="text" class="form-control" id="hoten" name="hoten"
-                        value="{{ $khachhang->hoten ?? '' }}" placeholder="Nhập tên của bạn">
+                        value="{{ @$khachhang->hoten ?? '' }}" placeholder="Nhập tên của bạn">
                 </div>
             </div>
 
@@ -40,7 +40,7 @@
                 </div>
                 <div class="col-md-9">
                     <input type="text" class="form-control" id="sodienthoai" name="sodienthoai"
-                        value="{{ $khachhang->sodienthoai ?? '' }}" placeholder="Nhập số điện thoại">
+                        value="{{ @$khachhang->sodienthoai ?? '' }}" placeholder="Nhập số điện thoại">
                 </div>
             </div>
 
@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-md-9">
                     <input type="date" class="form-control" id="ngaysinh" name="ngaysinh"
-                        value="{{ $khachhang->ngaysinh ? date('Y-m-d', strtotime($khachhang->ngaysinh)) : '' }}"
+                        value="{{ @$khachhang->ngaysinh ? date('Y-m-d', strtotime($khachhang->ngaysinh)) : '' }}"
                         placeholder="Nhập ngày sinh">
                 </div>
 
@@ -63,9 +63,9 @@
                 <div class="col-md-9">
                     <select class="form-control" id="gioitinh" name="gioitinh">
                         <option value="" disabled {{ empty($khachhang->gioitinh) ? 'selected' : '' }}>Chọn giới tính</option>
-                        <option value="Nam" {{ $khachhang->gioitinh === 'Nam' ? 'selected' : '' }}>Nam</option>
-                        <option value="Nữ" {{ $khachhang->gioitinh === 'Nữ' ? 'selected' : '' }}>Nữ</option>
-                        <option value="Khác" {{ $khachhang->gioitinh === 'Khác' ? 'selected' : '' }}>Khác</option>
+                        <option value="Nam" {{ @$khachhang->gioitinh === 'Nam' ? 'selected' : '' }}>Nam</option>
+                        <option value="Nữ" {{ @$khachhang->gioitinh === 'Nữ' ? 'selected' : '' }}>Nữ</option>
+                        <option value="Khác" {{ @$khachhang->gioitinh === 'Khác' ? 'selected' : '' }}>Khác</option>
                     </select>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                 </div>
                 <div class="col-md-9">
                     <input type="text" class="form-control" id="diachi" name="diachi"
-                        value="{{ $khachhang->diachi ?? '' }}" placeholder="Nhập địa chỉ">
+                        value="{{ @$khachhang->diachi ?? '' }}" placeholder="Nhập địa chỉ">
                 </div>
             </div>
 
