@@ -150,12 +150,9 @@
     @push('script')
         <script src="{{ asset('frontend/js/scriptLogin.js') }}"></script>
         <script>
-
-
-            document.getElementById('loginForm')?.addEventListener('submit', function(event) {
-                handleFormSubmit(event, 'input[name="password"]');
-            });
-
+            // document.getElementById('loginForm')?.addEventListener('submit', function(event) {
+            //     handleFormSubmit(event, 'input[name="password"]');
+            // });
             document.getElementById('registerForm')?.addEventListener('submit', function(event) {
                 handleFormSubmit(event, 'input[name="password_register"]');
             });

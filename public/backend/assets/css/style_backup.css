@@ -76,3 +76,29 @@ body {
     color: #6b7280;
     font-size: 0.875rem;
 }
+
+
+.schedule-options {
+    margin-top: 20px;
+    text-align: left;
+}
+.schedule-options label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+.schedule-options input, .schedule-options select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.custom-hr {
+    width: 100%;
+    height: 2px;
+    background-color: #333; /* Màu của đường kẻ */
+    margin-top: 30px;
+    margin-bottom: -10px;
+}

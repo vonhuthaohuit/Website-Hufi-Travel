@@ -15,6 +15,7 @@ use App\Models\Tour;
 use App\Models\User;
 use App\Traits\ImageUploadTrait;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -54,41 +55,44 @@ class TourController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'tentour' => 'required',
-            'motatour' => 'required',
-            'tinhtrang' => 'required',
-            'giatour' => 'required',
-            'noikhoihanh' => 'required',
-            'loaitour_id' => 'required|exists:loaitour,maloaitour',
-            'khuyenmai_id' => 'nullable|exists:khuyenmai,makhuyenmai',
-            'hinhdaidien' => 'required|image',
-        ]);
+        try {
+            $request->validate([
+                'tentour' => 'required',
+                'motatour' => 'required',
+                'noikhoihanh' => 'required',
+                'loaitour_id' => 'required|exists:loaitour,maloaitour',
+                'khuyenmai_id' => 'nullable|exists:khuyenmai,makhuyenmai',
+                'hinhdaidien' => 'required|image',
+            ]);
 
-        $imagePath = $this->uploadImage($request, 'hinhdaidien', 'frontend/images/tour');
-        if (!$imagePath) {
-            return back()->withErrors(['hinhdaidien' => 'Hình ảnh không được tải lên.']);
+            $imagePath = $this->uploadImage($request, 'hinhdaidien', 'frontend/images/tour');
+            if (!$imagePath) {
+                return back()->withErrors(['hinhdaidien' => 'Hình ảnh không được tải lên.']);
+            }
+            $khuyenmai_ID = $request->khuyenmai_id;
+            if (!$khuyenmai_ID) {
+                $khuyenmai_ID = null;
+            }
+            $tour = new Tour();
+            $tour->tentour = $request->tentour;
+            $tour->slug = Str::slug($request->tentour);
+            $tour->motatour = $request->motatour;
+            $tour->tinhtrang = 2;
+            $tour->giatour = 0;
+            $tour->noikhoihanh = $request->noikhoihanh;
+            $tour->thoigiandi = $request->thoigiandi;
+            $tour->maloaitour = $request->loaitour_id;
+            $tour->makhuyenmai = $request->khuyenmai_id;
+            $tour->hinhdaidien = $imagePath;
+            $tour->created_at =  Carbon::parse(now()->format('d-m-Y'));
+            $tour->updated_at =  Carbon::parse(now()->format('d-m-Y'));
+            $tour->save();
+        //    DB::statement('CALL updateTourStatus(?)', [$tour->matour]);
+            return redirect()->route('tour.index');
+        } catch (Exception $e) {
+            Log::info("Sai") ;
+            return redirect()->route('tour.index')->with('error','Thêm không thành công');
         }
-        $khuyenmai_ID = $request->khuyenmai_id;
-        if (!$khuyenmai_ID) {
-            $khuyenmai_ID = null;
-        }
-        $tour = new Tour();
-        $tour->tentour = $request->tentour;
-        $tour->slug = Str::slug($request->tentour);
-        $tour->motatour = $request->motatour;
-        $tour->tinhtrang = $request->tinhtrang;
-        $tour->giatour = $request->giatour;
-        $tour->noikhoihanh = $request->noikhoihanh;
-        $tour->thoigiandi = $request->thoigiandi;
-        $tour->maloaitour = $request->loaitour_id;
-        $tour->makhuyenmai = $request->khuyenmai_id;
-        $tour->hinhdaidien = $imagePath;
-        $tour->created_at = now();
-        $tour->updated_at = now();
-        $tour->save();
-        DB::statement('CALL updateTourStatus(?)', [$tour->matour]);
-        return redirect()->route('tour.index');
     }
 
     /**
@@ -120,20 +124,21 @@ class TourController extends Controller
             'motatour' => 'required|string',
             'tinhtrang' => 'required|string|max:100',
             'thoigiandi' => 'required',
-            'giatour' => 'required',
             'hinhdaidien' => 'nullable|image',
             'noikhoihanh' => 'required|string|max:255',
             'loaitour_id' => 'required|exists:loaitour,maloaitour',
             'khuyenmai_id' => 'nullable|exists:khuyenmai,makhuyenmai',
         ]);
 
+        $giatour =  DB::select('SELECT func_giatour(?) AS giatour', [$id]);
+        $giatour = $giatour[0]->giatour ?? 0;
         $tour = Tour::where('matour', $id)->first();
         $tour->tentour = $request->input('tentour');
         $tour->slug = Str::slug($request->tentour);
         $tour->motatour = $request->input('motatour');
         $tour->tinhtrang = $request->input('tinhtrang');
         $tour->thoigiandi = $request->input('thoigiandi');
-        $tour->giatour = $request->giatour;
+        $tour->giatour = $giatour;
         $tour->noikhoihanh = $request->input('noikhoihanh');
         $tour->maloaitour = $request->input('loaitour_id');
         $tour->makhuyenmai = $request->input('khuyenmai_id');
@@ -147,14 +152,13 @@ class TourController extends Controller
             $tour->hinhdaidien = $path;
         }
 
-        $tour->loaitour_id = $request->input('loaitour_id');
-        $tour->khuyenmai_id = $request->input('khuyenmai_id');
-        $tour->ngaytao = now();
+        $tour->maloaitour = $request->input('loaitour_id');
+        $tour->makhuyenmai = $request->input('khuyenmai_id');
+        $tour->updated_at = Carbon::parse(now()->format('d-m-Y'));
 
 
         $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour/uploads', $tour->hinhdaidien);
         $tour->hinhdaidien = $imagePath;
-
         $tour->save();
         return redirect()->route('tour.index')->with('success', 'Cập nhật tour thành công!');
     }

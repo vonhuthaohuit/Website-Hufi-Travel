@@ -232,12 +232,15 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
 
     //Thống kê báo cáo
     Route::get('statistic/khachhang/index',[StatisticController::class,'viewStatisticKhachHang'])->name('statistic.khachhang.index') ;
-   // Route::get('statistic/doanhthu',[StatisticController::class,'statisticDoanhThu'])->name('statistic.doanhthu');
     Route::get('statistic/khachhang',[StatisticController::class,'statisticKhachHang'])->name('statistic.khachhang');
+    Route::get('statistic/doanhthu',[StatisticController::class,'viewstatisticDoanhThu'])->name('statistic.doanhthu');
     // Sao lưu phục hồi
     Route::get('backup-restore', [BackupAndRestoreControlelr::class, 'index'])->name('backup.index');
     Route::get('/backup', [BackupAndRestoreControlelr::class, 'backup'])->name('backup.create');
     Route::post('restore', [BackupAndRestoreControlelr::class, 'restore'])->name('backup.restore');
+    Route::post('restore-schedule', [BackupAndRestoreControlelr::class, 'scheduleBackup'])->name('backup.schedule');
+    Route::post('remove-schedule', [BackupAndRestoreControlelr::class, 'removeSchedules'])->name('backup.remove');
+
 
     // Hoá đơn, phiếu đặt tour
     Route::get('hoadon', [HoaDonController::class, 'index'])->name('hoadon.index');

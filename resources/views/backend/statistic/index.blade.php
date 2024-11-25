@@ -12,7 +12,7 @@
 @push('scripts')
     <script>
         // Lấy dữ liệu từ server (giả sử trả về JSON từ API)
-        fetch('/admin/statistic/khachhang')
+    fetch('/admin/statistic/khachhang')
     .then(response => response.json())
     .then(data => {
         // Kiểm tra xem dữ liệu có hợp lệ không

@@ -13,7 +13,7 @@
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email address" required>
             </div>
-            <button type="submit" class="btn">Send Reset Link</button>
+            <button type="submit" class="btn-reset">Send Reset Link</button>
         </form>
         <a href="/login" class="link">Back to Login</a>
     </div>
