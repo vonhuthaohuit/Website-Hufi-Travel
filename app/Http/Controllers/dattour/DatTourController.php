@@ -194,13 +194,9 @@ class DatTourController extends Controller
         $trangThaiDatTour = 'Đang chờ thanh toán';
         $phuongThucThanhToan = 'Thanh toán trực tiếp';
         $thongTinNguoiDaiDien = session('thongTinNguoiDaiDien');
-        $user = Session::get('user');
-        $maTaiKhoan = $user['mataikhoan'];
-        $khachHang = $this->khachHangs->where('mataikhoan', $maTaiKhoan)->first();
         DB::beginTransaction();
         try {
             HoaDon::create([
-                'makhachhang' => $khachHang->makhachhang ,
                 'maphieudattour' => $phieuDatTour->maphieudattour,
                 'tongsotien' => $phieuDatTour->tongtienphieudattour,
                 'phuongthucthanhtoan' => $phuongThucThanhToan,

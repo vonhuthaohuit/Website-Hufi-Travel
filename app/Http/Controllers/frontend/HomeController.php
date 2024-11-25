@@ -129,6 +129,13 @@ class HomeController extends Controller
             ->where('mahoadon', $hoadon->mahoadon)
             ->get();
 
+            $thongTinNguoiDaiDien = [];
+            $thongTinNguoiDaiDien['makhachhang'] = $khachHang->makhachhang;
+            $thongTinNguoiDaiDien['nguoidaidien'] = $khachHang->hoten;
+            $thongTinNguoiDaiDien['tendonvi'] = $hoadon->tendonvi ?? null;
+            $thongTinNguoiDaiDien['diachidonvi'] = $khachHang->diachi ?? null;
+            $thongTinNguoiDaiDien['masothue'] = $hoadon->masothue ?? null;
+            session()->put('thongTinNguoiDaiDien', $thongTinNguoiDaiDien);
         return view('frontend.home.tour-order', compact('soLuongKhach', 'tour', 'khachHang', 'user'));
     }
 

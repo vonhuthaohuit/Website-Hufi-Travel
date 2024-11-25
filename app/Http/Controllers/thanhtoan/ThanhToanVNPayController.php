@@ -110,12 +110,8 @@ class ThanhToanVNPayController extends Controller
                 $phieuDatTour->trangthaidattour = 'Đã thanh toán';
                 $phieuDatTour->save();
             }
-            $user = Session::get('user');
-            $maTaiKhoan = $user['mataikhoan'];
-            $khachHang = DB::where('mataikhoan', $maTaiKhoan)->first();
             // Tạo hóa đơn với trạng thái thanh toán
             HoaDon::create([
-                'mataikhoan' => $khachHang ->mataikhoan,
                 'maphieudattour' => $phieuDatTour->maphieudattour,
                 'tongsotien' => $phieuDatTour->tongtienphieudattour,
                 'phuongthucthanhtoan' => $phuongThucThanhToan,
