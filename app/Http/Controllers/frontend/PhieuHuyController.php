@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\HoaDon;
 use App\Models\KhachHang;
 use App\Models\PhieuDatTour;
 use App\Models\PhieuHuyTour;
@@ -19,8 +20,6 @@ class PhieuHuyController extends Controller
             'lydohuy' => 'required'
         ]);
 
-        $maphieudattour = $request->maphieudattour;
-
         $user = Session::get('user');
         @$maTaiKhoan = $user['mataikhoan'];
         $khachHang = KhachHang::where('mataikhoan', $maTaiKhoan)->first();
@@ -30,23 +29,27 @@ class PhieuHuyController extends Controller
 
         $phieuDatTour = PhieuDatTour::query()
             ->join('chitietphieudattour', 'phieudattour.maphieudattour', '=', 'chitietphieudattour.maphieudattour')
-            ->where('phieudattour.maphieudattour', $maphieudattour)
+            ->where('phieudattour.maphieudattour', $request->maphieudattour)
             ->where('chitietphieudattour.nguoidat', $khachHang->makhachhang)
             ->first();
 
         if (!$phieuDatTour) {
             return redirect()->back()->with('error', 'Lỗi trong quá trình hủy tour!');
-        }
-        else {
+        } else {
             $phieuDatTour->trangthaidattour = 'Đã hủy';
             $phieuDatTour->save();
         }
 
         $phieuhuy = new PhieuHuyTour();
         $phieuhuy->lydohuy = $request->lydohuy;
-        $phieuhuy->ngayhuy = now();
+        $phieuhuy->ngayhuy = today()->format('Y-m-d');
 
         $phieuhuy->save();
+
+        $maphieuhuytour = $phieuhuy->maphieuhuytour;
+
+        HoaDon::where('maphieudattour', $request->maphieudattour)
+            ->update(['maphieuhuytour' => $maphieuhuytour]);
 
         return redirect()->route('tour.tour-booked')->with('success', 'Tour đã được hủy thành công.');
     }

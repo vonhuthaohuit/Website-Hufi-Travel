@@ -34,7 +34,7 @@
                             cho
                             từ khóa <b>{{ $query }}</b></h3>
                         @foreach ($tours as $item)
-                            <div class="owl-item col-6 col-lg-4 mb-4">
+                            <div class="owl-item col-6 col-lg-3 mb-4">
                                 <div class="popular-tours__single">
                                     <a href="{{ route('tour.detail', $item->slug) }}">
                                         <div class="popular-tours__img">
@@ -47,9 +47,7 @@
                                         </div>
                                         <div class="popular-tours__content">
                                             <a href="{{ route('tour.detail', $item->slug) }}">
-                                                <div class="popular-tours__stars">
-                                                    <i class="fa fa-star"></i> 8.0 Superb
-                                                </div>
+
                                                 <h3 class="popular-tours__title"><a
                                                         href="{{ route('tour.detail', $item->slug) }}">{{ $item->tentour }}</a>
                                                 </h3>
