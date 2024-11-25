@@ -125,7 +125,7 @@
                     </div>
                     <span class="mb-3">or use your email password</span>
                     <input type="text" placeholder="Email hoặc tên đăng nhập" name="email_or_username" required>
-                    <input type="password" placeholder="Mật khẩu"  id="psw" name="password" required>
+                    <input type="password" placeholder="Mật khẩu" id="psw" name="password" required>
                     <a href="{{ route('auth.forget') }}">Forget Your Password?</a>
                     <button type="submit">Sign In</button>
                 </form>
@@ -156,8 +156,6 @@
             document.getElementById('registerForm')?.addEventListener('submit', function(event) {
                 handleFormSubmit(event, 'input[name="password_register"]');
             });
-
-
         </script>
     @endpush
 @endsection
