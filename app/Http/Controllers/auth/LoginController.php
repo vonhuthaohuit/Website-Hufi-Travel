@@ -135,9 +135,7 @@ class LoginController extends Controller
                 }
                 return redirect()->route('home');
             }
-            return back()->withErrors([
-                'message' => 'Thông tin đăng nhập không chính xác.',
-            ])->withInput();
+            return back()->with('error', "Sai mật khẩu hoặc tên đăng nhập!");
         } catch (\Exception $th) {
             Log::error('Error in registration process:', ['error' => $th->getMessage()]);
             return redirect()->back()->with('error', "Đăng nhập không thành công");
