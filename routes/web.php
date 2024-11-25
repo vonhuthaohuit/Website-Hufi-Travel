@@ -4,10 +4,12 @@ use App\DataTables\PhanCongNhanVienDataTable;
 use App\Http\Controllers\backend\KhuyenMaiController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\auth\ResetPasswordController;
 use App\Http\Controllers\backend\DiemDuLichController;
 use App\Http\Controllers\backend\HomeController as BackendHomeController;
 use App\Http\Controllers\frontend\TourController;
 use App\Http\Controllers\backend\AuthController;
+use App\Http\Controllers\backend\BackupAndRestoreControlelr;
 use App\Http\Controllers\dattour\DatTourController;
 use App\Http\Controllers\backend\BlogController;
 use App\Http\Controllers\backend\FooterGridOneController;
@@ -33,6 +35,8 @@ use App\Http\Controllers\backend\PhuongTien_TourController;
 use App\Http\Controllers\backend\PhuongTienController;
 use App\Http\Controllers\backend\LoaiBlogController;
 use App\Http\Controllers\backend\LoaiTourController;
+use App\Http\Controllers\backend\nhanvien\DashboardController;
+use App\Http\Controllers\backend\StatisticController;
 use App\Http\Controllers\backend\SubscriberController;
 use App\Http\Controllers\backend\TourController as BackendTourController;
 use App\Http\Controllers\backend\UserBEController;
@@ -77,10 +81,6 @@ Route::get('/', [
     "index"
 ])->name('home');
 
-Route::middleware('auth:sanctum')->post('/logout', [LoginController::class, 'logout']);
-
-
-
 Route::get('/google-sign-in', [
     LoginController::class,
     'getGoogleSignInUrl'
@@ -91,9 +91,7 @@ Route::get('/auth/login-google-callback', [
     'loginCallback'
 ])->name('Callback');
 
-Route::post('/login', [LoginController::class, 'login'])->name('login');
-
-
+Route::post('/login', [LoginController::class, 'login'])->name('PostLogin');
 
 
 Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
@@ -146,16 +144,21 @@ Route::post('/search-tour', [\App\Http\Controllers\backend\TourController::class
 
 
 // Login
-Route::get('/index', [LoginController::class, 'index'])->name('login_view');
+Route::get('/login', [LoginController::class, 'index'])->name('login_view');
 Route::post('/register', [LoginController::class, 'register'])->name('register');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/forget-password',[ResetPasswordController::class,'forgetPassword'])->name('auth.forget') ;
+Route::post('/forget-password',[ResetPasswordController::class,'forgetPasswordPost'])->name('auth.forget.post') ;
 
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/reset-password/{token}',[ResetPasswordController::class,'resetPassword'])->name('auth.reset') ;
+Route::post('/reset-password',[ResetPasswordController::class,'resetPasswordPost'])->name('auth.reset.post') ;
 
 
-Route::get('/tour/{slug}', [TourController::class, 'index'])->name('tour.detail');
+
 Route::get('/danh-sach-tour/search', [TourController::class, 'search'])->name('tour.search');
 
 
+Route::get('/tour/{slug}', [TourController::class, 'index'])->name('tour.detail');
 
 
 Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
@@ -228,6 +231,17 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
     Route::delete('subscribers/{id}', [SubscriberController::class, 'destory'])->name('subscribers.destory');
     Route::post('subscribers-send-mail', [SubscriberController::class, 'sendMail'])->name('subscribers-send-mail');
 
+    //Thống kê báo cáo
+    Route::get('statistic/khachhang/index',[StatisticController::class,'viewStatisticKhachHang'])->name('statistic.khachhang.index') ;
+    Route::get('statistic/khachhang',[StatisticController::class,'statisticKhachHang'])->name('statistic.khachhang');
+    Route::get('statistic/doanhthu',[StatisticController::class,'viewstatisticDoanhThu'])->name('statistic.doanhthu');
+    // Sao lưu phục hồi
+    Route::get('backup-restore', [BackupAndRestoreControlelr::class, 'index'])->name('backup.index');
+    Route::get('/backup', [BackupAndRestoreControlelr::class, 'backup'])->name('backup.create');
+    Route::post('restore', [BackupAndRestoreControlelr::class, 'restore'])->name('backup.restore');
+    Route::post('restore-schedule', [BackupAndRestoreControlelr::class, 'scheduleBackup'])->name('backup.schedule');
+    Route::post('remove-schedule', [BackupAndRestoreControlelr::class, 'removeSchedules'])->name('backup.remove');
+
 
     // Hoá đơn, phiếu đặt tour
     Route::get('hoadon', [HoaDonController::class, 'index'])->name('hoadon.index');
@@ -251,7 +265,12 @@ Route::get('/blog/{slug}', [FrontendBlogController::class, 'blogDetail'])->name(
 Route::get('/blog', [FrontendBlogController::class, 'blog'])->name('blog.blog-all');
 Route::get('/search', [FrontendBlogController::class, 'search'])->name('blog.search');
 
-
+Route::prefix('nhanvien')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('nv.dashboard');
+    Route::resource('loaitour', LoaiTourController::class);
+    Route::resource('khuyenmai', KhuyenMaiController::class);
+    Route::resource('blog', BlogController::class, ['as' => 'nv']);
+});
 
 // Route::middleware('user')->group(function()
 // {

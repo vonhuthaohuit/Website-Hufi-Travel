@@ -11,6 +11,8 @@ use App\Models\LoaiTour;
 use App\Models\PhuongTien;
 use App\Models\Tour;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 
 class TourController extends Controller
@@ -139,9 +141,38 @@ class TourController extends Controller
             ->paginate(12);
 
         $tenDiemDuLich = $slug;
-
         $tourCategories = LoaiTour::take(5)->get();
 
+
         return view('frontend.tour.tour-by-destination', compact('tour', 'tourCategories', 'tenDiemDuLich'));
+    }
+    public function tourSearchImageAI($request)
+    {
+        dd($request->all());
+        $image = $request->file('image');
+
+        $response = Http::attach(
+            'image',
+            file_get_contents($image->getRealPath()),
+            $image->getClientOriginalName()
+        )->post('http://.../search-image');
+
+        $similarImages = $response->json();
+
+        $imageFolder = public_path('frontend/images');
+
+        $allImages = File::files($imageFolder);
+
+        $matchedTours = [];
+        foreach ($allImages as $file) {
+            if (in_array($file->getFilename(), $similarImages)) {
+                $tour = Tour::where('image_name', $file->getFilename())->first();
+                if ($tour) {
+                    $matchedTours[] = $tour;
+                }
+            }
+        }
+
+        return view('search-results', ['tours' => $matchedTours]);
     }
 }

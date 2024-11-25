@@ -1,7 +1,7 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href=""><img src="{{ asset('frontend/images/logo.png') }}" alt="HUFI Travel" width="50px"> HUFI
+            <a href="{{ route('dashboard') }}"><img src="{{ asset('frontend/images/logo.png') }}" alt="HUFI Travel" width="50px"> HUFI
                 Travel</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
@@ -13,56 +13,43 @@
                 <a href="{{ route('dashboard') }}" class="nav-link"><i
                         class="fas fa-fire"></i><span>Dashboard</span></a>
             </li>
-            <li class="menu-header">Quản lý tour</li>
-            <li
-                class="dropdown {{ setActive([
-                    'tour.*',
-                    'loaitour.*',
-                    'khuyenmai.*',
-                    'diemdulich.*',
-                ]) }}">
+            <li class="menu-header">Quản lý chức năng</li>
+            <li class="dropdown {{ setActive(['tour.*', 'loaitour.*', 'khuyenmai.*', 'diemdulich.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i>
-                    <span>Manage Tours</span></a>
+                    <span>Quản lý tour</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{ setActive(['tour.*']) }}">
                         <a class="nav-link" href="{{ route('tour.index') }}">Tours</a>
                     </li>
                     <li class="{{ setActive(['loaitour.*']) }}">
-                        <a class="nav-link" href="{{ route('loaitour.index') }}">Tour Categoty</a>
+                        <a class="nav-link" href="{{ route('loaitour.index') }}">Loại tour</a>
                     </li>
                     <li class="{{ setActive(['khuyenmai.*']) }}">
-                        <a class="nav-link" href="{{ route('khuyenmai.index') }}">Coupons</a>
+                        <a class="nav-link" href="{{ route('khuyenmai.index') }}">Khuyến mãi</a>
                     </li>
                     <li class="{{ setActive(['diemdulich.*']) }}">
-                        <a class="nav-link" href="{{ route('diemdulich.index') }}">Tourist Spot</a>
+                        <a class="nav-link" href="{{ route('diemdulich.index') }}">Điểm du lịch</a>
                     </li>
+
+
                 </ul>
             </li>
 
-            <li
-                class="dropdown {{ setActive([
-                    'khachsan.*',
-                    'phuongtien.*',
-                ]) }}">
+            <li class="dropdown {{ setActive(['khachsan.*', 'phuongtien.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-cart-plus"></i>
                     <span>Quản lý dịch vụ</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{ setActive(['khachsan.*']) }}"><a class="nav-link"
-                            href="{{ route('khachsan.index') }}">Hotel</a>
+                            href="{{ route('khachsan.index') }}">Khách sạn</a>
                     </li>
                     <li class="{{ setActive(['phuongtien.*']) }}"><a class="nav-link"
                             href="{{ route('phuongtien.index') }}">
-                            Vehicle</a></li>
+                            Phương tiện</a></li>
+
                 </ul>
             </li>
 
-            {{-- <li class="{{ setActive(['admin.transaction']) }}"><a class="nav-link" href=""><i
-                        class="fas fa-money-bill-alt"></i>
-                    <span>Transactions</span></a>
-            </li> --}}
-
-            <li
-                class="dropdown {{ setActive(['chucvu.*', 'nhanvien.*', 'phongban.*', 'quyen.*', 'nhomquyen.*']) }}">
+            <li class="dropdown {{ setActive(['chucvu.*', 'nhanvien.*', 'phongban.*', 'quyen.*', 'nhomquyen.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
                     <span>Quản lý quyền hạn</span></a>
                 <ul class="dropdown-menu">
@@ -82,18 +69,18 @@
         </ul>
         </li>
 
-        {{-- <li class="dropdown {{ setActive(['phancongnhanvien.*', 'admin.withdraw.index']) }}">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-wallet"></i>
-                    <span>Phân công công việc</span></a>
-                <ul class="dropdown-menu">
+        <li class="dropdown {{ setActive(['phancongnhanvien.*', 'admin.withdraw.index']) }}">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-wallet"></i>
+                <span>Phân công công việc</span></a>
+            <ul class="dropdown-menu">
 
-                    <li class="{{ setActive(['phancongnhanvien.*']) }}"><a class="nav-link"
-                            href="{{ route('danhsachtour') }}">Danh sách tour</a></li>
+                <li class="{{ setActive(['phancongnhanvien.*']) }}"><a class="nav-link"
+                        href="{{ route('danhsachtour') }}">Danh sách tour</a></li>
 
-                    <li class="{{ setActive(['admin.withdraw.index']) }}"><a class="nav-link"
-                            href="">Withdraw List</a></li>
-                </ul>
-            </li> --}}
+                <li class="{{ setActive(['admin.withdraw.index']) }}"><a class="nav-link" href="">Tour sắp
+                        tới</a></li>
+            </ul>
+        </li>
 
         {{-- <li
                 class="dropdown {{ setActive([
@@ -124,18 +111,34 @@
         {{-- <li><a class="nav-link {{ setActive(['admin.advertisement.*']) }}" href=""><i
                         class="fas fa-ad"></i>
                     <span>Advertisement</span></a></li> --}}
+        <li><a class="nav-link {{ setActive(['']) }}" href="{{ route('backup.index') }}"><i class="fas fa-user"></i>
+                <span>Sao lưu và phục hồi</span></a></li>
+        <li class="dropdown {{ setActive(['Statistic.*']) }}">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-blogger-b"></i>
+                <span>Thống kê báo cáo</span></a>
+            <ul class="dropdown-menu">
 
-            <li class="dropdown {{ setActive(['loaiblog.*', 'blog.*']) }}">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                        class="fab fa-blogger-b"></i> <span>Quản lý Blog</span></a>
-                <ul class="dropdown-menu">
+                <li class="{{ setActive(['Statistic.*']) }}"><a class="nav-link" href="{{ route('statistic.doanhthu') }}">Thống kê doanh thu</a>
+                </li>
+                <li class="{{ setActive(['statistic.khachhang.*']) }}"><a class="nav-link"
+                        href="{{ route('statistic.khachhang.index') }}">Thống kê khách hàng</a></li>
 
-                    <li class="{{ setActive(['loaiblog*']) }}"><a class="nav-link"
-                            href="{{ route('loaiblog.index') }}">Loại Blog</a></li>
-                    <li class="{{ setActive(['blog.*']) }}"><a class="nav-link"
-                            href="{{ route('blog.index') }}">Blog</a></li>
-                </ul>
-            </li>
+            </ul>
+        </li>
+
+
+        <li class="dropdown {{ setActive(['loaiblog.*', 'blog.*']) }}">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-blogger-b"></i>
+                <span>Quản lý Blog</span></a>
+            <ul class="dropdown-menu">
+
+                <li class="{{ setActive(['loaiblog*']) }}"><a class="nav-link"
+                        href="{{ route('loaiblog.index') }}">Loại Blog</a></li>
+                <li class="{{ setActive(['blog.*']) }}"><a class="nav-link"
+                        href="{{ route('blog.index') }}">Blog</a>
+                </li>
+            </ul>
+        </li>
 
         {{-- <li><a class="nav-link {{ setActive(['admin.messages.index']) }}" href=""><i
                         class="fas fa-user"></i>
@@ -218,6 +221,45 @@
 
                 </ul>
             </li> --}}
+
+        <li class="{{ setActive(['footer-grid-two.*']) }}">
+            <a class="nav-link" href="{{ route('footer-grid-two.index') }}">Footer Grid Two</a>
+        </li>
+
+        <li class="{{ setActive(['footer-grid-three.*']) }}">
+            <a class="nav-link" href="{{ route('footer-grid-three.index') }}">Footer Grid Three</a>
+        </li>
+        <li class="{{ setActive(['footer-socials.*']) }}">
+            <a class="nav-link" href="{{ route('footer-socials.index') }}">Footer Socials</a>
+        </li>
+        </ul>
+        </li>
+        <li
+            class="dropdown {{ setActive([
+                'admin.vendor-requests.index',
+                'admin.customer.index',
+                'admin.vendor-list.index',
+                'admin.manage-user.index',
+                'admin-list.index',
+            ]) }}">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-users"></i>
+                <span>Users</span></a>
+            <ul class="dropdown-menu">
+                <li class="{{ setActive(['admin.customer.index']) }}"><a class="nav-link" href="">Customer
+                        list</a></li>
+                <li class=""><a class="nav-link" href="">Vendor list</a></li>
+
+                <li class="{{ setActive(['admin.vendor-requests.index']) }}"><a class="nav-link"
+                        href="">Pending vendors</a></li>
+
+                <li class="{{ setActive(['admin.admin-list.index']) }}"><a class="nav-link" href="">Admin
+                        Lists</a></li>
+
+                <li class="{{ setActive(['admin.manage-user.index']) }}"><a class="nav-link" href="">Manage
+                        user</a></li>
+
+            </ul>
+        </li>
 
 
         <li><a class="nav-link {{ setActive(['subscribers.*']) }}" href="{{ route('subscribers.index') }}"><i

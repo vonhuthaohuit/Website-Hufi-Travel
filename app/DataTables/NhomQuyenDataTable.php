@@ -91,8 +91,8 @@ class NhomQuyenDataTable extends DataTable
             ->width(30)
             ->addClass('text-center'),
             Column::make('tennhomquyen')->width(200)->title('Tên quyền'),
-            Column::make('created_at')->width(150)->title('Ngày tạo'),
-            Column::make('updated_at')->width(150)->title('Cập nhật lần cuối'),
+            Column::make('created_at')->width(150)->title('Ngày tạo') ->addClass('text-center'),
+            Column::make('updated_at')->width(150)->title('Cập nhật lần cuối') ->addClass('text-center'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)

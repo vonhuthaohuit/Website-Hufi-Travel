@@ -8,10 +8,9 @@
         <div class="container-login container-xl" id="container">
             <div class="form-container sign-up">
 
-                <form action="{{ asset('register') }}" method="POST">
+                <form action="{{ route('register') }}" id="registerForm" method="POST">
                     @csrf
                     <h2 style="font-weight: 800; color: rgb(1, 148, 243);">Create Account</h2>
-
                     <div class="social-icons">
                         <a href="#" class="icon"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                                 width="20" height="20" viewBox="0 0 48 48">
@@ -67,21 +66,12 @@
                     </span>
                     <input type="text" placeholder="Name" name="name" required>
                     <input type="email" placeholder="Email" name="email" required>
-                    <input type="password" placeholder="Password" name="password" required>
+                    <input type="password" placeholder="Password" name="password_register" required>
                     <button type="submit">Sign Up</button>
-
                 </form>
             </div>
             <div class="form-container sign-in">
-                {{-- @if (session('success'))
-                   <p>
-                        {{ session('success') }}
-                    </p>
-                    @php
-                        session()->forget('success');
-                    @endphp
-                @endif --}}
-                <form action="{{ route('login') }}" method="POST">
+                <form action="{{ route('PostLogin') }}" id="loginForm" method="POST">
                     @csrf
                     <h2 style="font-weight: 800; color:rgb(1, 148, 243);">Sign In</h2>
                     <div class="social-icons">
@@ -134,9 +124,9 @@
                         </a>
                     </div>
                     <span class="mb-3">or use your email password</span>
-                    <input type="email" placeholder="Email" name="email_login">
-                    <input type="password" placeholder="Password" name="password_login">
-                    <a href="#">Forget Your Password?</a>
+                    <input type="text" placeholder="Email hoặc tên đăng nhập" name="email_or_username" required>
+                    <input type="password" placeholder="Mật khẩu" id="psw" name="password" required>
+                    <a href="{{ route('auth.forget') }}">Forget Your Password?</a>
                     <button type="submit">Sign In</button>
                 </form>
             </div>
@@ -156,32 +146,16 @@
             </div>
         </div>
     </div>
-    @if (session('success'))
-        @push('script')
-            <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    var toastEl = document.getElementById('toast');
-                    var toast = new bootstrap.Toast(toastEl);
-                    toast.show(); // Hiện Toast
-                });
-            </script>
-        @endpush
-    @endif
+
     @push('script')
         <script src="{{ asset('frontend/js/scriptLogin.js') }}"></script>
+        <script>
+            // document.getElementById('loginForm')?.addEventListener('submit', function(event) {
+            //     handleFormSubmit(event, 'input[name="password"]');
+            // });
+            document.getElementById('registerForm')?.addEventListener('submit', function(event) {
+                handleFormSubmit(event, 'input[name="password_register"]');
+            });
+        </script>
     @endpush
-
-    <div aria-live="polite" aria-atomic="true" style="position: relative; z-index: 1050;">
-        <div class="toast-container">
-            <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <strong class="me-auto">Thông báo</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body">
-                    {{ session('success') }}
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection

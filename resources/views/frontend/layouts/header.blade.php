@@ -26,7 +26,15 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="{{ route('logout') }}">Đăng xuất</a></li>
+                                <li>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf <!-- Include CSRF token for security -->
+                                    </form>
+                                    <a class="dropdown-item" href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Đăng xuất
+                                    </a>
+                                </li>
+                                {{-- <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li> --}}
                             </ul>
                         </div>
                     @else
@@ -173,7 +181,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const header = document.getElementById('header');
             if (!header) return;
-
             window.addEventListener('scroll', function() {
                 if (window.scrollY > 50) {
                     header.classList.add('navbar-scrolled');

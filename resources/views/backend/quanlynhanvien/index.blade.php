@@ -13,7 +13,6 @@
                             <h4>Danh sách nhân viên</h4>
                             <div class="card-header-action">
                                 {{-- <a href="{{ route('khachsan.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> --}}
-                                    Create New</a>
                             </div>
                         </div>
                         <div class="card-body">

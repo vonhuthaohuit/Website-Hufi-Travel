@@ -45,7 +45,7 @@ class ChuongTrinhTourController extends Controller
         $chuongtrinhtour->ngay = $request->ngay;
         $chuongtrinhtour->mota = $request->mota;
         $chuongtrinhtour->matour = $request->tour_id;
-        DB::statement('CALL updateTourStatus(?)', [$chuongtrinhtour->matour]);
+        DB::statement('CALL proc_updateTourStatus(?)', [$chuongtrinhtour->matour]);
         $chuongtrinhtour->save();
         return redirect()->route('chuongtrinhtour.index',['tour_id' =>$request->tour_id])->with('success', 'Product updated successfully');;
     }
@@ -77,7 +77,7 @@ class ChuongTrinhTourController extends Controller
             'ngay' =>'required|string',
             'tour_id' =>'required'
         ]);
-        
+
         $chuongtrinhtour = ChuongTrinhTour::findOrFail($id);
         $chuongtrinhtour->tieude = $request->input('tieude');
         $chuongtrinhtour->mota = $request->input('mota');

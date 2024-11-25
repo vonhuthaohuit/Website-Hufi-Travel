@@ -49,7 +49,7 @@
             return $model->newQuery()
             ->where('matour', $tourid)
             ->with('phuongtien')
-            ->select('phuongtien_tour.*');
+            ->select('chitietphuongtientour.*');
         }
 
         /**
@@ -92,7 +92,7 @@
                 Column::computed('action')
                     ->exportable(false)
                     ->printable(false)
-                    ->width(60)
+                    ->width(100)
                     ->addClass('text-center'),
 
             ];

@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\ChiTietTour;
+use Carbon\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
@@ -35,7 +36,13 @@ class ChiTietTourDataTable extends DataTable
         {
             return $query->diemdulich->tendiemdulich ;
         })
+        ->editColumn('ngaybatdau', function ($query) {
+            return Carbon::parse($query->ngaybatdau)->format('d-m-Y'); // Định dạng ngày
+        })
 
+        ->editColumn('ngayketthuc', function ($query) {
+            return Carbon::parse($query->ngayketthuc)->format('d-m-Y'); // Định dạng ngày
+        })
         ->rawColumns(['action','matour','madiemdulich'])
         ->setRowId('id');
     }

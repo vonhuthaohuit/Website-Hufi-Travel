@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="{{ asset('backend/assets/modules/weather-icon/css/weather-icons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/modules/weather-icon/css/weather-icons-wind.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/modules/summernote/summernote-bs4.css') }}">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" />
@@ -25,11 +24,10 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('backend/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/css/components.css') }}">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/style_backup.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 
     <style>
         .form-group>label {
@@ -100,14 +98,16 @@
     <script src="{{ asset('backend/assets/modules/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/scripts.js') }}"></script>
     <script src="{{ asset('backend/assets/js/custom.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-    <script>
+    {{-- <script>
         @if ($errors->any())
             @foreach ($errors->all() as $error)
                 toastr.error("{{ $error }}")
             @endforeach
         @endif
-    </script>
+    </script> --}}
 
     <!-- Dynamic Delete alart -->
 
@@ -166,6 +166,36 @@
             })
 
         })
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kiểm tra nếu có thông báo thành công
+            @if (session('success'))
+                toastr.success("{{ session('success') }}");
+            @endif
+            // Kiểm tra nếu có thông báo lỗi
+            @if (session('error'))
+                toastr.error("{{ session('error') }}");
+            @endif
+            // Cấu hình mặc định cho toastr (tuỳ chỉnh nếu cần)
+            toastr.options = {
+                "closeButton": true, // Hiển thị nút đóng
+                "debug": false, // Tắt chế độ debug
+                "newestOnTop": true, // Hiển thị thông báo mới nhất trên cùng
+                "progressBar": true, // Hiển thị thanh tiến trình
+                "positionClass": "toast-top-right", // Vị trí thông báo
+                "preventDuplicates": false, // Không ngăn thông báo trùng lặp
+                "onclick": null,
+                "showDuration": "300", // Thời gian hiển thị (ms)
+                "hideDuration": "1000", // Thời gian ẩn đi (ms)
+                "timeOut": "5000", // Thời gian tự động đóng (ms)
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        });
     </script>
     @stack('scripts')
 </body>

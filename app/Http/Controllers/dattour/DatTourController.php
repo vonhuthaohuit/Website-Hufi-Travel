@@ -153,7 +153,6 @@ class DatTourController extends Controller
         $tongTienPhieuDatTour = 0;
         $tongSoLuong = $data['ticket_total_customer'];
         $danhSachKhachHangDiTour = new Collection();
-
         foreach ($data['td_ticket'] as $key => $value) {
             $khachHangDiTour = KhachHang::create([
                 'hoten' => $value['td_name'],

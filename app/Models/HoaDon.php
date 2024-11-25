@@ -13,6 +13,7 @@ class HoaDon extends Model
 
     protected $primaryKey = 'mahoadon';
     protected $fillable = [
+        'makhachhang',
         'maphieudattour',
         'tongsotien',
         'phuongthucthanhtoan',

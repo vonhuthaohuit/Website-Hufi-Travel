@@ -16,14 +16,13 @@ class ChiTietTourController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ChiTietTourDataTable $dataTable,Request $request)
+    public function index(ChiTietTourDataTable $dataTable, Request $request)
     {
-        if (!$request->has('tour_id') || !Tour::where('matour', $request->tour_id)->exists())
-        {
+        if (!$request->has('tour_id') || !Tour::where('matour', $request->tour_id)->exists()) {
             return redirect()->back()->with('error', 'Tour ID không hợp lệ hoặc không tồn tại.');
         }
         $tour = Tour::findOrFail($request->tour_id);
-        return $dataTable->render('backend.tour.chitiettour.index',compact('tour'));
+        return $dataTable->render('backend.tour.chitiettour.index', compact('tour'));
     }
 
     /**
@@ -33,7 +32,7 @@ class ChiTietTourController extends Controller
     {
         $diemdulich = DiemDuLich::all();
         $tour = Tour::findOrFail($request->tour_id);
-        return view('backend.tour.chitiettour.create',compact('tour','diemdulich'));
+        return view('backend.tour.chitiettour.create', compact('tour', 'diemdulich'));
     }
 
     /**
@@ -45,25 +44,30 @@ class ChiTietTourController extends Controller
             'ngaybatdau' => 'required',
             'gia' => 'required',
             'tour_id' => 'required|exists:tour,matour',
-            'madiemdulich' =>'required|exists:diemdulich,madiemdulich',
+            'madiemdulich' => 'required|exists:diemdulich,madiemdulich',
         ]);
 
         $chuongtrinhtour = new ChiTietTour();
         $chuongtrinhtour->ngaybatdau = $request->ngaybatdau;
         $chuongtrinhtour->matour = $request->tour_id;
         $chuongtrinhtour->madiemdulich = $request->madiemdulich;
-        $ngayketthuc = $this->createNgayKetThuc($chuongtrinhtour->matour,$chuongtrinhtour->madiemdulich,$chuongtrinhtour->ngaybatdau);
+        $ngayketthuc = $this->createNgayKetThuc($chuongtrinhtour->matour, $chuongtrinhtour->madiemdulich, $chuongtrinhtour->ngaybatdau);
         $chuongtrinhtour->ngayketthuc = $ngayketthuc;
         $chuongtrinhtour->giachitiettour = $request->gia;
         $chuongtrinhtour->save();
-        return redirect()->route('chitiettour.index',['tour_id' =>$request->tour_id])->with('success', 'Product updated successfully');;
+        $giatour =  DB::select('SELECT func_giatour(?) AS giatour', [$request->tour_id]);
+        $giatour = $giatour[0]->giatour ?? 0;
+        $tour = Tour::where('matour', $request->tour_id)->first();
+        $tour->giatour = $giatour;
+        $tour->save();
+        return redirect()->route('chitiettour.index', ['tour_id' => $request->tour_id])->with('success', 'Product updated successfully');;
     }
 
-    public function createNgayKetThuc($id,$madiemdulich,$ngaybatdau)
+    public function createNgayKetThuc($id, $diemdulichID, $ngaybatdau)
     {
-        $ngayketthuc = DB::select("SELECT func_create_NgayKetThuc(?, ?, ?) AS ngayketthuc", [
+        $ngayketthuc = DB::select("SELECT func_create_NgayKetThuc(?,?,?) AS ngayketthuc", [
             $id,          // Tham số mã tour (id)
-            $madiemdulich,  // Tham số mã điểm du lịch
+            $diemdulichID,
             $ngaybatdau  // Tham số ngày bắt đầu
         ]);
         return $ngayketthuc[0]->ngayketthuc;
@@ -72,20 +76,17 @@ class ChiTietTourController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-
-    }
+    public function show(string $id) {}
 
     /**
      * Show the form for editing the specified resource.
-     *///,$madiemdulich
-    public function edit( $id,$madiemdulich)
+     */ //,$madiemdulich
+    public function edit($id, $madiemdulich)
     {
-        $chitiettour = ChiTietTour::where('matour',$id)
-                                    ->where('madiemdulich',$madiemdulich)
-                                    ->first() ;
-        return view('backend.tour.chitiettour.edit',compact('chitiettour')) ;
+        $chitiettour = ChiTietTour::where('matour', $id)
+            ->where('madiemdulich', $madiemdulich)
+            ->first();
+        return view('backend.tour.chitiettour.edit', compact('chitiettour'));
     }
 
     /**
@@ -97,27 +98,36 @@ class ChiTietTourController extends Controller
             'ngaybatdau' => 'required',
             'gia' => 'required',
             'tour_id' => 'required|exists:tour,matour',
-            'madiemdulich' =>'required',
+            'madiemdulich' => 'required',
         ]);
-        $chitiettour = ChiTietTour::where('matour',$id)
-                                    ->where('madiemdulich',$request->madiemdulich)
-                                    ->update([
-                                        'ngaybatdau' =>$request->ngaybatdau,
-                                        'ngayketthuc'=>$this->createNgayKetThuc($request->tour_id,$request->madiemdulich,$request->ngaybatdau),
-                                        'giachitiettour'=>$request->gia
-                                    ]);
-        return redirect()->route('chitiettour.index',['tour_id' =>$request->tour_id])->with('success', 'Product updated successfully');;
+        $chitiettour = ChiTietTour::where('matour', $id)
+            ->where('madiemdulich', $request->madiemdulich)
+            ->update([
+                'ngaybatdau' => $request->ngaybatdau,
+                'ngayketthuc' => $this->createNgayKetThuc($request->tour_id, $request->madiemdulich, $request->ngaybatdau),
+                'giachitiettour' => $request->gia
+            ]);
+        $giatour =  DB::select('SELECT func_giatour(?) AS giatour', [$request->tour_id]);
+        $giatour = $giatour[0]->giatour ?? 0;
+        $tour = Tour::where('matour', $request->tour_id)->first();
+        $tour->giatour = $giatour;
+        $tour->save();
+        return redirect()->route('chitiettour.index', ['tour_id' => $request->tour_id])->with('success', 'Product updated successfully');;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id,string $madiemdulich)
+    public function destroy(string $id, string $madiemdulich)
     {
-       ChiTietTour::where('matour',$id)
-        ->where('madiemdulich',$madiemdulich)
-        ->delete() ;
+        ChiTietTour::where('matour', $id)
+            ->where('madiemdulich', $madiemdulich)
+            ->delete();
+        $giatour =  DB::select('SELECT func_giatour(?) AS giatour', [$id]);
+        $giatour = $giatour[0]->giatour ?? 0;
+        $tour = Tour::where('matour', $id)->first();
+        $tour->giatour = $giatour;
+        $tour->save();
         return response(['status' => 'success', 'message' => 'Xóa thành công']);
-
     }
 }
