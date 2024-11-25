@@ -82,9 +82,9 @@ class PhongBanDataTable extends DataTable
             ->printable(false)
             ->width(30)
             ->addClass('text-center'),
-            Column::make('tenphongban'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('tenphongban')->width(100)->title('Tên phòng ban'),
+            Column::make('created_at')->width(100)->title('Ngày tạo'),
+            Column::make('updated_at')->width(100)->title('Cập nhật lần cuối'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)

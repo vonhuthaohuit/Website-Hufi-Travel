@@ -5,6 +5,7 @@ namespace App\Http\Controllers\thanhtoan;
 use App\Http\Controllers\Controller;
 use App\Models\HoaDon;
 use App\Models\PhieuDatTour;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class ThanhToanVNPayController extends Controller
 {
+
     public function createPayment(Request $request)
     {
         $data = $request->all();
@@ -108,7 +110,6 @@ class ThanhToanVNPayController extends Controller
                 $phieuDatTour->trangthaidattour = 'Đã thanh toán';
                 $phieuDatTour->save();
             }
-
             // Tạo hóa đơn với trạng thái thanh toán
             HoaDon::create([
                 'maphieudattour' => $phieuDatTour->maphieudattour,

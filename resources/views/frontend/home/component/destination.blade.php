@@ -80,6 +80,8 @@
 
 
 {{-- start destination --}}
+
+
 <section class="destinations-one">
     <div class="container-xl">
         <div class="section-title text-center">
@@ -90,13 +92,13 @@
             style="visibility: visible; animation-duration: 2500ms; animation-delay: 100ms; animation-name: slideInLeft;">
             <img src="{{ asset('frontend/images/destinations-two-shape.png') }}" alt="">
         </div>
+
         <div class="row masonary-layout">
             @foreach ($destinations as $item => $destination)
                 @php
                     $index = $item + 1;
                     $columnClass = $index == 1 || $index == 3 ? 'col-xl-3 col-lg-3' : 'col-xl-6 col-lg-6';
                 @endphp
-
                 <div class="{{ $columnClass }}">
                     <a href="{{ route('tour.byDestination', $destination->tendiemdulich) }}">
                         <div class="destinations-one__single">

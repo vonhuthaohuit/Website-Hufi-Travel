@@ -22,19 +22,18 @@ class KhachSan_TourDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addIndexColumn()
+            ->addIndexColumn()
 
-        ->addColumn('action', function ($query) {
+            ->addColumn('action', function ($query) {
 
-            $editBtn = "<a href='" . route('khachsan_tour.edit', [$query->matour, $query->makhachsan]) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-            $deleteBtn = "<a href='" . route('khachsan_tour.delete', [$query->matour, $query->makhachsan]) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->matour}'><i class='far fa-trash-alt'></i></a>";
-            return $editBtn . $deleteBtn;
-        })
-        ->addColumn('makhachsan',function($query)
-        {
-            return $query->khachsan->tenkhachsan ;
-        })
-        ->setRowId(['action','makhachsan'])
+                $editBtn = "<a href='" . route('khachsan_tour.edit', [$query->matour, $query->makhachsan]) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+                $deleteBtn = "<a href='" . route('khachsan_tour.delete', [$query->matour, $query->makhachsan]) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->matour}'><i class='far fa-trash-alt'></i></a>";
+                return $editBtn . $deleteBtn;
+            })
+            ->addColumn('makhachsan', function ($query) {
+                return $query->khachsan->tenkhachsan;
+            })
+            ->setRowId(['action', 'makhachsan'])
 
             ->setRowId('id');
     }
@@ -46,9 +45,9 @@ class KhachSan_TourDataTable extends DataTable
     {
         $tourid = request()->tour_id;
         return $model->newQuery()
-        ->where('matour', $tourid)
-        ->with('khachsan')
-        ->select('khachsan_tour.*');
+            ->where('matour', $tourid)
+            ->with('khachsan')
+            ->select('chitietkhachsantour.*');
     }
 
     /**
@@ -57,20 +56,20 @@ class KhachSan_TourDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('khachsan_tour-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('chitietkhachsantour-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -79,20 +78,22 @@ class KhachSan_TourDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('DT_RowIndex')
-            ->title('STT')
-            ->exportable(false)
-            ->printable(false)
-            ->width(30)
-            ->addClass('text-center'),
+
             Column::make('makhachsan')->width(300)->title('Tên khách sạn'),
-            Column::make('vitriphong')->width('250')->title('Vị trí phòng'),
+            Column::make('vitriphong')->width(250)->title('Vị trí phòng'),
             Column::make('succhua')->width(250)->title('Sức chứa khu vực'),
+            Column::computed('DT_RowIndex')
+                ->title('STT')
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(150)
+                ->addClass('text-center'),
+
 
         ];
     }

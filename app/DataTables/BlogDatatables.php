@@ -26,6 +26,10 @@ class BlogDatatables extends DataTable
             ->addIndexColumn()
             ->addColumn('action', function ($query) {
                 $editBtn = "<a href='" . route('blog.edit', $query->mablogtour) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+                if(request()->routeIs('nv.blog.index'))
+                {
+                    return $editBtn;
+                }
                 $deleteBtn = "<a href='" . route('blog.destroy', $query->mablogtour) . "' class='btn btn-danger ml-2 delete-item' data-id='{ $query->mablogtour }'><i class='far fa-trash-alt'></i></a>";
                 return $editBtn . $deleteBtn;
             })

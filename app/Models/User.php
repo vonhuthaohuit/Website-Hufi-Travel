@@ -58,9 +58,6 @@ class User extends Authenticatable
     public function nhomquyen(){
         return $this->belongsTo(nhomquyen::class,'manhomquyen','manhomquyen');
     }
-
-
-
     public function khachhang()
     {
         return $this->hasOne(KhachHang::class,'mataikhoan');

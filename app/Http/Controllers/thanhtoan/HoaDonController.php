@@ -44,6 +44,7 @@ class HoaDonController extends Controller
 
     public function TaoHoaDon($phieuDatTour, $thongTinNguoiDatTour, $tongSoTien, $phuongThucThanhToan, $trangThaiThanhToan)
     {
+
         HoaDon::create([
             'phieuDatTour' => $phieuDatTour,
             'tongsotien' => $tongSoTien,
