@@ -37,7 +37,7 @@ class LoaiTourDatatables extends DataTable
      */
     public function query(LoaiTour $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('maloaitour', 'asc');
     }
 
     /**

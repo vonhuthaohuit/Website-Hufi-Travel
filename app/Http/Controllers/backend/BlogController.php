@@ -114,8 +114,7 @@ class BlogController extends Controller
             if ($request->hasFile('hinhanh')) {
                 $imagePath = $this->updateImage($request, 'hinhanh', 'frontend/images/blog/uploads', $blog->hinhanh);
                 $blog->hinhanh = $imagePath;
-            }
-            else {
+            } else {
                 $blog->hinhanh = $blog->hinhanh;
             }
 
@@ -128,12 +127,14 @@ class BlogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy($mablogtour)
     {
-        $blog = BlogTour::find($id)->delete();
+        $blog = BlogTour::find($mablogtour);
         $this->deleteImage($blog->hinhanh);
+        $blog->delete();
         return response(['status' => 'success', 'message' => 'Xóa blog thành công']);
     }
+
 
     public function changeStatus(Request $request)
     {
