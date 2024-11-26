@@ -44,7 +44,7 @@ class LoginController extends Controller
                     'google_id' => $user->id,
                     'matkhau' => bcrypt('123456dumy'),
                     'trangthai' => 'Hoạt động',
-                    'manhomquyen' => '1',
+                    'manhomquyen' => 2,
                 ]);
                 $khachhang = new KhachHang();
                 $khachhang->hoten = $user->name;
@@ -54,7 +54,7 @@ class LoginController extends Controller
                 $khachhang->diachi = null;
                 $khachhang->hinhdaidien = null;
                 $khachhang->maloaikhachhang = 1;
-                $khachhang->mataikhoan = $newUser->id;
+                $khachhang->mataikhoan = $newUser->mataikhoan;
                 $khachhang->save();
                 Auth::login($newUser);
                 Session::put('user', $newUser);

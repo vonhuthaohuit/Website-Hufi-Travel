@@ -18,18 +18,7 @@
                     @csrf
                     <p>Chọn vào thời gian ở dưới để bắt đầu sao lưu dữ liệu theo lịch.</p>
                     <div class="schedule-options">
-                        <div class="form-group" id="weekly_options" style="display: none;margin-bottom:-5px">
-                            <label for="backup_day">Ngày trong tuần :</label>
-                            <select name="backup_day" id="backup_day" class="form-control">
-                                <option value="Sunday">Chủ nhật</option>
-                                <option value="Monday">Thứ 2</option>
-                                <option value="Tuesday">Thứ 3</option>
-                                <option value="Wednesday">Thứ 4</option>
-                                <option value="Thursday">Thứ 5</option>
-                                <option value="Friday">Thứ 6</option>
-                                <option value="Saturday">Thứ 7</option>
-                            </select>
-                        </div>
+
                         <label for="backup-time">Chọn giờ :</label>
                         <input type="time" id="backup-time" name="backup_time">
                         <label for="backup-frequency">Chọn tần suất :</label>
@@ -39,10 +28,22 @@
                             <option value="monthly">Hàng tháng</option>
                         </select>
                     </div>
+                    <div class="form-group" id="weekly_options" style="display: none;margin-bottom:-5px">
+                        <label for="backup_day">Ngày trong tuần :</label>
+                        <select name="backup_day" id="backup_day" class="form-control">
+                            <option value="Sunday">Chủ nhật</option>
+                            <option value="Monday">Thứ 2</option>
+                            <option value="Tuesday">Thứ 3</option>
+                            <option value="Wednesday">Thứ 4</option>
+                            <option value="Thursday">Thứ 5</option>
+                            <option value="Friday">Thứ 6</option>
+                            <option value="Saturday">Thứ 7</option>
+                        </select>
+                    </div>
                     <div class="form-group" id="monthly_options" style="display: none;">
                         <label for="backup_day_of_month">Ngày trong tháng :</label>
                         <input type="number" name="backup_day_of_month" id="backup_day_of_month" class="form-control"
-                            min="1" max="31"    >
+                            min="1" max="31">
                     </div>
                     <button type="submit">
                         <i class="fas fa-cloud-download-alt"></i>Sao lưu theo lịch
