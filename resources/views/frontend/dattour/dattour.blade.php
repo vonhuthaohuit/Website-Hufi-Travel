@@ -20,11 +20,6 @@
                     <div class="content-body">
                         <p><b>{{ $tour->tentour }}</b></p>
                         <p>Thời gian: {{ $tour->thoigiandi }} </p>
-                        <p>
-                            Ngày khởi hành:
-                            {{ optional($tour->chitiettour->first())->ngaybatdau ? \Carbon\Carbon::parse($tour->chitiettour->first()->ngaybatdau)->format('d-m-Y') : 'Đang cập nhật' }}
-                        </p>
-
                         <p>Nơi khởi hành: {{ $tour->noikhoihanh }}</p>
                         @if ($tour->giatourgiam == null || $tour->giatourgiam == 0)
                             <p>Giá tour: {{ number_format($tour->giatour) }}</p>
@@ -37,6 +32,27 @@
 
                     </div>
                 </div>
+                <div class="content_book choose-ngay-khoi-hanh mb-4">
+                    <header class="content-header">
+                        <h3>Chọn ngày khởi hành</h3>
+                    </header>
+                    <div class="content-body">
+                        <div class="mb-3 row">
+                            <label for="ngay-khoi-hanh" class="col-md-2">Ngày khởi hành <span
+                                    class="text-danger">*</span></label>
+                            <div class="col-md-4">
+                                <select id="ngay-khoi-hanh" class="form-select" required>
+                                    <option value="" disabled selected>Chọn ngày khởi hành</option>
+                                    @foreach ($chitiettour as $item)
+                                        <option value="{{ $item->ngaybatdau }}">{{ $item->ngaybatdau }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback" style="display: none;">Vui lòng chọn ngày khởi hành</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="content_book tour-price-advance">
                     <header class="content-header">
                         <h3>Giá tour</h3>
@@ -60,6 +76,7 @@
                         </table>
                     </div>
                 </div>
+
 
                 <div class="content_book customers-info">
                     <header class="content-header">
@@ -111,7 +128,8 @@
                                     <label class="col-sm-4 control-label">Email <span class="text-danger">*</span></label>
                                     <div class="col-sm-8">
                                         <input type="email" class="form-control" name="ticket_email"
-                                            value="{{ @$user->email }}" required="" data-msg="Trường này là bắt buộc!"
+                                            value="{{ @$user->email }}" required=""
+                                            data-msg="Trường này là bắt buộc!"
                                             data-msg-email="Email không đúng định dạng!">
                                         <span class="text-danger error-message" style="display: none;"></span>
                                     </div>
@@ -138,7 +156,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row form-group">
                             <label class="col-sm-2 control-label">Ghi chú</label>
                             <div class="col-sm-12">
                                 <textarea name="ticket_note" class="form-control" rows="4"></textarea>
@@ -184,7 +202,7 @@
                                             <td>
                                                 <input type="date" class="form-control ngay-sinh-khach-hang-di-tour"
                                                     id="td_birthday_1" name="td_ticket[1][td_birthday]"
-                                                    placeholder="01/01/1990"
+                                                    placeholder="01/01/1990" min="1900-01-01" max="2025-01-01"
                                                     onchange="calculateAgeAndUpdateCustomerType(this)" required=""
                                                     data-msg="Trường này là bắt buộc!">
                                             </td>
@@ -247,7 +265,8 @@
                             <ul>
                                 <p>
                                     <strong>HUFI TRAVEL</strong><br>
-                                    <strong>Địa chỉ:</strong> 140 Lê Trọng Tấn Phường Tây Thạnh Quận Tân Phú TP.HCM<br>
+                                    <strong>Địa chỉ:</strong> 140 Lê Trọng Tấn Phường Tây Thạnh Quận Tân Phú
+                                    TP.HCM<br>
                                     <strong>Điện thoại:</strong> 0388533247<br>
                                     <strong>Hotline:</strong> 0965682178 & 0938533247<br>
                                 </p>
@@ -272,7 +291,8 @@
                                 <label for="inputEmail3"
                                     class="col-lg-1 col-md-1 col-sm-1 col-xs-2 control-label"></label>
                                 <div class="col-lg-11 col-md-11 col-sm-11 col-xs-10">
-                                    <input type="radio" id="toi_dong_y2" checked=""> Tôi đã đọc và đồng ý các điều
+                                    <input type="radio" id="toi_dong_y2" checked=""> Tôi đã đọc và đồng ý
+                                    các điều
                                     khoản quy định công ty.
                                 </div>
                             </div>

@@ -191,6 +191,7 @@
                                                     <td><input type="date"
                                                             class="form-control ngay-sinh-khach-hang-di-tour"
                                                             id="td_birthday_1" name="td_ticket[1][td_birthday]"
+                                                            min="1900-01-01" max="2025-01-01"
                                                             placeholder="01/01/1990" required
                                                             onchange="calculateAgeAndUpdateCustomerType(this)"></td>
                                                     <td>

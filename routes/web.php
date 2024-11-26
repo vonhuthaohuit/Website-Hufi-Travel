@@ -135,6 +135,8 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
 */
 
 Route::post('/search-tour', [\App\Http\Controllers\backend\TourController::class, 'searchTour'])->name('tour.searchbox');
+Route::post('/search-image', [TourController::class, 'tourSearchImageAI'])->name('search.image');
+Route::post('/test', [DatTourController::class, 'test'])->name('test');
 
 /*
 |--------------------------------------------------------------------------
