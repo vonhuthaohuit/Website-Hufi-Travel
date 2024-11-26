@@ -39,25 +39,16 @@
                                         </div>
                                         <div class="text">
                                             <p>Khoảng thời gian</p>
-                                            <h6>{{ $tour->thoigiandi }} ngày</h6>
+                                            <h6>{{ @$tour->thoigiandi }} ngày</h6>
                                         </div>
                                     </li>
-                                    {{-- <li>
-                                        <div class="icon">
-                                            <span class="icon-user"></span>
-                                        </div>
-                                        <div class="text">
-                                            <p>Độ tuổi</p>
-                                            <h6>12 +</h6>
-                                        </div>
-                                    </li> --}}
                                     <li>
                                         <div class="icon">
                                             <span class="icon-plane"></span>
                                         </div>
                                         <div class="text">
                                             <p>Loại tour</p>
-                                            <h6>{{ $tour->tenloai }}</h6>
+                                            <h6>{{ @$tour->tenloai }}</h6>
                                         </div>
                                     </li>
                                     <li>
@@ -89,16 +80,35 @@
                             <div class="tour-details__bottom-left">
                                 <ul class="list-unstyled tour-details__bottom-list">
                                     <li>
-                                        <div class="icon">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="text">
-                                            <p>8.0 Superb</p>
-                                        </div>
+                                        @if ($averageRating == null)
+                                        @else
+                                            @php
+                                                $soSaoNguyen = floor(@$averageRating->avg_rating);
+                                                $soSaoDu = $averageRating->avg_rating - $soSaoNguyen;
+                                                $soSaoTrong = 5 - $soSaoNguyen - ($soSaoDu >= 0.5 ? 1 : 0);
+                                            @endphp
+                                            <div class="icon">
+                                                @if (!empty($averageRating->avg_rating))
+                                                    @for ($i = 1; $i <= $soSaoNguyen; $i++)
+                                                        <i class="fa fa-star"></i>
+                                                    @endfor
+
+                                                    @if ($soSaoDu >= 0.5)
+                                                        <i class="fa-solid fa-star-half-stroke"></i>
+                                                    @endif
+
+                                                    @for ($i = 1; $i <= $soSaoTrong; $i++)
+                                                        <i class="fa-regular fa-star"></i>
+                                                    @endfor
+                                                @else
+                                                @endif
+                                            </div>
+                                            <div class="text">
+                                                <p>{{ number_format(@$averageRating->avg_rating, 1) }}({{ $averageRating->total_reviews }}
+                                                    lượt đánh giá)
+                                                </p>
+                                            </div>
+                                        @endif
                                     </li>
                                 </ul>
                             </div>
@@ -144,12 +154,32 @@
                                     </div>
                                     <div class="popular-tours__content">
                                         <a href="{{ route('tour.detail', $item->slug) }}">
-                                            <div class="popular-tours__stars">
-                                                <i class="fa fa-star"></i> 8.0 Superb
-                                            </div>
                                             <h3 class="popular-tours__title"><a
                                                     href="{{ route('tour.detail', $item->slug) }}">{{ $item->tentour }}</a>
                                             </h3>
+
+                                            @php
+                                                $soSaoNguyen = floor($item->avg_rating);
+                                                $soSaoDu = $item->avg_rating - $soSaoNguyen;
+                                                $soSaoTrong = 5 - $soSaoNguyen - ($soSaoDu >= 0.5 ? 1 : 0);
+                                            @endphp
+
+                                            <div class="popular-tours__stars mb-2">
+                                                @if (!empty($item->avg_rating))
+                                                    @for ($i = 1; $i <= $soSaoNguyen; $i++)
+                                                        <i class="fa fa-star"></i>
+                                                    @endfor
+
+                                                    @if ($soSaoDu >= 0.5)
+                                                        <i class="fa-solid fa-star-half-stroke"></i>
+                                                    @endif
+
+                                                    @for ($i = 1; $i <= $soSaoTrong; $i++)
+                                                        <i class="fa-regular fa-star"></i>
+                                                    @endfor
+                                                @else
+                                                @endif
+                                            </div>
 
                                             @if (empty($item->makhuyenmai))
                                                 <p class="popular-tours__rate">
@@ -188,22 +218,38 @@
                         <tbody>
                             <tr>
                                 <td><b><i class="fa-solid fa-calendar-days"></i> Khởi hành:</b></td>
-                                <td>17/11, 17/12/2024; 19/03/5</td>
+                                @if (empty($ngaybatdau))
+                                    <td>Đang cập nhật</td>
+                                @else
+                                    <td>{{ date('d/m/y', strtotime($ngaybatdau->ngaybatdau)) }}</td>
+                                @endif
                             </tr>
                             <tr>
                                 <td><b><i class="fa-regular fa-clock"></i> Thời gian: </b></td>
-                                <td>{{ $tour->thoigiandi }} ngày</td>
+                                <td>{{ @$tour->thoigiandi }} ngày</td>
                             </tr>
                             <tr>
                                 <td><b><i class="fa-solid fa-road"></i> Phương tiện:</b></td>
-                                <td>Máy bay</td>
+                                @if (empty($phuongtien))
+                                    <td>Đang cập nhật</td>
+                                @else
+                                    <td>{{ @$phuongtien->tenphuongtien }}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td><b><i class="fa-solid fa-road"></i> Khách sạn:</b></td>
+                                @if (empty($khachsan))
+                                    <td>Đang cập nhật</td>
+                                @else
+                                    <td>{{ @$khachsan->tenkhachsan }}</td>
+                                @endif
                             </tr>
                             <tr>
                                 <td><b><i class="fa-solid fa-money-bill-1-wave"></i> Giá:</b></td>
                                 @if (empty($tour->makhuyenmai))
                                     <td>{{ number_format($tour->giatour) }} VNĐ</td>
                                 @else
-                                    <td>{{ number_format($tour->giatourgiam) }} VNĐ</td>
+                                    <td>{{ number_format(@$tour->giatourgiam) }} VNĐ</td>
                                 @endif
                             </tr>
                             <tr>
@@ -277,39 +323,34 @@
                     jsPDF
                 } = window.jspdf;
 
-                const content = document.getElementById('content'); // Lấy toàn bộ nội dung trang web
+                const content = document.getElementById('content');
                 const slug = @json($tour->slug);
                 try {
-                    // Sử dụng html2canvas để render phần tử thành canvas
                     const canvas = await html2canvas(content, {
-                        scale: 2, // Tăng độ phân giải
-                        useCORS: true // Cho phép tải ảnh từ nguồn bên ngoài
+                        scale: 2,
+                        useCORS: true
                     });
 
                     const imgData = canvas.toDataURL('image/png');
 
                     // Thiết lập PDF
                     const pdf = new jsPDF('p', 'mm', 'a4');
-                    const imgWidth = 190; // Chiều rộng hình ảnh trong PDF
-                    const pageHeight = 297; // Chiều cao của trang A4
+                    const imgWidth = 190;
+                    const pageHeight = 297;
                     const imgHeight = (canvas.height * imgWidth) / canvas.width;
                     let heightLeft = imgHeight;
 
-                    let position = 20; // Vị trí bắt đầu
+                    let position = 20;
 
-                    // Thêm hình ảnh vào PDF
                     pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
                     heightLeft -= pageHeight;
 
-                    // Nếu nội dung dài hơn 1 trang, tạo các trang tiếp theo
                     while (heightLeft > 0) {
                         position = heightLeft - imgHeight;
                         pdf.addPage();
                         pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
                         heightLeft -= pageHeight;
                     }
-
-                    // Lưu file PDF
 
                     pdf.save(slug + '.pdf');
                 } catch (error) {

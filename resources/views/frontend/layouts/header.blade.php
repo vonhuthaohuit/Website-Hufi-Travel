@@ -21,7 +21,7 @@
                                 <i class="fa-solid fa-user me-2"></i>{{ session('user')->tentaikhoan }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="{{ route('profile') }}">Hồ sơ</a></li>
                                 <li><a class="dropdown-item" href="#">Setting</a></li>
                                 <li>
                                     <hr class="dropdown-divider">

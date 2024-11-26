@@ -26,6 +26,7 @@ use App\Http\Controllers\backend\PhongBanController;
 use App\Http\Controllers\backend\Quyen_NhomQuyenController;
 use App\Http\Controllers\backend\QuyenController;
 use App\Http\Controllers\backend\ChuongTrinhTourController;
+use App\Http\Controllers\backend\DanhGiaController;
 use App\Http\Controllers\Backend\KhachHangController;
 use App\Http\Controllers\backend\KhachSan_TourController;
 use App\Http\Controllers\backend\KhachSanController;
@@ -248,6 +249,9 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
     Route::get('phieuhuytour', [PhieuHuyTourController::class, 'index'])->name('phieuhuytour.index');
 
     Route::resource('hoadon', HoaDonController::class);
+
+    Route::resource('danhgia', DanhGiaController::class);
+    Route::post('danhgia/change-status', [DanhGiaController::class, 'changeStatus'])->name('danhgia.change-status');
 });
 Route::get('hoadon/{hoaDonId}/print', [HoaDonController::class, 'printInvoice'])->name('hoadon.print');
 
@@ -283,3 +287,8 @@ Route::get('/transaction', [HomeController::class, 'transaction'])->name('transa
 Route::get('/history/tour-order/{matour}/{maphieudattour}', [HomeController::class, 'tourOrder'])->name('tour.tourOrder');
 Route::get('/history/tour-booked', [HomeController::class, 'tourBooked'])->name('tour.tour-booked');
 Route::post('/history/tour-booked', [PhieuHuyController::class, 'cancelTour'])->name('tour.cancelTour');
+Route::get('/history/tour-canceled', [HomeController::class, 'tourCanceled'])->name('tour.tour-canceled');
+Route::post('/comment/{madanhgia}', [CommentController::class, 'update'])->name('comment.update');
+Route::get('/comment/delete/{madanhgia}', [CommentController::class, 'delete'])->name('comment.delete');
+Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
+Route::post('/profile/update', [HomeController::class, 'updateProfile'])->name('profile.update');

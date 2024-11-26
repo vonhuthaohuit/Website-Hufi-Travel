@@ -1,73 +1,56 @@
-<div class="tour-details__review-score">
-    <div class="tour-details__review-score-ave">
-        <div class="my-auto">
-            <h3>7.0</h3>
-            <p><i class="fa fa-star"></i> Super</p>
+@if (!@$averageRating->avg_rating)
+@else
+    <div class="tour-details__review-score">
+        <div class="tour-details__review-score-ave">
+            <div class="my-auto">
+                <h3>{{ number_format(@$averageRating->avg_rating, 1) }}</h3>
+                @php
+                    $soSaoNguyen = floor($averageRating->avg_rating);
+                    $soSaoDu = $averageRating->avg_rating - $soSaoNguyen;
+                    $soSaoTrong = 5 - $soSaoNguyen - ($soSaoDu >= 0.5 ? 1 : 0);
+                @endphp
+                <p class="icon">
+                    @if (!empty($averageRating->avg_rating))
+                        @for ($i = 1; $i <= $soSaoNguyen; $i++)
+                            <i class="fa fa-star"></i>
+                        @endfor
+
+                        @if ($soSaoDu >= 0.5)
+                            <i class="fas fa-star-half-stroke"></i>
+                        @endif
+
+                        @for ($i = 1; $i <= $soSaoTrong; $i++)
+                            <i class="fa-regular fa-star"></i>
+                        @endfor
+                    @else
+                    @endif
+                </p>
+                <p class="mt-3">
+                    ({{ $averageRating->total_reviews }}
+                    lượt đánh giá)
+                </p>
+            </div>
         </div>
+
+        <div class="tour-details__review-score__content">
+            @foreach ($ratingsWithPercentage as $rating)
+                <div class="tour-details__review-score__bar">
+                    <div class="tour-details__review-score__bar-top">
+                        <p>{{ $rating->diemdanhgia }} <i class="fa fa-star" style="color: #ffa801;"></i>
+                            ({{ $rating->count }})
+                        </p>
+                    </div>
+                    <div class="tour-details__review-score__bar-line">
+                        <span class="wow slideInLeft animated" style="width: {{ $rating->percentage }}%;"></span>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+
+
     </div>
-    <div class="tour-details__review-score__content">
-        <!--Tour Details Review Score Bar-->
-        <div class="tour-details__review-score__bar">
-            <div class="tour-details__review-score__bar-top">
-                <h3>Services</h3>
-                <p>50%</p>
-
-            </div>
-            <div class="tour-details__review-score__bar-line">
-                <span class="wow slideInLeft animated" data-wow-duration="1500ms"
-                    style="width: 50%; visibility: visible; animation-duration: 1500ms; animation-name: slideInLeft;"></span>
-            </div>
-        </div>
-        <!--Tour Details Review Score Bar-->
-        <div class="tour-details__review-score__bar">
-            <div class="tour-details__review-score__bar-top">
-                <h3>Locations</h3>
-                <p>87%</p>
-
-            </div>
-            <div class="tour-details__review-score__bar-line">
-                <span class="wow slideInLeft animated" data-wow-duration="1500ms"
-                    style="width: 87%; visibility: visible; animation-duration: 1500ms; animation-name: slideInLeft;"></span>
-            </div>
-        </div>
-        <!--Tour Details Review Score Bar-->
-        <div class="tour-details__review-score__bar">
-            <div class="tour-details__review-score__bar-top">
-                <h3>Amenities</h3>
-                <p>77%</p>
-
-            </div>
-            <div class="tour-details__review-score__bar-line">
-                <span class="wow slideInLeft animated" data-wow-duration="1500ms"
-                    style="width: 77%; visibility: visible; animation-duration: 1500ms; animation-name: slideInLeft;"></span>
-            </div>
-        </div>
-        <!--Tour Details Review Score Bar-->
-        <div class="tour-details__review-score__bar">
-            <div class="tour-details__review-score__bar-top">
-                <h3>Prices</h3>
-                <p>69%</p>
-
-            </div>
-            <div class="tour-details__review-score__bar-line">
-                <span class="wow slideInLeft animated" data-wow-duration="1500ms"
-                    style="width: 69%; visibility: visible; animation-duration: 1500ms; animation-name: slideInLeft;"></span>
-            </div>
-        </div>
-        <!--Tour Details Review Score Bar-->
-        <div class="tour-details__review-score__bar">
-            <div class="tour-details__review-score__bar-top">
-                <h3>Food</h3>
-                <p>40%</p>
-
-            </div>
-            <div class="tour-details__review-score__bar-line">
-                <span class="wow slideInLeft animated" data-wow-duration="1500ms"
-                    style="width: 40%; visibility: visible; animation-duration: 1500ms; animation-name: slideInLeft;"></span>
-            </div>
-        </div>
-    </div>
-</div>
+@endif
 
 <div class="tour-details__review-comment">
     @foreach ($commentOfTour as $item)
@@ -83,7 +66,34 @@
                     </div>
                 </div>
 
-                <i class="fa-solid fa-ellipsis-vertical"></i>
+                @if (Session::has('user'))
+                    @php
+                        $user = Session::get('user');
+                        $currentAccountId = $user['mataikhoan'];
+                    @endphp
+
+                    @if ($item->khachhang->mataikhoan == $currentAccountId)
+                        <div class="dropdown">
+                            <a class="p-3" href="#" role="button" id="dropdownMenuLink"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                                <li>
+                                    <button class="dropdown-item btn-edit-comment" data-id="{{ $item->madanhgia }}">
+                                        <i class="fa-solid fa-pen-to-square me-2" style="color: green;"></i> Sửa bình
+                                        luận
+                                    </button>
+                                    <a class="dropdown-item" href="{{ route('comment.delete', $item->madanhgia) }}">
+                                        <i class="fa-solid fa-trash-can me-2" style="color: red;"></i> Xóa bình luận
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    @endif
+                @else
+                @endif
             </div>
 
 
@@ -94,18 +104,33 @@
                             @if ($i <= $item->diemdanhgia)
                                 <i class="fa fa-star active"></i>
                             @else
-                                <i class="fa fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
                             @endif
                         @endfor
                     </div>
                 </div>
             </div>
 
-
             <div class="tour-details__review-comment-content">
-                {{-- <h3>Fun Was To Discover This</h3> --}}
                 <p>{{ $item->noidung }}</p>
             </div>
         </div>
+        @include('frontend.tour.comment.edit-comment')
     @endforeach
 </div>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const progressBars = document.querySelectorAll('.tour-details__review-score__bar-line span');
+
+        progressBars.forEach(bar => {
+            const targetWidth = bar.style.width;
+            bar.style.width = '0';
+            setTimeout(() => {
+                bar.style.width = targetWidth;
+            }, 100);
+        });
+    });
+</script>
