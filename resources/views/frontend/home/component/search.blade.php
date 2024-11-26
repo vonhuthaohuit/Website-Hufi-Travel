@@ -20,8 +20,8 @@
                                 </div>
                                 <div class="tour-search-one__input-box">
                                     <label>Thời gian</label>
-                                    <input type="" placeholder="Nhập thời gian đi" name="date-start" id="datepicker"
-                                        class="">
+                                    <input type="" placeholder="Nhập thời gian đi" name="date-start"
+                                        id="datepicker" class="">
                                 </div>
                                 <div class="tour-search-one__input-box tour-search-one__input-box-last">
                                     <label for="typetour">Loại tour</label>
@@ -43,25 +43,66 @@
             </div>
         </div>
     </div>
-    @push('style')
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/smoothness/jquery-ui.css">
+    <form id="imageUploadForm" enctype="multipart/form-data">
+        <input type="file" id="imageInput" name="image" accept="image/*" required>
+        <button type="submit">Search</button>
+    </form>
 
-    <style>
-        .form-select {
-            border: none;
-        }
-    </style>
-@endpush
-@push('script')
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
-    <script>
-        $(function() {
-            $("#datepicker").datepicker({
-                dateFormat: "dd/mm/yy"
+    <div id="result"></div>
+
+    @push('script')
+        <script>
+            document.getElementById('imageUploadForm').addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                const formData = new FormData();
+                const imageInput = document.getElementById('imageInput');
+                formData.append('image', imageInput.files[0]);
+
+                try {
+                    const response = await fetch("{{ route('search.image') }}", {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        document.getElementById('result').innerHTML = '<h2>Similar Images:</h2>' + result.map(img =>
+                            `<p>${img}</p>`).join('');
+                    } else {
+                        document.getElementById('result').innerText = result.error || 'Error occurred!';
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    document.getElementById('result').innerText = 'An error occurred while processing the image.';
+                }
             });
-        });
-    </script>
-@endpush
+        </script>
+    @endpush
+
+    @push('style')
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/smoothness/jquery-ui.css">
+
+        <style>
+            .form-select {
+                border: none;
+            }
+        </style>
+    @endpush
+    @push('script')
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+        <script>
+            $(function() {
+                $("#datepicker").datepicker({
+                    dateFormat: "dd/mm/yy"
+                });
+            });
+        </script>
+    @endpush
 
 </section>

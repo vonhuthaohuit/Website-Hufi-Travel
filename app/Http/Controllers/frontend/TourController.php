@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TourController extends Controller
 {
@@ -76,8 +77,9 @@ class TourController extends Controller
             ->first();
 
         $ngaybatdau = ChiTietTour::where('matour', $tour->matour)->first();
+        $ngaybatdau2 = ChiTietTour::where('matour', $tour->matour)->get();
 
-        return view('frontend.tour.tour-detail', compact('tour', 'commentOfTour', 'averageRating', 'ratingsWithPercentage', 'totalRatings', 'phuongtien', 'ngaybatdau', 'khachsan'));
+        return view('frontend.tour.tour-detail', compact('tour', 'commentOfTour', 'averageRating', 'ratingsWithPercentage', 'totalRatings', 'phuongtien', 'ngaybatdau', 'khachsan', 'ngaybatdau2'));
     }
 
     public function allTour()
@@ -146,33 +148,27 @@ class TourController extends Controller
 
         return view('frontend.tour.tour-by-destination', compact('tour', 'tourCategories', 'tenDiemDuLich'));
     }
-    public function tourSearchImageAI($request)
+    public function tourSearchImageAI(Request $request)
     {
-        dd($request->all());
-        $image = $request->file('image');
-
-        $response = Http::attach(
-            'image',
-            file_get_contents($image->getRealPath()),
-            $image->getClientOriginalName()
-        )->post('http://.../search-image');
-
-        $similarImages = $response->json();
-
-        $imageFolder = public_path('frontend/images');
-
-        $allImages = File::files($imageFolder);
-
-        $matchedTours = [];
-        foreach ($allImages as $file) {
-            if (in_array($file->getFilename(), $similarImages)) {
-                $tour = Tour::where('image_name', $file->getFilename())->first();
-                if ($tour) {
-                    $matchedTours[] = $tour;
-                }
-            }
+        if (!$request->hasFile('image')) {
+            return response()->json(['error' => 'No image uploaded'], 400);
         }
 
-        return view('search-results', ['tours' => $matchedTours]);
+        $image = $request->file('image');
+
+        $imagePath = $image->storeAs('temp', $image->getClientOriginalName());
+
+        $pythonScript = storage_path('app/public/python_scripts/search_image.py');
+        $imageFilePath = storage_path('app/' . $imagePath);
+
+        $output = shell_exec("python \"$pythonScript\" \"$imageFilePath\" 2>&1");
+
+        $output = json_decode($output, true);
+
+        Log::info($output);
+
+
+        die;
+        return view('');
     }
 }

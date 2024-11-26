@@ -50,15 +50,22 @@
         }
 
         @media print {
-            .no-print {
-                display: none !important;
+            body * {
+                visibility: hidden;
+                /* Ẩn tất cả các phần tử trên trang */
+            }
+
+            .invoice-container,
+            .invoice-container * {
+                visibility: visible;
+                /* Chỉ hiển thị phần tử .invoice-container */
             }
 
             .invoice-container {
+                position: absolute;
+                left: 0;
+                top: 0;
                 width: 100%;
-                max-width: 800px;
-                margin: 0 auto;
-                padding: 10px;
             }
 
             .header,
@@ -97,7 +104,7 @@
 
 <body>
     <div class="d-flex justify-content-end mb-3 no-print">
-        <a href="{{ route('hoadon.print', $hoaDon->mahoadon) }}" class="btn btn-primary no-print">In hóa đơn PDF</a>
+        <a href="{{ route('hoadon.print', $hoaDon->mahoadon) }}" class="btn btn-primary">In hóa đơn</a>
     </div>
 
     <div class="invoice-container">
@@ -167,7 +174,17 @@
         <p><strong>Số tiền viết bằng chữ:</strong> {{ convertNumberToWords($hoaDon->tongsotien) }} đồng</p>
     </div>
 
-
+    @push('scripts')
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const printButton = document.querySelector(".no-print a");
+                printButton.addEventListener("click", function(event) {
+                    event.preventDefault();
+                    window.print();
+                });
+            });
+        </script>
+    @endpush
 </body>
 
 </html>

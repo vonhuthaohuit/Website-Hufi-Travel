@@ -263,6 +263,10 @@ class HoaDonController extends Controller
                 'phuongthucthanhtoan' => $request->phuongthucthanhtoan,
                 'trangthaithanhtoan' => $request->trangthaithanhtoan,
             ]);
+            $phieuDatTour = $hoadon->phieudattour;
+            $phieuDatTour->update([
+                'tongtienphieudattour' => $request->tongsotien,
+            ]);
             foreach ($request->khachhang as $value) {
                 $chitietphieudattour = ChiTietPhieuDatTour::find($value['maphieudattour']);
                 if ($chitietphieudattour) {

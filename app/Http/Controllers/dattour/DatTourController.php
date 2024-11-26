@@ -60,10 +60,9 @@ class DatTourController extends Controller
         $giaTour_LoaiKhachHang = [];
 
         foreach ($loaiKhachHang as $index => $item) {
-            if($tour->giatourgiam == null || $tour->giatourgiam == 0){
+            if ($tour->giatourgiam == null || $tour->giatourgiam == 0) {
                 $giaTour_LoaiKhachHang[$index] = round($tour->giatour - ($tour->giatour * ($item->mucapdunggia / 100)));
-            }
-            else{
+            } else {
                 $giaTour_LoaiKhachHang[$index] = round($tour->giatourgiam - ($tour->giatourgiam * ($item->mucapdunggia / 100)));
             }
         }
@@ -72,7 +71,6 @@ class DatTourController extends Controller
     }
     public function index(Request $request)
     {
-
         /*
         |--------------------------------------------------------------------------
         | Kiểm tra đăng nhập
@@ -91,8 +89,10 @@ class DatTourController extends Controller
         if ($request->isMethod('post')) {
             $tourId = $request->input('tourid');
             $loaiKhachHang = $this->loaiKhachHangs->get();
+            $ngayBatDau = $request->input('ngaybatdau');
             $khachHang = $this->khachHangs->where('mataikhoan', $maTaiKhoan)->first();
             $tour = $this->tour->find($tourId);
+            $chitiettour = $this->chitiettour->where('matour', $tourId)->get();
             $giaTour_LoaiKhachHang = [];
             // Tính giá tour theo từng loại khách hàng
             $giaTour_LoaiKhachHang = $this->TinhGiaTourLoaiKhachHang($tourId);
@@ -101,7 +101,7 @@ class DatTourController extends Controller
                 return redirect()->back()->withErrors('Tour not found.');
             }
 
-            return view('frontend.dattour.dattour', compact('user', 'tour', 'loaiKhachHang', 'khachHang', 'giaTour_LoaiKhachHang'));
+            return view('frontend.dattour.dattour', compact('user', 'tour', 'loaiKhachHang', 'khachHang', 'giaTour_LoaiKhachHang', 'ngayBatDau', 'chitiettour'));
         }
 
         return redirect()->back()->withErrors('Invalid request method.');
@@ -246,5 +246,8 @@ class DatTourController extends Controller
     public function destroy(string $id)
     {
         // Logic xóa dữ liệu
+    }
+    public function test(){
+        return view('frontend.dattour.index');
     }
 }
