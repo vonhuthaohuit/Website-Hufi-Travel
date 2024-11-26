@@ -9,6 +9,7 @@ class PhieuHuyTour extends Model
 {
     use HasFactory;
     protected $table = 'phieuhuytour';
+    protected $primaryKey = 'maphieuhuytour';
     public $timestamps = false;
 
     // public function hoadon(){

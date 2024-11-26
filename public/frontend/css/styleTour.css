@@ -1,13 +1,14 @@
 .table-responsive {
     margin: 20px auto;
-    max-width: 800px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    padding: 15px;
+    max-width: 850px;
+    border-radius: 10px;
     overflow: hidden;
     font-size: 14px;
     position: sticky;
     top: 150px;
     z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .form-group {
