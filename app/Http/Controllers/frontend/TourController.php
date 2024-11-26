@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\ChiTietTour;
 use App\Models\DanhGia;
 use App\Models\DiemDuLich;
 use App\Models\LoaiTour;
@@ -22,9 +23,11 @@ class TourController extends Controller
             ->leftJoin('hinhanhtour', 'tour.matour', '=', 'hinhanhtour.matour')
             ->leftJoin('loaitour', 'tour.maloaitour', '=', 'loaitour.maloaitour')
             ->leftJoin('khuyenmai', 'tour.makhuyenmai', '=', 'khuyenmai.makhuyenmai')
-            ->select('tour.*', 'chitiettour.giachitiettour', 'chuongtrinhtour.mota', 'chuongtrinhtour.tieude', 'diemdulich.tendiemdulich', 'loaitour.tenloai', 'hinhanhtour.duongdan', 'khuyenmai.phantramgiam')
+            ->select('tour.*', 'chitiettour.giachitiettour', 'chuongtrinhtour.mota', 'chuongtrinhtour.tieude', 'diemdulich.tendiemdulich', 'loaitour.tenloai', 'hinhanhtour.duongdan', 'khuyenmai.phantramgiam', 'chitiettour.ngaybatdau')
             ->where('tour.slug', $slug)
             ->first();
+        $ngaybatdau = ChiTietTour::where('matour', $tour->matour)->select('ngaybatdau');
+
 
         $commentOfTour = DanhGia::query()
             ->join('tour', 'danhgia.matour', '=', 'tour.matour')
@@ -34,7 +37,7 @@ class TourController extends Controller
 
         // dd($tour->makhuyenmai);
 
-        return view('frontend.tour.tour-detail', compact('tour', 'commentOfTour'));
+        return view('frontend.tour.tour-detail', compact('tour', 'commentOfTour', 'ngaybatdau'));
     }
 
     public function allTour()
