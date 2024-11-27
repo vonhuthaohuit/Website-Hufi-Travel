@@ -27,9 +27,13 @@ class StatisticController extends Controller
 
     public function  viewstatisticDoanhThu ()
     {
-       $data = DB::select('CALL proc_statisticDoanhThu()') ;
-       $labels = array_column($data, 'tentour');
-       $values = array_column($data, 'soluong');
-       return view('backend.statistic.statistic_doanhthu', compact('labels', 'values'));
+       $data = DB::select('CALL proc_statisticDoanhThu()');
+       $tourLabels = array_column($data, 'tentour');
+       $tourValues = array_column($data, 'soluong');
+        
+       $data = DB::select('CALL proc_statisticKhachHangTheoTuoi()');
+       $ageLabels = array_column($data, 'age_group');
+       $ageValues = array_column($data, 'total');
+       return view('backend.statistic.statistic_doanhthu', compact('tourLabels', 'tourValues', 'ageLabels', 'ageValues'));
     }
 }

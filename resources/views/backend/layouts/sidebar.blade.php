@@ -67,40 +67,18 @@
         </ul>
         </li>
 
-        <li class="dropdown {{ setActive(['phancongnhanvien.*', 'admin.withdraw.index']) }}">
+        <li class="dropdown {{ setActive(['danhsachtour', 'phancongnhanvien.*']) }}">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-wallet"></i>
                 <span>Phân công công việc</span></a>
             <ul class="dropdown-menu">
 
-                <li class="{{ setActive(['phancongnhanvien.*']) }}"><a class="nav-link"
+                <li class="{{ setActive(['danhsachtour']) }}"><a class="nav-link"
                         href="{{ route('danhsachtour') }}">Danh sách tour</a></li>
 
                 <li class="{{ setActive(['admin.withdraw.index']) }}"><a class="nav-link" href="">Tour sắp
                         tới</a></li>
             </ul>
         </li>
-
-        <li class="{{ setActive(['backup.index']) }}">
-            <a class="nav-link {{ setActive(['backup.index']) }}" href="{{ route('backup.index') }}">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <span>Sao lưu và phục hồi</span>
-            </a>
-        </li>
-
-        <li class="dropdown {{ setActive(['statistic.doanhthu*', 'statistic.khachhang.*']) }}">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-chart-line"></i>
-                <span>Thống kê báo cáo</span></a>
-            <ul class="dropdown-menu">
-
-                <li class="{{ setActive(['statistic.doanhthu*']) }}"><a class="nav-link"
-                        href="{{ route('statistic.doanhthu') }}">Thống kê doanh thu</a>
-                </li>
-                <li class="{{ setActive(['statistic.khachhang.*']) }}"><a class="nav-link"
-                        href="{{ route('statistic.khachhang.index') }}">Thống kê khách hàng</a></li>
-
-            </ul>
-        </li>
-
 
         <li class="dropdown {{ setActive(['loaiblog.*', 'blog.*']) }}">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-blogger-b"></i>
@@ -144,7 +122,6 @@
 
         <li class="menu-header">Settings & More</li>
 
-
         <li
             class="dropdown {{ setActive(['footer-grid-one.*', 'footer-grid-two.*', 'footer-grid-three.*', 'footer-socials.*']) }}">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
@@ -165,6 +142,38 @@
                     <a class="nav-link" href="{{ route('footer-socials.index') }}">Footer Socials</a>
                 </li>
             </ul>
+        </li>
+
+        <li class="dropdown {{ setActive(['statistic.doanhthu*']) }}">
+            <a class="nav-link {{setActive(['statistic.doanhthu'])}}" href="{{ route('statistic.doanhthu') }}"><i class="fas fa-chart-line"></i>
+                <span>Thống kê báo cáo</span></a>
+            {{-- <ul class="dropdown-menu">
+
+                <li class="{{ setActive(['statistic.doanhthu*']) }}"><a class="nav-link"
+                        href="{{ route('statistic.doanhthu') }}">Thống kê doanh thu</a>
+                </li>
+                <li class="{{ setActive(['statistic.khachhang.*']) }}"><a class="nav-link"
+                        href="{{ route('statistic.khachhang.index') }}">Thống kê khách hàng</a></li>
+
+            </ul> --}}
+        </li>
+
+        <li class="{{ setActive(['backup.index']) }}">
+            <a class="nav-link {{ setActive(['backup.index']) }}" href="{{ route('backup.index') }}">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Sao lưu và phục hồi</span>
+            </a>
+        </li>
+
+        <li>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <a href="" onclick="event.preventDefault();
+            this.closest('form').submit();"
+                    class="dropdown-item has-icon text-danger">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </a>
+            </form>
         </li>
     </aside>
 </div>
