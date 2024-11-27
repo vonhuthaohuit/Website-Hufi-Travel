@@ -46,7 +46,6 @@
                     <li class="{{ setActive(['phuongtien.*']) }}"><a class="nav-link"
                             href="{{ route('phuongtien.index') }}">
                             Phương tiện</a></li>
-
                 </ul>
             </li>
 
@@ -65,8 +64,6 @@
                     quyền</a></li>
             <li class="{{ setActive(['nhomquyen.*']) }}"><a class="nav-link"
                     href="{{ route('nhomquyen.index') }}">Quản lý nhóm quyền</a></li>
-
-
         </ul>
         </li>
 
@@ -83,38 +80,9 @@
             </ul>
         </li>
 
-        {{-- <li
-                class="dropdown {{ setActive([
-                    'admin.slider.*',
-                    'admin.vendor-condition.index',
-                    'admin.about.index',
-                    'admin.terms-and-conditions.index',
-                ]) }}">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-cog"></i>
-                    <span>Manage Website</span></a>
-                <ul class="dropdown-menu">
-                    <li class="{{ setActive(['admin.slider.*']) }}"><a class="nav-link" href="">Slider</a>
-                    </li>
-
-                    <li class="{{ setActive(['admin.slider.*']) }}"><a class="nav-link" href="">Home Page
-                            Setting</a></li>
-
-                    <li class="{{ setActive(['admin.vendor-condition.index']) }}"><a class="nav-link"
-                            href="">Vendor Condition</a></li>
-                    <li class="{{ setActive(['admin.about.index']) }}"><a class="nav-link" href="">About
-                            page</a></li>
-                    <li class="{{ setActive(['admin.terms-and-conditions.index']) }}"><a class="nav-link"
-                            href="">Terms Page</a></li>
-
-                </ul>
-            </li> --}}
-
-        {{-- <li><a class="nav-link {{ setActive(['admin.advertisement.*']) }}" href=""><i
-                        class="fas fa-ad"></i>
-                    <span>Advertisement</span></a></li> --}}
         <li class="{{ setActive(['backup.index']) }}">
-            <a class="nav-link {{ setActive(['backup.index']) }}"
-                href="{{ route('backup.index') }}"><i class="fas fa-user"></i>
+            <a class="nav-link {{ setActive(['backup.index']) }}" href="{{ route('backup.index') }}">
+                <i class="fas fa-cloud-upload-alt"></i>
                 <span>Sao lưu và phục hồi</span>
             </a>
         </li>
@@ -146,11 +114,6 @@
                 </li>
             </ul>
         </li>
-
-        {{-- <li><a class="nav-link {{ setActive(['admin.messages.index']) }}" href=""><i
-                        class="fas fa-user"></i>
-                    <span>Messages</span></a></li> --}}
-
 
         <li class="dropdown {{ setActive(['hoadon.*', 'phieudattour.*', 'phieuhuytour.*']) }}">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
@@ -203,81 +166,5 @@
                 </li>
             </ul>
         </li>
-        {{-- <li
-                class="dropdown {{ setActive([
-                    'admin.vendor-requests.index',
-                    'admin.customer.index',
-                    'admin.vendor-list.index',
-                    'admin.manage-user.index',
-                    'admin-list.index',
-                ]) }}">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-users"></i>
-                    <span>Users</span></a>
-                <ul class="dropdown-menu">
-                    <li class="{{ setActive(['admin.customer.index']) }}"><a class="nav-link"
-                            href="">Customer list</a></li>
-                    <li class=""><a class="nav-link" href="">Vendor list</a></li>
-
-                    <li class="{{ setActive(['admin.vendor-requests.index']) }}"><a class="nav-link"
-                            href="">Pending vendors</a></li>
-
-                    <li class="{{ setActive(['admin.admin-list.index']) }}"><a class="nav-link" href="">Admin
-                            Lists</a></li>
-
-                    <li class="{{ setActive(['admin.manage-user.index']) }}"><a class="nav-link"
-                            href="">Manage user</a></li>
-
-                </ul>
-            </li> --}}
-
-        <li class="{{ setActive(['footer-grid-two.*']) }}">
-            <a class="nav-link" href="{{ route('footer-grid-two.index') }}">Footer Grid Two</a>
-        </li>
-
-        <li class="{{ setActive(['footer-grid-three.*']) }}">
-            <a class="nav-link" href="{{ route('footer-grid-three.index') }}">Footer Grid Three</a>
-        </li>
-        <li class="{{ setActive(['footer-socials.*']) }}">
-            <a class="nav-link" href="{{ route('footer-socials.index') }}">Footer Socials</a>
-        </li>
-        </ul>
-        </li>
-        <li
-            class="dropdown {{ setActive([
-                'admin.vendor-requests.index',
-                'admin.customer.index',
-                'admin.vendor-list.index',
-                'admin.manage-user.index',
-                'admin-list.index',
-            ]) }}">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-users"></i>
-                <span>Users</span></a>
-            <ul class="dropdown-menu">
-                <li class="{{ setActive(['admin.customer.index']) }}"><a class="nav-link" href="">Customer
-                        list</a></li>
-                <li class=""><a class="nav-link" href="">Vendor list</a></li>
-
-                <li class="{{ setActive(['admin.vendor-requests.index']) }}"><a class="nav-link"
-                        href="">Pending vendors</a></li>
-
-                <li class="{{ setActive(['admin.admin-list.index']) }}"><a class="nav-link" href="">Admin
-                        Lists</a></li>
-
-                <li class="{{ setActive(['admin.manage-user.index']) }}"><a class="nav-link" href="">Manage
-                        user</a></li>
-
-            </ul>
-        </li>
-
-
-        <li><a class="nav-link {{ setActive(['subscribers.*']) }}" href="{{ route('subscribers.index') }}"><i
-                    class="fas fa-user"></i>
-                <span>Subscribers</span></a></li>
-
-        <li><a class="nav-link" href=""><i class="fas fa-wrench"></i>
-                <span>Settings</span></a></li>
-
-        </ul>
-
     </aside>
 </div>
