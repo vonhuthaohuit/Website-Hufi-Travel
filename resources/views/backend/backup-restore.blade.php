@@ -49,12 +49,14 @@
                         <button type="submit" class="btn-backup text-light">
                             <i class="fas fa-cloud-download-alt"></i>Sao lưu theo lịch
                         </button>
-                        <form action="{{ route('backup.remove') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn-backup text-light">
-                                <i class="fas fa-cloud-download-alt"></i>Xoá lịch trước đó
-                            </button>
-                        </form>
+
+                    </form>
+                    <div class="custom-hr"></div>
+                    <form action="{{ route('backup.remove') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn-backup text-light">
+                            <i class="fas fa-cloud-download-alt"></i>Xoá lịch trước đó
+                        </button>
                     </form>
                 </div>
                 <div class="backup-card">
