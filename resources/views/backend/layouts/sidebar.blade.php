@@ -1,7 +1,8 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="{{ route('dashboard') }}"><img src="{{ asset('frontend/images/logo.png') }}" alt="HUFI Travel" width="50px"> HUFI
+            <a href="{{ route('dashboard') }}"><img src="{{ asset('frontend/images/logo.png') }}" alt="HUFI Travel"
+                    width="50px"> HUFI
                 Travel</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
@@ -111,14 +112,20 @@
         {{-- <li><a class="nav-link {{ setActive(['admin.advertisement.*']) }}" href=""><i
                         class="fas fa-ad"></i>
                     <span>Advertisement</span></a></li> --}}
-        <li><a class="nav-link {{ setActive(['']) }}" href="{{ route('backup.index') }}"><i class="fas fa-user"></i>
-                <span>Sao lưu và phục hồi</span></a></li>
-        <li class="dropdown {{ setActive(['Statistic.*']) }}">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-blogger-b"></i>
+        <li class="{{ setActive(['backup.index']) }}">
+            <a class="nav-link {{ setActive(['backup.index']) }}"
+                href="{{ route('backup.index') }}"><i class="fas fa-user"></i>
+                <span>Sao lưu và phục hồi</span>
+            </a>
+        </li>
+
+        <li class="dropdown {{ setActive(['statistic.doanhthu*', 'statistic.khachhang.*']) }}">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-chart-line"></i>
                 <span>Thống kê báo cáo</span></a>
             <ul class="dropdown-menu">
 
-                <li class="{{ setActive(['Statistic.*']) }}"><a class="nav-link" href="{{ route('statistic.doanhthu') }}">Thống kê doanh thu</a>
+                <li class="{{ setActive(['statistic.doanhthu*']) }}"><a class="nav-link"
+                        href="{{ route('statistic.doanhthu') }}">Thống kê doanh thu</a>
                 </li>
                 <li class="{{ setActive(['statistic.khachhang.*']) }}"><a class="nav-link"
                         href="{{ route('statistic.khachhang.index') }}">Thống kê khách hàng</a></li>
@@ -146,7 +153,8 @@
 
 
         <li class="dropdown {{ setActive(['hoadon.*', 'phieudattour.*', 'phieuhuytour.*']) }}">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-file-invoice"></i>
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
+                    class="fas fa-file-invoice"></i>
                 <span>Quản lý hoá đơn</span></a>
             <ul class="dropdown-menu">
 

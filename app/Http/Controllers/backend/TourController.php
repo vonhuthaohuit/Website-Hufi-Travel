@@ -89,6 +89,10 @@ class TourController extends Controller
             return redirect()->route('tour.index')->with('success', 'Thêm thành công');
         } catch (Exception $e) {
             Log::error('Error in registration process:', ['error' => $e->getMessage()]);
+            //    DB::statement('CALL updateTourStatus(?)', [$tour->matour]);
+            return redirect()->route('tour.index');
+        } catch (Exception $e) {
+            Log::info("Sai");
             return redirect()->route('tour.index')->with('error', 'Thêm không thành công');
         }
     }
@@ -165,7 +169,7 @@ class TourController extends Controller
         $tour = Tour::find($id);
         $this->deleteImage($tour->hinhdaidien);
         $tour->delete();
-        return response(['status' => 'success', 'message' => 'Xóa thành công']);
+        return response()->json(['status' => 'success', 'message' => 'Xóa thành công']);
     }
 
     public function changeStatus(Request $request)

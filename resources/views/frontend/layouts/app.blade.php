@@ -34,7 +34,7 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/styleSearch.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/styleFooter.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="{{ asset('frontend/css/styleBlog.css') }}">
     @stack('style')
 </head>
 
@@ -80,11 +80,11 @@
         })();
     </script>
     <script>
-            document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             // Kiểm tra nếu có thông báo thành công
             @if (session('success'))
                 toastr.success("{{ session('success') }}");
-           @endif
+            @endif
             // Kiểm tra nếu có thông báo lỗi
             @if (session('error'))
                 toastr.error("{{ session('error') }}");
