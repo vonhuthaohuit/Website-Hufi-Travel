@@ -158,7 +158,7 @@ class TourController extends Controller
 
         $imagePath = $image->storeAs('temp', $image->getClientOriginalName());
 
-        $pythonScript = storage_path('app/public/python_scripts/search_image.py');
+        $pythonScript = storage_path('search_image.py');
         $imageFilePath = storage_path('app/' . $imagePath);
 
         $output = shell_exec("python \"$pythonScript\" \"$imageFilePath\" 2>&1");
