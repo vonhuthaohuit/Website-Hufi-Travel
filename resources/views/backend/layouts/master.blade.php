@@ -135,13 +135,14 @@
 
                 let deleteUrl = $(this).attr('href');
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: 'Bạn có chắc chắn không?',
+                    text: "Bạn sẽ không thể hoàn tác hành động này!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonText: 'Có, xóa nó!',
+                    cancelButtonText: 'Hủy'
                 }).then((result) => {
                     if (result.isConfirmed) {
 
@@ -152,7 +153,7 @@
                                 console.log(data);
                                 if (data.status == 'success') {
                                     Swal.fire(
-                                        'Deleted!',
+                                        'Đã xóa!',
                                         data.message,
                                         'success'
                                     )
@@ -161,7 +162,7 @@
                                     }, 1000);
                                 } else if (data.status == 'error') {
                                     Swal.fire(
-                                        'Cant Delete',
+                                        'Không thể xóa',
                                         data.message,
                                         'error'
                                     )
@@ -185,7 +186,6 @@
             @endif
             @if (session('error'))
                 toastr.error("{{ session('error') }}");
-
             @endif
             toastr.options = {
                 "closeButton": true, // Hiển thị nút đóng
