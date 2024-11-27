@@ -23,7 +23,7 @@ class PhongBanDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addIndexColumn()
+            ->addIndexColumn()
 
             ->addColumn('action', function ($query) {
                 $editBtn = "<a href='" . route('phongban.edit', $query->maphongban) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
@@ -33,6 +33,22 @@ class PhongBanDataTable extends DataTable
             ->editColumn('created_at', function ($query) {
                 return Carbon::parse($query->created_at)->format('d-m-Y'); // Định dạng ngày
             })
+            ->addColumn('truongphong', function ($query) {
+                // Nếu truongphong đã là đối tượng, sử dụng luôn
+                if (is_object($query->truongphong)) {
+                    return $query->truongphong->hoten;
+                }
+
+                // Nếu truongphong là ID, tìm đối tượng
+                $truongphong = \App\Models\NhanVien::find($query->truongphong);
+
+                // Trả về họ tên trưởng phòng nếu có, nếu không trả về 'Chưa có trưởng phòng'
+                return $truongphong ? $truongphong->hoten : 'Chưa có trưởng phòng';
+            })
+
+
+
+
 
             ->editColumn('updated_at', function ($query) {
                 return Carbon::parse($query->updated_at)->format('d-m-Y'); // Định dạng ngày
@@ -45,8 +61,10 @@ class PhongBanDataTable extends DataTable
      */
     public function query(PhongBan $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->with('truongphong')->newQuery();  // Nạp mối quan hệ truongphong
     }
+
+
 
     /**
      * Optional method if you want to use the html builder.
@@ -54,20 +72,20 @@ class PhongBanDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('phongban-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('phongban-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -77,19 +95,20 @@ class PhongBanDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')
-            ->title('STT')
-            ->exportable(false)
-            ->printable(false)
-            ->width(30)
-            ->addClass('text-center'),
+                ->title('STT')
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center'),
             Column::make('tenphongban')->width(100)->title('Tên phòng ban'),
+            Column::make('truongphong')->width(100)->title('Tên trưởng phòng'),
             Column::make('created_at')->width(100)->title('Ngày tạo'),
             Column::make('updated_at')->width(100)->title('Cập nhật lần cuối'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(100)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(100)
+                ->addClass('text-center'),
 
         ];
     }

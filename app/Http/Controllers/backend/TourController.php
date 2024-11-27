@@ -58,7 +58,6 @@ class TourController extends Controller
         try {
             $request->validate([
                 'tentour' => 'required',
-                'motatour' => 'required',
                 'noikhoihanh' => 'required',
                 'loaitour_id' => 'required|exists:loaitour,maloaitour',
                 'hinhdaidien' => 'required|image',
@@ -124,7 +123,6 @@ class TourController extends Controller
         try {
             $request->validate([
                 'tentour' => 'required|string|max:255',
-                'motatour' => 'required|string',
                 'tinhtrang' => 'required|string|max:100',
                 'thoigiandi' => 'required',
                 'hinhdaidien' => 'nullable|image',
