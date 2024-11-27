@@ -52,8 +52,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Thời gian đi</label>
-                                            <input type="text" class="form-control" name="thoigiandi"
-                                                value="{{ old('thoigiandi') }}">
+                                            <input type="number" class="form-control" name="thoigiandi" min="1" max = "10"
+                                        placeholder="Nhập thời gian đi từ 1 ->10"value="{{ old('thoigiandi') }}">
                                         </div>
                                     </div>
                                     {{-- <div class="col-md-2">

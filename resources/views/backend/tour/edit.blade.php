@@ -59,8 +59,8 @@
                                         <div class="form-group">
                                             <label>Thời gian đi</label>
                                             <div class="d-flex align-items-center">
-                                                <input type="number" class="form-control me-2" name="thoigiandi" required
-                                                    style="width: 60px;" value="{{ $tour->thoigiandi }}"
+                                                <input type="number" class="form-control me-2" name="thoigiandi" required min="1" max="10"
+                                                    style="width: 80px;" value="{{ $tour->thoigiandi }}"
                                                     placeholder="Số ngày">
                                                 <span style="margin-left:20px" class="text-muted">VD : n ngày n-1 đêm</span>
                                             </div>
