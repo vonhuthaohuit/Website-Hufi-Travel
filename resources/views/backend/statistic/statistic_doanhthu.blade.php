@@ -2,27 +2,36 @@
 
 @section('content')
     <div class="container">
-        <h3>Top Popular Destinations</h3>
-        <canvas id="horizontalBarChart" width="400" height="200"></canvas>
+        <div>
+            <h3 style="text-align:center">Top Popular Destinations</h3>
+            <canvas id="horizontalBarChart" width="400" height="200"></canvas>
+        </div>
+        <div>
+            <h3 style="text-align:center">Top Popular Destinations</h3>
+            <canvas id="horizontalBarChart1" width="400" height="200"></canvas>
+        </div>
+
     </div>
+
 @endsection
 
 @push('scripts')
 <script>
     // Dữ liệu từ server
-    const labels =  ['Hà Nội', 'Hồ Chí Minh', 'Đà Nẵng'];
-    const dataValues =  [120, 95, 80] ;       
+    const labels = @json($labels);
+    const values = @json($values);
 
     // Cấu hình biểu đồ
     const data = {
         labels: labels,
         datasets: [{
-            label: 'Number of Bookings',
-            data: dataValues,
+        //    label: 'Number of Bookings',
+            data: values,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)'
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(321, 105, 12, 0.2)'
             ],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
@@ -50,6 +59,10 @@
     // Khởi tạo Chart.js
     const horizontalBarChart = new Chart(
         document.getElementById('horizontalBarChart'),
+        config
+    );
+    const horizontalBarChart1 = new Chart(
+        document.getElementById('horizontalBarChart1'),
         config
     );
 </script>
