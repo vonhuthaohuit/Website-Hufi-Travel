@@ -24,7 +24,7 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('backend/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/css/components.css') }}">
-    <link rel="stylesheet" href="{{ asset('backend/assets/css/style_backup.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/style_backup.css?v=2') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -32,6 +32,15 @@
     <style>
         .form-group>label {
             font-size: 14px;
+        }
+
+        .card {
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section .section-header {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 

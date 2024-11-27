@@ -59,7 +59,7 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="from-group">
+                                <div class="form-group">
                                     <label for = "trangthaithanhtoan">Trạng thái thanh toán</label>
                                     <select name="trangthaithanhtoan" id="trangthaithanhtoan" class="form-control" required>
                                         <option value="Chưa thanh toán"
@@ -78,17 +78,16 @@
                                         value="{{ isset($hoadon->created_at) ? \Carbon\Carbon::parse($hoadon->created_at)->format('Y-m-d') : \Carbon\Carbon::now()->format('Y-m-d') }}"
                                         required>
                                 </div>
-                                <div class="card-header">
-                                    <h4>Danh sách khách hàng đi tour</h4>
-                                </div>
-                                <div class="card-body customer-container">
+
+                                <div class="customer-container">
+                                    <h4 class="my-4"><strong>Danh sách khách hàng đi tour</strong></h4>
                                     @foreach ($hoadon->phieudattour->chitietphieudattour as $index => $chiTiet)
                                         <input hidden name="khachhang[{{ $index }}][maphieudattour]" type="text"
                                             value="{{ $chiTiet->maphieudattour }}">
                                         <div>
-                                            <h4>
-                                                <strong>Khách hàng thứ {{ $index + 1 }}</strong>
-                                            </h4>
+                                            <h5>
+                                               Khách hàng thứ {{ $index + 1 }}
+                                            </h5>
                                             <div class="row mt-3">
                                                 <div class="col-md-2">
                                                     <label for="hoten_{{ $index }}">Họ tên</label>

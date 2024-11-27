@@ -111,8 +111,10 @@
                                     </li>
                                 </ul>
                             </div>
+
+
                             <div class="tour-details__bottom-right">
-                                <a href="#"><i class="fas fa-share"></i>chia sẻ</a>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}" target="_blank"><i class="fas fa-share"></i>chia sẻ</a>
                             </div>
                         </div>
                     </div>
