@@ -37,7 +37,6 @@ class DanhGiaController extends Controller
     public function destroy($madanhgia)
     {
         DanhGia::find($madanhgia)->delete();
-
         return response(['status' => 'success', 'message' => 'Xóa đánh giá thành công']);
     }
 }

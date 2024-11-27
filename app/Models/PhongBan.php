@@ -11,7 +11,12 @@ class PhongBan extends Model
     protected $table = 'phongban';
     protected $primaryKey = 'maphongban';
 
-    public function nhanvien(){
-        return $this->hasMany(NhanVien::class,'maphongban');
+    public function nhanvien()
+    {
+        return $this->hasMany(NhanVien::class, 'maphongban');
+    }
+    public function truongphong()
+    {
+        return $this->belongsTo(NhanVien::class, 'truongphong', 'manhanvien');
     }
 }

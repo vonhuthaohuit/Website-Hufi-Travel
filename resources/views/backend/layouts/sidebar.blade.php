@@ -69,9 +69,14 @@
 
         </ul>
         </li>
-
-        <li class="dropdown {{ setActive(['phancongnhanvien.*', 'admin.withdraw.index']) }}">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-wallet"></i>
+        <li class="{{ setActive(['phancongnhanvien.*']) }}">
+            <a class="nav-link {{ setActive(['backup.index']) }}"
+                href="{{ route('danhsachtour') }}"><i class="fas fa-wallet"></i>
+                <span>Phân công công việc</span>
+            </a>
+        </li>
+        {{-- <li class="dropdown {{ setActive(['phancongnhanvien.*', 'admin.withdraw.index']) }}">
+            <a href="{{ route('danhsachtour') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-wallet"></i>
                 <span>Phân công công việc</span></a>
             <ul class="dropdown-menu">
 
@@ -81,7 +86,7 @@
                 <li class="{{ setActive(['admin.withdraw.index']) }}"><a class="nav-link" href="">Tour sắp
                         tới</a></li>
             </ul>
-        </li>
+        </li> --}}
 
         {{-- <li
                 class="dropdown {{ setActive([

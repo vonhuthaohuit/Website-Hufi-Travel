@@ -188,7 +188,7 @@
                 "onclick": null,
                 "showDuration": "300", // Thời gian hiển thị (ms)
                 "hideDuration": "1000", // Thời gian ẩn đi (ms)
-                "timeOut": "1050", // Thời gian tự động đóng (ms)
+                "timeOut": "1000", // Thời gian tự động đóng (ms)
                 "extendedTimeOut": "1000",
                 "showEasing": "swing",
                 "hideEasing": "linear",
