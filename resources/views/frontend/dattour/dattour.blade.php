@@ -38,20 +38,21 @@
                     </header>
                     <div class="content-body">
                         <div class="mb-3 row">
-                            <label for="ngay-khoi-hanh" class="col-md-2">Ngày khởi hành <span
+                            <label for="ticket_ngaykhoihanh" class="col-md-2">Ngày khởi hành <span
                                     class="text-danger">*</span></label>
                             <div class="col-md-4">
-                                <select id="ngay-khoi-hanh" class="form-select" required>
+                                <select name="ticket_ngaykhoihanh" id="ticket_ngaykhoihanh" class="form-select" required>
                                     <option value="" disabled selected>Chọn ngày khởi hành</option>
                                     @foreach ($chitiettour as $item)
                                         <option value="{{ $item->ngaybatdau }}">{{ $item->ngaybatdau }}</option>
                                     @endforeach
                                 </select>
-                                <div class="invalid-feedback" style="display: none;">Vui lòng chọn ngày khởi hành</div>
+                                <span class="text-danger error-message" style="display: none;"></span>
                             </div>
                         </div>
                     </div>
                 </div>
+
 
                 <div class="content_book tour-price-advance">
                     <header class="content-header">

@@ -4,7 +4,9 @@
 <style>
     .select2-selection__clear {
         margin-top: 50px;
-
+    }
+    .panel-1{
+        padding: 15px;
     }
 </style>
 @section('content')
@@ -39,6 +41,27 @@
                                         <option value="{{ $user->id }}">{{ $user->email }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="content_book choose-ngay-khoi-hanh mb-4">
+                            <header class="content-header">
+                                <h3>Chọn ngày khởi hành</h3>
+                            </header>
+                            <div class="content-body">
+                                <div class="mb-3 row">
+                                    <label for="ticket_ngaykhoihanh" class="col-md-2">Ngày khởi hành <span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <select name="ticket_ngaykhoihanh" id="ticket_ngaykhoihanh"
+                                                class="form-control js-ngaykhoihanh" required>
+                                                <option value="" disabled selected>Chọn ngày khởi hành</option>
+                                            </select>
+                                        </div>
+
+                                        <span class="text-danger error-message" style="display: none;"></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -191,9 +214,9 @@
                                                     <td><input type="date"
                                                             class="form-control ngay-sinh-khach-hang-di-tour"
                                                             id="td_birthday_1" name="td_ticket[1][td_birthday]"
-                                                            min="1900-01-01" max="2025-01-01"
-                                                            placeholder="01/01/1990" required
-                                                            onchange="calculateAgeAndUpdateCustomerType(this)"></td>
+                                                            min="1900-01-01" max="2025-01-01" placeholder="01/01/1990"
+                                                            required onchange="calculateAgeAndUpdateCustomerType(this)">
+                                                    </td>
                                                     <td>
                                                         <select name="td_ticket[1][td_gender]" id="td_gender_1"
                                                             class="form-control">
@@ -308,6 +331,35 @@
                                 alert('Có lỗi xảy ra khi tải dữ liệu tour.');
                             }
                         });
+                        $.ajax({
+                            url: '/get-chi-tiet-tour/' + tourId,
+                            type: 'GET',
+                            success: function(data) {
+                                console.log(data);
+
+                                $('.js-ngaykhoihanh').each(function() {
+                                    $(this).html(
+                                        '<option value="">Chọn ngày khởi hành</option>'
+                                    );
+                                });
+
+                                const ngayKhoiHanhSelect = $('#ticket_ngaykhoihanh');
+                                ngayKhoiHanhSelect.html(
+                                    '<option value="" disabled selected>Chọn ngày khởi hành</option>'
+                                );
+
+                                if (data && data.length > 0) {
+                                    data.forEach(function(ngay) {
+                                        ngayKhoiHanhSelect.append(
+                                            `<option value="${ngay['ngaybatdau']}">${ngay['ngaybatdau']}</option>`
+                                            );
+                                    });
+                                }
+                            },
+                            error: function() {
+                                alert('Có lỗi xảy ra khi tải dữ liệu tour.');
+                            }
+                        });
                     } else {
                         $('#tourName').text('');
                         $('#tourTime').text('');
@@ -318,6 +370,7 @@
                         $('.js-type-customer').each(function() {
                             $(this).html('<option value="">Chọn loại khách</option>');
                         });
+                        $('js-ngaykhoihanh').html('<option value="">Chọn ngày khởi hành</option>');
                     }
                 });
 

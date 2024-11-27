@@ -123,6 +123,7 @@ class DatTourController extends Controller
         $tour = $this->tour->find($tourId);
         $data = [
             'tourId' => $tourId,
+            'ticket_ngaykhoihanh' => $request->input('ticket_ngaykhoihanh'),
             'ticket_fullname' => $request->input('ticket_fullname'),
             'ticket_cccd' => $request->input('ticket_cccd'),
             'ticket_address' => $request->input('ticket_address'),
@@ -168,7 +169,7 @@ class DatTourController extends Controller
 
         $trangThaiDatTour = 'Đang chờ xác nhận đặt tour';
         $toDay = date('Y-m-d');
-        $phieuDatTour = $this->phieuDatTour->TaoPhieuDatTour($tourId, $tongTienPhieuDatTour, $tongSoLuong, $trangThaiDatTour, $toDay);
+        $phieuDatTour = $this->phieuDatTour->TaoPhieuDatTour($tourId, $tongTienPhieuDatTour, $tongSoLuong, $trangThaiDatTour, $toDay, $data['ticket_ngaykhoihanh']);
         if (!$phieuDatTour || !isset($phieuDatTour['maphieudattour'])) {
             return redirect()->back()->with('error', 'Không thể tạo phiếu đặt tour.');
         }
