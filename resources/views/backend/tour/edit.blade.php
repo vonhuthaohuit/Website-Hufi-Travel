@@ -59,7 +59,7 @@
                                         <div class="form-group">
                                             <label>Thời gian đi</label>
                                             <div class="d-flex align-items-center">
-                                                <input type="number" class="form-control me-2" name="thoigiandi"
+                                                <input type="number" class="form-control me-2" name="thoigiandi" required
                                                     style="width: 60px;" value="{{ $tour->thoigiandi }}"
                                                     placeholder="Số ngày">
                                                 <span style="margin-left:20px" class="text-muted">VD : n ngày n-1 đêm</span>
@@ -70,7 +70,7 @@
                                 <div class="form-group">
                                     <label>Giá VND</label>
                                     <div class="d-flex align-items-center">
-                                        <input type="number" class="form-control me-2" name="giatour"
+                                        <input type="number" class="form-control me-2" name="giatour" readonly
                                             value="{{ $tour->giatour }}">
                                     </div>
                                 </div>
@@ -86,6 +86,11 @@
                                         <div class="form-group">
                                             <label>Loại Tour</label>
                                             <select class="form-control" name="loaitour_id">
+                                                @if($tour->maloaitour != null)
+                                                <option value="{{ $tour->maloaitour }}">{{ $tour->loaitour->tenloai }}</option>
+                                            @else
+                                            <option value="">Chọn loại tour</option>
+                                            @endif
                                                 @foreach ($loaiTour as $loaitour)
                                                     <option value="{{ $loaitour->maloaitour }}"
                                                         {{ $tour->matour == $loaitour->maloaitour ? 'selected' : '' }}>
@@ -99,11 +104,15 @@
                                         <div class="form-group">
                                             <label>Khuyến mãi</label>
                                             <select class="form-control" name="khuyenmai_id">
-                                                @foreach ($khuyenMai as $khuyenmai)
-                                                    <option value="{{ $khuyenmai->makhuyenmai }}"
-                                                        {{ $tour->matour == $khuyenmai->makhuyenmai ? 'selected' : '' }}>
-                                                        {{ $khuyenmai->phantramgiam }}%
-                                                    </option>
+                                                @if($tour->makhuyenmai != null)
+                                                    <option value="{{ $tour->makhuyenmai }}">{{ $tour->khuyenmai->phantramgiam }}%</option>
+                                                @else
+                                                <option value="">Chọn khuyến mãi</option>
+                                                @endif
+                                                <option value="">Không có</option>
+                                                @foreach ($khuyenMai as $khuyenMaiItem)
+                                                    <option value="{{ $khuyenMaiItem->makhuyenmai }}">
+                                                        {{ $khuyenMaiItem->phantramgiam }}%</option>
                                                 @endforeach
                                             </select>
                                         </div>
