@@ -180,15 +180,13 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Kiểm tra nếu có thông báo thành công
             @if (session('success'))
                 toastr.success("{{ session('success') }}");
             @endif
-            // Kiểm tra nếu có thông báo lỗi
             @if (session('error'))
                 toastr.error("{{ session('error') }}");
+
             @endif
-            // Cấu hình mặc định cho toastr (tuỳ chỉnh nếu cần)
             toastr.options = {
                 "closeButton": true, // Hiển thị nút đóng
                 "debug": false, // Tắt chế độ debug
@@ -199,7 +197,7 @@
                 "onclick": null,
                 "showDuration": "300", // Thời gian hiển thị (ms)
                 "hideDuration": "1000", // Thời gian ẩn đi (ms)
-                "timeOut": "5000", // Thời gian tự động đóng (ms)
+                "timeOut": "1050", // Thời gian tự động đóng (ms)
                 "extendedTimeOut": "1000",
                 "showEasing": "swing",
                 "hideEasing": "linear",

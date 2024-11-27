@@ -52,8 +52,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Thời gian đi</label>
-                                            <input type="text" class="form-control" name="thoigiandi"
-                                                value="{{ old('thoigiandi') }}">
+                                            <input type="number" class="form-control" name="thoigiandi" min="1" max = "10"
+                                        placeholder="Nhập thời gian đi từ 1 ->10"value="{{ old('thoigiandi') }}">
                                         </div>
                                     </div>
                                     {{-- <div class="col-md-2">
@@ -67,7 +67,7 @@
 
                                 <div class="form-group">
                                     <label>Nơi khởi hành</label>
-                                    <input type="text" class="form-control" name="noikhoihanh"
+                                    <input type="text" class="form-control" name="noikhoihanh" required
                                         value="{{ old('noikhoihanh') }}">
                                 </div>
 
@@ -75,7 +75,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Loại tour</label>
-                                            <select class="form-control" name="loaitour_id">
+                                            <select class="form-control" name="loaitour_id" required>
                                                 <option value="">Chọn loại tour</option>
                                                 @foreach ($loaiTour as $loaiTourItem)
                                                     <option value="{{ $loaiTourItem->maloaitour }}">{{ $loaiTourItem->tenloai }}
@@ -90,7 +90,7 @@
                                             <select class="form-control" name="khuyenmai_id">
                                                 <option value="">Chọn khuyến mãi</option>
                                                 @foreach ($khuyenMai as $khuyenMaiItem)
-                                                    <option value="{{ $khuyenMaiItem->id }}">
+                                                    <option value="{{ $khuyenMaiItem->makhuyenmai }}">
                                                         {{ $khuyenMaiItem->phantramgiam }}%</option>
                                                 @endforeach
                                             </select>

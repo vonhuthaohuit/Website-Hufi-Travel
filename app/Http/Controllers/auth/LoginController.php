@@ -44,7 +44,7 @@ class LoginController extends Controller
                     'google_id' => $user->id,
                     'matkhau' => bcrypt('123456dumy'),
                     'trangthai' => 'Hoạt động',
-                    'manhomquyen' => '1',
+                    'manhomquyen' => 2,
                 ]);
                 $khachhang = new KhachHang();
                 $khachhang->hoten = $user->name;
