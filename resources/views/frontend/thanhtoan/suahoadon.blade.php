@@ -1,7 +1,196 @@
 @extends('backend.layouts.master')
 
 @section('content')
-    <div class="container">
+    <section class="section">
+        <div class="section-header">
+            <h1>Hóa đơn</h1>
+        </div>
+        <div class="section-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Sửa hóa đơn</h4>
+                            <div class="card-header-action">
+                                <a href="{{ route('hoadon.index') }}" class="btn btn-primary"><i
+                                        class="fas fa-arrow-left"></i>
+                                    Quay lại</a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form action="{{ route('hoadon.update', $hoadon->mahoadon) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <input type="text" hidden value="{{ $hoadon->phieudattour->tour->matour }}"
+                                    name="tourid">
+                                <div class="form-group">
+                                    <label for="mahoadon">Mã hoá đơn</label>
+                                    <input readonly type="text" name="mahoadon" id="mahoadon" class="form-control"
+                                        value="{{ number_format($hoadon->mahoadon) }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tongsotien">Tổng số tiền</label>
+                                    <input readonly type="number" name="tongsotien" id="tongsotien" class="form-control"
+                                        value="{{ $hoadon->tongsotien }}" required>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="phuongthucthanhtoan">Phương thức thanh toán</label>
+                                    <select name="phuongthucthanhtoan" id="phuongthucthanhtoan" class="form-control"
+                                        required>
+                                        <option value="Thanh toán trực tiếp"
+                                            {{ $hoadon->phuongthucthanhtoan == 'Thanh toán trực tiếp' ? 'selected' : '' }}>
+                                            Tiền
+                                            mặt</option>
+                                        <option value="Chuyển khoản"
+                                            {{ $hoadon->phuongthucthanhtoan == 'Chuyển khoản' ? 'selected' : '' }}>Chuyển
+                                            khoản
+                                        </option>
+                                        <option value="Thanh toán online VNPay"
+                                            {{ $hoadon->phuongthucthanhtoan == 'Thanh toán online VNPay' ? 'selected' : '' }}>
+                                            Thanh
+                                            toán online VNPay
+                                        </option>
+                                        <option value="Thanh toán online Momo"
+                                            {{ $hoadon->phuongthucthanhtoan == 'Thanh toán online Momo' ? 'selected' : '' }}>
+                                            Thanh
+                                            toán
+                                            online Momo
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="from-group">
+                                    <label for = "trangthaithanhtoan">Trạng thái thanh toán</label>
+                                    <select name="trangthaithanhtoan" id="trangthaithanhtoan" class="form-control" required>
+                                        <option value="Chưa thanh toán"
+                                            {{ $hoadon->trangthaithanhtoan == 'Chưa thanh toán' ? 'selected' : '' }}>Chưa
+                                            thanh toán
+                                        </option>
+                                        <option value="Đã thanh toán"
+                                            {{ $hoadon->trangthaithanhtoan == 'Đã thanh toán' ? 'selected' : '' }}>Đã thanh
+                                            toán
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ngaythanhtoan">Ngày thanh toán</label>
+                                    <input type="date" name="ngaythanhtoan" id="ngaythanhtoan" class="form-control"
+                                        value="{{ isset($hoadon->created_at) ? \Carbon\Carbon::parse($hoadon->created_at)->format('Y-m-d') : \Carbon\Carbon::now()->format('Y-m-d') }}"
+                                        required>
+                                </div>
+                                <div class="card-header">
+                                    <h4>Danh sách khách hàng đi tour</h4>
+                                </div>
+                                <div class="card-body customer-container">
+                                    @foreach ($hoadon->phieudattour->chitietphieudattour as $index => $chiTiet)
+                                        <input hidden name="khachhang[{{ $index }}][maphieudattour]" type="text"
+                                            value="{{ $chiTiet->maphieudattour }}">
+                                        <div>
+                                            <h4>
+                                                <strong>Khách hàng thứ {{ $index + 1 }}</strong>
+                                            </h4>
+                                            <div class="row mt-3">
+                                                <div class="col-md-2">
+                                                    <label for="hoten_{{ $index }}">Họ tên</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <input name="khachhang[{{ $index }}][hoten]" type="text"
+                                                        class="form-control text-truncate"
+                                                        value="{{ $chiTiet->khachhang->hoten }}" required>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-2">
+                                                    <label for="cccd_{{ $index }}">Căn cước công dân</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <input name="khachhang[{{ $index }}][cccd]" type="text"
+                                                        class="form-control text-truncate"
+                                                        value="{{ $chiTiet->khachhang->cccd }}" required
+                                                        pattern="^\d{9,12}$" minlength="9" maxlength="12"
+                                                        oninput="validateNumber(this)">
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-2">
+                                                    <label for="sodienthoai_{{ $index }}">Số điện thoại</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <input name="khachhang[{{ $index }}][sodienthoai]"
+                                                        type="text" class="form-control text-truncate"
+                                                        value="{{ $chiTiet->khachhang->sodienthoai }}" required
+                                                        pattern="^\d{10}$" minlength="10" maxlength="10"
+                                                        oninput="validateNumber(this)">
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-2">
+                                                    <label for="sodienthoai_{{ $index }}">Giới tính</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <select name="khachhang[{{ $index }}][gioitinh]"
+                                                        class="form-control" required>
+                                                        <option value="Nam"
+                                                            {{ $chiTiet->khachhang->gioitinh == 'Nam' ? 'selected' : '' }}>
+                                                            Nam
+                                                        </option>
+                                                        <option value="Nữ"
+                                                            {{ $chiTiet->khachhang->gioitinh == 'Nữ' ? 'selected' : '' }}>
+                                                            Nữ
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-2">
+                                                    <label for="ngaysinh_{{ $index }}">Ngày sinh</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <input name="khachhang[{{ $index }}][ngaysinh]" type="date"
+                                                        class="form-control text-truncate"
+                                                        value="{{ $chiTiet->khachhang->ngaysinh }}" required>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-2">
+                                                    <label for="tenloaikhachhang_{{ $index }}">Loại khách
+                                                        hàng</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <input readonly
+                                                        name="khachhang[{{ $index }}][tenloaikhachhang]"
+                                                        type="text" class="form-control text-truncate"
+                                                        value="{{ $chiTiet->khachhang->loaikhachhang->tenloaikhachhang }}">
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-2">
+                                                    <label for="chitietsotiendat_{{ $index }}">Mức áp dụng
+                                                        giá</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <input readonly
+                                                        name="khachhang[{{ $index }}][chitietsotiendat]"
+                                                        type="text" class="form-control text-truncate"
+                                                        value="{{ number_format($chiTiet->chitietsotiendat) }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Sửa</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    {{-- <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <h2>Sửa hóa đơn</h2>
@@ -27,13 +216,15 @@
                                 {{ $hoadon->phuongthucthanhtoan == 'Thanh toán trực tiếp' ? 'selected' : '' }}>Tiền
                                 mặt</option>
                             <option value="Chuyển khoản"
-                                {{ $hoadon->phuongthucthanhtoan == 'Chuyển khoản' ? 'selected' : '' }}>Chuyển khoản</option>
+                                {{ $hoadon->phuongthucthanhtoan == 'Chuyển khoản' ? 'selected' : '' }}>Chuyển khoản
+                            </option>
                             <option value="Thanh toán online VNPay"
                                 {{ $hoadon->phuongthucthanhtoan == 'Thanh toán online VNPay' ? 'selected' : '' }}>Thanh
                                 toán online VNPay
                             </option>
                             <option value="Thanh toán online Momo"
-                                {{ $hoadon->phuongthucthanhtoan == 'Thanh toán online Momo' ? 'selected' : '' }}>Thanh toán
+                                {{ $hoadon->phuongthucthanhtoan == 'Thanh toán online Momo' ? 'selected' : '' }}>Thanh
+                                toán
                                 online Momo
                             </option>
                         </select>
@@ -81,7 +272,8 @@
                                     <div class="col-md-10">
                                         <input name="khachhang[{{ $index }}][cccd]" type="text"
                                             class="form-control text-truncate" value="{{ $chiTiet->khachhang->cccd }}"
-                                            required pattern="^\d{9,12}$" minlength="9" maxlength="12" oninput="validateNumber(this)">
+                                            required pattern="^\d{9,12}$" minlength="9" maxlength="12"
+                                            oninput="validateNumber(this)">
                                     </div>
                                 </div>
                                 <div class="row mt-3">
@@ -117,8 +309,8 @@
                                     </div>
                                     <div class="col-md-10">
                                         <input name="khachhang[{{ $index }}][ngaysinh]" type="date"
-                                            class="form-control text-truncate" value="{{ $chiTiet->khachhang->ngaysinh }}"
-                                            required>
+                                            class="form-control text-truncate"
+                                            value="{{ $chiTiet->khachhang->ngaysinh }}" required>
                                     </div>
                                 </div>
                                 <div class="row mt-3">
@@ -148,7 +340,8 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
+
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -249,6 +442,7 @@
                         input.setCustomValidity('');
                     }
                 }
+
                 function updateTotalAmount() {
                     let totalAmount = 0;
 
