@@ -19,8 +19,13 @@
                     <img src="{{ asset($item->phieuDatTour->tour->hinhdaidien ?? 'default.jpg') }}" alt="No transaction icon">
                     <div>
                         <h5>{{ $item->phieuDatTour->tour->tentour ?? 'Không có tên tour' }}</h5>
-                        <p>Giá: {{ number_format($item->phieuDatTour->tour->giatour ?? 0) }}đ - <span
-                                style="color: green;">{{ $item->phieudattour->trangthaidattour }}</span></p>
+                        @if (empty($item->phieudattour->tour->makhuyenmai))
+                            <p>Giá: {{ number_format($item->phieuDatTour->tour->giatour ?? 0) }}đ - <span
+                                    style="color: green;">{{ $item->phieudattour->trangthaidattour }}</span></p>
+                        @else
+                            <p>Giá: {{ number_format($item->phieuDatTour->tour->giatourgiam ?? 0) }}đ - <span
+                                    style="color: green;">{{ $item->phieudattour->trangthaidattour }}</span></p>
+                        @endif
                     </div>
                 </a>
             @endforeach

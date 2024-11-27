@@ -11,7 +11,7 @@
                     <label for="tentaikhoan"><strong>Tên đăng nhập</strong></label>
                 </div>
                 <div class="col-md-9">
-                    <p>{{ $user->tentaikhoan }}</p>
+                    <p>{{ @$user->tentaikhoan }}</p>
                 </div>
             </div>
 
@@ -20,7 +20,7 @@
                     <label for="email"><strong>Email</strong></label>
                 </div>
                 <div class="col-md-9">
-                    <p>{{ $user->email }}</p>
+                    <p>{{ @$user->email }}</p>
                 </div>
             </div>
 
@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-md-9">
                     <input type="date" class="form-control" id="ngaysinh" name="ngaysinh"
-                        value="{{ @$khachhang->ngaysinh ? date('Y-m-d', strtotime($khachhang->ngaysinh)) : '' }}"
+                        value="{{ @$khachhang->ngaysinh ? date('Y-m-d', strtotime(@$khachhang->ngaysinh)) : '' }}"
                         placeholder="Nhập ngày sinh">
                 </div>
 
@@ -62,7 +62,7 @@
                 </div>
                 <div class="col-md-9">
                     <select class="form-control" id="gioitinh" name="gioitinh">
-                        <option value="" disabled {{ empty($khachhang->gioitinh) ? 'selected' : '' }}>Chọn giới tính</option>
+                        <option value="" disabled {{ empty(@$khachhang->gioitinh) ? 'selected' : '' }}>Chọn giới tính</option>
                         <option value="Nam" {{ @$khachhang->gioitinh === 'Nam' ? 'selected' : '' }}>Nam</option>
                         <option value="Nữ" {{ @$khachhang->gioitinh === 'Nữ' ? 'selected' : '' }}>Nữ</option>
                         <option value="Khác" {{ @$khachhang->gioitinh === 'Khác' ? 'selected' : '' }}>Khác</option>

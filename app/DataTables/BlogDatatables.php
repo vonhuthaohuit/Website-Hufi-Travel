@@ -66,7 +66,7 @@ class BlogDatatables extends DataTable
      */
     public function query(BlogTour $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('mablogtour', 'asc');
     }
 
     /**

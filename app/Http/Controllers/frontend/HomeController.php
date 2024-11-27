@@ -5,11 +5,13 @@ namespace App\Http\Controllers\frontend;
 use App\Http\Controllers\Controller;
 use App\Models\BlogTour;
 use App\Models\ChiTietPhieuDatTour;
+use App\Models\ChiTietTour;
 use App\Models\DiemDuLich;
 use App\Models\HoaDon;
 use App\Models\KhachHang;
 use App\Models\LoaiBlog;
 use App\Models\PhieuDatTour;
+use App\Models\PhieuHuyTour;
 use App\Models\Tour;
 use App\Models\User;
 use App\Traits\ImageUploadTrait;
@@ -129,14 +131,21 @@ class HomeController extends Controller
             ->where('mahoadon', $hoadon->mahoadon)
             ->get();
 
-            $thongTinNguoiDaiDien = [];
-            $thongTinNguoiDaiDien['makhachhang'] = $khachHang->makhachhang;
-            $thongTinNguoiDaiDien['nguoidaidien'] = $khachHang->hoten;
-            $thongTinNguoiDaiDien['tendonvi'] = $hoadon->tendonvi ?? null;
-            $thongTinNguoiDaiDien['diachidonvi'] = $khachHang->diachi ?? null;
-            $thongTinNguoiDaiDien['masothue'] = $hoadon->masothue ?? null;
-            session()->put('thongTinNguoiDaiDien', $thongTinNguoiDaiDien);
-        return view('frontend.home.tour-order', compact('soLuongKhach', 'tour', 'khachHang', 'user'));
+        $thongTinNguoiDaiDien = [];
+        $thongTinNguoiDaiDien['makhachhang'] = $khachHang->makhachhang;
+        $thongTinNguoiDaiDien['nguoidaidien'] = $khachHang->hoten;
+        $thongTinNguoiDaiDien['tendonvi'] = $hoadon->tendonvi ?? null;
+        $thongTinNguoiDaiDien['diachidonvi'] = $khachHang->diachi ?? null;
+        $thongTinNguoiDaiDien['masothue'] = $hoadon->masothue ?? null;
+        session()->put('thongTinNguoiDaiDien', $thongTinNguoiDaiDien);
+
+        @$phieuhuy = PhieuHuyTour::where('maphieuhuytour', $hoadon->maphieuhuytour)->first();
+
+        @$ngayketthuc = ChiTietTour::where('matour', $matour)
+            ->where('ngaybatdau', '=', $tour->phieuDatTour->ngaybatdau)
+            ->first();
+
+        return view('frontend.home.tour-order', compact('soLuongKhach', 'tour', 'khachHang', 'user', 'phieuhuy', 'ngayketthuc'));
     }
 
     public function tourBooked($trangThai = null)

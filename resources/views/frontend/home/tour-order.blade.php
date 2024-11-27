@@ -47,26 +47,37 @@
                                 id="tourName">{{ $tour->phieuDatTour->tour->tentour }}</span></h5>
                         <img src="{{ asset($tour->phieuDatTour->tour->hinhdaidien) }}"
                             alt="{{ $tour->phieuDatTour->tour->hinhdaidien }}" width="100%" class="mb-3">
-                        <p><strong>Ngày bắt đầu:</strong> <span id="startDate">2024-12-10</span></p>
-                        <p><strong>Ngày kết thúc:</strong> <span id="endDate">2024-12-15</span></p>
+                        <p><strong>Ngày bắt đầu:</strong> <span id="startDate">
+                                {{ date('d-m-Y', strtotime(@$tour->phieuDatTour->ngaybatdau)) }}</span></p>
+                        @if (empty($ngaybatdau))
+                            <p><strong>Ngày kết thúc:</strong> <span
+                                    id="endDate">Đang cập nhật</span></p>
+                        @else
+                            <p><strong>Ngày kết thúc:</strong> <span
+                                    id="endDate">{{ date('d-m-Y', strtotime($ngayketthuc)) }}</span></p>
+                        @endif
                         <p><strong>Số lượng thành viên đi tour:</strong> <span
-                                id="numPeople">{{ $tour->phieuDatTour->tongsoluong }}</span>
+                                id="numPeople">{{ @$tour->phieuDatTour->tongsoluong }}</span>
                             người</span></p>
-                        @if (empty($tour->phieudattour->tour->makhuyenmai))
+                        @if (empty(@$tour->phieudattour->tour->makhuyenmai))
                             <p><strong>Giá:</strong> <span
-                                    id="price">{{ number_format($tour->phieuDatTour->tour->giatour) }}đ</span></p>
+                                    id="price">{{ number_format(@$tour->phieuDatTour->tour->giatour) }}đ</span></p>
                         @else
                             <p><strong>Giá:</strong> <span
-                                    id="discountPrice">{{ number_format($tour->phieuDatTour->tour->giatourgiam) }}đ</span>
+                                    id="discountPrice">{{ number_format(@$tour->phieuDatTour->tour->giatourgiam) }}đ</span>
                             </p>
                         @endif
                         <p><strong>Tình trạng:</strong> <span
-                                style="color: green;">{{ $tour->phieuDatTour->trangthaidattour }}</span></p>
-                        @if ($tour->phieuDatTour->trangthaidattour == 'Đã thanh toán')
+                                style="color: green;">{{ @$tour->phieuDatTour->trangthaidattour }}</span></p>
+                        @if (@$tour->phieuDatTour->trangthaidattour == 'Đã thanh toán')
                             <div class="d-flex justify-content-end">
                                 <button class="me-3 btn btn-danger btn-cancel-tour">Hủy tour</button>
                                 <button class="btn btn-create-comment" href="">Đánh giá</button>
                             </div>
+                        @elseif (@$tour->phieuDatTour->trangthaidattour == 'Đã hủy')
+                            <p><strong>Lý do hủy:</strong> {{ @$phieuhuy->lydohuy }}</p>
+                            <p><strong>Ngày hủy:</strong> {{ date('d-m-Y', strtotime(@$phieuhuy->ngayhuy)) }}</p>
+                            <p><strong>Số tiền hoàn:</strong> {{ number_format(@$phieuhuy->sotienhoan) }}đ</p>
                         @else
                             <div class="d-flex justify-content-end">
                                 <button type="button" id="tieptucthanhtoan" class="btn btn-success">Tiếp tục thanh
@@ -80,14 +91,14 @@
             <div class="col-md-6">
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        @if ($tour->phieuDatTour->trangthaidattour != 'Đã thanh toán')
+                        @if ($tour->phieuDatTour->trangthaidattour == 'Đã thanh toán' || $tour->phieuDatTour->trangthaidattour == 'Đã hủy')
+                            <h5 class="mb-3" style="color: #08c; font-weight: 700;">Thông tin người đặt</h5>
+                        @else
                             <div class="d-flex justify-content-between">
                                 <h5 class="mb-3" style="color: #08c; font-weight: 700;">Thông tin người đặt</h5>
                                 <a class="" href="{{ route('profile') }}" style="color: #08c; cursor: pointer;"><i
                                         class="fa-solid fa-pen-to-square"></i></a>
                             </div>
-                        @else
-                            <h5 class="mb-3" style="color: #08c; font-weight: 700;">Thông tin người đặt</h5>
                         @endif
                         <p><strong>Họ và tên:</strong> <span id="startDate">{{ $khachHang->hoten }}</span></p>
                         <p><strong>Ngày đặt:</strong> <span
@@ -102,22 +113,22 @@
                 </div>
                 <div class="card shadow">
                     <div class="card-body">
-                        @if ($tour->phieuDatTour->trangthaidattour != 'Đã thanh toán')
+                        @if (@$tour->phieuDatTour->trangthaidattour == 'Đã thanh toán' || @$tour->phieuDatTour->trangthaidattour == 'Đã hủy')
+                            <h5 class="mb-3" style="color: #08c; font-weight: 700;">Danh sách thành viên đi tour</h5>
+                        @else
                             <div class="d-flex justify-content-between">
                                 <h5 class="mb-3" style="color: #08c; font-weight: 700;">Danh sách thành viên đi tour</h5>
                                 <a class="" href="" style="color: #08c; cursor: pointer;">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </div>
-                        @else
-                            <h5 class="mb-3" style="color: #08c; font-weight: 700;">Danh sách thành viên đi tour</h5>
                         @endif
-                        @foreach ($soLuongKhach as $item)
+                        @foreach (@$soLuongKhach as $item)
                             <p><strong style="color: #08c;">Khách hàng {{ $loop->iteration }}.</strong></p>
-                            <p><strong>Họ tên:</strong> {{ $item->hoten }}</p>
-                            <p><strong>Giới tính:</strong> {{ $item->gioitinh }}</p>
-                            <p><strong>Ngày sinh:</strong> {{ date('d/m/Y', strtotime($item->ngaysinh)) }}</p>
-                            <p><strong>Loại khách hàng:</strong> {{ $item->tenloaikhachhang }}</p>
+                            <p><strong>Họ tên:</strong> {{ @$item->hoten }}</p>
+                            <p><strong>Giới tính:</strong> {{ @$item->gioitinh }}</p>
+                            <p><strong>Ngày sinh:</strong> {{ date('d/m/Y', strtotime(@$item->ngaysinh)) }}</p>
+                            <p><strong>Loại khách hàng:</strong> {{ @$item->tenloaikhachhang }}</p>
                         @endforeach
                     </div>
                 </div>
