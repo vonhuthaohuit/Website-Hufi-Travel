@@ -257,6 +257,7 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
 });
 Route::get('hoadon/{hoaDonId}/print', [HoaDonController::class, 'printInvoice'])->name('hoadon.print');
 
+Route::get('/get-chi-tiet-tour/{tourId}', [HoaDonController::class, 'getChiTietTour'])->name('get.chitiettour');
 Route::get('/get-customer-price/{age}/{tourId}', [HoaDonController::class, 'getCustomerPrice']);
 Route::post('/check-cccd', [KhachHangController::class, 'validateCCCD'])->name('check.cccd');
 Route::get('/get-users', [UserBEController::class, 'getUsers'])->name('get.users');

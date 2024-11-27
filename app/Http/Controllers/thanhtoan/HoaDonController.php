@@ -6,9 +6,11 @@ use App\DataTables\HoaDonDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\dattour\DatTourController;
 use App\Models\ChiTietPhieuDatTour;
+use App\Models\ChiTietTour;
 use App\Models\HoaDon;
 use App\Models\KhachHang;
 use App\Models\LoaiKhachHang;
+use App\Models\PhieuDatTour;
 use App\Models\Tour;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\PDF;
@@ -167,6 +169,7 @@ class HoaDonController extends Controller
 
             $data = [
                 'tourId' => $request['tour_id'],
+                'ticket_ngaykhoihanh' => $request['ticket_ngaykhoihanh'],
                 'ticket_fullname' => $request->input('ticket_fullname'),
                 'ticket_address' => $request->input('ticket_address'),
                 'ticket_phone' => $request->input('ticket_phone'),
@@ -205,7 +208,7 @@ class HoaDonController extends Controller
 
             $trangThaiDatTour = 'Đã thanh toán';
             $toDay = date('Y-m-d');
-            $phieuDatTour = $this->phieuDatTourController->TaoPhieuDatTour($tourId, $tongTienPhieuDatTour, $tongSoLuong, $trangThaiDatTour, $toDay);
+            $phieuDatTour = $this->phieuDatTourController->TaoPhieuDatTour($tourId, $tongTienPhieuDatTour, $tongSoLuong, $trangThaiDatTour, $toDay, $data['ticket_ngaykhoihanh']);
             if (!$phieuDatTour || !isset($phieuDatTour['maphieudattour'])) {
                 return redirect()->back()->with('error', 'Không thể tạo phiếu đặt tour.');
             }
@@ -356,5 +359,10 @@ class HoaDonController extends Controller
         $pdf = PDF::loadView('backend.hoadon.detailshoadon', ['hoaDon' => $hoaDon]);
 
         return $pdf->download('hoa_don_' . $hoaDon->mahoadon . '.pdf');
+    }
+    public function getChiTietTour($tourId)
+    {
+        $chitiettour = ChiTietTour::where('matour', $tourId)->get();
+        return response()->json($chitiettour);
     }
 }

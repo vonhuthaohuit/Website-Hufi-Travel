@@ -14,6 +14,7 @@ class PhieuDatTour extends Model
     protected $fillable = [
         'maphieudattour',
         'ngaydattour',
+        'ngaykhoihanh',
         'tongtienphieudattour',
         'tongsoluong',
         'trangthaidattour',

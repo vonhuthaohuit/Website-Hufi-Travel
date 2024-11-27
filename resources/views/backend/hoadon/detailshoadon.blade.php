@@ -55,10 +55,16 @@
                 /* Ẩn tất cả các phần tử trên trang */
             }
 
-            .invoice-container,
-            .invoice-container * {
-                visibility: visible;
-                /* Chỉ hiển thị phần tử .invoice-container */
+            .no-print {
+                display: none !important;
+                /* Ẩn hoàn toàn phần tử */
+            }
+
+            .invoice-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
             }
 
             .invoice-container {

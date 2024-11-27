@@ -23,7 +23,7 @@ class PhieuDatTourController extends Controller
         $phieuDatTours = $this->phieuDatTour->all();
         return view("frontend.thanhtoan.phieudattour", compact('phieuDatTours'));
     }
-    public function TaoPhieuDatTour($maTour, $tongTienPhieuDatTour, $tongSoLuong, $trangThaiDatTour, $ngayDatTour = null)
+    public function TaoPhieuDatTour($maTour, $tongTienPhieuDatTour, $tongSoLuong, $trangThaiDatTour, $ngayDatTour = null, $ngayKhoiHanh)
     {
         $phieuDatTour = PhieuDatTour::create([
             'ngaydattour' => $ngayDatTour ?? date('Y-m-d'),
@@ -31,6 +31,7 @@ class PhieuDatTourController extends Controller
             'tongsoluong' => $tongSoLuong,
             'trangthaidattour' => $trangThaiDatTour,
             'matour' => $maTour,
+            'ngaykhoihanh' => $ngayKhoiHanh,
         ]);
 
         return $phieuDatTour->toArray();

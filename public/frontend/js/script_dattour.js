@@ -129,6 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
             hasError;
         hasError = checkPhoneField("ticket_phone") || hasError;
         hasError = checkEmailField("ticket_email") || hasError;
+        hasError = validateNgayKhoiHanh("ticket_ngaykhoihanh") || hasError;
 
         let i = 1;
         while (
@@ -148,6 +149,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         console.log("Has error:", hasError);
         return !hasError;
+    }
+    function validateNgayKhoiHanh(fieldName) {
+        const field = document.querySelector(`select[name="${fieldName}"]`);
+        if (!field || !field.value) {
+            showError(field, "Vui lòng chọn ngày khởi hành!");
+            return true;
+        }
+        const selectedDate = new Date(field.value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (selectedDate < today) {
+            showError(
+                field,
+                "Ngày khởi hành phải sau hoặc bằng ngày hiện tại!"
+            );
+            return true;
+        }
+        return false;
     }
 
     function checkRequiredField(fieldName, errorMessage) {
