@@ -388,6 +388,7 @@
                     );
 
 
+
                     $(this).closest('td').find('.js-type-customer').show();
                 });
 

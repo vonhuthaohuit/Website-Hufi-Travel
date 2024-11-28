@@ -81,7 +81,8 @@
                                     <div class="col-md-10">
                                         <input name="khachhang[{{ $index }}][cccd]" type="text"
                                             class="form-control text-truncate" value="{{ $chiTiet->khachhang->cccd }}"
-                                            required pattern="^\d{9,12}$" minlength="9" maxlength="12" oninput="validateNumber(this)">
+                                            required pattern="^\d{9,12}$" minlength="9" maxlength="12"
+                                            oninput="validateNumber(this)">
                                     </div>
                                 </div>
                                 <div class="row mt-3">
@@ -97,7 +98,7 @@
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-md-2">
-                                        <label for="sodienthoai_{{ $index }}">Giới tính</label>
+                                        <label for="gioitinh_{{ $index }}">Giới tính</label>
                                     </div>
                                     <div class="col-md-10">
                                         <select name="khachhang[{{ $index }}][gioitinh]" class="form-control"
@@ -138,7 +139,7 @@
                                     <div class="col-md-10">
                                         <input readonly name="khachhang[{{ $index }}][chitietsotiendat]"
                                             type="text" class="form-control text-truncate"
-                                            value="{{ number_format($chiTiet->chitietsotiendat) }}">
+                                            value="{{ ($chiTiet->chitietsotiendat) }}">
                                     </div>
                                 </div>
                             </div>
@@ -217,23 +218,58 @@
 
                         const tourId = document.querySelector('input[name="tourid"]').value;
 
+                        // Lấy chỉ số khách hàng từ name attribute
+                        const name = this.getAttribute('name');
+                        const match = name.match(/\[(\d+)\]/); // Tìm chỉ số trong dấu []
+                        const index = match ? match[1] : null;
+
+                        if (!index) {
+                            console.error('Không tìm thấy chỉ số khách hàng!');
+                            return;
+                        }
+
+                        // Fetch dữ liệu giá và loại khách hàng
                         fetch(`/get-customer-price/${age}/${tourId}`)
                             .then(response => response.json())
                             .then(data => {
                                 const container = this.closest('.customer-container');
+
+                                if (!container) {
+                                    console.error('Không tìm thấy container!');
+                                    return;
+                                }
+
+                                // Tìm các input trong container theo chỉ số khách hàng
                                 const priceInput = container.querySelector(
-                                    'input[name^="khachhang["][name$="[chitietsotiendat]"]');
-                                priceInput.value = data.price;
-
+                                    `input[name="khachhang[${index}][chitietsotiendat]"]`
+                                );
                                 const customerTypeInput = container.querySelector(
-                                    'input[name^="khachhang["][name$="[tenloaikhachhang]"]');
-                                customerTypeInput.value = data.customerType;
+                                    `input[name="khachhang[${index}][tenloaikhachhang]"]`
+                                );
 
+                                if (priceInput) {
+                                    priceInput.value = data.price;
+                                } else {
+                                    console.error(
+                                        `Không tìm thấy input chitietsotiendat cho index ${index}!`
+                                    );
+                                }
+
+                                if (customerTypeInput) {
+                                    customerTypeInput.value = data.customerType;
+                                } else {
+                                    console.error(
+                                        `Không tìm thấy input tenloaikhachhang cho index ${index}!`
+                                    );
+                                }
+
+                                // Cập nhật tổng số tiền
                                 updateTotalAmount();
                             })
                             .catch(error => console.error('Error:', error));
                     });
                 });
+
 
                 function validateNumber(input) {
                     input.value = input.value.replace(/[^0-9]/g, '');
@@ -249,16 +285,22 @@
                         input.setCustomValidity('');
                     }
                 }
+
                 function updateTotalAmount() {
                     let totalAmount = 0;
 
                     document.querySelectorAll('input[name^="khachhang["][name$="[chitietsotiendat]"]')
                         .forEach(input => {
-                            totalAmount += parseFloat(input.value) || 0;
+                            const value = parseFloat(input.value) || 0;
+                            totalAmount += value;
                         });
 
                     const totalAmountInput = document.querySelector('input[name="tongsotien"]');
-                    totalAmountInput.value = totalAmount;
+                    if (totalAmountInput) {
+                        totalAmountInput.value = totalAmount;
+                    } else {
+                        console.error('Không tìm thấy input tổng số tiền (tongsotien)!');
+                    }
                 }
             });
         </script>
