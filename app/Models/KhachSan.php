@@ -14,4 +14,8 @@ class KhachSan extends Model
     public function khachsan_chuongtrinh(){
         return $this->hasMany(KhachSan_Tour::class,'makhachsan');
     }
+    public function chitietkhachsantour()
+    {
+        return $this->hasMany(KhachSan_Tour::class, 'makhachsan', 'makhachsan');
+    }
 }
