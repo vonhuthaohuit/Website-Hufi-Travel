@@ -28,7 +28,7 @@
                         d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
                 </svg>
             </button>
-            <form action="{{ route('tour.searchbox') }}" method="POST" class="">
+            <form action="{{ route('tour.searchbox') }}" method="POST" class="" enctype="multipart/form-data">
                 @csrf
                 <h2 class="text-center mb-4">Tìm kiếm</h2>
                 <div class="search-group-one">
@@ -79,13 +79,8 @@
                             <input type="date" name="date-end" class="form-control" id="date-end">
                         </div>
                         <div class="col-md-3">
-                            <label for="serch-picture-advanced">Tìm kiếm bằng hình ảnh</label>
-                            <div class="input_container bg-light form-control">
-                                <label for="files" class="btn-image text-black w-100">Chọn hình</label>
-                                <input id="files" style="display:none;" type="file">
-                            </div>
+                            <input type="file" id="imageInput" name="image" accept="image/*">
                         </div>
-
                         <div class="col-md-3 align-self-end">
                             <button type="submit" id="btn-search" class="btn btn-search">Tìm kiếm</button>
                         </div>
@@ -173,11 +168,5 @@
                 event.preventDefault();
             }
         });
-
-        document.querySelector("#files").onchange = function() {
-            const fileName = this.files[0]?.name;
-            const label = document.querySelector("label[for=files]");
-            label.innerText = fileName ?? "Browse Files";
-        };
     </script>
 @endpush

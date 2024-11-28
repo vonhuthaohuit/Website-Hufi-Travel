@@ -153,7 +153,6 @@ class TourController extends Controller
         if (!$request->hasFile('image')) {
             return response()->json(['error' => 'No image uploaded'], 400);
         }
-
         $image = $request->file('image');
 
         $imagePath = $image->storeAs('temp', $image->getClientOriginalName());

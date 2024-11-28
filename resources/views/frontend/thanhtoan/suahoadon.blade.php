@@ -26,11 +26,11 @@
                                 <div class="form-group">
                                     <label for="mahoadon">Mã hoá đơn</label>
                                     <input readonly type="text" name="mahoadon" id="mahoadon" class="form-control"
-                                        value="{{ number_format($hoadon->mahoadon) }}" required>
+                                        value="{{ $hoadon->mahoadon }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="tongsotien">Tổng số tiền</label>
-                                    <input readonly type="number" name="tongsotien" id="tongsotien" class="form-control"
+                                    <input readonly type="text" name="tongsotien" id="tongsotien" class="form-control"
                                         value="{{ $hoadon->tongsotien }}" required>
 
                                 </div>
@@ -148,7 +148,8 @@
                                                 <div class="col-md-10">
                                                     <input name="khachhang[{{ $index }}][ngaysinh]" type="date"
                                                         class="form-control text-truncate"
-                                                        value="{{ $chiTiet->khachhang->ngaysinh }}" required>
+                                                        value="{{ $chiTiet->khachhang->ngaysinh }}" required
+                                                        onchange="updateTotalAmount()">
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -172,7 +173,7 @@
                                                     <input readonly
                                                         name="khachhang[{{ $index }}][chitietsotiendat]"
                                                         type="text" class="form-control text-truncate"
-                                                        value="{{ number_format($chiTiet->chitietsotiendat) }}">
+                                                        value="{{ $chiTiet->chitietsotiendat }}">
                                                 </div>
                                             </div>
                                         </div>

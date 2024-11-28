@@ -339,26 +339,43 @@ class HoaDonController extends Controller
 
     public function show($id)
     {
-        $hoaDon = HoaDon::with([
+        $hoadon = HoaDon::with([
             'phieudattour.tour',
+            'phieudattour.chitietphieudattour',
             'phieudattour.chitietphieudattour.khachhang'
         ])->findOrFail($id);
 
-        Log::info($hoaDon);
-        $html = view('backend.hoadon.detailshoadon', compact('hoaDon'))->render();
+        $maKhachHang = $hoadon->phieudattour->chitietphieudattour->first()->nguoidat;
+        $sodienthoai = 'N/A';
+        foreach ($hoadon->phieudattour->chitietphieudattour as $chiTiet) {
+            if ($chiTiet->nguoidat == $maKhachHang) {
+                $sodienthoai = $chiTiet->khachhang->sodienthoai;
+                break;
+            }
+        }
+        Log::info($hoadon);
+        $html = view('backend.hoadon.detailshoadon', compact('hoadon', 'sodienthoai'))->render();
 
         return response()->json(['html' => $html]);
     }
     public function printInvoice($hoaDonId)
     {
-        $hoaDon = HoaDon::with([
+        $hoadon = HoaDon::with([
             'phieudattour.tour',
+            'phieudattour.chitietphieudattour',
             'phieudattour.chitietphieudattour.khachhang'
         ])->findOrFail($hoaDonId);
+        $maKhachHang = $hoadon->phieudattour->chitietphieudattour->first()->nguoidat;
+        $sodienthoai = 'N/A';
+        foreach ($hoadon->phieudattour->chitietphieudattour as $chiTiet) {
+            if ($chiTiet->nguoidat == $maKhachHang) {
+                $sodienthoai = $chiTiet->khachhang->sodienthoai;
+                break;
+            }
+        }
+        $pdf = PDF::loadView('backend.hoadon.inhoadon', compact('hoadon', 'sodienthoai'));
 
-        $pdf = PDF::loadView('backend.hoadon.detailshoadon', ['hoaDon' => $hoaDon]);
-
-        return $pdf->download('hoa_don_' . $hoaDon->mahoadon . '.pdf');
+        return $pdf->download('hoa_don_' . $hoadon->mahoadon . '.pdf');
     }
     public function getChiTietTour($tourId)
     {
