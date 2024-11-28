@@ -41,7 +41,11 @@ class HinhAnhTourDatattables extends DataTable
      */
     public function query(HinhAnhTour $model): QueryBuilder
     {
-        return $model->newQuery()->with('tour')->orderBy('mahinhanh', 'asc');
+        $tourid = request()->tour_id;
+        return $model->newQuery()
+            ->with('tour')
+            ->where('matour', $tourid)
+            ->orderBy('mahinhanh', 'asc');
     }
 
     /**
