@@ -280,17 +280,30 @@
                             <tr>
                                 <td colspan="2">
                                     <a class="btn btn-danger btn-lg btn-booking" href="#"
-                                        onclick="submitBookingForm({{ $tour->matour }})"><i class="fas fa-cart-plus me-2"></i> Đặt tour</a>
+                                        onclick="submitBookingForm({{ $tour->matour }})"><i
+                                            class="fas fa-cart-plus me-2"></i> Đặt tour</a>
                                     {{-- <button class="btn btn-success btn-lg btn-down-pdf" id="download-pdf">
                                         Tải chi tiết tour
                                     </button> --}}
 
                                     <a class="btn btn-success btn-lg btn-down-pdf"
-                                        href="{{ route('tour.print', $tour->matour) }}"><i class="fas fa-download me-2"></i> Tải chi tiết tour</a>
+                                        href="{{ route('tour.print', $tour->matour) }}"><i
+                                            class="fas fa-download me-2"></i> Tải chi tiết tour</a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                    <div class="dayne">
+                        @foreach ($ngaybatdau2 as $item)
+                            <div class="d-flex justify-content-between">
+                                <label>Ngày bắt đầu: {{ $item->ngaybatdau }}</label>
+                                <a class="btn btn-danger btn-lg btn-booking" href="#"
+                                    onclick="submitBookingForm({{ $tour->matour }}, '{{ $item->ngaybatdau }}')">Đặt
+                                    tour</a>
+                            </div>
+                        @endforeach
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -330,9 +343,7 @@
                     ]
                 });
             });
-        </script>
 
-        <script>
             function submitBookingForm(tourId) {
                 const form = document.createElement('form');
                 form.method = 'POST';
