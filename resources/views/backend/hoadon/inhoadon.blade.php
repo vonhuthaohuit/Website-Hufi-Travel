@@ -44,7 +44,7 @@
 <body>
     <div class="invoice-container">
         <h2 class="header">THÔNG TIN HÓA ĐƠN</h2>
-        <p class="header"><strong>Ngày lập:</strong> {{ \Carbon\Carbon::parse($hoaDon->created_at)->format('d/m/Y') }}
+        <p class="header"><strong>Ngày lập:</strong> {{ \Carbon\Carbon::parse($hoadon->created_at)->format('d/m/Y') }}
         </p>
 
         <table class="details">
@@ -61,13 +61,13 @@
         <h4>Thông tin khách hàng</h4>
         <table class="details">
             <tr>
-                <td><strong>Họ tên người đặt tour:</strong> {{ $hoaDon->nguoidaidien ?? 'N/A' }}</td>
-                <td><strong>Tên đơn vị:</strong> {{ $hoaDon->tendonvi ?? 'N/A' }}</td>
-                <td><strong>Mã số thuế:</strong> {{ $hoaDon->masothue ?? 'N/A' }}</td>
+                <td><strong>Họ tên người đặt tour:</strong> {{ $hoadon->nguoidaidien ?? 'N/A' }}</td>
+                <td><strong>Tên đơn vị:</strong> {{ $hoadon->tendonvi ?? 'N/A' }}</td>
+                <td><strong>Mã số thuế:</strong> {{ $hoadon->masothue ?? 'N/A' }}</td>
             </tr>
             <tr>
-                <td><strong>Địa chỉ:</strong> {{ $hoaDon->diachidonvi ?? 'N/A' }}</td>
-                <td><strong>Điện thoại:</strong> {{ $hoaDon->sodienthoai ?? 'N/A' }}</td>
+                <td><strong>Địa chỉ:</strong> {{ $hoadon->diachidonvi ?? 'N/A' }}</td>
+                <td><strong>Điện thoại:</strong> {{ $hoadon->sodienthoai ?? 'N/A' }}</td>
             </tr>
         </table>
 
@@ -82,7 +82,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($hoaDon->phieudattour->chitietphieudattour as $index => $chiTiet)
+                @foreach ($hoadon->phieudattour->chitietphieudattour as $index => $chiTiet)
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $chiTiet->tour->tentour ?? 'N/A' }}</td>
@@ -96,15 +96,15 @@
         <table class="total">
             <tr>
                 <td class="text-right"><strong>Tổng cộng:</strong>
-                    {{ number_format($hoaDon->phieudattour->tongtienphieudattour, 0, '', ',') }} VNĐ</td>
+                    {{ number_format($hoadon->phieudattour->tongtienphieudattour, 0, '', ',') }} VNĐ</td>
             </tr>
             <tr>
                 <td class="text-right"><strong>Tổng thanh toán:</strong>
-                    {{ number_format($hoaDon->tongsotien, 0, '', ',') }} VNĐ</td>
+                    {{ number_format($hoadon->tongsotien, 0, '', ',') }} VNĐ</td>
             </tr>
         </table>
 
-        <p class="text-right"><strong>Số tiền viết bằng chữ:</strong> {{ convertNumberToWords($hoaDon->tongsotien) }}
+        <p class="text-right"><strong>Số tiền viết bằng chữ:</strong> {{ convertNumberToWords($hoadon->tongsotien) }}
             đồng</p>
     </div>
 </body>
