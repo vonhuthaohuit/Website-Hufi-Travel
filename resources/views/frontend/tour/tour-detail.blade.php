@@ -293,17 +293,6 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="dayne">
-                        @foreach ($ngaybatdau2 as $item)
-                            <div class="d-flex justify-content-between">
-                                <label>Ngày bắt đầu: {{ $item->ngaybatdau }}</label>
-                                <a class="btn btn-danger btn-lg btn-booking" href="#"
-                                    onclick="submitBookingForm({{ $tour->matour }}, '{{ $item->ngaybatdau }}')">Đặt
-                                    tour</a>
-                            </div>
-                        @endforeach
-                    </div>
-
                 </div>
             </div>
         </div>
