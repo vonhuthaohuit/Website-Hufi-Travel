@@ -15,7 +15,7 @@ class BlogTour extends Model
         return $this->belongsTo(LoaiBlog::class,'maloaiblog','maloaiblog');
     }
     public function nhanvien(){
-        return $this->belongsTo(nhanvien::class,'manhanvien','manhanvien');
+        return $this->belongsTo(NhanVien::class,'manhanvien','manhanvien');
     }
 
 

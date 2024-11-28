@@ -33,7 +33,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Ngày </label>
-                                            <input type="text" class="form-control" name="ngay"
+                                            <input type="number" class="form-control" name="ngay"
                                                 value="{{ old('ngay') }}">
                                         </div>
                                     </div>

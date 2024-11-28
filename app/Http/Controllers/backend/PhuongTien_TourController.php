@@ -10,6 +10,7 @@ use App\Models\Tour;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PhuongTien_TourController extends Controller
 {
@@ -51,9 +52,9 @@ class PhuongTien_TourController extends Controller
             $tour = Tour::where('matour', $request->tour_id)->first();
             $tour->giatour = $giatour;
             $tour->save();
-            return redirect()->route('phuongtien_tour.index', ['tour_id' => $request->tour_id])->with('success', 'Thêm thông tin khách sạn vào tour thành công');
+            return redirect()->route('phuongtien_tour.index', ['tour_id' => $request->tour_id])->with('success', 'Thêm thông tin phương tiện vào tour thành công');
         } catch (Exception $e) {
-            return redirect()->route('phuongtien_tour.index', ['tour_id' => $request->tour_id])->with('error', 'Thêm thông tin khách sạn vào tour không thành công');
+            return redirect()->route('phuongtien_tour.index', ['tour_id' => $request->tour_id])->with('error', 'Thêm thông tin phương tiện vào tour không thành công');
         }
     }
     /**
@@ -91,18 +92,23 @@ class PhuongTien_TourController extends Controller
         $tour->giatour = $giatour;
         $tour->save();
 
-        return redirect()->route('phuongtien_tour.index', ['tour_id' => $request->tour_id])->with('success', 'Cập nhật phương tiện tour thành công!');
+        return redirect()->route('phuongtien_tour.index', ['tour_id' => $request->tour_id])->with('success', 'Cập nhật phương tiện theo tour thành công!');
     }
     public function destroy(string $id, string $maphuongtien)
     {
+        try {
 
-        $a = PhuongTien_Tour::where('maphuongtien', $maphuongtien)
-            ->where('matour', $id)->delete();
-        $giatour =  DB::select('SELECT func_giatour(?) AS giatour', [$id]);
-        $giatour = $giatour[0]->giatour ?? 0;
-        $tour = Tour::where('matour', $id)->first();
-        $tour->giatour = $giatour;
-        $tour->save();
-        return response(['status' => 'success', 'message' => 'Xóa thành công']);
+            PhuongTien_Tour::where('maphuongtien', $maphuongtien)
+                ->where('matour', $id)->delete();
+            $giatour =  DB::select('SELECT func_giatour(?) AS giatour', [$id]);
+            $giatour = $giatour[0]->giatour ?? 0;
+            $tour = Tour::where('matour', $id)->first();
+            $tour->giatour = $giatour;
+            $tour->save();
+            return response(['status' => 'success', 'message' => 'Xóa thành công']);
+        } catch (Exception $e) {
+            Log::error('Error in registration process:', ['error' => $e->getMessage()]);
+            return response(['status' => 'error', 'message' => 'Lỗi']);
+        }
     }
 }

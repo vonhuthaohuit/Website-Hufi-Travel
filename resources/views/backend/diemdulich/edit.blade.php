@@ -26,7 +26,7 @@
                                 <input type="hidden" value="{{ $diemdulich->id }}" name="diemdulich_id">
                                 <div class="form-group">
                                     <label>Tên điểm du lịch</label>
-                                    <input type="text" class="form-control" name="tendiem"
+                                    <input type="text" class="form-control" name="tendiem" required
                                         value="{{ $diemdulich->tendiem }}">
                                 </div>
                                 <div class="form-group">

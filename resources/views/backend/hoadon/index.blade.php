@@ -21,7 +21,7 @@
                                 <thead>
                                     <tr>
                                         <th>STT</th>
-                                        <th>Mã hóa đơn</th>
+                                        {{-- <th>Mã hóa đơn</th> --}}
                                         <th>Tên tour</th>
                                         <th>Người đại diện</th>
                                         <th>Tổng số tiền</th>
@@ -76,11 +76,11 @@
                         searchable: false,
                         width: '5%'
                     },
-                    {
-                        data: 'mahoadon',
-                        name: 'mahoadon',
-                        width: '10%'
-                    },
+                    // {
+                    //     data: 'mahoadon',
+                    //     name: 'mahoadon',
+                    //     width: '10%'
+                    // },
                     {
                         data: 'tentour',
                         name: 'tentour',
@@ -115,7 +115,7 @@
                         name: 'action',
                         orderable: false,
                         searchable: false,
-                        width: '25%',
+                        width: '15%',
                         className: 'text-center'
                     }
                 ],

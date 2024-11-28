@@ -13,7 +13,7 @@ use App\Models\LoaiKhachHang;
 use App\Models\PhieuDatTour;
 use App\Models\Tour;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade\PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;

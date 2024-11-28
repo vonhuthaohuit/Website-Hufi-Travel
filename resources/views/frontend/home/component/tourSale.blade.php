@@ -27,79 +27,81 @@
     </style>
 @endpush
 
-<div class="section-title text-center">
-    <span class="section-title__tagline">Tours are discounted</span>
-    <h2 class="section-title__title">Tour giảm giá sắp kết thúc</h2>
-</div>
-<div class="destinations-two-shape wow slideInLeft animated" data-wow-delay="100ms" data-wow-duration="2500ms"
-    style="visibility: visible; animation-duration: 2500ms; animation-delay: 100ms; animation-name: slideInLeft;">
-    <img src="{{ asset('frontend/images/destinations-two-shape.png') }}" alt="">
-</div>
-<div class="camp-timer-container">
-    <ul id="timeControl">
-        <li class="camp-timer-item"><span id="days"></span>Ngày</li>
-        <li class="camp-timer-item"><span id="hours"></span>Giờ</li>
-        <li class="camp-timer-item"><span id="minutes"></span>Phút</li>
-        <li class="camp-timer-item"><span id="seconds"></span>Giây</li>
-    </ul>
-</div>
-<div class="row slick-slider-tour-discount">
-    @foreach ($tourDiscount as $item)
-        <div class="owl-item col-6 col-lg-3 mb-4">
-            <div class="popular-tours__single">
-                <a href="{{ route('tour.detail', $item->slug) }}">
-                    <div class="popular-tours__img">
-                        <img src="{{ asset($item->hinhdaidien) }}" alt="{{ $item->tentour }}">
-                        <div class="popular-tours__icon">
+<section id="tour-sale">
+    <div class="section-title text-center">
+        <span class="section-title__tagline">Tours are discounted</span>
+        <h2 class="section-title__title">Tour giảm giá sắp kết thúc</h2>
+    </div>
+    <div class="destinations-two-shape wow slideInLeft animated" data-wow-delay="100ms" data-wow-duration="2500ms"
+        style="visibility: visible; animation-duration: 2500ms; animation-delay: 100ms; animation-name: slideInLeft;">
+        <img src="{{ asset('frontend/images/destinations-two-shape.png') }}" alt="">
+    </div>
+    <div class="camp-timer-container">
+        <ul id="timeControl">
+            <li class="camp-timer-item"><span id="days"></span>Ngày</li>
+            <li class="camp-timer-item"><span id="hours"></span>Giờ</li>
+            <li class="camp-timer-item"><span id="minutes"></span>Phút</li>
+            <li class="camp-timer-item"><span id="seconds"></span>Giây</li>
+        </ul>
+    </div>
+    <div class="row slick-slider-tour-discount">
+        @foreach ($tourDiscount as $item)
+            <div class="owl-item col-6 col-lg-3 mb-4">
+                <div class="popular-tours__single">
+                    <a href="{{ route('tour.detail', $item->slug) }}">
+                        <div class="popular-tours__img">
+                            <img src="{{ asset($item->hinhdaidien) }}" alt="{{ $item->tentour }}">
+                            <div class="popular-tours__icon">
+                                <a href="{{ route('tour.detail', $item->slug) }}">
+                                    <i class="fa fa-heart"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="popular-tours__content">
                             <a href="{{ route('tour.detail', $item->slug) }}">
-                                <i class="fa fa-heart"></i>
+                                <h3 class="popular-tours__title"><a
+                                        href="{{ route('tour.detail', $item->slug) }}">{{ $item->tentour }}</a>
+                                </h3>
+                                @php
+                                    $soSaoNguyen = floor($item->avg_rating);
+                                    $soSaoDu = $item->avg_rating - $soSaoNguyen;
+                                    $soSaoTrong = 5 - $soSaoNguyen - ($soSaoDu >= 0.5 ? 1 : 0);
+                                @endphp
+
+                                <div class="popular-tours__stars mb-2">
+                                    @if (!empty($item->avg_rating))
+                                        @for ($i = 1; $i <= $soSaoNguyen; $i++)
+                                            <i class="fa fa-star"></i>
+                                        @endfor
+
+                                        @if ($soSaoDu >= 0.5)
+                                            <i class="fa-solid fa-star-half-stroke"></i>
+                                        @endif
+
+                                        @for ($i = 1; $i <= $soSaoTrong; $i++)
+                                            <i class="fa-regular fa-star"></i>
+                                        @endfor
+                                    @else
+                                    @endif
+                                </div>
+                                @if (empty($item->makhuyenmai))
+                                    <p class="popular-tours__rate">
+                                        <span>{{ number_format($item->giatour) }}đ</span>
+                                    </p>
+                                @else
+                                    <p class="popular-tours__rate">
+                                        <span><del class="original-price">{{ number_format($item->giatour) }}đ</del>
+                                            {{ number_format($item->giatourgiam) }}đ</span>
+                                    </p>
+                                @endif
                             </a>
                         </div>
-                    </div>
-                    <div class="popular-tours__content">
-                        <a href="{{ route('tour.detail', $item->slug) }}">
-                            <h3 class="popular-tours__title"><a
-                                    href="{{ route('tour.detail', $item->slug) }}">{{ $item->tentour }}</a>
-                            </h3>
-                            @php
-                                $soSaoNguyen = floor($item->avg_rating);
-                                $soSaoDu = $item->avg_rating - $soSaoNguyen;
-                                $soSaoTrong = 5 - $soSaoNguyen - ($soSaoDu >= 0.5 ? 1 : 0);
-                            @endphp
-
-                            <div class="popular-tours__stars mb-2">
-                                @if (!empty($item->avg_rating))
-                                    @for ($i = 1; $i <= $soSaoNguyen; $i++)
-                                        <i class="fa fa-star"></i>
-                                    @endfor
-
-                                    @if ($soSaoDu >= 0.5)
-                                        <i class="fa-solid fa-star-half-stroke"></i>
-                                    @endif
-
-                                    @for ($i = 1; $i <= $soSaoTrong; $i++)
-                                        <i class="fa-regular fa-star"></i>
-                                    @endfor
-                                @else
-                                @endif
-                            </div>
-                            @if (empty($item->makhuyenmai))
-                                <p class="popular-tours__rate">
-                                    <span>{{ number_format($item->giatour) }}đ</span>
-                                </p>
-                            @else
-                                <p class="popular-tours__rate">
-                                    <span><del class="original-price">{{ number_format($item->giatour) }}đ</del>
-                                        {{ number_format($item->giatourgiam) }}đ</span>
-                                </p>
-                            @endif
-                        </a>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
-        </div>
-    @endforeach
-</div>
+        @endforeach
+    </div>
+</section>
 
 @push('style')
     <style>
@@ -182,19 +184,19 @@
         });
 
 
-        let timeToStart = document.querySelector('#timeToStart')
-        let timeControl = document.querySelector('#timeControl')
-        let second = 1000
-        let minute = second * 60
-        let hour = minute * 60
-        let day = hour * 24
+        let timeToStart = document.querySelector('#timeToStart');
+        let timeControl = document.querySelector('#timeControl');
+        let tourSale = document.querySelector('#tour-sale');
+        let second = 1000;
+        let minute = second * 60;
+        let hour = minute * 60;
+        let day = hour * 24;
 
         let dateDiscount = new Date("{{ $nearestFutureDate }}");
 
         let countDown = dateDiscount.getTime();
 
         const myRacing = () => {
-
             let nowDate = new Date().getTime(),
                 distance = countDown - nowDate;
 
@@ -205,10 +207,11 @@
 
             if (distance < 0) {
                 clearInterval(MyTimer);
-                timeToStart.innerHTML = 'The camp began ☻'
-                timeControl.innerHTML = ''
-            }
+                timeToStart.innerHTML = 'The camp began ☻';
+                timeControl.innerHTML = '';
 
+                tourSale.style.display = 'none';
+            }
         }
 
         MyTimer = setInterval(myRacing, 1000);

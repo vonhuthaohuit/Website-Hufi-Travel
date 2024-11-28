@@ -24,7 +24,7 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('backend/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/css/components.css') }}">
-    <link rel="stylesheet" href="{{ asset('backend/assets/css/style_backup.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/style_backup.css?v=2') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -32,6 +32,15 @@
     <style>
         .form-group>label {
             font-size: 14px;
+        }
+
+        .card {
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section .section-header {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 
@@ -126,13 +135,14 @@
 
                 let deleteUrl = $(this).attr('href');
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: 'Bạn có chắc chắn không?',
+                    text: "Bạn sẽ không thể hoàn tác hành động này!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonText: 'Có, xóa nó!',
+                    cancelButtonText: 'Hủy'
                 }).then((result) => {
                     if (result.isConfirmed) {
 
@@ -143,7 +153,7 @@
                                 console.log(data);
                                 if (data.status == 'success') {
                                     Swal.fire(
-                                        'Deleted!',
+                                        'Đã xóa!',
                                         data.message,
                                         'success'
                                     )
@@ -152,7 +162,7 @@
                                     }, 1000);
                                 } else if (data.status == 'error') {
                                     Swal.fire(
-                                        'Cant Delete',
+                                        'Không thể xóa',
                                         data.message,
                                         'error'
                                     )
@@ -171,15 +181,12 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Kiểm tra nếu có thông báo thành công
             @if (session('success'))
                 toastr.success("{{ session('success') }}");
             @endif
-            // Kiểm tra nếu có thông báo lỗi
             @if (session('error'))
                 toastr.error("{{ session('error') }}");
             @endif
-            // Cấu hình mặc định cho toastr (tuỳ chỉnh nếu cần)
             toastr.options = {
                 "closeButton": true, // Hiển thị nút đóng
                 "debug": false, // Tắt chế độ debug
@@ -190,7 +197,7 @@
                 "onclick": null,
                 "showDuration": "300", // Thời gian hiển thị (ms)
                 "hideDuration": "1000", // Thời gian ẩn đi (ms)
-                "timeOut": "5000", // Thời gian tự động đóng (ms)
+                "timeOut": "1000", // Thời gian tự động đóng (ms)
                 "extendedTimeOut": "1000",
                 "showEasing": "swing",
                 "hideEasing": "linear",

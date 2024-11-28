@@ -13,7 +13,10 @@
                             <h4>Tất cả tour</h4>
                             <div class="card-header-action">
                                 <a href="{{ route('tour.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i>
-                                    Create New</a>
+                                    Tạo mới</a>
+                                <a id="create-new-btn" href="{{ route('tour.index') }}" class="btn btn-primary"
+                                    class="btn btn-primary"><i class="fas fa-arrow-left"></i>
+                                    Quay về</a>
                             </div>
                         </div>
                         <div class="card-body">
