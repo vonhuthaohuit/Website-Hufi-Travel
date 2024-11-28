@@ -4,12 +4,14 @@ namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ChiTietTour;
+use App\Models\ChuongTrinhTour;
 use App\Models\DanhGia;
 use App\Models\DiemDuLich;
 use App\Models\KhachSan;
 use App\Models\LoaiTour;
 use App\Models\PhuongTien;
 use App\Models\Tour;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
@@ -26,7 +28,7 @@ class TourController extends Controller
             ->leftJoin('hinhanhtour', 'tour.matour', '=', 'hinhanhtour.matour')
             ->leftJoin('loaitour', 'tour.maloaitour', '=', 'loaitour.maloaitour')
             ->leftJoin('khuyenmai', 'tour.makhuyenmai', '=', 'khuyenmai.makhuyenmai')
-            ->select('tour.*', 'chitiettour.giachitiettour', 'chuongtrinhtour.mota', 'chuongtrinhtour.tieude', 'diemdulich.tendiemdulich', 'loaitour.tenloai', 'hinhanhtour.duongdan', 'khuyenmai.phantramgiam', 'chitiettour.ngaybatdau')
+            ->select('tour.*', 'chitiettour.giachitiettour', 'diemdulich.tendiemdulich', 'loaitour.tenloai', 'hinhanhtour.duongdan', 'khuyenmai.phantramgiam', 'chitiettour.ngaybatdau')
             ->where('tour.slug', $slug)
             ->first();
 
@@ -77,7 +79,9 @@ class TourController extends Controller
 
         $ngaybatdau = ChiTietTour::where('matour', $tour->matour)->first();
 
-        return view('frontend.tour.tour-detail', compact('tour', 'commentOfTour', 'averageRating', 'ratingsWithPercentage', 'totalRatings', 'phuongtien', 'ngaybatdau', 'khachsan'));
+        $chuongtrinhtour = ChuongTrinhTour::where('matour', $tour->matour)->get();
+
+        return view('frontend.tour.tour-detail', compact('tour', 'commentOfTour', 'averageRating', 'ratingsWithPercentage', 'totalRatings', 'phuongtien', 'ngaybatdau', 'khachsan', 'chuongtrinhtour'));
     }
 
     public function allTour()
@@ -174,5 +178,13 @@ class TourController extends Controller
         }
 
         return view('search-results', ['tours' => $matchedTours]);
+    }
+
+    public function printTour($matour)
+    {
+        $tour = Tour::with('chuongtrinhtour')->where('matour', $matour)->first();
+        $pdf = Pdf::loadView('frontend.tour.print-pdf-tour', compact('tour'));
+
+        return $pdf->download($tour->tentour . '.pdf');
     }
 }

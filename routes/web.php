@@ -300,3 +300,5 @@ Route::post('/comment/{madanhgia}', [CommentController::class, 'update'])->name(
 Route::get('/comment/delete/{madanhgia}', [CommentController::class, 'delete'])->name('comment.delete');
 Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
 Route::post('/profile/update', [HomeController::class, 'updateProfile'])->name('profile.update');
+Route::get('/tour/{matour}/print', [TourController::class, 'printTour'])->name('tour.print');
+
