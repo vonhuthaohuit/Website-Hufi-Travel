@@ -2,8 +2,8 @@
 
 namespace App\DataTables;
 
-use App\Models\LoaiTour;
-use App\Models\LoaiTourDatatable;
+use App\Models\PhieuHuyDatatable;
+use App\Models\PhieuHuyTour;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -13,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class LoaiTourDatatables extends DataTable
+class PhieuHuyDatatables extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -25,19 +25,19 @@ class LoaiTourDatatables extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('action', function ($query) {
-                $editBtn = "<a href='" . route('loaitour.edit', $query->maloaitour) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-                $deleteBtn = "<a href='" . route('loaitour.destroy', $query->maloaitour) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->maloaitour}'><i class='far fa-trash-alt'></i></a>";
-                return $editBtn . $deleteBtn;
+                $deleteBtn = "<a href='" . route('phieuhuytour.destroy', $query->maphieuhuytour) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->maphieuhuytour}'><i class='far fa-trash-alt'></i></a>";
+                return $deleteBtn;
             })
-            ->setRowId('id');
+            ->rawColumns(['action'])
+            ->setRowId('maphieuhuytour');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(LoaiTour $model): QueryBuilder
+    public function query(PhieuHuyTour $model): QueryBuilder
     {
-        return $model->newQuery()->orderBy('maloaitour', 'asc');
+        return $model->newQuery()->orderBy('maphieuhuytour', 'asc');
     }
 
     /**
@@ -46,7 +46,7 @@ class LoaiTourDatatables extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('loaitourdatatables-table')
+            ->setTableId('phieuhuydatatables-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
@@ -74,11 +74,14 @@ class LoaiTourDatatables extends DataTable
                 ->printable(false)
                 ->width(30)
                 ->addClass('text-center'),
-            Column::make('tenloai')->title('Tên loại tour'),
+            Column::make('lydohuy')->width(350)->title('Lý do hủy'),
+            Column::make('ngayhuy')->title('Ngày hủy'),
+            Column::make('sotienhoan')->title('Số tiền hoàn'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(200)
+                ->width(100)
+                ->title('Hành động')
                 ->addClass('text-center'),
         ];
     }
@@ -88,6 +91,6 @@ class LoaiTourDatatables extends DataTable
      */
     protected function filename(): string
     {
-        return 'LoaiTourDatatables_' . date('YmdHis');
+        return 'PhieuHuyDatatables_' . date('YmdHis');
     }
 }

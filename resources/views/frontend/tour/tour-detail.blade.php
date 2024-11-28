@@ -23,11 +23,10 @@
                                 <h2 class="tour-details__top-title">{{ $tour->tentour }}</h2>
                                 <p class="tour-details__top-rate">
                                     @if (empty($tour->makhuyenmai))
-                                        <span>{{ number_format($tour->giatour) }}đ</span> / Một người
+                                        <span>{{ number_format($tour->giatour) }}đ</span>
                                     @else
                                         <span><del class="original-price">{{ number_format($tour->giatour) }}đ</del>
-                                            {{ number_format($tour->giatourgiam) }}đ</span> /
-                                        Một người
+                                            {{ number_format($tour->giatourgiam) }}đ</span>
                                     @endif
                                 </p>
                             </div>
@@ -183,13 +182,13 @@
 
                                             @if (empty($item->makhuyenmai))
                                                 <p class="popular-tours__rate">
-                                                    <span>{{ number_format($item->giatour) }}đ</span> / Một người
+                                                    <span>{{ number_format($item->giatour) }}đ</span>
                                                 </p>
                                             @else
                                                 <p class="popular-tours__rate">
                                                     <span><del
                                                             class="original-price">{{ number_format($item->giatour) }}đ</del>
-                                                        {{ number_format($item->giatourgiam) }}đ</span> / Một người
+                                                        {{ number_format($item->giatourgiam) }}đ</span>
                                                 </p>
                                             @endif
                                         </a>
@@ -221,7 +220,7 @@
                                 @if (empty($ngaybatdau))
                                     <td>Đang cập nhật</td>
                                 @else
-                                    <td>{{ date('d/m/y', strtotime($ngaybatdau->ngaybatdau)) }}</td>
+                                    <td>{{ date('d/m/Y', strtotime($ngaybatdau->ngaybatdau)) }}</td>
                                 @endif
                             </tr>
                             <tr>
