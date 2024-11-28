@@ -8,8 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Models\ChiTietTour;
 use App\Models\DiemDuLich;
 use App\Models\Tour;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ChiTietTourController extends Controller
 {
@@ -60,7 +62,7 @@ class ChiTietTourController extends Controller
         $tour = Tour::where('matour', $request->tour_id)->first();
         $tour->giatour = $giatour;
         $tour->save();
-        return redirect()->route('chitiettour.index', ['tour_id' => $request->tour_id])->with('success', 'Product updated successfully');;
+        return redirect()->route('chitiettour.index', ['tour_id' => $request->tour_id])->with('success', 'Thêm chi tiết tour thành công');;
     }
 
     public function createNgayKetThuc($id, $diemdulichID, $ngaybatdau)
@@ -112,7 +114,7 @@ class ChiTietTourController extends Controller
         $tour = Tour::where('matour', $request->tour_id)->first();
         $tour->giatour = $giatour;
         $tour->save();
-        return redirect()->route('chitiettour.index', ['tour_id' => $request->tour_id])->with('success', 'Product updated successfully');;
+        return redirect()->route('chitiettour.index', ['tour_id' => $request->tour_id])->with('success', 'Cập nhật chi tiết tour thành công');;
     }
 
     /**
@@ -120,7 +122,9 @@ class ChiTietTourController extends Controller
      */
     public function destroy(string $id, string $madiemdulich)
     {
-        ChiTietTour::where('matour', $id)
+        try
+        {
+            ChiTietTour::where('matour', $id)
             ->where('madiemdulich', $madiemdulich)
             ->delete();
         $giatour =  DB::select('SELECT func_giatour(?) AS giatour', [$id]);
@@ -129,5 +133,13 @@ class ChiTietTourController extends Controller
         $tour->giatour = $giatour;
         $tour->save();
         return response(['status' => 'success', 'message' => 'Xóa thành công']);
+        }
+        catch(Exception $e)
+        {
+            Log::error('Error in registration process:', ['error' => $e->getMessage()]);
+            return response(['status' => 'error', 'message' => 'Xóa không thành công']);
+
+        }
+
     }
 }

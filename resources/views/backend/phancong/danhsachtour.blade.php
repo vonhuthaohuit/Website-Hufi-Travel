@@ -1,4 +1,4 @@
-@extends('backend.layouts.master')
+    @extends('backend.layouts.master')
 
 @section('content')
     <style>
@@ -83,21 +83,21 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .employee-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+            .employee-item:hover {
+                transform: scale(1.05);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
 
-        .employee-info {
-            display: flex;
-            margin-bottom: 8px;
-            justify-content: space-between;
-        }
+            .employee-info {
+                display: flex;
+                margin-bottom: 8px;
+                justify-content: space-between;
+            }
 
-        .info-label {
-            font-weight: bold;
-            color: #333;
-        }
+            .info-label {
+                font-weight: bold;
+                color: #333;
+            }
 
         .info-value {
             color: #555;
@@ -252,6 +252,71 @@
                         employeeListContainer.innerHTML = '<p>Lỗi khi tải dữ liệu.</p>';
                     });
             });
-        });
-    </script>
-@endpush
+
+            // Lấy tất cả các nút phân công
+            let assignButtons = document.querySelectorAll('.btn-assign');
+            let employeeList = document.getElementById('ListNhanVien');
+            let employeeListContainer = document.getElementById('employeeList');
+            let loadingIndicator = document.createElement('div');
+            loadingIndicator.classList.add('loading');
+            loadingIndicator.innerHTML = 'Đang tải...';
+
+            // Thêm sự kiện click cho các nút phân công
+            assignButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    event.preventDefault();
+                    let tourId = this.getAttribute('data-tour-id');
+                    if (!tourId) {
+                        console.error('Tour ID is missing');
+                        return; // Nếu không có tourId, dừng hàm
+                    }
+
+                    // Hiển thị loading indicator khi đang tải
+                    employeeListContainer.innerHTML = '';
+                    employeeListContainer.appendChild(loadingIndicator);
+
+                    // Thực hiện gọi API để lấy danh sách nhân viên
+                    fetch(`/admin/phancongnhanvien/dsNhanVien/${tourId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Xóa loading indicator khi nhận được dữ liệu
+                            employeeListContainer.innerHTML = '';
+
+                            // Kiểm tra nếu không có nhân viên nào
+                            if (!data ||data.length === 0) {
+                                toastr.warning('Không có nhân viên nào tham gia tour này.', 'Thông báo');
+                                return;
+                            }
+
+                            // Duyệt qua nhân viên và hiển thị
+                            data.forEach(employee => {
+                                let employeeItem = document.createElement('div');
+                                employeeItem.classList.add('employee-item');
+                                // Nội dung của mỗi nhân viên
+                                employeeItem.innerHTML = `
+                                <div class="employee-info">
+                                    <div class="info-label"><strong>Tên:</strong></div>
+                                    <div class="info-value">${employee.hoten}</div>
+                                </div>
+                                <div class="employee-info">
+                                    <div class="info-label"><strong>Chức vụ:</strong></div>
+                                    <div class="info-value">${employee.tenchucvu}</div>
+                                </div>
+                            `;
+
+                                // Thêm vào danh sách nhân viên
+                                employeeListContainer.appendChild(employeeItem);
+                            });
+
+                            // Hiển thị phần danh sách nhân viên
+                            employeeList.style.display = 'block';
+
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            employeeListContainer.innerHTML = '<p>Lỗi khi tải dữ liệu.</p>';
+                        });
+                });
+            });
+        </script>
+    @endpush

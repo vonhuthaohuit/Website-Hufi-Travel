@@ -39,7 +39,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Ngày</label>
-                                            <input type="text" class="form-control" name="ngay"
+                                            <input type="number" class="form-control" name="ngay" min="1" max="{{ $chuongtrinhtour->tour->thoigiandi }}"
                                                 value="{{ $chuongtrinhtour->ngay }}">
                                         </div>
                                     </div>

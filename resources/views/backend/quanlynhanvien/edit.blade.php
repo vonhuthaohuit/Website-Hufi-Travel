@@ -50,6 +50,8 @@
                                         </div>
                                     </div>
 
+
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Quyền</label>
@@ -64,7 +66,12 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="form-group">
+                                    <label for="truongphong">Trưởng phòng</label>
+                                    <input type="checkbox" id="truongphong" name="truongphong"
+                                           {{ $nhanvien->truongphong ? 'checked' : '' }}>
+                                    <span class="text-muted">Đánh dấu nếu nhân viên là trưởng phòng.</span>
+                                </div>
 
                                 <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
                             </form>
