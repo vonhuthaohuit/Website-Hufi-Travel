@@ -31,7 +31,7 @@ class PhieuDatTourController extends Controller
             'tongsoluong' => $tongSoLuong,
             'trangthaidattour' => $trangThaiDatTour,
             'matour' => $maTour,
-            'ngaykhoihanh' => $ngayKhoiHanh,
+            'ngaybatdau' => $ngayKhoiHanh,
         ]);
 
         return $phieuDatTour->toArray();
