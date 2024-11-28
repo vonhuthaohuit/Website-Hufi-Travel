@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+use function Laravel\Prompts\search;
+
 class TourController extends Controller
 {
     use ImageUploadTrait;
@@ -157,11 +159,11 @@ class TourController extends Controller
         $tour->updated_at = Carbon::parse(now()->format('d-m-Y'));
 
 
-        $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour/uploads', $tour->hinhdaidien);
+        $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour', $tour->hinhdaidien);
         $tour->hinhdaidien = $imagePath;
 
         if ($request->hasFile('hinhanh')) {
-            $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour/uploads', $tour->hinhdaidien);
+            $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour', $tour->hinhdaidien);
             $tour->hinhdaidien = $imagePath;
         } else {
             $tour->hinhdaidien = $tour->hinhdaidien;
@@ -211,35 +213,74 @@ class TourController extends Controller
                 ? Carbon::createFromFormat('d/m/Y', $searchData['date-end'])->format('Y-m-d')
                 : null;
         }
+        $images = [];
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = $image->storeAs('temp', $image->getClientOriginalName());
 
+            $pythonScript = base_path('app' . DIRECTORY_SEPARATOR . 'Traits' . DIRECTORY_SEPARATOR . 'model_ai' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'search_image.py');
 
-        $typetourName = $searchData['typetour'] ? optional(LoaiTour::find($searchData['typetour']))->tenloai : null;
-        $destinationName = null;
-        if (!empty($searchData['destination'])) {
-            $destinationName = $searchData['destination'] ? optional(DiemDuLich::find($searchData['destination']))->tendiemdulich : null;
-        } else if (!empty($searchData['name-destination'])) {
-            $destinationName2 = DiemDuLich::where('tendiemdulich', 'like', '%' . $searchData['name-destination'] . '%')->first();
-            if ($destinationName2) {
-                $searchData['destination'] = $destinationName2->madiemdulich;
-                $destinationName = $destinationName2->tendiemdulich;
+            $imageFilePath = storage_path('app' . DIRECTORY_SEPARATOR . $imagePath);
+
+            if (!file_exists($pythonScript)) {
+                Log::error("File does not exist: " . $pythonScript);
+                return response()->json(['error' => 'Python script not found.'], 404);
             }
-        } else {
+
+            if (!file_exists($imageFilePath)) {
+                Log::error("Image file does not exist: " . $imageFilePath);
+                return response()->json(['error' => 'Image file not found.'], 404);
+            }
+
+            $command = "python \"$pythonScript\" \"$imageFilePath\" 2>&1";
+            $output = shell_exec($command);
+            $images = json_decode($output, true);
+            if ($images) {
+                $images = array_map(function ($image) {
+                    return 'frontend/images/tour/' . $image;
+                }, $images);
+            } else {
+                Log::error("No images returned from Python script.");
+                $images = [];
+            }
+        }
+
+
+
+        $typetourName = $searchData['typetour']
+            ? optional(LoaiTour::find($searchData['typetour']))->tenloai
+            : null;
+
+        $destinationName = null;
+        $destinationName_input = null;
+        $destinationId = null;
+
+        if (!empty($searchData['destination'])) {
+            $destinationId = $searchData['destination'];
+            $destinationName = optional(DiemDuLich::find($destinationId))->tendiemdulich;
+            $destinationName_input = $destinationName;
+        } elseif (!empty($searchData['name-destination'])) {
+            $destinationName_input = $searchData['name-destination'];
+
+            $destination = DiemDuLich::where('tendiemdulich', 'like', '%' . $searchData['name-destination'] . '%')->first();
+            if ($destination) {
+                $destinationId = $destination->madiemdulich;
+                $destinationName = $destination->tendiemdulich;
+            } else {
+                $destinationId = null;
+                $destinationName = null;
+            }
+        }
+
+        if (!$destinationId) {
             $searchData['destination'] = '';
         }
 
-        $query = collect([
-            $typetourName ? "Loại tour: \"$typetourName\"" : null,
-            $destinationName ? "Điểm đến: \"$destinationName\"" : null,
-            !empty($searchData['departure']) ? "Nơi khởi hành: \"{$searchData['departure']}\"" : null,
-            !empty($searchData['duration']) ? "Thời gian: \"{$searchData['duration']}\"" : null,
-            !empty($searchData['date-start']) ? "Ngày bắt đầu: \"{$searchData['date-start']}\"" : null,
-            !empty($searchData['date-end']) ? "Ngày kết thúc: \"{$searchData['date-end']}\"" : null,
-        ])->filter()->implode(', ');
         $tours = Tour::query()
             ->where('tinhtrang', 1)
             ->when($searchData['typetour'], fn($query, $typetour) => $query->where('maloaitour', $typetour))
             ->when(
-                $searchData['destination'],
+                isset($searchData['destination']) ?? isset($searchData['name-destination']),
                 fn($query, $destination) =>
                 $query->whereHas('chitiettour.diemdulich', fn($q) => $q->where('madiemdulich', $destination))
             )
@@ -253,6 +294,11 @@ class TourController extends Controller
                 !empty($searchData['date-end']) && $searchDataCount != 3,
                 fn($query) => $query->whereHas('chitiettour', fn($q) => $q->where('ngayketthuc', $searchData['date-end']))
             )
+            ->when(
+                !empty($images),
+                fn($query) => $query->whereIn('hinhdaidien', $images),
+                fn($query) => $query
+            )
             ->with([
                 'khuyenmai',
                 'loaitour',
@@ -264,8 +310,16 @@ class TourController extends Controller
             ])
             ->get();
 
-        $tourCount = $tours->count();
+        $query = collect([
+            $typetourName ? "Loại tour: \"$typetourName\"" : null,
+            $destinationName ? "Điểm đến: \"$destinationName_input\"" : (isset($searchData['name-destination']) ? "Điểm đến: \"{$searchData['name-destination']}\"" : null),
+            !empty($searchData['departure']) ? "Nơi khởi hành: \"{$searchData['departure']}\"" : null,
+            !empty($searchData['duration']) ? "Thời gian: \"{$searchData['duration']}\"" : null,
+            !empty($searchData['date-start']) ? "Ngày bắt đầu: \"{$searchData['date-start']}\"" : null,
+            !empty($searchData['date-end']) ? "Ngày kết thúc: \"{$searchData['date-end']}\"" : null,
+        ])->filter()->implode(', ');
 
+        $tourCount = $tours->count();
         return view('frontend.tour.searchtour', compact('tours', 'tourCount', 'query'));
     }
     public function getTourDetails($tourId)

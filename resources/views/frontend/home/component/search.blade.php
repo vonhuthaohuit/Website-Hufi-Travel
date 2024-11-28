@@ -43,13 +43,6 @@
             </div>
         </div>
     </div>
-    <form id="imageUploadForm" enctype="multipart/form-data">
-        <input type="file" id="imageInput" name="image" accept="image/*" required>
-        <button type="submit">Search</button>
-    </form>
-
-    <div id="result"></div>
-
     @push('script')
         <script>
             document.getElementById('imageUploadForm').addEventListener('submit', async function(event) {

@@ -48,75 +48,18 @@
         .text-right {
             text-align: right;
         }
-
-        @media print {
-            body * {
-                visibility: hidden;
-                /* Ẩn tất cả các phần tử trên trang */
-            }
-
-            .no-print {
-                display: none !important;
-                /* Ẩn hoàn toàn phần tử */
-            }
-
-            .invoice-container {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-            }
-
-            .invoice-container {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-            }
-
-            .header,
-            .details,
-            .items,
-            .total {
-                width: 100%;
-                margin-top: 10px;
-            }
-
-            .items th,
-            .items td {
-                border: 1px solid #000;
-                padding: 6px;
-                text-align: center;
-            }
-
-            .items th {
-                background-color: #f2f2f2;
-            }
-
-            .text-right {
-                text-align: right;
-            }
-
-            .text-truncate {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-
-        }
     </style>
 </head>
 
 <body>
     <div class="d-flex justify-content-end mb-3 no-print">
-        <a href="{{ route('hoadon.print', $hoaDon->mahoadon) }}" class="btn btn-primary">In hóa đơn</a>
+        <a href="{{ route('hoadon.print', $hoadon->mahoadon) }}" class="btn btn-primary">In hóa đơn</a>
     </div>
 
     <div class="invoice-container">
         <h2 class="header">THÔNG TIN HÓA ĐƠN</h2>
         <p class="header"><strong>Ngày lập:</strong>
-            {{ \Carbon\Carbon::parse($hoaDon->created_at)->format('d/m/Y') ?? '' }}
+            {{ \Carbon\Carbon::parse($hoadon->created_at)->format('d/m/Y') ?? '' }}
         </p>
 
         <table class="details">
@@ -131,36 +74,38 @@
             </tr>
         </table>
 
-        <h4>Thông tin khách hàng</h4>
+        <h4 class="mt-3">Thông tin khách hàng</h4>
         <table class="details">
             <tr>
-                <td><strong>Họ tên người đặt tour:</strong> {{ $hoaDon->nguoidaidien ?? 'N/A' }}</td>
-                <td><strong>Tên đơn vị:</strong> {{ $hoaDon->tendonvi ?? 'N/A' }}</td>
-                <td><strong>Mã số thuế:</strong> {{ $hoaDon->masothue ?? 'N/A' }}</td>
+                <td><strong>Họ tên người đặt tour:</strong> {{ $hoadon->nguoidaidien ?? 'N/A' }}</td>
+                <td><strong>Tên đơn vị:</strong> {{ $hoadon->tendonvi ?? 'N/A' }}</td>
+                <td><strong>Mã số thuế:</strong> {{ $hoadon->masothue ?? 'N/A' }}</td>
             </tr>
             <tr>
-                <td><strong>Địa chỉ:</strong> {{ $hoaDon->diachidonvi ?? 'N/A' }}</td>
-                <td><strong>Điện thoại:</strong> {{ '333' ?? 'N/A' }}</td>
+                <td><strong>Địa chỉ:</strong> {{ $hoadon->diachidonvi ?? 'N/A' }}</td>
+                <td><strong>Điện thoại: {{ $sodienthoai }}</strong></td>
             </tr>
         </table>
 
-        <h4>Chi tiết phiếu đặt tour</h4>
+        <h4 class="mt-4">Chi tiết phiếu đặt tour</h4>
         <table class="items">
             <thead>
                 <tr>
                     <th>STT</th>
-                    <th>Tên tour</th>
+                    <th>Họ tên</th>
+                    <th>CCCD</th>
+                    <th>Địa chỉ</th>
                     <th>Đơn vị tính</th>
                     <th>Đơn giá</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($hoaDon->phieudattour->chitietphieudattour as $index => $chiTiet)
+                @foreach ($hoadon->phieudattour->chitietphieudattour as $index => $chiTiet)
                     <tr>
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ $hoaDon->phieudattour->tour->tentour }}</td>
+                        <td>{{ $hoadon->phieudattour->tour->tentour }}</td>
                         <td>Vé</td>
-                        <td>{{ $chiTiet->chitietsotiendat }} VNĐ</td>
+                        <td>{{ str_replace(',', ' ', number_format($chiTiet->chitietsotiendat, 0, '', ',')) }} VNĐ</td>
                     </tr>
                 @endforeach
             </tbody>
@@ -169,28 +114,21 @@
         <table class="total">
             <tr>
                 <td class="text-right"><strong>Tổng cộng</strong>
-                    {{ number_format($hoaDon->phieudattour->tongtienphieudattour) }} VNĐ</td>
+                    {{ str_replace(',', ' ', number_format($hoadon->phieudattour->tongtienphieudattour, 0, '', ',')) }}
+                    VNĐ
+                </td>
             </tr>
             <tr>
                 <td class="text-right"><strong>Tổng thanh toán:</strong>
-                    {{ number_format($hoaDon->tongsotien) }} VNĐ</td>
+                    {{ str_replace(',', ' ', number_format($hoadon->tongsotien, 0, '', ',')) }} VNĐ
+                </td>
             </tr>
         </table>
 
-        <p><strong>Số tiền viết bằng chữ:</strong> {{ convertNumberToWords($hoaDon->tongsotien) }} đồng</p>
+        <p class="text-right"><strong>Số tiền viết bằng chữ:</strong> {{ convertNumberToWords($hoadon->tongsotien) }}
+            đồng</p>
     </div>
 
-    @push('scripts')
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const printButton = document.querySelector(".no-print a");
-                printButton.addEventListener("click", function(event) {
-                    event.preventDefault();
-                    window.print();
-                });
-            });
-        </script>
-    @endpush
 </body>
 
 </html>

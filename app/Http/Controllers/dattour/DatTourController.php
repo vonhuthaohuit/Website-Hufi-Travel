@@ -109,6 +109,7 @@ class DatTourController extends Controller
 
     public function xacnhanthongtindattour(Request $request)
     {
+        dd($request->all());
         if (Session::get('user') == null) {
             return redirect()->route('login');
         }
