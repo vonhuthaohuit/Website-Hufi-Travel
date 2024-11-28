@@ -30,7 +30,7 @@ class ThanhToanVNPayController extends Controller
         $vnp_OrderInfo = 'Thanh toán hóa đơn đặt tour';
         $vnp_OrderType = 'Hufi Travel';
         $vnp_Amount = $amount * 100;
-        $vnp_Locale = 'VM';
+        $vnp_Locale = 'VN';
         $vnp_BankCode = 'VNPAY';
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
         $inputData = array(

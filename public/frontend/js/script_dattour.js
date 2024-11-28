@@ -229,6 +229,16 @@ document.addEventListener("DOMContentLoaded", function () {
             );
             return true;
         }
+        const today = new Date();
+        const birthDate = new Date(ngaySinhKhachHang.value);
+
+        if (birthDate > today) {
+            showError(
+                ngaySinhKhachHang,
+                "Ngày sinh không thể lớn hơn ngày hiện tại!"
+            );
+            return true;
+        }
         return false;
     }
     function checkCCCD(fieldName) {
