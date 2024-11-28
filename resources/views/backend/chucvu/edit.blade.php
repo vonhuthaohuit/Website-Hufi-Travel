@@ -14,7 +14,7 @@
                             <h4>Chỉnh sửa chức vụ</h4>
                             <div class="card-header-action">
                                 <a href="{{ route('chucvu.index') }}" class="btn btn-primary">
-                                    <i class="fas fa-arrow-left"></i>Back
+                                    <i class="fas fa-arrow-left"></i>Quay về
                                 </a>
                             </div>
                         </div>

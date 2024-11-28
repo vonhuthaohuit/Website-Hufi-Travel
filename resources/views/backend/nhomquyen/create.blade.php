@@ -15,7 +15,7 @@
                             <div class="card-header-action">
                                 <a href="{{ route('nhomquyen.index') }}" class="btn btn-primary"><i
                                         class="fas fa-arrow-left"></i>
-                                    Back</a>
+                                    Quay về</a>
                             </div>
                         </div>
                         <div class="card-body">

@@ -12,7 +12,7 @@
                         <div class="card-header">
                             <h4>Tên nhân viên : {{ $nhanvien->hoten }}</h4>
                             <div class="card-header-action">
-                                <a id="create-new-btn" href="{{ route('phancongchucvu.create', ['manhanvien' => $nhanvien->manhanvien]) }}" class="btn btn-primary"><i class="fas fa-plus"></i> Create New</a>
+                                <a id="create-new-btn" href="{{ route('phancongchucvu.create', ['manhanvien' => $nhanvien->manhanvien]) }}" class="btn btn-primary"><i class="fas fa-plus"></i> Tạo mới</a>
                             </div>
                         </div>
 

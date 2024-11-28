@@ -3,7 +3,7 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Tour Categoty</h1>
+            <h1>Điểm du lịch</h1>
         </div>
         <div class="section-body">
             <div class="row">
@@ -13,7 +13,7 @@
                             <h4>Chỉnh sửa loại tour</h4>
                             <div class="card-header-action">
                                 <a href="{{ route('diemdulich.index') }}" class="btn btn-primary">
-                                    <i class="fas fa-arrow-left"></i>Back
+                                    <i class="fas fa-arrow-left"></i>Quay về
                                 </a>
                             </div>
                         </div>
