@@ -11,7 +11,7 @@ use App\Models\KhachHang;
 use App\Models\LoaiKhachHang;
 use App\Models\Tour;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade\PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -349,7 +349,7 @@ class HoaDonController extends Controller
             'phieudattour.chitietphieudattour.khachhang'
         ])->findOrFail($hoaDonId);
 
-        $pdf = PDF::loadView('backend.hoadon.detailshoadon', ['hoaDon' => $hoaDon]);
+        $pdf = Pdf::loadView('backend.hoadon.detailshoadon', ['hoaDon' => $hoaDon]);
 
         return $pdf->download('hoa_don_' . $hoaDon->mahoadon . '.pdf');
     }

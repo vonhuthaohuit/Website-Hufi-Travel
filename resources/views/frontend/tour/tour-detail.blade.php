@@ -7,6 +7,10 @@
         #content p {
             text-align: justify;
         }
+
+        #content img {
+            width: 100%;
+        }
     </style>
 @endpush
 
@@ -114,7 +118,8 @@
 
 
                             <div class="tour-details__bottom-right">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}" target="_blank"><i class="fas fa-share"></i>chia sẻ</a>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}"
+                                    target="_blank"><i class="fas fa-share"></i>chia sẻ</a>
                             </div>
                         </div>
                     </div>
@@ -127,8 +132,10 @@
         <div class="row">
             <div class="col-lg-8">
                 <div id="content">
-                    <h3 class="mt-4 mb-3" style="color: #444;">{!! $tour->tieude !!}</h3>
-                    <p>{!! $tour->mota !!}</p>
+                    @foreach ($chuongtrinhtour as $item)
+                        <h3 class="mt-4 mb-3" style="color: #444;">{!! $item->tieude !!}</h3>
+                        <p>{!! $item->mota !!}</p>
+                    @endforeach
                 </div>
 
                 @include('frontend.tour.component.tour-note')
@@ -256,7 +263,7 @@
                             <tr>
                                 <td><b><span class="fa fa-phone"></span> Liên hệ tư vấn:</b></td>
                                 <td>
-                                    <div> 0899909145 (Sài Gòn) - 0896163969 (Hà Nội) </div>
+                                    <div>0329951368</div>
                                 </td>
                             </tr>
                             <tr>
@@ -269,9 +276,11 @@
                                 <td colspan="2">
                                     <a class="btn btn-danger btn-lg btn-booking" href="#"
                                         onclick="submitBookingForm({{ $tour->matour }})">Đặt tour</a>
-                                    <button class="btn btn-success btn-lg btn-down-pdf" id="download-pdf">
+                                    {{-- <button class="btn btn-success btn-lg btn-down-pdf" id="download-pdf">
                                         Tải chi tiết tour
-                                    </button>
+                                    </button> --}}
+
+                                    <a class="btn btn-success btn-lg btn-down-pdf" href="{{ route('tour.print', $tour->matour) }}">Tải chi tiết tour</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -284,8 +293,6 @@
     @include('frontend.home.component.bookNow')
 
     @push('script')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 $('.slick-slider').slick({
@@ -317,70 +324,6 @@
                     ]
                 });
             });
-        </script>
-        <script>
-            document.getElementById('download-pdf').addEventListener('click', async function() {
-                const {
-                    jsPDF
-                } = window.jspdf;
-
-                const content = document.getElementById('content');
-                const slug = @json($tour->slug);
-                try {
-                    const canvas = await html2canvas(content, {
-                        scale: 2,
-                        useCORS: true
-                    });
-
-                    const imgData = canvas.toDataURL('image/png');
-
-                    // Thiết lập PDF
-                    const pdf = new jsPDF('p', 'mm', 'a4');
-                    const imgWidth = 190;
-                    const pageHeight = 297;
-                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                    let heightLeft = imgHeight;
-
-                    let position = 20;
-
-                    pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-
-                    while (heightLeft > 0) {
-                        position = heightLeft - imgHeight;
-                        pdf.addPage();
-                        pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-                        heightLeft -= pageHeight;
-                    }
-
-                    pdf.save(slug + '.pdf');
-                } catch (error) {
-                    console.error('Error generating PDF:', error);
-                }
-            });
-        </script>
-
-        <script>
-            function submitBookingForm(tourId) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = "{{ route('tour.dattour') }}";
-
-                const csrfTokenInput = document.createElement('input');
-                csrfTokenInput.type = 'hidden';
-                csrfTokenInput.name = '_token';
-                csrfTokenInput.value = "{{ csrf_token() }}";
-                form.appendChild(csrfTokenInput);
-
-                const tourIdInput = document.createElement('input');
-                tourIdInput.type = 'hidden';
-                tourIdInput.name = 'tourid';
-                tourIdInput.value = tourId;
-                form.appendChild(tourIdInput);
-
-                document.body.appendChild(form);
-                form.submit();
-            }
         </script>
     @endpush
 @endsection

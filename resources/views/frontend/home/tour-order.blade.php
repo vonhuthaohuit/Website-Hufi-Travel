@@ -47,11 +47,14 @@
                                 id="tourName">{{ $tour->phieuDatTour->tour->tentour }}</span></h5>
                         <img src="{{ asset($tour->phieuDatTour->tour->hinhdaidien) }}"
                             alt="{{ $tour->phieuDatTour->tour->hinhdaidien }}" width="100%" class="mb-3">
-                        <p><strong>Ngày bắt đầu:</strong> <span id="startDate">
-                                {{ date('d-m-Y', strtotime(@$tour->phieuDatTour->ngaybatdau)) }}</span></p>
                         @if (empty($ngaybatdau))
-                            <p><strong>Ngày kết thúc:</strong> <span
-                                    id="endDate">Đang cập nhật</span></p>
+                            <p><strong>Ngày bắt đầu:</strong> <span id="startDate">Đang cập nhật</span></p>
+                        @else
+                            <p><strong>Ngày bắt đầu:</strong> <span id="startDate">
+                                    {{ date('d-m-Y', strtotime(@$tour->phieuDatTour->ngaybatdau)) }}</span></p>
+                        @endif
+                        @if (empty($ngayketthuc))
+                            <p><strong>Ngày kết thúc:</strong> <span id="endDate">Đang cập nhật</span></p>
                         @else
                             <p><strong>Ngày kết thúc:</strong> <span
                                     id="endDate">{{ date('d-m-Y', strtotime($ngayketthuc)) }}</span></p>
@@ -61,7 +64,7 @@
                             người</span></p>
                         @if (empty(@$tour->phieudattour->tour->makhuyenmai))
                             <p><strong>Giá:</strong> <span
-                                    id="price">{{ number_format(@$tour->phieuDatTour->tour->giatour) }}đ</span></p>
+                                    id="price">{{ number_format(@$tour->phieuDatTour->tongtienphieudattour) }}đ</span></p>
                         @else
                             <p><strong>Giá:</strong> <span
                                     id="discountPrice">{{ number_format(@$tour->phieuDatTour->tour->giatourgiam) }}đ</span>
