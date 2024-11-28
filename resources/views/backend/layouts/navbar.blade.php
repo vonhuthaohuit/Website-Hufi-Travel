@@ -19,13 +19,12 @@
                 </a>
 
                 <div class="dropdown-divider"></div>
-                <form method="POST" action="">
+                <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <a href=""
-                        onclick="event.preventDefault();
-                      this.closest('form').submit();"
+                    <a href="" onclick="event.preventDefault();
+                this.closest('form').submit();"
                         class="dropdown-item has-icon text-danger">
-                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                        <i class="fas fa-sign-out-alt"></i>Đăng xuất
                     </a>
                 </form>
             </div>
