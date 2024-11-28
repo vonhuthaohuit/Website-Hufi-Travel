@@ -280,7 +280,8 @@
                                         Tải chi tiết tour
                                     </button> --}}
 
-                                    <a class="btn btn-success btn-lg btn-down-pdf" href="{{ route('tour.print', $tour->matour) }}">Tải chi tiết tour</a>
+                                    <a class="btn btn-success btn-lg btn-down-pdf"
+                                        href="{{ route('tour.print', $tour->matour) }}">Tải chi tiết tour</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -326,6 +327,27 @@
                     ]
                 });
             });
+
+            function submitBookingForm(tourId) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = "{{ route('tour.dattour') }}";
+
+                const csrfTokenInput = document.createElement('input');
+                csrfTokenInput.type = 'hidden';
+                csrfTokenInput.name = '_token';
+                csrfTokenInput.value = "{{ csrf_token() }}";
+                form.appendChild(csrfTokenInput);
+
+                const tourIdInput = document.createElement('input');
+                tourIdInput.type = 'hidden';
+                tourIdInput.name = 'tourid';
+                tourIdInput.value = tourId;
+                form.appendChild(tourIdInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
         </script>
     @endpush
 @endsection
