@@ -66,24 +66,20 @@
                     href="{{ route('nhomquyen.index') }}">Quản lý nhóm quyền</a></li>
         </ul>
         </li>
+
         <li class="{{ setActive(['phancongnhanvien.*']) }}">
             <a class="nav-link {{ setActive(['backup.index']) }}"
                 href="{{ route('danhsachtour') }}"><i class="fas fa-wallet"></i>
                 <span>Phân công công việc</span>
             </a>
         </li>
-        {{-- <li class="dropdown {{ setActive(['phancongnhanvien.*', 'admin.withdraw.index']) }}">
-            <a href="{{ route('danhsachtour') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-wallet"></i>
-                <span>Phân công công việc</span></a>
-            <ul class="dropdown-menu">
 
-                <li class="{{ setActive(['danhsachtour']) }}"><a class="nav-link"
-                        href="{{ route('danhsachtour') }}">Danh sách tour</a></li>
-
-                <li class="{{ setActive(['admin.withdraw.index']) }}"><a class="nav-link" href="">Tour sắp
-                        tới</a></li>
-            </ul>
-        </li> --}}
+        <li class="{{ setActive(['hinhanhtour.*']) }}">
+            <a class="nav-link {{ setActive(['hinhanhtour.*']) }}"
+                href="{{ route('hinhanhtour.index') }}"><i class="fas fa-image"></i>
+                <span>Hình ảnh tour</span>
+            </a>
+        </li>
 
         <li class="dropdown {{ setActive(['loaiblog.*', 'blog.*']) }}">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-blogger-b"></i>

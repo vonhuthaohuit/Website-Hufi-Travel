@@ -22,7 +22,6 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="userDropdown">
                                 <li><a class="dropdown-item" href="{{ route('profile') }}">Hồ sơ</a></li>
-                                <li><a class="dropdown-item" href="#">Setting</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>

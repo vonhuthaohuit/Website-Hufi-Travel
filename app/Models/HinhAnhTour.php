@@ -9,7 +9,7 @@ class HinhAnhTour extends Model
 {
     use HasFactory;
     protected $table = 'hinhanhtour';
-    protected $primaryKey = 'mahinhanhtour';
+    protected $primaryKey = 'mahinhanh';
 
 
     public function tour(){

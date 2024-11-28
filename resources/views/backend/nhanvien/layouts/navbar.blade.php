@@ -11,19 +11,19 @@
         @endif
 
         <div class="dropdown-menu dropdown-menu-right">
-          <a href="" class="dropdown-item has-icon">
+          {{-- <a href="" class="dropdown-item has-icon">
             <i class="far fa-user"></i> Profile
-          </a>
+          </a> --}}
 
-          <a href="" class="dropdown-item has-icon">
+          {{-- <a href="" class="dropdown-item has-icon">
             <i class="fas fa-cog"></i> Settings
-          </a>
+          </a> --}}
           <div class="dropdown-divider"></div>
             <form method="POST" action="">
             @csrf
                 <a href="" onclick="event.preventDefault();
                 this.closest('form').submit();" class="dropdown-item has-icon text-danger">
-                    <i class="fas fa-sign-out-alt"></i> Logout
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
                 </a>
             </form>
         </div>
