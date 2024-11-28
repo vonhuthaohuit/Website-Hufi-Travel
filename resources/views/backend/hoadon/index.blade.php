@@ -8,9 +8,13 @@
         <div class="section-body">
             <div class="row">
                 <div class="col-12">
+
                     <div class="card">
-                        <div class="card-header">
-                            <h4>Tất cả hóa đơn</h4>
+                        <h2 class="mb-4">Danh sách hóa đơn</h2>
+                        <div class="d-flex justify-content-end mb-3">
+                            <a href="{{ route('hoadon.create') }}" class="btn btn-success">
+                                <i class="bi bi-plus-circle"></i> Thêm hóa đơn
+                            </a>
                         </div>
                         <div class="card-body">
                             <table id="hoaDon-table" class="table table-bordered table-hover">
@@ -92,7 +96,8 @@
                         name: 'tongsotien',
                         width: '15%',
                         render: function(data, type, row) {
-                            return data + ' VNĐ';
+                            let formattedNumber = data.toLocaleString().replace(/,/g, ' ');
+                            return formattedNumber + ' VNĐ';
                         }
                     },
                     {
