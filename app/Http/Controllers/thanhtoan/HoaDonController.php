@@ -237,7 +237,6 @@ class HoaDonController extends Controller
             DB::commit();
             return redirect()->route('hoadon.index')->with('success', 'Hóa đơn đã được tạo thành công');
         } catch (\Exception $e) {
-            dd($e);
             DB::rollBack();
             return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại sau.');
         }
