@@ -152,12 +152,11 @@ class TourController extends Controller
                 $tour->hinhdaidien = $tour->hinhdaidien;
             }
             $tour->save();
-            DB::statement('CALL proc_updateTourStatus(?)',[$tour->matour]) ;
+            DB::statement('CALL proc_updateTourStatus(?)', [$tour->matour]);
             return redirect()->route('tour.index')->with('success', 'Cập nhật tour thành công!');
         } catch (Exception $e) {
             Log::error('Error in registration process:', ['error' => $e->getMessage()]);
             return redirect()->route('tour.index')->with('error', 'Cập nhật tour không thành công!');
-
         }
         $request->validate([
             'tentour' => 'required|string|max:255',
@@ -240,7 +239,7 @@ class TourController extends Controller
 
     public function searchTour(Request $request)
     {
-        $searchData = $request->only(['typetour', 'name-destination', 'destination', 'departure', 'date-start', 'date-end', 'duration', 'guests']);
+        $searchData = $request->only(['typetour', 'name-destination', 'destination', 'departure', 'date-start', 'date-end', 'duration', 'guests', 'tour_star', 'hotel_star', 'gia']);
         $searchDataCount = count(array_filter($searchData));
 
         if (!empty($searchData['date-start']) || !empty($searchData['date-end'])) {
@@ -314,28 +313,69 @@ class TourController extends Controller
             $searchData['destination'] = '';
         }
 
+
+        $giaMin = 0;
+        $giaMax = $searchData['gia'] ?? 10000000;
+
         $tours = Tour::query()
             ->where('tinhtrang', 1)
-            ->when($searchData['typetour'], fn($query, $typetour) => $query->where('maloaitour', $typetour))
             ->when(
-                isset($searchData['destination']) ?? isset($searchData['name-destination']),
-                fn($query, $destination) =>
-                $query->whereHas('chitiettour.diemdulich', fn($q) => $q->where('madiemdulich', $destination))
+                isset($searchData['typetour']) && !empty($searchData['typetour']),
+                fn($query, $typetour) => $query->where('maloaitour', $typetour)
             )
-            ->when(!empty($searchData['departure']) && $searchDataCount != 3, fn($query, $departure) => $query->where('noikhoihanh', 'like', '%' . $departure . '%'))
-            ->when(!empty($searchData['duration']) && $searchDataCount != 3, fn($query, $duration) => $query->where('thoigiandi', 'like', '%' . $duration . '%'))
             ->when(
-                !empty($searchData['date-start']),
+                (isset($searchData['destination']) || isset($searchData['name-destination'])) &&
+                    (!empty($searchData['destination']) || !empty($searchData['name-destination'])),
+                fn($query) =>
+                $query->whereHas(
+                    'chitiettour.diemdulich',
+                    fn($q) =>
+                    $q->where('madiemdulich', $searchData['destination'] ?? $searchData['name-destination'])
+                )
+            )
+            ->when(
+                isset($searchData['departure']) && !empty($searchData['departure']) && $searchDataCount != 3,
+                fn($query) => $query->where('noikhoihanh', 'like', '%' . $searchData['departure'] . '%')
+            )
+            ->when(
+                isset($searchData['duration']) && !empty($searchData['duration']) && $searchDataCount != 3,
+                fn($query) => $query->where('thoigiandi', 'like', '%' . $searchData['duration'] . '%')
+            )
+            ->when(
+                isset($searchData['date-start']) && !empty($searchData['date-start']),
                 fn($query) => $query->whereHas('chitiettour', fn($q) => $q->where('ngaybatdau', $searchData['date-start']))
             )
             ->when(
-                !empty($searchData['date-end']) && $searchDataCount != 3,
+                isset($searchData['date-end']) && !empty($searchData['date-end']) && $searchDataCount != 3,
                 fn($query) => $query->whereHas('chitiettour', fn($q) => $q->where('ngayketthuc', $searchData['date-end']))
             )
             ->when(
-                !empty($images),
-                fn($query) => $query->whereIn('hinhdaidien', $images),
-                fn($query) => $query
+                isset($images) && !empty($images) && $searchDataCount != 3,
+                fn($query) => $query->whereIn('hinhdaidien', $images)
+            )
+            ->when(
+                isset($searchData['tour_star']) && !empty($searchData['tour_star']) && $searchDataCount != 3,
+                fn($query) => $query->whereHas(
+                    'danhgia',
+                    fn($q) =>
+                    $q->whereIn('diemdanhgia', array_values($searchData['tour_star']))
+                )
+            )
+            ->when(
+                isset($searchData['hotel_star']) && !empty($searchData['hotel_star']) && $searchDataCount != 3,
+                fn($query) => $query->whereHas(
+                    'chitietkhachsantour',
+                    fn($q) =>
+                    $q->whereHas(
+                        'khachsan',
+                        fn($q2) =>
+                        $q2->whereIn('chatluong', array_keys($searchData['hotel_star']))
+                    )
+                )
+            )
+            ->when(
+                isset($searchData['gia']) && !empty($searchData['gia']) && $searchDataCount != 3,
+                fn($query) => $query->whereBetween('giatour', [(float)$giaMin, (float)$giaMax])
             )
             ->with([
                 'khuyenmai',
@@ -343,19 +383,53 @@ class TourController extends Controller
                 'hinhanhtour',
                 'chitiettour',
                 'chuongtrinhtour',
-                'khachsan_tour',
-                'phuongtien_tour'
+                'chitietkhachsantour',
+                'chitietphuongtientour'
             ])
             ->get();
 
         $query = collect([
-            $typetourName ? "Loại tour: \"$typetourName\"" : null,
-            $destinationName ? "Điểm đến: \"$destinationName_input\"" : (isset($searchData['name-destination']) ? "Điểm đến: \"{$searchData['name-destination']}\"" : null),
-            !empty($searchData['departure']) ? "Nơi khởi hành: \"{$searchData['departure']}\"" : null,
-            !empty($searchData['duration']) ? "Thời gian: \"{$searchData['duration']}\"" : null,
-            !empty($searchData['date-start']) ? "Ngày bắt đầu: \"{$searchData['date-start']}\"" : null,
-            !empty($searchData['date-end']) ? "Ngày kết thúc: \"{$searchData['date-end']}\"" : null,
+
+            isset($searchData['typetour']) && !empty($searchData['typetour']) ? "Loại tour: \"{$typetourName}\"" : null,
+
+            (isset($searchData['destination']) || isset($searchData['name-destination'])) &&
+                (!empty($searchData['destination']) || !empty($searchData['name-destination']))
+                ? "Điểm đến: \"" . ($destinationName ?? $searchData['name-destination'] ?? '') . "\""
+                : null,
+
+            isset($searchData['departure']) && !empty($searchData['departure'])
+                ? "Nơi khởi hành: \"{$searchData['departure']}\""
+                : null,
+
+            isset($searchData['duration']) && !empty($searchData['duration'])
+                ? "Thời gian: \"{$searchData['duration']}\""
+                : null,
+
+            isset($searchData['date-start']) && !empty($searchData['date-start'])
+                ? "Ngày bắt đầu: \"{$searchData['date-start']}\""
+                : null,
+
+            isset($searchData['date-end']) && !empty($searchData['date-end'])
+                ? "Ngày kết thúc: \"{$searchData['date-end']}\""
+                : null,
+
+            isset($searchData['tour_star']) && !empty($searchData['tour_star'])
+                ? "Đánh giá tour: \"" . (is_array(array_keys($searchData['tour_star'])) ? implode(', ', $searchData['tour_star']) : array_keys($searchData['tour_star'])) . '⭐' . "\""
+                : null,
+
+            isset($searchData['hotel_star']) && !empty($searchData['hotel_star'])
+                ? "Đánh giá khách sạn: \"" . (is_array(array_keys($searchData['hotel_star'])) ? implode(', ', array_keys($searchData['hotel_star'])) : array_keys($searchData['hotel_star'])) . '⭐' . "\""
+                : null,
+
+            isset($searchData['gia']) && !empty($searchData['gia'])
+                ? "Giá: \"" . str_replace(',', ' ', number_format($searchData['gia'])) . 'đ' . "\""
+                : null,
+
+
         ])->filter()->implode(', ');
+
+
+
 
         $tourCount = $tours->count();
         return view('frontend.tour.searchtour', compact('tours', 'tourCount', 'query'));

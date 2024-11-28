@@ -17,7 +17,25 @@
     // Nơi khởi hành
 
 @endphp
+<style>
+    .custom-file-label {
+        width: 200px;
+        height: 37.6px;
+        display: inline-block;
+        padding: 4px 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+        color: #333 !important;
+        margin-top: 35px;
+    }
 
+    .custom-file-label:hover {
+        background-color: #e2e6ea;
+    }
+</style>
 
 <div class="box-search-group">
     <div class="form-search-group">
@@ -79,8 +97,11 @@
                             <input type="date" name="date-end" class="form-control" id="date-end">
                         </div>
                         <div class="col-md-3">
-                            <input type="file" id="imageInput" name="image" accept="image/*">
+                            <label for="imageInput" class="custom-file-label">Chọn hình để tìm kiếm</label>
+                            <input class="form-control" type="file" id="imageInput" name="image" accept="image/*"
+                                style="display: none;" onchange="updateFileName()">
                         </div>
+
                         <div class="col-md-3 align-self-end">
                             <button type="submit" id="btn-search" class="btn btn-search">Tìm kiếm</button>
                         </div>
@@ -92,23 +113,23 @@
                         <label>Số sao tour</label>
                         <div class="d-flex flex-column">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="tour-star5">
+                                <input name="tour_star[5]" class="form-check-input" type="checkbox" id="tour-star5">
                                 <label class="form-check-label" for="tour-star5">⭐⭐⭐⭐⭐</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="tour-star4">
+                                <input name="tour_star[4]" class="form-check-input" type="checkbox" id="tour-star4">
                                 <label class="form-check-label" for="tour-star4">⭐⭐⭐⭐</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="tour-star3">
+                                <input name="tour_star[3]" class="form-check-input" type="checkbox" id="tour-star3">
                                 <label class="form-check-label" for="tour-star3">⭐⭐⭐</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="tour-star2">
+                                <input name="tour_star[2]" class="form-check-input" type="checkbox" id="tour-star2">
                                 <label class="form-check-label" for="tour-star2">⭐⭐</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="tour-star1">
+                                <input name="tour_star[1]" class="form-check-input" type="checkbox" id="tour-star1">
                                 <label class="form-check-label" for="tour-star1">⭐</label>
                             </div>
                         </div>
@@ -118,23 +139,23 @@
                         <label>Số sao khách sạn</label>
                         <div class="d-flex flex-column">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="hotel-star5">
+                                <input name="hotel_star[5]" class="form-check-input" type="checkbox" id="hotel-star5">
                                 <label class="form-check-label" for="hotel-star5">⭐⭐⭐⭐⭐</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="hotel-star4">
+                                <input name="hotel_star[4]" class="form-check-input" type="checkbox" id="hotel-star4">
                                 <label class="form-check-label" for="hotel-star4">⭐⭐⭐⭐</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="hotel-star3">
+                                <input name="hotel_star[3]" class="form-check-input" type="checkbox" id="hotel-star3">
                                 <label class="form-check-label" for="hotel-star3">⭐⭐⭐</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="hotel-star2">
+                                <input name="hotel_star[2]" class="form-check-input" type="checkbox" id="hotel-star2">
                                 <label class="form-check-label" for="hotel-star2">⭐⭐</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="hotel-star1">
+                                <input name="hotel_star[1]" class="form-check-input" type="checkbox" id="hotel-star1">
                                 <label class="form-check-label" for="hotel-star1">⭐</label>
                             </div>
                         </div>
@@ -142,11 +163,12 @@
 
 
                     <div class="col-md-4 mt-3 mb-3">
-                        <label>Giá</label>
-                        <div class="range-slider d-flex align-items-center">
-                            <span class="me-2">500.000 VND</span>
-                            <input type="range" class="form-range" min="15000" max="60000" step="1000"
-                                value="30000">
+                        <label>Giá: </label>
+                        <span style="display: inline-block" id="price-display" class="">0 VND</span>
+                        <div class="range-slider align-items-center">
+                            <span class="me-2">0 VND</span>
+                            <input name="gia" type="range" class="form-range" min="0" max="60000000"
+                                step="1000" value="0" onchange="updatePriceDisplay(this)">
                             <span class="ms-2">60.000.000 VND</span>
                         </div>
                     </div>
@@ -168,5 +190,25 @@
                 event.preventDefault();
             }
         });
+
+        function updateFileName() {
+            var fileInput = document.getElementById('imageInput');
+            var fileName = fileInput.files.length > 0 ? fileInput.files[0].name : 'Chưa chọn tệp';
+            document.querySelector('.custom-file-label').textContent = 'Tệp đã chọn: ' + fileName;
+        }
+
+        function updatePriceDisplay(input) {
+            const priceDisplay = document.getElementById('price-display');
+            const value = input.value;
+
+            priceDisplay.textContent = parseInt(value).toLocaleString('vi-VN') + ' VND';
+
+
+        }
+
+        window.onload = function() {
+            const giaRange = document.getElementById('gia-range');
+            updatePriceDisplay(giaRange);
+        };
     </script>
 @endpush
