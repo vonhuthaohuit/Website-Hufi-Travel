@@ -4,8 +4,10 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\BlogTour;
+use App\Models\DanhGia;
 use App\Models\KhachHang;
 use App\Models\NhanVien;
+use App\Models\PhieuDatTour;
 use App\Models\Tour;
 use App\Models\User;
 use Exception;
@@ -28,7 +30,39 @@ class HomeController extends Controller
         $totalMoneyInYear = $totalMoneyInYear[0]->tongTien ?? 0;
         $phieuHuy = DB::select('SELECT func_soPhieuHuy() AS phieuHuy');
         $phieuHuy = $phieuHuy[0]->phieuHuy ?? 0;
-        return view('backend.dashboard.index', compact('totalUsers', 'totalBlogs', 'totalTour', 'totalMoneyInDay', 'totalMoneyInMonth', 'totalMoneyInYear', 'phieuHuy'));
+
+        $soluongbinhluan = DanhGia::count();
+
+        $phieudat = PhieuDatTour::where('trangthaidattour', '=', 'Đã thanh toán')->count();
+
+        //chart
+
+        $data = DB::select('CALL proc_statisticDoanhThu()');
+        $tourLabels = array_column($data, 'tentour');
+        $tourValues = array_column($data, 'soluong');
+
+        $data = DB::select('CALL proc_statisticKhachHangTheoTuoi()');
+        $ageLabels = array_column($data, 'age_group');
+        $ageValues = array_column($data, 'total');
+
+        return view(
+            'backend.dashboard.index',
+            compact(
+                'totalUsers',
+                'totalBlogs',
+                'totalTour',
+                'totalMoneyInDay',
+                'totalMoneyInMonth',
+                'totalMoneyInYear',
+                'phieuHuy',
+                'soluongbinhluan',
+                'phieudat',
+                'tourLabels',
+                'tourValues',
+                'ageLabels',
+                'ageValues'
+            )
+        );
     }
 
     public function profile()
@@ -36,7 +70,7 @@ class HomeController extends Controller
         $user =  Session('user');
         $mataikhoan = $user['mataikhoan'];
         $khachhang = NhanVien::where('mataikhoan', $mataikhoan)->first();
-        return view('backend.dashboard.profile',compact('user', 'khachhang'));
+        return view('backend.dashboard.profile', compact('user', 'khachhang'));
     }
 
     public function updateProfile(Request $request)
@@ -70,7 +104,6 @@ class HomeController extends Controller
         } catch (Exception $e) {
             Log::error('Error in registration process:', ['error' => $e->getMessage()]);
             return redirect()->route('ad.profile')->with('error', 'Cập nhật thông tin không thành công');
-
         }
     }
 }

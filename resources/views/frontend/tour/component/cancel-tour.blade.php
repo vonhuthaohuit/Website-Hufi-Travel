@@ -12,6 +12,7 @@
             <!-- Form -->
             <form class="form-cancel" role="cancel" action="{{ route('tour.cancelTour') }}" method="POST">
                 @csrf
+                @method('DELETE') 
                 <p class="title-cancel mb-3 text-center">Hủy tour</p>
                 <input type="hidden" name="matour" value="{{ $tour->phieuDatTour->tour->matour }}">
                 <input type="hidden" name="maphieudattour" value="{{ $tour->phieuDatTour->maphieudattour }}">
@@ -97,6 +98,68 @@
                 } else {
                     customReasonContainer.style.display = 'none';
                 }
+            });
+        });
+
+
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // Lắng nghe sự kiện click trên các nút submit có class btn-submit-cancel
+            $('body').on('click', '.btn-submit-cancel', function(event) {
+                event.preventDefault(); // Chặn hành động submit form mặc định
+
+                let form = $(this).closest('form'); // Lấy form cha của nút submit
+                let deleteUrl = form.attr('action'); // Lấy URL từ thuộc tính action của form
+
+                // Hiển thị cảnh báo xác nhận với SweetAlert
+                Swal.fire({
+                    title: 'Bạn có chắc chắn không?',
+                    text: "Bạn sẽ không thể hoàn tác hành động này!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Có, tôi muốn hủy!',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Gửi yêu cầu AJAX DELETE đến server
+                        $.ajax({
+                            type: 'DELETE', // Phương thức DELETE
+                            url: deleteUrl, // URL lấy từ form
+                            data: form.serialize(), // Dữ liệu từ form
+                            success: function(data) {
+                                console.log(data);
+                                if (data.status == 'success') {
+                                    Swal.fire(
+                                        'Đã xóa!',
+                                        data.message,
+                                        'success'
+                                    );
+                                    setTimeout(() => {
+                                        window.location
+                                    .reload(); // Reload lại trang
+                                    }, 1000);
+                                } else if (data.status == 'error') {
+                                    Swal.fire(
+                                        'Không thể xóa',
+                                        data.message,
+                                        'error'
+                                    );
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(xhr.responseText);
+                                console.log(error);
+                            }
+                        });
+                    }
+                });
             });
         });
     </script>

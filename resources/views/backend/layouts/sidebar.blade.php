@@ -67,29 +67,8 @@
         </ul>
         </li>
 
-        <li class="{{ setActive(['phancongnhanvien.*']) }}">
-            <a class="nav-link {{ setActive(['backup.index']) }}"
-                href="{{ route('danhsachtour') }}"><i class="fas fa-wallet"></i>
-                <span>Phân công công việc</span>
-            </a>
-        </li>
-
-        <li class="dropdown {{ setActive(['loaiblog.*', 'blog.*']) }}">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-blogger-b"></i>
-                <span>Quản lý Blog</span></a>
-            <ul class="dropdown-menu">
-
-                <li class="{{ setActive(['loaiblog.*']) }}"><a class="nav-link"
-                        href="{{ route('loaiblog.index') }}">Loại Blog</a></li>
-                <li class="{{ setActive(['blog.*']) }}"><a class="nav-link"
-                        href="{{ route('blog.index') }}">Blog</a>
-                </li>
-            </ul>
-        </li>
-
         <li class="dropdown {{ setActive(['hoadon.*', 'phieudattour.*', 'phieuhuytour.*']) }}">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                    class="fas fa-file-invoice"></i>
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-file-invoice"></i>
                 <span>Quản lý hoá đơn</span></a>
             <ul class="dropdown-menu">
 
@@ -100,15 +79,36 @@
             </ul>
         </li>
 
-        <li class="dropdown {{ setActive(['danhgia.*']) }}">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-comments"></i>
-                <span>Quản lý đánh giá</span></a>
-
+        <li class="dropdown {{ setActive(['loaiblog.*', 'blog.*']) }}">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-blogger-b"></i>
+                <span>Quản lý Blog</span></a>
             <ul class="dropdown-menu">
-                <li class="{{ setActive(['danhgia.index']) }}">
-                    <a class="nav-link" href="{{ route('danhgia.index') }}">Bình luận</a>
+
+                <li class="{{ setActive(['loaiblog.*']) }}"><a class="nav-link"
+                        href="{{ route('loaiblog.index') }}">Loại Blog</a></li>
+                <li class="{{ setActive(['blog.*']) }}"><a class="nav-link" href="{{ route('blog.index') }}">Blog</a>
                 </li>
             </ul>
+        </li>
+
+        <li class="{{ setActive(['danhsachtour']) }}">
+            <a class="nav-link {{ setActive(['danhsachtour']) }}" href="{{ route('danhsachtour') }}"><i
+                    class="fas fa-briefcase"></i>
+                <span>Phân công công việc</span>
+            </a>
+        </li>
+
+        <li class="{{ setActive(['danhgia.*']) }}">
+            <a href="{{ route('danhgia.index') }}" class="nav-link {{ setActive(['danhgia.index']) }}">
+                <i class="fas fa-comments"></i>
+                <span>Quản lý đánh giá</span>
+            </a>
+        </li>
+
+        <li class="dropdown {{ setActive(['uploadanh.*', 'anh.*']) }}">
+            <a href="#" class="nav-link {{ setActive(['']) }}"><i class="fas fa-image"></i>
+                <span>Cập nhật model ảnh</span>
+            </a>
         </li>
 
 
@@ -136,19 +136,12 @@
             </ul>
         </li>
 
-        <li class="dropdown {{ setActive(['statistic.doanhthu*']) }}">
-            <a class="nav-link {{setActive(['statistic.doanhthu'])}}" href="{{ route('statistic.doanhthu') }}"><i class="fas fa-chart-line"></i>
-                <span>Thống kê báo cáo</span></a>
-            {{-- <ul class="dropdown-menu">
-
-                <li class="{{ setActive(['statistic.doanhthu*']) }}"><a class="nav-link"
-                        href="{{ route('statistic.doanhthu') }}">Thống kê doanh thu</a>
-                </li>
-                <li class="{{ setActive(['statistic.khachhang.*']) }}"><a class="nav-link"
-                        href="{{ route('statistic.khachhang.index') }}">Thống kê khách hàng</a></li>
-
-            </ul> --}}
-        </li>
+        {{-- <li class="dropdown {{ setActive(['statistic.doanhthu*']) }}">
+            <a class="nav-link {{ setActive(['statistic.doanhthu']) }}" href="{{ route('statistic.doanhthu') }}">
+                <i class="fas fa-chart-line"></i>
+                <span>Thống kê báo cáo</span>
+            </a>
+        </li> --}}
 
         <li class="{{ setActive(['backup.index']) }}">
             <a class="nav-link {{ setActive(['backup.index']) }}" href="{{ route('backup.index') }}">
@@ -163,7 +156,7 @@
                 <a href="" onclick="event.preventDefault();
             this.closest('form').submit();"
                     class="dropdown-item has-icon text-danger">
-                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                    <i class="fas fa-sign-out-alt"></i>Đăng xuất
                 </a>
             </form>
         </li>

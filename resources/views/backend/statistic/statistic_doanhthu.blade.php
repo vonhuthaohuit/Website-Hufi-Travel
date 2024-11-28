@@ -44,6 +44,7 @@
                     <canvas id="customerCountChart"></canvas>
                 </div>
             </div>
+        </div>
     </section>
 @endsection
 

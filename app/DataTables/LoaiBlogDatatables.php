@@ -24,15 +24,15 @@ class LoaiBlogDatatables extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->addColumn('checkbox', function ($query) {
-                return "<input type='checkbox' class='delete-checkbox' data-id='{$query->maloaiblog}' />";
-            })
+            // ->addColumn('checkbox', function ($query) {
+            //     return "<input type='checkbox' class='delete-checkbox' data-id='{$query->maloaiblog}' />";
+            // })
             ->addColumn('action', function ($query) {
                 $editBtn = "<a href='" . route('loaiblog.edit', $query->maloaiblog) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
                 $deleteBtn = "<a href='" . route('loaiblog.destroy', $query->maloaiblog) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->maloaiblog}'><i class='far fa-trash-alt'></i></a>";
                 return $editBtn . $deleteBtn;
             })
-            ->rawColumns(['checkbox', 'action'])
+            ->rawColumns(['action'])
             ->setRowId('maloaiblog');
     }
 
@@ -73,13 +73,13 @@ class LoaiBlogDatatables extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('checkbox')
-                ->title('<input type="checkbox" id="select-all"/>')
-                ->exportable(false)
-                ->printable(false)
-                ->width(30)
-                ->addClass('text-center')
-                ->orderable(false),
+            // Column::computed('checkbox')
+            //     ->title('<input type="checkbox" id="select-all"/>')
+            //     ->exportable(false)
+            //     ->printable(false)
+            //     ->width(30)
+            //     ->addClass('text-center')
+            //     ->orderable(false),
             Column::computed('DT_RowIndex')
                 ->title('STT')
                 ->exportable(false)
