@@ -34,10 +34,11 @@ class TourDatatables extends DataTable
                 <i class="fas fa-cog"></i>
                 </button>
                 <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
+                   <a class="dropdown-item has-icon" href="' . route('hinhanhtour.index', ['tour_id' => $query->matour]) . '" ><i class="fas fa-image"></i>Hình ảnh tour</a>
                    <a class="dropdown-item has-icon" href="' . route('chuongtrinhtour.index', ['tour_id' => $query->matour]) . '" ><i class="far fa-heart"></i>Chương Trình Tour</a>
-                   <a class="dropdown-item has-icon" href="' . route('chitiettour.index', ['tour_id' => $query->matour]) . '" ><i class="far fa-heart"></i>Chi tiết tour</a>
-                   <a class="dropdown-item has-icon" href="' . route('phuongtien_tour.index', ['tour_id' => $query->matour]) . '" ><i class="far fa-heart"></i>Phương Tiện Tour</a>
-                   <a class="dropdown-item has-icon" href="' . route('khachsan_tour.index', ['tour_id' => $query->matour]) . '" ><i class="far fa-heart"></i>Khách Sạn Tour</a>
+                   <a class="dropdown-item has-icon" href="' . route('chitiettour.index', ['tour_id' => $query->matour]) . '" ><i class="fas fa-info"></i>Chi tiết tour</a>
+                   <a class="dropdown-item has-icon" href="' . route('phuongtien_tour.index', ['tour_id' => $query->matour]) . '" ><i class="fas fa-car"></i>Phương Tiện Tour</a>
+                   <a class="dropdown-item has-icon" href="' . route('khachsan_tour.index', ['tour_id' => $query->matour]) . '" ><i class="fas fa-hotel"></i>Khách Sạn Tour</a>
                    </div>
               </div>';
                 return $editBtn . $deleteBtn .  $moreBtn;
@@ -48,12 +49,11 @@ class TourDatatables extends DataTable
 
 
 
-            ->addColumn('maloaitour',function($query)
-            {
-                return $query->loaitour->tenloai ;
+            ->addColumn('maloaitour', function ($query) {
+                return $query->loaitour->tenloai;
             })
 
-            ->addColumn('makhuyenmai', function($query) {
+            ->addColumn('makhuyenmai', function ($query) {
                 return $query->khuyenmai ? $query->khuyenmai->phantramgiam . '%' : 'Không có khuyến mãi';
             })
 
@@ -73,7 +73,7 @@ class TourDatatables extends DataTable
                     </label>';
                 }
             })
-            ->rawColumns(['action', "tinhtrang", 'hinhdaidien','maloaitour','makhuyenmai'])
+            ->rawColumns(['action', "tinhtrang", 'hinhdaidien', 'maloaitour', 'makhuyenmai'])
             ->setRowId('matour');
     }
 

@@ -14,13 +14,10 @@
             @endif
 
             <div class="dropdown-menu dropdown-menu-right">
-                {{-- <a href="" class="dropdown-item has-icon">
-                  <i class="far fa-user"></i> Profile
-                </a> --}}
+                <a href="{{ route('ad.profile') }}" class="dropdown-item has-icon">
+                    <i class="far fa-user"></i> Hồ sơ
+                </a>
 
-                {{-- <a href="" class="dropdown-item has-icon">
-                  <i class="fas fa-cog"></i> Settings
-                </a> --}}
                 <div class="dropdown-divider"></div>
                 <form method="POST" action="">
                     @csrf
