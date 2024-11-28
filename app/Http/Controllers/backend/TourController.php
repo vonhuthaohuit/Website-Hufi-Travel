@@ -422,7 +422,7 @@ class TourController extends Controller
                 : null,
 
             isset($searchData['gia']) && !empty($searchData['gia'])
-                ? "Giá: \"" . str_replace(',', ' ', number_format($searchData['gia'])) . 'đ' . "\""
+                ? "Giá từ 0 đến: \"" . str_replace(',', ' ', number_format($searchData['gia'])) . 'đ' . "\""
                 : null,
 
 
