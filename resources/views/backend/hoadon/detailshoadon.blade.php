@@ -103,7 +103,9 @@
                 @foreach ($hoadon->phieudattour->chitietphieudattour as $index => $chiTiet)
                     <tr>
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ $hoadon->phieudattour->tour->tentour }}</td>
+                        <td>{{ $chiTiet->khachhang->hoten }}</td>
+                        <td>{{ $chiTiet->khachhang->cccd }}</td>
+                        <td>{{ $chiTiet->khachhang->diachi ?? 'Không có' }}</td>
                         <td>Vé</td>
                         <td>{{ str_replace(',', ' ', number_format($chiTiet->chitietsotiendat, 0, '', ',')) }} VNĐ</td>
                     </tr>

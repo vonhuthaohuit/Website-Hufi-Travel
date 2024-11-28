@@ -160,8 +160,6 @@
 
                 <li class="{{ setActive(['hoadon*']) }}"><a class="nav-link" href="{{ route('hoadon.index') }}">Hoá
                         đơn</a></li>
-                <li class="{{ setActive(['phieudattour.*']) }}"><a class="nav-link"
-                        href="{{ route('phieudattour.index') }}">Phiếu đặt tour</a></li>
                 <li class="{{ setActive(['phieuhuytour.*']) }}"><a class="nav-link"
                         href="{{ route('phieuhuytour.index') }}">Phiếu huỷ tour</a></li>
             </ul>
