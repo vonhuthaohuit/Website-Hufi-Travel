@@ -140,6 +140,7 @@
                             type: 'DELETE',
                             url: deleteUrl,
                             success: function(data) {
+                                console.log(data);
                                 if (data.status == 'success') {
                                     Swal.fire(
                                         'Deleted!',
@@ -148,7 +149,7 @@
                                     )
                                     setTimeout(() => {
                                         window.location.reload();
-                                    }, 500);
+                                    }, 1000);
                                 } else if (data.status == 'error') {
                                     Swal.fire(
                                         'Cant Delete',
@@ -158,6 +159,7 @@
                                 }
                             },
                             error: function(xhr, status, error) {
+                                console.error(xhr.responseText);
                                 console.log(error);
                             }
                         })

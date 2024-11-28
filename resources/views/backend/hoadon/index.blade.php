@@ -1,35 +1,38 @@
 @extends('backend.layouts.master')
 
 @section('content')
-    <div class="container-fluid mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <h2 class="mb-4">Danh sách hóa đơn</h2>
-                <div class="d-flex justify-content-end mb-3">
-                    <a href="{{ route('hoadon.create') }}" class="btn btn-primary">
-                        <i class="bi bi-plus-circle"></i> Thêm hóa đơn
-                    </a>
-                </div>
-
-                <div class="table-responsive">
-                    <table id="hoaDon-table" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Mã hóa đơn</th>
-                                <th>Tên tour</th>
-                                <th>Người đại diện</th>
-                                <th>Tổng số tiền</th>
-                                <th>Trạng thái thanh toán</th>
-                                <th class="text-center">Chức năng</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+    <section class="section">
+        <div class="section-header">
+            <h1>Hóa đơn</h1>
+        </div>
+        <div class="section-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Tất cả hóa đơn</h4>
+                        </div>
+                        <div class="card-body">
+                            <table id="hoaDon-table" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Mã hóa đơn</th>
+                                        <th>Tên tour</th>
+                                        <th>Người đại diện</th>
+                                        <th>Tổng số tiền</th>
+                                        <th>Trạng thái thanh toán</th>
+                                        <th class="text-center">Chức năng</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Modal -->
     <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel"
@@ -97,7 +100,8 @@
                         name: 'trangthaithanhtoan',
                         width: '15%',
                         render: function(data, type, row) {
-                            return data === 'Đã thanh toán' ? '<span class="badge badge-success">' + data +
+                            return data === 'Đã thanh toán' ? '<span class="badge badge-success">' +
+                                data +
                                 '</span>' : '<span class="badge badge-danger">' + data + '</span>';
                         }
                     },

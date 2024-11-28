@@ -43,13 +43,38 @@ class PhieuHuyController extends Controller
         $phieuhuy = new PhieuHuyTour();
         $phieuhuy->lydohuy = $request->lydohuy;
         $phieuhuy->ngayhuy = today()->format('Y-m-d');
-
         $phieuhuy->save();
 
         $maphieuhuytour = $phieuhuy->maphieuhuytour;
 
         HoaDon::where('maphieudattour', $request->maphieudattour)
             ->update(['maphieuhuytour' => $maphieuhuytour]);
+
+        $tour = PhieuDatTour::query()
+            ->join('tour', 'phieudattour.matour', '=', 'tour.matour')
+            ->select('tour.giatour', 'phieudattour.ngaybatdau')
+            ->where('phieudattour.maphieudattour', $request->maphieudattour)
+            ->first();
+
+        if ($tour) {
+            $ngayBatDau = \Carbon\Carbon::parse($tour->ngaybatdau);
+            $ngayHuy = \Carbon\Carbon::parse($phieuhuy->ngayhuy);
+
+            $soNgayTruocBatDau = $ngayHuy->diffInDays($ngayBatDau, false);
+
+            $phanTramHoanTien = match (true) {
+                $soNgayTruocBatDau > 30 => 0.9,
+                $soNgayTruocBatDau >= 16 => 0.7,
+                $soNgayTruocBatDau >= 8 => 0.4,
+                $soNgayTruocBatDau >= 4 => 0.1,
+                default => 0.0,
+            };
+
+            $soTienHoan = $tour->giatour * $phanTramHoanTien;
+
+            $phieuhuy->sotienhoan = $soTienHoan;
+            $phieuhuy->save();
+        }
 
         return redirect()->route('tour.tour-booked')->with('success', 'Tour đã được hủy thành công.');
     }

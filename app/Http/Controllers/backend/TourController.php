@@ -87,11 +87,11 @@ class TourController extends Controller
             $tour->created_at =  Carbon::parse(now()->format('d-m-Y'));
             $tour->updated_at =  Carbon::parse(now()->format('d-m-Y'));
             $tour->save();
-        //    DB::statement('CALL updateTourStatus(?)', [$tour->matour]);
+            //    DB::statement('CALL updateTourStatus(?)', [$tour->matour]);
             return redirect()->route('tour.index');
         } catch (Exception $e) {
-            Log::info("Sai") ;
-            return redirect()->route('tour.index')->with('error','Thêm không thành công');
+            Log::info("Sai");
+            return redirect()->route('tour.index')->with('error', 'Thêm không thành công');
         }
     }
 
@@ -159,6 +159,14 @@ class TourController extends Controller
 
         $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour/uploads', $tour->hinhdaidien);
         $tour->hinhdaidien = $imagePath;
+
+        if ($request->hasFile('hinhanh')) {
+            $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour/uploads', $tour->hinhdaidien);
+            $tour->hinhdaidien = $imagePath;
+        } else {
+            $tour->hinhdaidien = $tour->hinhdaidien;
+        }
+
         $tour->save();
         return redirect()->route('tour.index')->with('success', 'Cập nhật tour thành công!');
     }
@@ -168,9 +176,10 @@ class TourController extends Controller
      */
     public function destroy(string $id)
     {
-        $tour = Tour::find($id)->delete();
+        $tour = Tour::find($id);
         $this->deleteImage($tour->hinhdaidien);
-        return response(['status' => 'success', 'message' => 'Xóa thành công']);
+        $tour->delete();
+        return response()->json(['status' => 'success', 'message' => 'Xóa thành công']);
     }
 
     public function changeStatus(Request $request)

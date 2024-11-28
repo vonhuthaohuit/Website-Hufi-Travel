@@ -17,6 +17,8 @@
     // Nơi khởi hành
 
 @endphp
+
+
 <div class="box-search-group">
     <div class="form-search-group">
         <div class="search-form">
@@ -31,7 +33,7 @@
                 <h2 class="text-center mb-4">Tìm kiếm</h2>
                 <div class="search-group-one">
                     <div class="row g-3">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="typetour">Loại tour</label>
                             <select name="typetour" class="form-select" id="typetour">
                                 <option value="">Chọn loại tour</option>
@@ -40,7 +42,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="destination">Điểm đến</label>
                             <select name="destination" class="form-select" id="destination">
                                 <option value="">Chọn điểm đến</option>
@@ -49,7 +51,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="departure">Nơi khởi hành</label>
                             <select name="departure" class="form-select" id="departure">
                                 <option value="">Chọn nơi khởi hành</option>
@@ -59,15 +61,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2">
-                            <label for="date-start">Ngày bắt đầu</label>
-                            <input type="date" name="date-start" class="form-control" id="date-start">
-                        </div>
-                        <div class="col-md-2">
-                            <label for="date-end">Ngày kết thúc</label>
-                            <input type="date" name="date-end" class="form-control" id="date-end">
-                        </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="duration">Thời gian đi tour</label>
                             <select name="duration" class="form-select" id="duration">
                                 <option value="">Chọn thời gian</option>
@@ -76,7 +70,23 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2 align-self-end">
+                        <div class="col-md-3">
+                            <label for="date-start">Ngày bắt đầu</label>
+                            <input type="date" name="date-start" class="form-control" id="date-start">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="date-end">Ngày kết thúc</label>
+                            <input type="date" name="date-end" class="form-control" id="date-end">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="serch-picture-advanced">Tìm kiếm bằng hình ảnh</label>
+                            <div class="input_container bg-light form-control">
+                                <label for="files" class="btn-image text-black w-100">Chọn hình</label>
+                                <input id="files" style="display:none;" type="file">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 align-self-end">
                             <button type="submit" id="btn-search" class="btn btn-search">Tìm kiếm</button>
                         </div>
                     </div>
@@ -150,14 +160,24 @@
         </div>
     </div>
 </div>
-<script>
-    document.querySelector("form").addEventListener("submit", function(event) {
-        var startDate = document.getElementById("date-start").value;
-        var endDate = document.getElementById("date-end").value;
 
-        if (startDate && endDate && startDate > endDate) {
-            alert("Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.");
-            event.preventDefault();
-        }
-    });
-</script>
+
+@push('script')
+    <script>
+        document.querySelector("form").addEventListener("submit", function(event) {
+            var startDate = document.getElementById("date-start").value;
+            var endDate = document.getElementById("date-end").value;
+
+            if (startDate && endDate && startDate > endDate) {
+                alert("Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.");
+                event.preventDefault();
+            }
+        });
+
+        document.querySelector("#files").onchange = function() {
+            const fileName = this.files[0]?.name;
+            const label = document.querySelector("label[for=files]");
+            label.innerText = fileName ?? "Browse Files";
+        };
+    </script>
+@endpush
