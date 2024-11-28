@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ChucVu;
 use App\Models\ChuongTrinhTour;
 use App\Models\Tour;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -45,9 +46,9 @@ class ChuongTrinhTourController extends Controller
         $chuongtrinhtour->ngay = $request->ngay;
         $chuongtrinhtour->mota = $request->mota;
         $chuongtrinhtour->matour = $request->tour_id;
-        DB::statement('CALL proc_updateTourStatus(?)', [$chuongtrinhtour->matour]);
         $chuongtrinhtour->save();
-        return redirect()->route('chuongtrinhtour.index',['tour_id' =>$request->tour_id])->with('success', 'Product updated successfully');;
+        DB::statement('CALL proc_updateTourStatus(?)', [$chuongtrinhtour->matour]);
+        return redirect()->route('chuongtrinhtour.index',['tour_id' =>$request->tour_id])->with('success', 'Tạo chương trình tour thành công');;
     }
     /**
      * Display the specified resource.
@@ -91,10 +92,19 @@ class ChuongTrinhTourController extends Controller
      */
     public function destroy(string $id)
         {
-            $tour = ChuongTrinhTour::find($id);
-            $tour->delete();
-            DB::statement('CALL updateTourStatus(?)', [$tour->matour]);
-            return response(['status' => 'success', 'message' => 'Xóa thành công']);
+            try
+            {
+                $tour = ChuongTrinhTour::find($id);
+                $tour->delete();
+                DB::statement('CALL proc_updateTourStatus(?)', [$tour->matour]);
+                return response(['status' => 'success', 'message' => 'Xóa thành công']);
+            }
+            catch(Exception $e)
+            {
+            Log::error('Error in registration process:', ['error' => $e->getMessage()]);
+                return response(['status' => 'error', 'message' => 'Xóa không thành công']);
+            }
+
         }
 
 }

@@ -38,8 +38,8 @@ class DiemDuLichController extends Controller
         ]);
 
         $diemdulich = new DiemDuLich() ;
-        $diemdulich->tendiem = $request->tendiem;
-        $diemdulich->mota = $request->mota ;
+        $diemdulich->tendiemdulich = $request->tendiem;
+        $diemdulich->motadiemdulich  = $request->mota ;
         $diemdulich->save() ;
         return redirect()->route('diemdulich.index');
 
@@ -73,8 +73,8 @@ class DiemDuLichController extends Controller
         ]);
 
         $diemdulich = DiemDuLich::findOrFail($id);
-        $diemdulich->tendiem = $request->input('tendiem');
-
+        $diemdulich->tendiemdulich = $request->input('tendiem');
+        $diemdulich->motadiemdulich = $request->mota;
         $diemdulich->save();
         return redirect()->route('diemdulich.index')->with('success', 'Cập nhật loại tour thành công!');
     }

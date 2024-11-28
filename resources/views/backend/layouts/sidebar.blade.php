@@ -66,9 +66,14 @@
                     href="{{ route('nhomquyen.index') }}">Quản lý nhóm quyền</a></li>
         </ul>
         </li>
-
-        <li class="dropdown {{ setActive(['danhsachtour', 'phancongnhanvien.*']) }}">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-wallet"></i>
+        <li class="{{ setActive(['phancongnhanvien.*']) }}">
+            <a class="nav-link {{ setActive(['backup.index']) }}"
+                href="{{ route('danhsachtour') }}"><i class="fas fa-wallet"></i>
+                <span>Phân công công việc</span>
+            </a>
+        </li>
+        {{-- <li class="dropdown {{ setActive(['phancongnhanvien.*', 'admin.withdraw.index']) }}">
+            <a href="{{ route('danhsachtour') }}" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-wallet"></i>
                 <span>Phân công công việc</span></a>
             <ul class="dropdown-menu">
 
@@ -78,14 +83,14 @@
                 <li class="{{ setActive(['admin.withdraw.index']) }}"><a class="nav-link" href="">Tour sắp
                         tới</a></li>
             </ul>
-        </li>
+        </li> --}}
 
         <li class="dropdown {{ setActive(['loaiblog.*', 'blog.*']) }}">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-blogger-b"></i>
                 <span>Quản lý Blog</span></a>
             <ul class="dropdown-menu">
 
-                <li class="{{ setActive(['loaiblog*']) }}"><a class="nav-link"
+                <li class="{{ setActive(['loaiblog.*']) }}"><a class="nav-link"
                         href="{{ route('loaiblog.index') }}">Loại Blog</a></li>
                 <li class="{{ setActive(['blog.*']) }}"><a class="nav-link"
                         href="{{ route('blog.index') }}">Blog</a>

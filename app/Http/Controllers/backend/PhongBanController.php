@@ -15,6 +15,8 @@ class PhongBanController extends Controller
      */
     public function index(PhongBanDataTable $dataTable)
     {
+       
+
         return $dataTable->render('backend.phongban.index');
     }
 

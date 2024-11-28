@@ -242,7 +242,10 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
     Route::post('restore', [BackupAndRestoreControlelr::class, 'restore'])->name('backup.restore');
     Route::post('restore-schedule', [BackupAndRestoreControlelr::class, 'scheduleBackup'])->name('backup.schedule');
     Route::post('remove-schedule', [BackupAndRestoreControlelr::class, 'removeSchedules'])->name('backup.remove');
+    // profile
 
+    Route::get('profile-admin', [BackendHomeController::class, 'profile'])->name('ad.profile');
+    Route::post('profile-update', [BackendHomeController::class, 'updateProfile'])->name('ad.profile.update');
 
     // Hoá đơn, phiếu đặt tour
     Route::get('hoadon', [HoaDonController::class, 'index'])->name('hoadon.index');
