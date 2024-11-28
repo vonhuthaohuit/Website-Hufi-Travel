@@ -85,7 +85,7 @@
                                         <i class="fa-solid fa-pen-to-square me-2" style="color: green;"></i> Sửa bình
                                         luận
                                     </button>
-                                    <a class="dropdown-item" href="{{ route('comment.delete', $item->madanhgia) }}">
+                                    <a class="dropdown-item delete-item" href="{{ route('comment.delete', $item->madanhgia) }}">
                                         <i class="fa-solid fa-trash-can me-2" style="color: red;"></i> Xóa bình luận
                                     </a>
                                 </li>

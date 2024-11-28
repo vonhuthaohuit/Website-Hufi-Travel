@@ -1,0 +1,141 @@
+@extends('backend.layouts.master')
+
+@section('content')
+<div class="container-fluid">
+    <div class="row">
+        <!-- Biểu đồ số người dùng -->
+        <div class="col-md-6">
+            <canvas id="usersChart"></canvas>
+        </div>
+
+        <!-- Biểu đồ số tour -->
+        <div class="col-md-6">
+            <canvas id="tourChart"></canvas>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Biểu đồ tổng tiền trong ngày, tháng, năm -->
+        <div class="col-md-4">
+            <canvas id="moneyChart"></canvas>
+        </div>
+
+        <!-- Biểu đồ số phiếu hủy -->
+        <div class="col-md-4">
+            <canvas id="cancelledOrdersChart"></canvas>
+        </div>
+
+        <!-- Biểu đồ số bình luận -->
+        <div class="col-md-4">
+            <canvas id="commentsChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Lấy dữ liệu từ PHP
+    var totalUsers = @json($totalUsers);
+    var totalTour = @json($totalTour);
+    var totalMoneyInDay = @json($totalMoneyInDay);
+    var totalMoneyInMonth = @json($totalMoneyInMonth);
+    var totalMoneyInYear = @json($totalMoneyInYear);
+    var phieuHuy = @json($phieuHuy);
+    var soluongbinhluan = @json($soluongbinhluan);
+
+    // Biểu đồ tổng số người dùng
+    var ctx1 = document.getElementById('usersChart').getContext('2d');
+    var usersChart = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: ['Tổng số người dùng'],
+            datasets: [{
+                label: 'Số người dùng',
+                data: [totalUsers],
+                backgroundColor: '#007bff',
+                borderColor: '#0056b3',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Biểu đồ tổng số tour
+    var ctx2 = document.getElementById('tourChart').getContext('2d');
+    var tourChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['Tổng số tour'],
+            datasets: [{
+                label: 'Số tour',
+                data: [totalTour],
+                backgroundColor: '#28a745',
+                borderColor: '#218838',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Biểu đồ tổng tiền trong ngày, tháng, năm
+    var ctx3 = document.getElementById('moneyChart').getContext('2d');
+    var moneyChart = new Chart(ctx3, {
+        type: 'line',
+        data: {
+            labels: ['Ngày', 'Tháng', 'Năm'],
+            datasets: [{
+                label: 'Tổng tiền',
+                data: [totalMoneyInDay, totalMoneyInMonth, totalMoneyInYear],
+                backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                borderColor: 'rgba(255, 159, 64, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Biểu đồ số phiếu hủy
+    var ctx4 = document.getElementById('cancelledOrdersChart').getContext('2d');
+    var cancelledOrdersChart = new Chart(ctx4, {
+        type: 'pie',
+        data: {
+            labels: ['Số phiếu hủy'],
+            datasets: [{
+                label: 'Phiếu hủy',
+                data: [phieuHuy],
+                backgroundColor: ['#ff6f61'],
+                borderColor: ['#d9534f'],
+                borderWidth: 1
+            }]
+        }
+    });
+
+    // Biểu đồ số bình luận
+    var ctx5 = document.getElementById('commentsChart').getContext('2d');
+    var commentsChart = new Chart(ctx5, {
+        type: 'doughnut',
+        data: {
+            labels: ['Số bình luận'],
+            datasets: [{
+                label: 'Bình luận',
+                data: [soluongbinhluan],
+                backgroundColor: ['#ffc107'],
+                borderColor: ['#fd7e14'],
+                borderWidth: 1
+            }]
+        }
+    });
+</script>
+@endsection
