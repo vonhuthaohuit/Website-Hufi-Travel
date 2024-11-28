@@ -54,6 +54,6 @@ class CommentController extends Controller
         $danhgia = DanhGia::find($madanhgia);
         $danhgia->delete();
 
-        return redirect()->back()->with('success', 'Đánh giá của bạn đã được xóa thành công');
+        return response(['status' => 'success', 'message' => 'Xóa đánh giá thành công']);
     }
 }
