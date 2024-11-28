@@ -93,7 +93,7 @@
                                 <span class="text-danger error-message" style="display: none;"></span>
                             </div>
                         </div>
-                        <div class="form-group row mt-3 mb-3">
+                        <div class="form-group row">
                             <label class="col-sm-2 control-label">Căn cước công dân <span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-10">
@@ -102,7 +102,7 @@
                                 <span class="text-danger error-message" style="display: none;"></span>
                             </div>
                         </div>
-                        <div class="form-group row mt-3 mb-3">
+                        <div class="form-group row">
                             <label class="col-sm-2 control-label">Địa chỉ (Cá nhân/đơn vị) <span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-10">
@@ -163,9 +163,9 @@
                                 <textarea name="ticket_note" class="form-control" rows="4"></textarea>
                             </div>
                         </div>
-                        <div class="content_book">
+                        <div class="content_book row">
                             <header class="content-header">
-                                <h3>Danh sách khách hàng đi tour</h3>
+                                <h3 class="my-3">Danh sách khách hàng đi tour</h3>
                             </header>
                             <div class="content-body table-responsive-dat-tour">
                                 <table class="table table-striped" id="customerTable">
@@ -298,7 +298,7 @@
                                 </div>
                             </div>
                             <button type="submit" id="tour_tep1" name="tour_tep1" value="tour_tep1"
-                                class="btn btn-primary">
+                                class="btn btn-primary mt-3">
                                 Đặt tour
                             </button>
                         </div>

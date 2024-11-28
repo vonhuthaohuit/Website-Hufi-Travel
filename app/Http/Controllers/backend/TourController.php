@@ -146,7 +146,7 @@ class TourController extends Controller
             $tour->makhuyenmai = $request->input('khuyenmai_id');
             $tour->updated_at =  Carbon::parse(now()->format('d-m-Y'));
             if ($request->hasFile('hinhanh')) {
-                $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour/uploads', $tour->hinhdaidien);
+                $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour', $tour->hinhdaidien);
                 $tour->hinhdaidien = $imagePath;
             } else {
                 $tour->hinhdaidien = $tour->hinhdaidien;
