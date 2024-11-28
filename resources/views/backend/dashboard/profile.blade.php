@@ -40,16 +40,14 @@
                                     <label for="username" class="col-md-2 col-form-label text-left"><strong>Tên đăng
                                             nhập</strong></label>
                                     <div class="col-md-10">
-                                        <input type="text" id="username" class="form-control-plaintext"
-                                            value="{{ @$user->tentaikhoan }}" readonly>
+                                        <span class="form-control-plaintext" id="username" name="username">{{ @$user->tentaikhoan }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="email"
                                         class="col-md-2 col-form-label text-left"><strong>Email</strong></label>
                                     <div class="col-md-10">
-                                        <input type="email" id="email" name="email" class="form-control-plaintext"
-                                            required value="{{ @$user->email }}">
+                                        <span class="form-control-plaintext" id="email" name="email">{{ @$user->email }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">

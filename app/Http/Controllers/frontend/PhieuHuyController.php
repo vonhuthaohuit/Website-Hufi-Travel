@@ -76,6 +76,6 @@ class PhieuHuyController extends Controller
             $phieuhuy->save();
         }
 
-        return redirect()->route('tour.tour-booked')->with('success', 'Tour đã được hủy thành công.');
+        return response(['status' => 'success', 'message' => 'Hủy tour thành công']);
     }
 }

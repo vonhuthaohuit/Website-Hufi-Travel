@@ -6,6 +6,7 @@
     <style>
         #content p {
             text-align: justify;
+            font-size: 16px;
         }
 
         #content img {
@@ -132,8 +133,12 @@
         <div class="row">
             <div class="col-lg-8">
                 <div id="content">
+                    <h3 class="my-4" style="color: var(--thm-primary);">Mô tả tour</h3>
+                    <p>{{ $tour->motatour }}</p>
+
+                    <h3 class="my-4" style="color: var(--thm-primary);">Chi tiết tour</h3>
                     @foreach ($chuongtrinhtour as $item)
-                        <h3 class="mt-4 mb-3" style="color: #444;">{!! $item->tieude !!}</h3>
+                        <h5 class="mt-4 mb-3" style="color: #444;">{!! $item->tieude !!}</h5>
                         <p>{!! $item->mota !!}</p>
                     @endforeach
                 </div>
@@ -275,12 +280,13 @@
                             <tr>
                                 <td colspan="2">
                                     <a class="btn btn-danger btn-lg btn-booking" href="#"
-                                        onclick="submitBookingForm({{ $tour->matour }})">Đặt tour</a>
+                                        onclick="submitBookingForm({{ $tour->matour }})"><i class="fas fa-cart-plus me-2"></i> Đặt tour</a>
                                     {{-- <button class="btn btn-success btn-lg btn-down-pdf" id="download-pdf">
                                         Tải chi tiết tour
                                     </button> --}}
 
-                                    <a class="btn btn-success btn-lg btn-down-pdf" href="{{ route('tour.print', $tour->matour) }}">Tải chi tiết tour</a>
+                                    <a class="btn btn-success btn-lg btn-down-pdf"
+                                        href="{{ route('tour.print', $tour->matour) }}"><i class="fas fa-download me-2"></i> Tải chi tiết tour</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -324,6 +330,29 @@
                     ]
                 });
             });
+        </script>
+
+        <script>
+            function submitBookingForm(tourId) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = "{{ route('tour.dattour') }}";
+
+                const csrfTokenInput = document.createElement('input');
+                csrfTokenInput.type = 'hidden';
+                csrfTokenInput.name = '_token';
+                csrfTokenInput.value = "{{ csrf_token() }}";
+                form.appendChild(csrfTokenInput);
+
+                const tourIdInput = document.createElement('input');
+                tourIdInput.type = 'hidden';
+                tourIdInput.name = 'tourid';
+                tourIdInput.value = tourId;
+                form.appendChild(tourIdInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
         </script>
     @endpush
 @endsection

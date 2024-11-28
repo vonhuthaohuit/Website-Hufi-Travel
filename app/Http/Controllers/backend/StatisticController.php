@@ -30,7 +30,7 @@ class StatisticController extends Controller
        $data = DB::select('CALL proc_statisticDoanhThu()');
        $tourLabels = array_column($data, 'tentour');
        $tourValues = array_column($data, 'soluong');
-        
+
        $data = DB::select('CALL proc_statisticKhachHangTheoTuoi()');
        $ageLabels = array_column($data, 'age_group');
        $ageValues = array_column($data, 'total');

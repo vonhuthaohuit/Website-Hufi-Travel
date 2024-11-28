@@ -60,6 +60,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('frontend/js/script.js') }}"></script>
     <script src="{{ asset('frontend/js/script_password.js') }}"></script>
     @stack('script')
@@ -108,6 +109,63 @@
                 "hideMethod": "fadeOut"
             };
         });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('body').on('click', '.delete-item', function(event) {
+                event.preventDefault();
+
+                let deleteUrl = $(this).attr('href');
+                Swal.fire({
+                    title: 'Bạn có chắc chắn không?',
+                    text: "Bạn sẽ không thể hoàn tác hành động này!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Có, xóa nó!',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            type: 'DELETE',
+                            url: deleteUrl,
+                            success: function(data) {
+                                console.log(data);
+                                if (data.status == 'success') {
+                                    Swal.fire(
+                                        'Đã xóa!',
+                                        data.message,
+                                        'success'
+                                    )
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 1000);
+                                } else if (data.status == 'error') {
+                                    Swal.fire(
+                                        'Không thể xóa',
+                                        data.message,
+                                        'error'
+                                    )
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(xhr.responseText);
+                                console.log(error);
+                            }
+                        })
+                    }
+                })
+            })
+        })
     </script>
 </body>
 
