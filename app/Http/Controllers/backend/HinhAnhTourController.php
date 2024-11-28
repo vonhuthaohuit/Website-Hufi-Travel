@@ -15,9 +15,14 @@ class HinhAnhTourController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(HinhAnhTourDatattables $dataTable)
+    public function index(HinhAnhTourDatattables $dataTable, Request $request)
     {
-        return $dataTable->render('backend.tour.hinhanhtour.index');
+        if (!$request->has('tour_id') || !Tour::where('matour', $request->tour_id)->exists()) {
+            return redirect()->back()->with('error', 'Tour ID không hợp lệ hoặc không tồn tại.');
+        }
+        $tour = Tour::findOrFail($request->tour_id);
+
+        return $dataTable->render('backend.tour.hinhanhtour.index', compact('tour'));
     }
 
 
