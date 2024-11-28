@@ -7,7 +7,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <a href="">
+                    <a href="{{ route('tour.index') }}">
                         <div class="card card-statistic-1">
                             <div class="card-icon bg-primary">
                                 <i class="fas fa-cart-plus"></i>
@@ -78,7 +78,7 @@
                 </div> --}}
 
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <a href="">
+                    <a href="{{ route('phieuhuytour.index') }}">
                         <div class="card card-statistic-1">
                             <div class="card-icon bg-danger">
                                 <i class="fas fa-ban"></i>
@@ -96,7 +96,7 @@
                 </div>
 
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <a href="">
+                    <a href="{{ route('hoadon.index') }}">
                         <div class="card card-statistic-1">
                             <div class="card-icon bg-success">
                                 <i class="fas fa-check-circle"></i>
@@ -193,7 +193,7 @@
                 </div> --}}
 
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <a href="">
+                    <a href="{{ route('blog.index') }}">
                         <div class="card card-statistic-1">
                             <div class="card-icon" style="background-color: #60656b">
                                 <i class="fab fa-blogger-b"></i>
@@ -212,7 +212,7 @@
 
 
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <a href="">
+                    <a href="{{ route('nhanvien.index') }}">
                         <div class="card card-statistic-1">
                             <div class="card-icon" style="background-color: #9fcfba;">
                                 <i class="far fa-user"></i>
@@ -230,7 +230,7 @@
                 </div>
 
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <a href="">
+                    <a href="{{ route('danhgia.index') }}">
                         <div class="card card-statistic-1">
                             <div class="card-icon" style="background-color: #ffc2d1;">
                                 <i class="fas fa-comments"></i>
