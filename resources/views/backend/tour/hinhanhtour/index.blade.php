@@ -10,10 +10,14 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Tất cả hình ảnh tour</h4>
+                            <h4>{{ $tour->tentour }}</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('hinhanhtour.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i>
-                                    Create New</a>
+                                <a href="{{ route('hinhanhtour.create') }}" class="btn btn-primary"><i
+                                        class="fas fa-plus"></i>
+                                    Tạo mới</a>
+                                <a id="create-new-btn" href="{{ route('tour.index') }}" class="btn btn-primary"
+                                    class="btn btn-primary"><i class="fas fa-arrow-left"></i>
+                                    Quay về</a>
                             </div>
                         </div>
                         <div class="card-body">

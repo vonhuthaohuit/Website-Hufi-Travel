@@ -74,13 +74,6 @@
             </a>
         </li>
 
-        <li class="{{ setActive(['hinhanhtour.*']) }}">
-            <a class="nav-link {{ setActive(['hinhanhtour.*']) }}"
-                href="{{ route('hinhanhtour.index') }}"><i class="fas fa-image"></i>
-                <span>Hình ảnh tour</span>
-            </a>
-        </li>
-
         <li class="dropdown {{ setActive(['loaiblog.*', 'blog.*']) }}">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-blogger-b"></i>
                 <span>Quản lý Blog</span></a>
