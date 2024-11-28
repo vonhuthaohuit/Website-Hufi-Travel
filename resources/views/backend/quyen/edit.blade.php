@@ -3,7 +3,7 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1 style="margin-left:50px">Quản lý quyền/h1>
+            <h1 style="margin-left:50px">Quản lý quyền</h1>
         </div>
         <div class="section-body">
             <div class="row">
@@ -14,7 +14,7 @@
                             <h4>Chỉnh sửa quyền</h4>
                             <div class="card-header-action">
                                 <a href="{{ route('quyen.index') }}" class="btn btn-primary">
-                                    <i class="fas fa-arrow-left"></i>Back
+                                    <i class="fas fa-arrow-left"></i>Quay về
                                 </a>
                             </div>
                         </div>

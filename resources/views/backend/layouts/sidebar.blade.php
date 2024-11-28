@@ -20,7 +20,7 @@
                     <span>Quản lý tour</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{ setActive(['tour.*']) }}">
-                        <a class="nav-link" href="{{ route('tour.index') }}">Tours</a>
+                        <a class="nav-link" href="{{ route('tour.index') }}">Tour</a>
                     </li>
                     <li class="{{ setActive(['loaitour.*']) }}">
                         <a class="nav-link" href="{{ route('loaitour.index') }}">Loại tour</a>

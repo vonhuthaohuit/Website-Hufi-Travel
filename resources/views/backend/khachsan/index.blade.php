@@ -3,7 +3,7 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Blog Category</h1>
+            <h1>Khách sạn</h1>
         </div>
         <div class="section-body">
             <div class="row">
@@ -13,7 +13,7 @@
                             <h4>Tất cả khách sạn</h4>
                             <div class="card-header-action">
                                 <a href="{{ route('khachsan.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i>
-                                    Create New</a>
+                                    Tạo mới</a>
                             </div>
                         </div>
                         <div class="card-body">

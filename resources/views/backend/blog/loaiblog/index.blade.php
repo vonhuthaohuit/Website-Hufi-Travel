@@ -13,7 +13,7 @@
                             <h4>Tất cả loại blog</h4>
                             <div class="card-header-action">
                                 <a href="{{ route('loaiblog.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i>
-                                    Create New</a>
+                                    Tạo mới</a>
                                 <button id="delete-selected" class="btn btn-danger" style="display: none;"><i class='far fa-trash-alt'></i> Xóa đã
                                     chọn</button>
                             </div>

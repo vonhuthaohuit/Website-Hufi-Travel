@@ -14,7 +14,7 @@
                             <div class="card-header-action">
                                 <a href="{{ route('phancongnhanvien.index', ['tour_id' => $tour->matour]) }}"
                                     class="btn btn-primary"><i class="fas fa-arrow-left"></i>
-                                    Back</a>
+                                    Quay về</a>
                             </div>
                         </div>
                         <form action="{{ route('phancongnhanvien.store') }}" method="POST">

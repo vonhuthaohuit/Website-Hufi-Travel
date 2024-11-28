@@ -3,7 +3,7 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Thông tin chi tiết thời gian tour</h1>
+            <h1>Phương tiện của tour</h1>
         </div>
         <div class="section-body">
             <div class="row">

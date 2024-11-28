@@ -8,13 +8,14 @@
         <div class="section-body">
             <div class="row">
                 <div class="col-12">
-
                     <div class="card">
-                        <h2 class="mb-4">Danh sách hóa đơn</h2>
-                        <div class="d-flex justify-content-end mb-3">
-                            <a href="{{ route('hoadon.create') }}" class="btn btn-success">
-                                <i class="bi bi-plus-circle"></i> Thêm hóa đơn
-                            </a>
+                        <div class="card-header">
+                            <h4>Danh sách hóa đơn</h4>
+                            <div class="card-header-action">
+                                <a href="{{ route('hoadon.create') }}" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Thêm hóa đơn
+                                </a>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table id="hoaDon-table" class="table table-bordered table-hover">

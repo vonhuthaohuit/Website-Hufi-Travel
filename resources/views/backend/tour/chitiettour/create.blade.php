@@ -3,7 +3,7 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Tour</h1>
+            <h1>Chi tiết tour</h1>
         </div>
         <div class="section-body">
             <div class="row">
@@ -13,7 +13,7 @@
                             <h4>Thêm chi tiết mới</h4>
                             <div class="card-header-action">
                                 <a href="{{ route('chitiettour.index',['tour_id' => $tour->matour]) }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i>
-                                    Back</a>
+                                    Quay về</a>
                             </div>
                         </div>
                         <div class="card-body">
