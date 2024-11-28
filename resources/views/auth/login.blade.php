@@ -10,7 +10,7 @@
 
                 <form action="{{ route('register') }}" id="registerForm" method="POST">
                     @csrf
-                    <h2 style="font-weight: 800; color: rgb(1, 148, 243);">Create Account</h2>
+                    <h2 style="font-weight: 800; color: rgb(1, 148, 243);">Đăng ký</h2>
                     <div class="social-icons">
                         <a href="#" class="icon"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                                 width="20" height="20" viewBox="0 0 48 48">
@@ -28,7 +28,7 @@
                                 </path>
                             </svg>
                         </a>
-                        <a href="#" class="icon">
+                        {{-- <a href="#" class="icon">
                             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20"
                                 viewBox="0,0,256,256">
                                 <g fill="#0866ff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
@@ -58,22 +58,22 @@
                                     d="M8.421 14h.052 0C11.263 14 13 12 13 9.5 12.948 6.945 11.263 5 8.526 5 5.789 5 4 6.945 4 9.5 4 12 5.736 14 8.421 14zM4 17H13V43H4zM44 26.5c0-5.247-4.253-9.5-9.5-9.5-3.053 0-5.762 1.446-7.5 3.684V17h-9v26h9V28h0c0-2.209 1.791-4 4-4s4 1.791 4 4v15h9C44 43 44 27.955 44 26.5z">
                                 </path>
                             </svg>
-                        </a>
+                        </a> --}}
                     </div>
-                    <span class="mb-3">or use your email for registeration</span>
+                    <span class="mb-3">hoặc sử dụng email của bạn để đăng ký</span>
                     <span class="mb-3">
 
                     </span>
                     <input type="text" placeholder="Name" name="name" required>
                     <input type="email" placeholder="Email" name="email" required>
                     <input type="password" placeholder="Password" name="password_register" required>
-                    <button type="submit">Sign Up</button>
+                    <button type="submit">Đăng ký</button>
                 </form>
             </div>
             <div class="form-container sign-in">
                 <form action="{{ route('PostLogin') }}" id="loginForm" method="POST">
                     @csrf
-                    <h2 style="font-weight: 800; color:rgb(1, 148, 243);">Sign In</h2>
+                    <h2 style="font-weight: 800; color:rgb(1, 148, 243);">Đăng nhập</h2>
                     <div class="social-icons">
                         <a href="{{ route('GoogleSign') }}" class="icon"><svg xmlns="http://www.w3.org/2000/svg" x="0px"
                                 y="0px" width="20" height="20" viewBox="0 0 48 48">
@@ -91,7 +91,7 @@
                                 </path>
                             </svg>
                         </a>
-                        <a href="" class="icon">
+                        {{-- <a href="" class="icon">
                             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20"
                                 viewBox="0,0,256,256">
                                 <g fill="#0866ff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
@@ -121,26 +121,26 @@
                                     d="M8.421 14h.052 0C11.263 14 13 12 13 9.5 12.948 6.945 11.263 5 8.526 5 5.789 5 4 6.945 4 9.5 4 12 5.736 14 8.421 14zM4 17H13V43H4zM44 26.5c0-5.247-4.253-9.5-9.5-9.5-3.053 0-5.762 1.446-7.5 3.684V17h-9v26h9V28h0c0-2.209 1.791-4 4-4s4 1.791 4 4v15h9C44 43 44 27.955 44 26.5z">
                                 </path>
                             </svg>
-                        </a>
+                        </a> --}}
                     </div>
-                    <span class="mb-3">or use your email password</span>
+                    <span class="mb-3">hoặc sử dụng mật khẩu email của bạn</span>
                     <input type="text" placeholder="Email hoặc tên đăng nhập" name="email_or_username" required>
                     <input type="password" placeholder="Mật khẩu" id="psw" name="password" required>
-                    <a href="{{ route('auth.forget') }}">Forget Your Password?</a>
-                    <button type="submit">Sign In</button>
+                    <a href="{{ route('auth.forget') }}">Quên mật khẩu?</a>
+                    <button type="submit">Đăng nhập</button>
                 </form>
             </div>
             <div class="toggle-container">
                 <div class="toggle">
                     <div class="toggle-panel toggle-left">
-                        <h1>Welcome!</h1>
-                        <p>Enter your personal details to use all of site features</p>
-                        <button class="hidden" id="login">Sign In</button>
+                        <h1>Chào mừng bạn đến với chúng tôi!</h1>
+                        <p>Đăng ký ngay để sử dụng tất cả các tính năng trên trang web!</p>
+                        <button class="hidden" id="login">Đăng ký</button>
                     </div>
                     <div class="toggle-panel toggle-right">
-                        <h1>Hello, Friend!</h1>
-                        <p>Register with your personal details to use all of site features</p>
-                        <button class="hidden" id="register">Sign Up</button>
+                        <h1>Chào bạn!</h1>
+                        <p>Hãy đăng ký thông tin cá nhân để trải nghiệm đầy đủ các tính năng!</p>
+                        <button class="hidden" id="register">Tham gia ngay</button>
                     </div>
                 </div>
             </div>

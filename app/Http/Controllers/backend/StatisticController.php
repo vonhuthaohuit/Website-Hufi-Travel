@@ -12,7 +12,10 @@ class StatisticController extends Controller
 
     public function viewStatisticKhachHang()
     {
-        return view('backend.statistic.index') ;
+       $data = DB::select('CALL proc_statisticKhachHangTheoTuoi()') ;
+       $labels = array_column($data, 'age_group');
+       $values = array_column($data, 'total');
+        return view('backend.statistic.index',compact('labels', 'values')) ;
     }
 
 
@@ -24,7 +27,13 @@ class StatisticController extends Controller
 
     public function  viewstatisticDoanhThu ()
     {
-        return view('backend.statistic.statistic_doanhthu') ;
-
+       $data = DB::select('CALL proc_statisticDoanhThu()');
+       $tourLabels = array_column($data, 'tentour');
+       $tourValues = array_column($data, 'soluong');
+        
+       $data = DB::select('CALL proc_statisticKhachHangTheoTuoi()');
+       $ageLabels = array_column($data, 'age_group');
+       $ageValues = array_column($data, 'total');
+       return view('backend.statistic.statistic_doanhthu', compact('tourLabels', 'tourValues', 'ageLabels', 'ageValues'));
     }
 }

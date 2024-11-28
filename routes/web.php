@@ -27,6 +27,7 @@ use App\Http\Controllers\backend\Quyen_NhomQuyenController;
 use App\Http\Controllers\backend\QuyenController;
 use App\Http\Controllers\backend\ChuongTrinhTourController;
 use App\Http\Controllers\backend\DanhGiaController;
+use App\Http\Controllers\backend\HinhAnhTourController;
 use App\Http\Controllers\Backend\KhachHangController;
 use App\Http\Controllers\backend\KhachSan_TourController;
 use App\Http\Controllers\backend\KhachSanController;
@@ -244,7 +245,10 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
     Route::post('restore', [BackupAndRestoreControlelr::class, 'restore'])->name('backup.restore');
     Route::post('restore-schedule', [BackupAndRestoreControlelr::class, 'scheduleBackup'])->name('backup.schedule');
     Route::post('remove-schedule', [BackupAndRestoreControlelr::class, 'removeSchedules'])->name('backup.remove');
+    // profile
 
+    Route::get('profile-admin', [BackendHomeController::class, 'profile'])->name('ad.profile');
+    Route::post('profile-update', [BackendHomeController::class, 'updateProfile'])->name('ad.profile.update');
 
     // Hoá đơn, phiếu đặt tour
     Route::get('hoadon', [HoaDonController::class, 'index'])->name('hoadon.index');
@@ -257,6 +261,7 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
     Route::post('danhgia/change-status', [DanhGiaController::class, 'changeStatus'])->name('danhgia.change-status');
 
     Route::resource('phieuhuytour', BackendPhieuHuyController::class);
+    Route::resource('hinhanhtour', HinhAnhTourController::class);
 });
 Route::get('hoadon/{hoaDonId}/print', [HoaDonController::class, 'printInvoice'])->name('hoadon.print');
 
@@ -298,3 +303,5 @@ Route::post('/comment/{madanhgia}', [CommentController::class, 'update'])->name(
 Route::get('/comment/delete/{madanhgia}', [CommentController::class, 'delete'])->name('comment.delete');
 Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
 Route::post('/profile/update', [HomeController::class, 'updateProfile'])->name('profile.update');
+Route::get('/tour/{matour}/print', [TourController::class, 'printTour'])->name('tour.print');
+

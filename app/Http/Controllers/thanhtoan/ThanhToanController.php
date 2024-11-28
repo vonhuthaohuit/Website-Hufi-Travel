@@ -16,9 +16,6 @@ class ThanhToanController extends Controller
     {
         $hoaDonController = new HoaDonController();
         $phieuDatTourController = new PhieuDatTourController();
-        $user = Session::get('user');
-        $maTaiKhoan = $user['mataikhoan'];
-        $khachHang = KhachHang::where('mataikhoan', $maTaiKhoan)->first();
         $request->validate([
             'maTour' => 'required',
             'tongTienPhieuDatTour' => 'required|numeric',

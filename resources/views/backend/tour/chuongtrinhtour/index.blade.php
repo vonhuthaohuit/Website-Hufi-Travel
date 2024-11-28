@@ -13,8 +13,13 @@
                             <h4>Tên tour : {{ $tour->tentour }}</h4>
 
                             <div class="card-header-action">
-                                <a id="create-new-btn" href="{{ route('chuongtrinhtour.create',['tour_id' => $tour->matour]) }}" class="btn btn-primary" class="btn btn-primary"><i class="fas fa-plus"></i>
-                                    Create New</a>
+                                <a id="create-new-btn"
+                                    href="{{ route('chuongtrinhtour.create', ['tour_id' => $tour->matour]) }}"
+                                    class="btn btn-primary" class="btn btn-primary"><i class="fas fa-plus"></i>
+                                    Tạo mới</a>
+                                <a id="create-new-btn" href="{{ route('tour.index') }}" class="btn btn-primary"
+                                    class="btn btn-primary"><i class="fas fa-arrow-left"></i>
+                                    Quay về</a>
                             </div>
                         </div>
 
@@ -30,7 +35,7 @@
 @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 
-{{--
+    {{--
     <script>
         $(document).ready(function() {
             $('#tour-select').change(function() {
@@ -41,7 +46,4 @@
             });
         });
     </script> --}}
-
-
-
 @endpush

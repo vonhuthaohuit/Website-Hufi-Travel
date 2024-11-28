@@ -4,12 +4,14 @@ namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ChiTietTour;
+use App\Models\ChuongTrinhTour;
 use App\Models\DanhGia;
 use App\Models\DiemDuLich;
 use App\Models\KhachSan;
 use App\Models\LoaiTour;
 use App\Models\PhuongTien;
 use App\Models\Tour;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
@@ -27,7 +29,7 @@ class TourController extends Controller
             ->leftJoin('hinhanhtour', 'tour.matour', '=', 'hinhanhtour.matour')
             ->leftJoin('loaitour', 'tour.maloaitour', '=', 'loaitour.maloaitour')
             ->leftJoin('khuyenmai', 'tour.makhuyenmai', '=', 'khuyenmai.makhuyenmai')
-            ->select('tour.*', 'chitiettour.giachitiettour', 'chuongtrinhtour.mota', 'chuongtrinhtour.tieude', 'diemdulich.tendiemdulich', 'loaitour.tenloai', 'hinhanhtour.duongdan', 'khuyenmai.phantramgiam', 'chitiettour.ngaybatdau')
+            ->select('tour.*', 'chitiettour.giachitiettour', 'diemdulich.tendiemdulich', 'loaitour.tenloai', 'hinhanhtour.duongdan', 'khuyenmai.phantramgiam', 'chitiettour.ngaybatdau')
             ->where('tour.slug', $slug)
             ->first();
 
@@ -77,9 +79,10 @@ class TourController extends Controller
             ->first();
 
         $ngaybatdau = ChiTietTour::where('matour', $tour->matour)->first();
-        $ngaybatdau2 = ChiTietTour::where('matour', $tour->matour)->get();
 
-        return view('frontend.tour.tour-detail', compact('tour', 'commentOfTour', 'averageRating', 'ratingsWithPercentage', 'totalRatings', 'phuongtien', 'ngaybatdau', 'khachsan', 'ngaybatdau2'));
+        $chuongtrinhtour = ChuongTrinhTour::where('matour', $tour->matour)->get();
+
+        return view('frontend.tour.tour-detail', compact('tour', 'commentOfTour', 'averageRating', 'ratingsWithPercentage', 'totalRatings', 'phuongtien', 'ngaybatdau', 'khachsan', 'chuongtrinhtour'));
     }
 
     public function allTour()
@@ -155,19 +158,36 @@ class TourController extends Controller
         }
         $image = $request->file('image');
 
-        $imagePath = $image->storeAs('temp', $image->getClientOriginalName());
+        $response = Http::attach(
+            'image',
+            file_get_contents($image->getRealPath()),
+            $image->getClientOriginalName()
+        )->post('http://.../search-image');
 
-        $pythonScript = storage_path('search_image.py');
-        $imageFilePath = storage_path('app/' . $imagePath);
+        $similarImages = $response->json();
 
-        $output = shell_exec("python \"$pythonScript\" \"$imageFilePath\" 2>&1");
+        $imageFolder = public_path('frontend/images');
 
-        $output = json_decode($output, true);
+        $allImages = File::files($imageFolder);
 
-        Log::info($output);
+        $matchedTours = [];
+        foreach ($allImages as $file) {
+            if (in_array($file->getFilename(), $similarImages)) {
+                $tour = Tour::where('image_name', $file->getFilename())->first();
+                if ($tour) {
+                    $matchedTours[] = $tour;
+                }
+            }
+        }
 
+        return view('search-results', ['tours' => $matchedTours]);
+    }
 
-        die;
-        return view('');
+    public function printTour($matour)
+    {
+        $tour = Tour::with('chuongtrinhtour')->where('matour', $matour)->first();
+        $pdf = Pdf::loadView('frontend.tour.print-pdf-tour', compact('tour'));
+
+        return $pdf->download($tour->tentour . '.pdf');
     }
 }
