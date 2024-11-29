@@ -478,3 +478,27 @@ footer {
         opacity: .02
     }
 }
+
+
+.btn-vnpay {
+    /* border: 1px solid #08c; */
+    /* background-color: rgb(242, 242, 242); */
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 100px;
+}
+
+.btn-vnpay:hover {
+    /* border: 1px solid #08c;
+    background-color: rgb(242, 242, 242);
+    color: #fff; */
+}
+
+.btn-momo img {
+    border-radius: 5px;
+}
+
+.btn-momo {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 100px;
+}

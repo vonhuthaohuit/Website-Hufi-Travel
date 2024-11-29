@@ -28,6 +28,8 @@
             border: none;
             background: transparent;
         }
+
+        
     </style>
 
     <link rel="stylesheet" href="{{ asset('frontend/css/styleCancelTour.css') }}">
@@ -159,8 +161,8 @@
                         </select>
                     </div>
                     <div id="onlineOptions" class="form-group" style="display:none;">
-                        <button id="pay-vnpay" class="btn btn-success" data-method="vnpay">Thanh toán VNPay</button>
-                        <button id="pay-momo" class="btn btn-success" data-method="momo">Thanh toán Momo</button>
+                        <button id="pay-vnpay" class="btn btn-vnpay" data-method="vnpay"><img src="{{ asset('frontend/images/vnpay.png') }}" alt="Thanh toán VNPay" width="100" height="40"></button>
+                        <button id="pay-momo" class="btn btn-momo" data-method="momo"><img src="{{ asset('frontend/images/momo.png') }}" alt="Thanh toán momo" width="100" height="85"></button>
                     </div>
                 </div>
                 <div class="modal-footer">
