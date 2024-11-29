@@ -6,8 +6,8 @@
         <div class="container-fluid">
             <div class="panel panel-1">
                 <div class="panel-body">
-                    <form action="{{ route('tour.step4') }}" name="tourBooking" method="post" class="form-horizontal frm-tour-booking" role="form"
-                        id="form-booking-step2">
+                    <form action="{{ route('tour.step4') }}" name="tourBooking" method="post"
+                        class="form-horizontal frm-tour-booking" role="form" id="form-booking-step2">
                         @csrf
 
                         <!-- Nav tabs -->
@@ -62,7 +62,7 @@
                                     <b>Email:</b> {{ $data['ticket_email'] }}
                                 </p>
                                 <p>
-                                    <b>Mã số thuế:</b> {{ $data['ticket_masothue'] ?? 'Không có'}}
+                                    <b>Mã số thuế:</b> {{ $data['ticket_masothue'] ?? 'Không có' }}
                                 </p>
                                 <p>
                                     <b>Tên đơn vị:</b> {{ $data['ticket_tendonvi'] ?? 'Không có' }}
@@ -151,13 +151,16 @@
                                     @else
                                         <p class="payment-type">Thanh toán online</p>
                                         <div class="payment-buttons">
-                                            <a href="#" id="pay-btn" class="btn btn-success"
+                                            <a href="#" id="pay-btn" class="btn btn-vnpay"
                                                 data-amount="{{ number_format($totalAmount) }}"
-                                                data-phieudattourid = "{{ $phieuDatTour['maphieudattour'] }}">Thanh toán VNPay</a>
-                                            <a id="pay-btn-momo" href="#" class="btn btn-success"
+                                                data-phieudattourid = "{{ $phieuDatTour['maphieudattour'] }}"><img
+                                                    src="{{ asset('frontend/images/vnpay.png') }}" alt="Thanh toán VNPay"
+                                                    width="100" height="40"></a>
+                                            <a id="pay-btn-momo" href="#" class="btn btn-momo"
                                                 data-amount="{{ number_format($totalAmount) }}"
-                                                data-phieudattourid = "{{ $phieuDatTour['maphieudattour'] }}">Thanh toán
-                                                Momo</a>
+                                                data-phieudattourid = "{{ $phieuDatTour['maphieudattour'] }}"><img
+                                                    src="{{ asset('frontend/images/momo.png') }}" alt="Thanh toán momo"
+                                                    width="100" height="85"></a>
                                         </div>
                                     @endif
                                 </div>
