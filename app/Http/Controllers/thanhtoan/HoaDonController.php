@@ -267,6 +267,7 @@ class HoaDonController extends Controller
             ]);
             $phieuDatTour = $hoadon->phieudattour;
             $phieuDatTour->update([
+                'trangthaidattour' => $request->trangthaithanhtoan,
                 'tongtienphieudattour' => $request->tongsotien,
             ]);
             foreach ($request->khachhang as $value) {
