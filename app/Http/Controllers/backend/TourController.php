@@ -316,12 +316,13 @@ class TourController extends Controller
 
         $giaMin = 0;
         $giaMax = $searchData['gia'] ?? 10000000;
-
         $tours = Tour::query()
             ->where('tinhtrang', 1)
             ->when(
                 isset($searchData['typetour']) && !empty($searchData['typetour']),
-                fn($query, $typetour) => $query->where('maloaitour', $typetour)
+                function ($query) use ($searchData) {
+                    return $query->where('maloaitour', $searchData['typetour']);
+                }
             )
             ->when(
                 (isset($searchData['destination']) || isset($searchData['name-destination'])) &&
