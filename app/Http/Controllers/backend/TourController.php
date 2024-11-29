@@ -354,14 +354,6 @@ class TourController extends Controller
                 fn($query) => $query->whereIn('hinhdaidien', $images)
             )
             ->when(
-                isset($searchData['tour_star']) && !empty($searchData['tour_star']) && $searchDataCount != 3,
-                fn($query) => $query->whereHas(
-                    'danhgia',
-                    fn($q) =>
-                    $q->whereIn('diemdanhgia', array_values($searchData['tour_star']))
-                )
-            )
-            ->when(
                 isset($searchData['hotel_star']) && !empty($searchData['hotel_star']) && $searchDataCount != 3,
                 fn($query) => $query->whereHas(
                     'chitietkhachsantour',
@@ -413,9 +405,6 @@ class TourController extends Controller
                 ? "Ngày kết thúc: \"{$searchData['date-end']}\""
                 : null,
 
-            isset($searchData['tour_star']) && !empty($searchData['tour_star'])
-                ? "Đánh giá tour: \"" . (is_array(array_keys($searchData['tour_star'])) ? implode(', ', $searchData['tour_star']) : array_keys($searchData['tour_star'])) . '⭐' . "\""
-                : null,
 
             isset($searchData['hotel_star']) && !empty($searchData['hotel_star'])
                 ? "Đánh giá khách sạn: \"" . (is_array(array_keys($searchData['hotel_star'])) ? implode(', ', array_keys($searchData['hotel_star'])) : array_keys($searchData['hotel_star'])) . '⭐' . "\""
