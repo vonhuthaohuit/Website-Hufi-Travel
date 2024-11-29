@@ -242,14 +242,14 @@ class TourController extends Controller
         $searchData = $request->only(['typetour', 'name-destination', 'destination', 'departure', 'date-start', 'date-end', 'duration', 'guests', 'tour_star', 'hotel_star', 'gia']);
         $searchDataCount = count(array_filter($searchData));
 
-        if (!empty($searchData['date-start']) || !empty($searchData['date-end'])) {
-            $searchData['date-start'] = !empty($searchData['date-start'])
-                ? Carbon::createFromFormat('d/m/Y', $searchData['date-start'])->format('Y-m-d')
-                : null;
-            $searchData['date-end'] = !empty($searchData['date-end'])
-                ? Carbon::createFromFormat('d/m/Y', $searchData['date-end'])->format('Y-m-d')
-                : null;
-        }
+        // if (!empty($searchData['date-start']) || !empty($searchData['date-end']) && isset($searchData['date-start']) && isset($searchData['date-end'])) {
+        //     $searchData['date-start'] = !empty($searchData['date-start'])
+        //         ? Carbon::createFromFormat('d/m/Y', $searchData['date-start'])->format('Y-m-d')
+        //         : null;
+        //     $searchData['date-end'] = !empty($searchData['date-end'])
+        //         ? Carbon::createFromFormat('d/m/Y', $searchData['date-end'])->format('Y-m-d')
+        //         : null;
+        // }
         $images = [];
         if ($request->hasFile('image')) {
             $image = $request->file('image');
