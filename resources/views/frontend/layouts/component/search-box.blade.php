@@ -174,11 +174,11 @@
                                 <label class="me-2">Giá:</label>
                                 <span class="me-2"> 0 &rarr;</span>
                                 <span style="display: inline-block" id="price-display"
-                                    class="">{{ number_format(1000000) }} VNĐ</span>
+                                    class="">{{ number_format(60000000) }} VNĐ</span>
                             </div>
 
                             <input name="gia" type="range" class="form-range" min="1000000" max="60000000"
-                                step="1000" value="0" onchange="updatePriceDisplay(this)">
+                                step="1000" value="60000000" onchange="updatePriceDisplay(this)">
                             {{-- <span class="ms-2">60.000.000 VND</span> --}}
                         </div>
                     </div>
