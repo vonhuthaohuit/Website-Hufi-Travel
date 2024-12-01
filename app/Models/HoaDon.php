@@ -22,6 +22,8 @@ class HoaDon extends Model
         'tendonvi',
         'diachidonvi',
         'masothue',
+        'created_at',
+        'updated_at',
     ];
 
     public function phieudattour()

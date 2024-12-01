@@ -137,6 +137,7 @@ class HomeController extends Controller
         $thongTinNguoiDaiDien['tendonvi'] = $hoadon->tendonvi ?? null;
         $thongTinNguoiDaiDien['diachidonvi'] = $khachHang->diachi ?? null;
         $thongTinNguoiDaiDien['masothue'] = $hoadon->masothue ?? null;
+        $thongTinNguoiDaiDien['email'] = $user->email ?? null;
         session()->put('thongTinNguoiDaiDien', $thongTinNguoiDaiDien);
 
         @$phieuhuy = PhieuHuyTour::where('maphieuhuytour', $hoadon->maphieuhuytour)->first();
