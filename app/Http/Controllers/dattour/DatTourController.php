@@ -5,6 +5,7 @@ namespace App\Http\Controllers\dattour;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\thanhtoan\PhieuDatTourController;
 use App\Http\Controllers\thanhtoan\ThanhToanController;
+use App\Mail\ThanhToanThanhCong;
 use App\Models\ChiTietTour;
 use App\Models\ChuongTrinhTour;
 use App\Models\HoaDon;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class DatTourController extends Controller
 {
@@ -142,6 +144,7 @@ class DatTourController extends Controller
         $thongTinNguoiDaiDien['tendonvi'] = $data['ticket_tendonvi'];
         $thongTinNguoiDaiDien['diachidonvi'] = $data['ticket_address'];
         $thongTinNguoiDaiDien['masothue'] = $data['ticket_masothue'];
+        $thongTinNguoiDaiDien['email'] = $data['ticket_email'];
 
         $khachHang->hoten = $data['ticket_fullname'];
         $khachHang->cccd = $data['ticket_cccd'];
@@ -195,9 +198,10 @@ class DatTourController extends Controller
         $trangThaiDatTour = 'Đang chờ thanh toán';
         $phuongThucThanhToan = 'Thanh toán trực tiếp';
         $thongTinNguoiDaiDien = session('thongTinNguoiDaiDien');
+        Log::info($thongTinNguoiDaiDien);
         DB::beginTransaction();
         try {
-            HoaDon::create([
+            $hoadon = HoaDon::create([
                 'maphieudattour' => $phieuDatTour->maphieudattour,
                 'tongsotien' => $phieuDatTour->tongtienphieudattour,
                 'phuongthucthanhtoan' => $phuongThucThanhToan,
@@ -206,7 +210,11 @@ class DatTourController extends Controller
                 'tendonvi' => $thongTinNguoiDaiDien['tendonvi'] ?? null,
                 'diachidonvi' => $thongTinNguoiDaiDien['diachidonvi'] ?? null,
                 'masothue' => $thongTinNguoiDaiDien['masothue'] ?? null,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
+            Mail::to($thongTinNguoiDaiDien['email'])->send(new ThanhToanThanhCong($hoadon));
+
 
             DB::commit();
             return view('frontend/thanhtoan/payment_success');
@@ -248,7 +256,8 @@ class DatTourController extends Controller
     {
         // Logic xóa dữ liệu
     }
-    public function test(){
+    public function test()
+    {
         return view('frontend.dattour.index');
     }
 }
