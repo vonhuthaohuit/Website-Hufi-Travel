@@ -270,7 +270,7 @@ class TourController extends Controller
             }
 
             $command = "python \"$pythonScript\" \"$imageFilePath\" 2>&1";
-            $output = shell_exec($command);
+            $output = system($command);
             $images = json_decode($output, true);
             if ($images) {
                 $images = array_map(function ($image) {
