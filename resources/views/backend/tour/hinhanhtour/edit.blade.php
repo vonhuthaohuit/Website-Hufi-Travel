@@ -45,7 +45,7 @@
 
                                 <div class="form-group">
                                     <label>Hình ảnh tour</label>
-                                    <input type="file" class="form-control" name="duongdan">
+                                    <input type="file" class="form-control" name="duongdan" multiple>
                                     <img src="{{ asset($hinhanhtour->duongdan) }}" width="100" alt="Current Image">
                                 </div>
 

@@ -82,7 +82,7 @@ class TourDatatables extends DataTable
      */
     public function query(Tour $model): QueryBuilder
     {
-        return $model->newQuery()->orderBy('matour', 'asc');
+        return $model->newQuery()->orderBy('matour', 'desc');
     }
 
     /**
@@ -104,6 +104,10 @@ class TourDatatables extends DataTable
                 Button::make('print'),
                 Button::make('reset'),
                 Button::make('reload')
+            ])
+            ->parameters([
+                'scrollX' => true, // Bật chế độ cuộn ngang
+                'responsive' => true, // Hỗ trợ giao diện responsive
             ]);
     }
 

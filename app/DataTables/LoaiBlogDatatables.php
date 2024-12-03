@@ -64,6 +64,10 @@ class LoaiBlogDatatables extends DataTable
                 Button::make('reset'),
                 Button::make('reload'),
                 Button::make('selectedDelete')->text('Xóa đã chọn')
+            ])
+            ->parameters([
+                'scrollX' => true, // Bật chế độ cuộn ngang
+                'responsive' => true, // Hỗ trợ giao diện responsive
             ]);
     }
 
