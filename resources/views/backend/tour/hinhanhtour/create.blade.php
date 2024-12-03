@@ -40,7 +40,7 @@
 
                                 <div class="form-group">
                                     <label>Hình ảnh tour</label>
-                                    <input type="file" class="form-control" name="duongdan">
+                                    <input type="file" class="form-control" name="duongdan" multiple>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Tạo mới</button>

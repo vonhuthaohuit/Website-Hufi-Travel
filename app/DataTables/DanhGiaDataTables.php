@@ -31,10 +31,9 @@ class DanhGiaDataTables extends DataTable
             ->addColumn('tinhtrang', function ($query) {
                 $checked = $query->tinhtrang == 1 ? 'checked' : '';
                 return '<label class="custom-switch mt-2">
-                <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->madanhgia . '" class="custom-switch-input change-status">
-                <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->madanhgia . '" class="custom-switch-input change-status">
-                <span class="custom-switch-indicator"></span>
-            </label>';
+                        <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->madanhgia . '" class="custom-switch-input change-status">
+                        <span class="custom-switch-indicator"></span>
+                    </label>';
             })
             ->addColumn('nguoidanhgia', function ($query) {
                 return $query->khachhang->hoten;
@@ -73,6 +72,10 @@ class DanhGiaDataTables extends DataTable
                 Button::make('print'),
                 Button::make('reset'),
                 Button::make('reload')
+            ])
+            ->parameters([
+                'scrollX' => true, // Bật chế độ cuộn ngang
+                'responsive' => true, // Hỗ trợ giao diện responsive
             ]);
     }
 

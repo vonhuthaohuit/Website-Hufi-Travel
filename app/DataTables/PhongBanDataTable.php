@@ -61,7 +61,7 @@ class PhongBanDataTable extends DataTable
      */
     public function query(PhongBan $model): QueryBuilder
     {
-        return $model->with('truongphong')->newQuery();  // Nạp mối quan hệ truongphong
+        return $model->newQuery()->with('truongphong');  // Nạp mối quan hệ truongphong
     }
 
 
@@ -85,6 +85,10 @@ class PhongBanDataTable extends DataTable
                 Button::make('print'),
                 Button::make('reset'),
                 Button::make('reload')
+            ])
+            ->parameters([
+                'scrollX' => true, // Bật chế độ cuộn ngang
+                'responsive' => true, // Hỗ trợ giao diện responsive
             ]);
     }
 
