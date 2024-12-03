@@ -37,7 +37,7 @@ class PhieuHuyDatatables extends DataTable
      */
     public function query(PhieuHuyTour $model): QueryBuilder
     {
-        return $model->newQuery()->orderBy('maphieuhuytour', 'asc');
+        return $model->newQuery()->orderBy('maphieuhuytour', 'desc');
     }
 
     /**
@@ -59,10 +59,6 @@ class PhieuHuyDatatables extends DataTable
                 Button::make('print'),
                 Button::make('reset'),
                 Button::make('reload')
-            ])
-            ->parameters([
-                'scrollX' => true, // Bật chế độ cuộn ngang
-                'responsive' => true, // Hỗ trợ giao diện responsive
             ]);
     }
 

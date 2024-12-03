@@ -58,10 +58,6 @@ class DiemDuLichDataTable extends DataTable
                 Button::make('print'),
                 Button::make('reset'),
                 Button::make('reload')
-            ])
-            ->parameters([
-                'scrollX' => true, // Bật chế độ cuộn ngang
-                'responsive' => true, // Hỗ trợ giao diện responsive
             ]);
     }
 
