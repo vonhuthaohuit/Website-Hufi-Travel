@@ -46,7 +46,7 @@ class HinhAnhTourController extends Controller
             'tenhinh' => 'required',
         ]);
 
-        $imagePath = $this->uploadImage($request, 'duongdan', 'frontend/images/tour');
+        $imagePath = $this->uploadMultiImage($request, 'duongdan', 'frontend/images/tour');
         if (!$imagePath) {
             return back()->withErrors(['hinhanh' => 'Hình ảnh không được tải lên.']);
         }

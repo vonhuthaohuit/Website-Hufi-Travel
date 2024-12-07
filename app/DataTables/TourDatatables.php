@@ -82,7 +82,7 @@ class TourDatatables extends DataTable
      */
     public function query(Tour $model): QueryBuilder
     {
-        return $model->newQuery()->orderBy('matour', 'asc');
+        return $model->newQuery()->orderBy('matour', 'desc');
     }
 
     /**

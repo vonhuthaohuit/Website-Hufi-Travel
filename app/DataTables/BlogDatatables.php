@@ -26,8 +26,7 @@ class BlogDatatables extends DataTable
             ->addIndexColumn()
             ->addColumn('action', function ($query) {
                 $editBtn = "<a href='" . route('blog.edit', $query->mablogtour) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-                if(request()->routeIs('nv.blog.index'))
-                {
+                if (request()->routeIs('nv.blog.index')) {
                     return $editBtn;
                 }
                 $deleteBtn = "<a href='" . route('blog.destroy', $query->mablogtour) . "' class='btn btn-danger ml-2 delete-item' data-id='{ $query->mablogtour }'><i class='far fa-trash-alt'></i></a>";
@@ -39,17 +38,15 @@ class BlogDatatables extends DataTable
             ->addColumn('trangthaiblog', function ($query) {
                 $checked = $query->trangthaiblog == 1 ? 'checked' : '';
                 return '<label class="custom-switch mt-2">
-                <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->mablogtour . '" class="custom-switch-input change-status">
-                <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->mablogtour . '" class="custom-switch-input change-status">
-                <span class="custom-switch-indicator"></span>
-            </label>';
+                        <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->mablogtour . '" class="custom-switch-input change-status">
+                        <span class="custom-switch-indicator"></span>
+                    </label>';
             })
             ->addColumn('loaiblog', function ($query) {
                 return $query->loaiblog->tenloaiblog;
             })
-            ->addColumn('nhanvien',function($query)
-            {
-                return $query->nhanvien->hoten ;
+            ->addColumn('nhanvien', function ($query) {
+                return $query->nhanvien->hoten;
             })
             ->addColumn('ngaytao', function ($query) {
                 return date('d-m-Y', strtotime($query->created_at));
@@ -66,7 +63,7 @@ class BlogDatatables extends DataTable
      */
     public function query(BlogTour $model): QueryBuilder
     {
-        return $model->newQuery()->orderBy('mablogtour', 'asc');
+        return $model->newQuery()->orderBy('mablogtour', 'desc');
     }
 
     /**
