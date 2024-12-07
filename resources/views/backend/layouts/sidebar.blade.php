@@ -105,8 +105,8 @@
             </a>
         </li>
 
-        <li class="dropdown {{ setActive(['uploadanh.*', 'anh.*']) }}">
-            <a href="#" class="nav-link {{ setActive(['']) }}"><i class="fas fa-image"></i>
+        <li class="dropdown {{ setActive(['uploadmodelai.*', 'anh.*']) }}">
+            <a href="{{ route('upload.model.ai.index') }}" class="nav-link {{ setActive(['upload.model.ai.index']) }}"><i class="fas fa-image"></i>
                 <span>Cập nhật model ảnh</span>
             </a>
         </li>

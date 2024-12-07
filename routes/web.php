@@ -263,6 +263,8 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
     Route::resource('phieuhuytour', BackendPhieuHuyController::class);
     Route::resource('hinhanhtour', HinhAnhTourController::class);
 });
+Route::get('upload-model-ai/index', [App\Http\Controllers\backend\UploadModelAI::class, 'index'])->name('upload.model.ai.index');
+Route::get('upload-model-ai', [App\Http\Controllers\backend\UploadModelAI::class, 'upLoadModel'])->name('upload.model.ai');
 Route::get('hoadon/{hoaDonId}/print', [HoaDonController::class, 'printInvoice'])->name('hoadon.print');
 
 Route::get('/get-chi-tiet-tour/{tourId}', [HoaDonController::class, 'getChiTietTour'])->name('get.chitiettour');
