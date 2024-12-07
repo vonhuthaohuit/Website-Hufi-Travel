@@ -256,7 +256,6 @@ class TourController extends Controller
             $imagePath = $image->storeAs('temp', $image->getClientOriginalName());
 
             $pythonScript = base_path('app' . DIRECTORY_SEPARATOR . 'Traits' . DIRECTORY_SEPARATOR . 'model_ai' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'search_image.py');
-
             $imageFilePath = storage_path('app' . DIRECTORY_SEPARATOR . $imagePath);
 
             if (!file_exists($pythonScript)) {
@@ -270,9 +269,14 @@ class TourController extends Controller
             }
 
             $command = "python \"$pythonScript\" \"$imageFilePath\" 2>&1";
-            $output = system($command);
+            $output = shell_exec($command);
+
             $images = json_decode($output, true);
             if ($images) {
+                $images = array_map(function($item) {
+                    return str_replace('dataset\\', '', $item['path']);
+                }, $images);
+
                 $images = array_map(function ($image) {
                     return 'frontend/images/tour/' . $image;
                 }, $images);
@@ -281,8 +285,6 @@ class TourController extends Controller
                 $images = [];
             }
         }
-
-
 
         $typetourName = $searchData['typetour']
             ? optional(LoaiTour::find($searchData['typetour']))->tenloai
@@ -443,5 +445,11 @@ class TourController extends Controller
         }
 
         return response()->json([], 404);
+    }
+    public function uploadModel_Image(){
+        $pythonScript = base_path('app' . DIRECTORY_SEPARATOR . 'Traits' . DIRECTORY_SEPARATOR . 'model_ai' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'store_vectors.py');
+        $command = "python \"$pythonScript\" 2>&1";
+        $output = system($command);
+        return response()->json(['status' => 'success', 'message' => 'Upload model thành công']);
     }
 }
