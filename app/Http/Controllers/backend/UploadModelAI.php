@@ -16,7 +16,7 @@ class UploadModelAI extends Controller
         $pythonScript = base_path('app/Traits/model_ai/app/public/store_vectors.py');
         $command = "python \"$pythonScript\" 2>&1";
         $output = system($command);
-
+        dd($output);
         return redirect()->back()->with('success', 'Upload model thành công');
     }
 }
