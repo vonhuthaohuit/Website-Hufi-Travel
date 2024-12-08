@@ -42,7 +42,6 @@ use App\Http\Controllers\backend\StatisticController;
 use App\Http\Controllers\backend\SubscriberController;
 use App\Http\Controllers\backend\TourController as BackendTourController;
 use App\Http\Controllers\backend\UserBEController;
-use App\Http\Controllers\EmailController;
 use App\Http\Controllers\thanhtoan\ThanhToanMomoController;
 use App\Http\Controllers\thanhtoan\ThanhToanVNPayController;
 use App\Http\Controllers\frontend\BlogController as FrontendBlogController;
@@ -308,4 +307,3 @@ Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
 Route::post('/profile/update', [HomeController::class, 'updateProfile'])->name('profile.update');
 Route::get('/tour/{matour}/print', [TourController::class, 'printTour'])->name('tour.print');
 
-Route::get('/emails', [EmailController::class, 'getEmails']);
