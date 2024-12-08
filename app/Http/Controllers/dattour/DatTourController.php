@@ -213,7 +213,11 @@ class DatTourController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-            Mail::to($thongTinNguoiDaiDien['email'])->send(new ThanhToanThanhCong($hoadon));
+            try {
+                Mail::to($thongTinNguoiDaiDien['email'])->send(new ThanhToanThanhCong($hoadon));
+            } catch (\Exception $e) {
+                Log::error('Email gửi không thành công: ' . $e->getMessage());
+            }
 
 
             DB::commit();
