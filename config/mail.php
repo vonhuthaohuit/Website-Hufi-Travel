@@ -34,14 +34,6 @@ return [
     */
 
     'mailers' => [
-        'imap' => [
-            'transport' => 'imap',
-            'host' => env('MAIL_HOST', 'imap.gmail.com'),
-            'port' => env('MAIL_PORT', 993),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
-            'encrypt' => 'ssl',
-        ],
         'smtp' => [
             'transport' => 'smtp',
             'url' => env('MAIL_URL'),
