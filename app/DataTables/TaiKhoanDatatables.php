@@ -2,9 +2,8 @@
 
 namespace App\DataTables;
 
-use App\Models\KhuyenMai;
-use App\Models\KhuyenMaiDatatable;
-use Carbon\Carbon;
+use App\Models\TaiKhoanDatatable;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -14,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class KhuyenMaiDatatables extends DataTable
+class TaiKhoanDatatables extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -25,34 +24,32 @@ class KhuyenMaiDatatables extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
+            ->addColumn('trangthai', function ($query) {
+                $checked = $query->trangthai == 'Hoạt động' ? 'checked' : '';
+                return '<label class="custom-switch mt-2">
+                        <input type="checkbox" ' . $checked . ' name="custom-switch-checkbox" data-id="' . $query->mataikhoan . '" class="custom-switch-input change-status">
+                        <span class="custom-switch-indicator"></span>
+                    </label>';
+            })
             ->addColumn('action', function ($query) {
-                $editBtn = "<a href='" . route('khuyenmai.edit', $query->makhuyenmai) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-                $deleteBtn = "<a href='" . route('khuyenmai.destroy', $query->makhuyenmai) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->makhuyenmai}'><i class='far fa-trash-alt'></i></a>";
+                $editBtn = "<a href='" . route('taikhoan.edit', $query->mataikhoan) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+                $deleteBtn = "<a href='" . route('taikhoan.destroy', $query->mataikhoan) . "' class='btn btn-danger ml-2 delete-item' data-id='{ $query->mataikhoan }'><i class='far fa-trash-alt'></i></a>";
                 return $editBtn . $deleteBtn;
             })
-            ->editColumn('thoigianbatdau', function ($query) {
-                return Carbon::parse($query->thoigianbatdau)->format('d-m-Y'); // Định dạng ngày
+            ->editColumn('created_at', function ($query) {
+                return date('d-m-Y', strtotime($query->created_at));
             })
-
-            ->editColumn('thoigianketthuc', function ($query) {
-                return Carbon::parse($query->thoigianketthuc)->format('d-m-Y'); // Định dạng ngày
-            })
-            ->editColumn('phantramgiam', function ($query) {
-                return $query->phantramgiam . '%';
-            })
-
-
-            ->setRowId('makhuyenmai');
+            ->rawColumns(['trangthai', 'action'])
+            ->setRowId('mataikhoan');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(KhuyenMai $model): QueryBuilder
+    public function query(User $model): QueryBuilder
     {
-        return $model->newQuery()->orderBy('makhuyenmai', 'asc');
+        return $model->newQuery()->with('nhomquyen')->where('manhomquyen', '=', 2)->orderBy('mataikhoan', 'desc');
     }
-
 
     /**
      * Optional method if you want to use the html builder.
@@ -60,7 +57,7 @@ class KhuyenMaiDatatables extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('khuyenmaidatatables-table')
+            ->setTableId('taikhoandatatables-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
@@ -88,16 +85,19 @@ class KhuyenMaiDatatables extends DataTable
                 ->printable(false)
                 ->width(30)
                 ->addClass('text-center'),
-            Column::make('thoigianbatdau')->width(250)->title('Thời gian bắt đầu'),
-            Column::make('thoigianketthuc')->width(250)->title('Thời gian kết thúc'),
-            Column::make('phantramgiam')->width(100)->title('Phần trăm giảm'),
+            Column::make('tentaikhoan')->width(150)->title('Tên tài khoản'),
+            Column::make('email')->width(150)->title('Email'),
+            Column::make('trangthai')->width(100)->title('Trạng thái'),
+            // Column::make('nhomquyen.tennhomquyen')->title('Nhóm quyền'),
+            Column::make('created_at')->width(150)->title('Ngày tạo'),
+            // Column::make('updated_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(200)
+                ->width(160)
+                ->title('Chức năng')
                 ->addClass('text-center'),
         ];
-
     }
 
     /**
@@ -105,6 +105,6 @@ class KhuyenMaiDatatables extends DataTable
      */
     protected function filename(): string
     {
-        return 'KhuyenMaiDatatables_' . date('YmdHis');
+        return 'TaiKhoanDatatables_' . date('YmdHis');
     }
 }

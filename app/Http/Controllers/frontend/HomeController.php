@@ -118,8 +118,6 @@ class HomeController extends Controller
             ->with(['phieuDatTour.tour'])
             ->first();
 
-        // dd($tour->phieuDatTour->maphieudattour);
-
         @$hoadon = HoaDon::where('maphieudattour', $tour->phieuDatTour->maphieudattour)->first();
 
         @$soLuongKhach = HoaDon::query()

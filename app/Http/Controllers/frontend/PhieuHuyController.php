@@ -63,9 +63,9 @@ class PhieuHuyController extends Controller
             $soNgayTruocBatDau = $ngayHuy->diffInDays($ngayBatDau, false);
 
             $phanTramHoanTien = match (true) {
-                $soNgayTruocBatDau > 30 => 0.9,
+                $soNgayTruocBatDau > 30 => 1,
                 $soNgayTruocBatDau >= 16 => 0.7,
-                $soNgayTruocBatDau >= 8 => 0.4,
+                $soNgayTruocBatDau >= 8 => 0.3,
                 $soNgayTruocBatDau >= 4 => 0.1,
                 default => 0.0,
             };

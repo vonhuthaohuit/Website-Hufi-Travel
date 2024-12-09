@@ -57,7 +57,7 @@
                             <p><strong>Ngày kết thúc:</strong> <span id="endDate">Đang cập nhật</span></p>
                         @else
                             <p><strong>Ngày kết thúc:</strong> <span
-                                    id="endDate">{{ date('d-m-Y', strtotime($ngayketthuc)) }}</span></p>
+                                    id="endDate">{{ date('d-m-Y', strtotime($ngayketthuc->ngayketthuc)) }}</span></p>
                         @endif
                         <p><strong>Số lượng thành viên đi tour:</strong> <span
                                 id="numPeople">{{ @$tour->phieuDatTour->tongsoluong }}</span>
