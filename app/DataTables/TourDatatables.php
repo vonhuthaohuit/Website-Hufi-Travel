@@ -26,6 +26,9 @@ class TourDatatables extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
+            ->editColumn('tentour', function ($query) {
+                return Str::limit($query->tentour, 30);
+            })
             ->addColumn('action', function ($query) {
                 $editBtn = "<a href='" . route('tour.edit', $query->matour) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
                 $deleteBtn = "<a href='" . route('tour.destroy', $query->matour) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->matour}'><i class='far fa-trash-alt'></i></a>";
@@ -72,6 +75,12 @@ class TourDatatables extends DataTable
                         <span class="custom-switch-indicator"></span>
                     </label>';
                 }
+            })
+            ->editColumn('giatour', function ($query) {
+                return number_format($query->giatour, 0, ',', '.') . 'đ';
+            })
+            ->editColumn('thoigiandi', function ($query) {
+                return $query->thoigiandi . ' ngày';
             })
             ->rawColumns(['action', "tinhtrang", 'hinhdaidien', 'maloaitour', 'makhuyenmai'])
             ->setRowId('matour');
@@ -132,7 +141,8 @@ class TourDatatables extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(500)
+                ->width(450)
+                ->title('Chức năng')
                 ->addClass('text-center'),
         ];
     }

@@ -37,6 +37,13 @@ class KhachSanDataTable extends DataTable
         ->editColumn('updated_at', function ($query) {
             return Carbon::parse($query->updated_at)->format('d-m-Y'); // Định dạng ngày
         })
+        ->editColumn('giakhachsan', function ($query) {
+            return number_format($query->giakhachsan, 0, ',', '.') . 'đ';
+        })
+        ->editColumn('chatluong', function($query) {
+            return '<span class="d-flex align-items-center">' . $query->chatluong . ' <i class="fas fa-star ms-2 mb-1" style="color: #ffa801;"></i></span>';
+        })
+        ->rawColumns(['chatluong', 'action'])
         ->setRowId('id');
     }
 
