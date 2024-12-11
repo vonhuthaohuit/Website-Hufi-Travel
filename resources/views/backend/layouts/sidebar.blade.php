@@ -67,6 +67,22 @@
         </ul>
         </li>
 
+        <li class="dropdown {{ setActive(['taikhoannv.*', 'taikhoan.*']) }}">
+            <a class="nav-link has-dropdown" href="#" data-toggle="dropdown">
+                <i class="fas fa-user"></i>
+                <span>Quản lý tài khoản</span>
+            </a>
+
+            <ul class="dropdown-menu">
+                <li class="{{ setActive(['taikhoannv.index']) }}">
+                    <a class="nav-link" href="{{ route('taikhoannv.index') }}">Nhân viên</a>
+                </li>
+                <li class="{{ setActive(['taikhoan.index']) }}">
+                    <a class="nav-link" href="{{ route('taikhoan.index') }}">Khách hàng</a>
+                </li>
+            </ul>
+        </li>
+
         <li class="dropdown {{ setActive(['hoadon.*', 'phieudattour.*', 'phieuhuytour.*']) }}">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-file-invoice"></i>
                 <span>Quản lý hoá đơn</span></a>
@@ -86,7 +102,8 @@
 
                 <li class="{{ setActive(['loaiblog.*']) }}"><a class="nav-link"
                         href="{{ route('loaiblog.index') }}">Loại Blog</a></li>
-                <li class="{{ setActive(['blog.*']) }}"><a class="nav-link" href="{{ route('blog.index') }}">Blog</a>
+                <li class="{{ setActive(['blog.*']) }}"><a class="nav-link"
+                        href="{{ route('blog.index') }}">Blog</a>
                 </li>
             </ul>
         </li>
@@ -105,8 +122,9 @@
             </a>
         </li>
 
-        <li class="dropdown {{ setActive(['uploadanh.*', 'anh.*']) }}">
-            <a href="#" class="nav-link {{ setActive(['']) }}"><i class="fas fa-image"></i>
+        <li class="dropdown {{ setActive(['uploadmodelai.*', 'anh.*']) }}">
+            <a href="{{ route('upload.model.ai.index') }}"
+                class="nav-link {{ setActive(['upload.model.ai.index']) }}"><i class="fas fa-image"></i>
                 <span>Cập nhật model ảnh</span>
             </a>
         </li>
@@ -153,7 +171,8 @@
         <li>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <a href="" onclick="event.preventDefault();
+                <a class="nav-link" href=""
+                    onclick="event.preventDefault();
             this.closest('form').submit();"
                     class="dropdown-item has-icon text-danger">
                     <i class="fas fa-sign-out-alt"></i>Đăng xuất

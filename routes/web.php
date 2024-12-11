@@ -40,6 +40,8 @@ use App\Http\Controllers\backend\nhanvien\DashboardController;
 use App\Http\Controllers\backend\PhieuHuyController as BackendPhieuHuyController;
 use App\Http\Controllers\backend\StatisticController;
 use App\Http\Controllers\backend\SubscriberController;
+use App\Http\Controllers\backend\TaiKhoanController;
+use App\Http\Controllers\backend\TaiKhoanNVController;
 use App\Http\Controllers\backend\TourController as BackendTourController;
 use App\Http\Controllers\backend\UserBEController;
 use App\Http\Controllers\thanhtoan\ThanhToanMomoController;
@@ -262,7 +264,15 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
 
     Route::resource('phieuhuytour', BackendPhieuHuyController::class);
     Route::resource('hinhanhtour', HinhAnhTourController::class);
+
+    Route::resource('taikhoan', TaiKhoanController::class);
+    Route::post('taikhoan/change-status', [TaiKhoanController::class, 'changeStatus'])->name('taikhoan.change-status');
+
+    Route::resource('taikhoannv', TaiKhoanNVController::class);
+    Route::post('taikhoannv/change-status', [TaiKhoanNVController::class, 'changeStatus'])->name('taikhoannv.change-status');
 });
+Route::get('upload-model-ai/index', [App\Http\Controllers\backend\UploadModelAI::class, 'index'])->name('upload.model.ai.index');
+Route::get('upload-model-ai', [App\Http\Controllers\backend\UploadModelAI::class, 'upLoadModel'])->name('upload.model.ai');
 Route::get('hoadon/{hoaDonId}/print', [HoaDonController::class, 'printInvoice'])->name('hoadon.print');
 
 Route::get('/get-chi-tiet-tour/{tourId}', [HoaDonController::class, 'getChiTietTour'])->name('get.chitiettour');

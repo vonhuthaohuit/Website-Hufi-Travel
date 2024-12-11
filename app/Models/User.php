@@ -56,7 +56,7 @@ class User extends Authenticatable
    }
 
     public function nhomquyen(){
-        return $this->belongsTo(nhomquyen::class,'manhomquyen','manhomquyen');
+        return $this->belongsTo(NhomQuyen::class,'manhomquyen','manhomquyen');
     }
     public function khachhang()
     {

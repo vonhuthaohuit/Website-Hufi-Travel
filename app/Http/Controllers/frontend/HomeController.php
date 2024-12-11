@@ -86,7 +86,7 @@ class HomeController extends Controller
                 if ($trangThai) {
                     $query->where('trangthai', $trangThai);
                 }
-                $query->where('trangthaidattour', 'Đang chờ xác nhận đặt tour');
+                $query->whereIn('trangthaidattour', ['Đang chờ xác nhận đặt tour', 'Chưa thanh toán']);
             })
             ->with(['phieuDatTour.tour'])
             ->groupBy('maphieudattour')
@@ -118,8 +118,6 @@ class HomeController extends Controller
             ->with(['phieuDatTour.tour'])
             ->first();
 
-        // dd($tour->phieuDatTour->maphieudattour);
-
         @$hoadon = HoaDon::where('maphieudattour', $tour->phieuDatTour->maphieudattour)->first();
 
         @$soLuongKhach = HoaDon::query()
@@ -137,6 +135,7 @@ class HomeController extends Controller
         $thongTinNguoiDaiDien['tendonvi'] = $hoadon->tendonvi ?? null;
         $thongTinNguoiDaiDien['diachidonvi'] = $khachHang->diachi ?? null;
         $thongTinNguoiDaiDien['masothue'] = $hoadon->masothue ?? null;
+        $thongTinNguoiDaiDien['email'] = $user->email ?? null;
         session()->put('thongTinNguoiDaiDien', $thongTinNguoiDaiDien);
 
         @$phieuhuy = PhieuHuyTour::where('maphieuhuytour', $hoadon->maphieuhuytour)->first();

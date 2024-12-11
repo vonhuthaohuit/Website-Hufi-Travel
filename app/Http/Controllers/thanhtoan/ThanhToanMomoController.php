@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\thanhtoan;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ThanhToanThanhCong;
 use App\Models\HoaDon;
 use App\Models\PhieuDatTour;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ThanhToanMomoController extends Controller
 {
@@ -93,7 +95,7 @@ class ThanhToanMomoController extends Controller
                 $phieuDatTour->save();
 
                 // Tạo hóa đơn với trạng thái thanh toán
-                HoaDon::create([
+                $hoadon = HoaDon::create([
                     'maphieudattour' => $phieuDatTour->maphieudattour,
                     'tongsotien' => $phieuDatTour->tongtienphieudattour,
                     'phuongthucthanhtoan' => $phuongThucThanhToan,
@@ -102,7 +104,14 @@ class ThanhToanMomoController extends Controller
                     'tendonvi' => $thongTinNguoiDaiDien['tendonvi'] ?? null,
                     'diachidonvi' => $thongTinNguoiDaiDien['diachidonvi'] ?? null,
                     'masothue' => $thongTinNguoiDaiDien['masothue'] ?? null,
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ]);
+                try {
+                    Mail::to($thongTinNguoiDaiDien['email'])->send(new ThanhToanThanhCong($hoadon));
+                } catch (\Exception $e) {
+                    Log::error('Email gửi không thành công: ' . $e->getMessage());
+                }
                 DB::commit();
                 return view('frontend/thanhtoan/payment_success');
             } else {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\thanhtoan;
 use App\DataTables\HoaDonDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\dattour\DatTourController;
+use App\Mail\ThanhToanThanhCong;
 use App\Models\ChiTietPhieuDatTour;
 use App\Models\ChiTietTour;
 use App\Models\HoaDon;
@@ -20,6 +21,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class HoaDonController extends Controller
 {
@@ -189,6 +191,8 @@ class HoaDonController extends Controller
             $thongTinNguoiDaiDien['tendonvi'] = $data['ticket_tendonvi'];
             $thongTinNguoiDaiDien['diachidonvi'] = $data['ticket_address'];
             $thongTinNguoiDaiDien['masothue'] = $data['ticket_masothue'];
+            $thongTinNguoiDaiDien['email'] = $data['ticket_email'];
+
 
             $tourId = $data['tourId'];
             $tongTienPhieuDatTour = 0;
@@ -233,7 +237,11 @@ class HoaDonController extends Controller
                 'tendonvi' => $thongTinNguoiDaiDien['tendonvi'] ?? null,
                 'diachidonvi' => $thongTinNguoiDaiDien['diachidonvi'] ?? null,
                 'masothue' => $thongTinNguoiDaiDien['masothue'] ?? null,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
+            Mail::to($thongTinNguoiDaiDien['email'])->send(new ThanhToanThanhCong($hoaDon));
+
             DB::commit();
             return redirect()->route('hoadon.index')->with('success', 'Hóa đơn đã được tạo thành công');
         } catch (\Exception $e) {
@@ -267,6 +275,7 @@ class HoaDonController extends Controller
             ]);
             $phieuDatTour = $hoadon->phieudattour;
             $phieuDatTour->update([
+                'trangthaidattour' => $request->trangthaithanhtoan,
                 'tongtienphieudattour' => $request->tongsotien,
             ]);
             foreach ($request->khachhang as $value) {
@@ -282,6 +291,8 @@ class HoaDonController extends Controller
                         'ngaysinh' => $value['ngaysinh'],
                         'gioitinh' => $value['gioitinh'],
                         'maloaikhachhang' => $loaiKhachHang->maloaikhachhang,
+                        'created_at' => now(),
+                        'updated_at' => now(),
                     ]);
                 }
             }

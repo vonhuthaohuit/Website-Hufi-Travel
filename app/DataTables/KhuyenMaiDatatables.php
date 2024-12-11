@@ -30,12 +30,15 @@ class KhuyenMaiDatatables extends DataTable
                 $deleteBtn = "<a href='" . route('khuyenmai.destroy', $query->makhuyenmai) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->makhuyenmai}'><i class='far fa-trash-alt'></i></a>";
                 return $editBtn . $deleteBtn;
             })
-            ->editColumn('created_at', function ($query) {
-                return Carbon::parse($query->created_at)->format('d-m-Y'); // Định dạng ngày
+            ->editColumn('thoigianbatdau', function ($query) {
+                return Carbon::parse($query->thoigianbatdau)->format('d-m-Y'); // Định dạng ngày
             })
 
-            ->editColumn('updated_at', function ($query) {
-                return Carbon::parse($query->updated_at)->format('d-m-Y'); // Định dạng ngày
+            ->editColumn('thoigianketthuc', function ($query) {
+                return Carbon::parse($query->thoigianketthuc)->format('d-m-Y'); // Định dạng ngày
+            })
+            ->editColumn('phantramgiam', function ($query) {
+                return $query->phantramgiam . '%';
             })
 
 

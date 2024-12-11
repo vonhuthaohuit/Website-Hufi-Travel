@@ -1,76 +1,78 @@
 import sys
-import torch
-import torchvision.transforms as transforms
-from torchvision import models
-import faiss
-import numpy as np
-from PIL import Image
-import json
+import math
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+import json
 
-# Đảm bảo không có cảnh báo không cần thiết
+
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications.vgg16 import VGG16, preprocess_input
+from tensorflow.keras.models import Model
+
+from PIL import Image
+import pickle
+import numpy as np
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 import warnings
-warnings.filterwarnings("ignore", category=UserWarning, module="torchvision")
+warnings.filterwarnings("ignore")
 
-# Kiểm tra và tải mô hình ResNet50
-model = models.resnet50(pretrained=False)
-model = torch.nn.Sequential(*(list(model.children())[:-1]))  # Bỏ lớp phân loại cuối cùng
 
-# Đường dẫn tệp mô hình và FAISS index
-# Sử dụng os.path.join để tạo đường dẫn đúng cho mô hình và FAISS index
-storage_path = os.path.join(
-    os.path.dirname(os.getcwd()), 'app', 'Traits', 'model_ai', 'app', 'public'
-)
+# Ham tao model
+def get_extract_model():
+    vgg16_model = VGG16(weights="imagenet")
+    extract_model = Model(inputs=vgg16_model.inputs, outputs=vgg16_model.get_layer("fc1").output)
+    return extract_model
 
-model_path = os.path.join(storage_path, 'resnet50.pth')
-if os.path.exists(model_path):
-    model.load_state_dict(torch.load(model_path, weights_only=True))
-else:
-    raise FileNotFoundError(f"Mô hình không tìm thấy: {model_path}")
-model.eval()
+# Ham tien xu ly, chuyen doi hinh anh thanh tensor
+def image_preprocess(img):
+    img = img.resize((224,224))
+    img = img.convert("RGB")
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+    x = preprocess_input(x)
+    return x
 
-# Kiểm tra và tải FAISS index
-index_path = os.path.join(storage_path, 'faiss_index.index')  # Đường dẫn tuyệt đối tới FAISS index
-if os.path.exists(index_path):
-    index = faiss.read_index(index_path)
-else:
-    raise FileNotFoundError(f"FAISS index không tìm thấy: {index_path}")
+def extract_vector(model, image_path):
+    img = Image.open(image_path)
+    img_tensor = image_preprocess(img)
 
-# Tải danh sách tên ảnh
-image_names_path = os.path.join(storage_path, 'image_names.txt')  # Đường dẫn tuyệt đối tới tên ảnh
-if os.path.exists(image_names_path):
-    with open(image_names_path, 'r') as f:
-        image_names = [line.strip() for line in f]
-else:
-    raise FileNotFoundError(f"Tên ảnh không tìm thấy: {image_names_path}")
+    # Trich dac trung
+    vector = model.predict(img_tensor, verbose=0)[0]
+    # Chuan hoa vector = chia chia L2 norm
+    vector = vector / np.linalg.norm(vector)
+    return vector
 
-# Transformer để chuẩn bị ảnh
-transform = transforms.Compose([
-    transforms.Resize((224, 224)),  # Resize ảnh về kích thước 224x224
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-])
+# Nhận đường dẫn ảnh từ tham số command line
+if len(sys.argv) < 2:
+    print("Please provide the search image path.")
+    sys.exit(1)
 
-# Đọc ảnh đầu vào từ đường dẫn truyền vào
-image_path = sys.argv[1]  # Đảm bảo rằng đường dẫn ảnh được truyền vào
-if os.path.exists(image_path):
-    image = Image.open(image_path).convert('RGB')
-else:
-    raise FileNotFoundError(f"Ảnh không tìm thấy: {image_path}")
+search_image = sys.argv[1]  # Đường dẫn ảnh sẽ được truyền vào từ Laravel
 
-image_tensor = transform(image).unsqueeze(0)  # Biến ảnh thành tensor và thêm một chiều batch
+# Khởi tạo model
+model = get_extract_model()
 
-# Trích xuất đặc trưng từ mô hình
-with torch.no_grad():
-    features = model(image_tensor).flatten().numpy().reshape(1, -1).astype('float32')
+# Trích xuất đặc trưng từ ảnh tìm kiếm
+search_vector = extract_vector(model, search_image)
 
-# Tìm kiếm hình ảnh tương tự trong FAISS
-k = 5  # Số lượng ảnh tương tự cần tìm
-_, indices = index.search(features, k)
+# Load các vector đã lưu
+vectors = pickle.load(open(os.path.join(os.path.dirname(__file__), 'vectors.pkl'), "rb"))
+paths = pickle.load(open(os.path.join(os.path.dirname(__file__), "paths.pkl"), "rb"))
 
-# Lấy tên các ảnh tương tự
-similar_images = [image_names[idx] for idx in indices[0]]
+# Tính toán khoảng cách
+distance = np.linalg.norm(vectors - search_vector, axis=1)
 
-# Trả về kết quả dưới dạng JSON
-print(json.dumps(similar_images))
+# Lấy K ảnh gần nhất
+K = 16
+ids = np.argsort(distance)[:K]
+
+# Lọc kết quả với khoảng cách < 1
+filtered_ids = [id for id in ids if distance[id] < 1]
+
+# Tạo output
+nearest_image = [(paths[id], distance[id]) for id in filtered_ids]
+
+# Xuất kết quả dưới dạng JSON
+result = [{"path": paths[id], "distance": float(distance[id])} for id in filtered_ids]
+
+print(json.dumps(result))

@@ -37,7 +37,7 @@ class PhieuHuyDatatables extends DataTable
      */
     public function query(PhieuHuyTour $model): QueryBuilder
     {
-        return $model->newQuery()->orderBy('maphieuhuytour', 'asc');
+        return $model->newQuery()->orderBy('maphieuhuytour', 'desc');
     }
 
     /**
