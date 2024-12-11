@@ -36,7 +36,7 @@ class ResetPasswordController extends Controller
             'token' => $token,
             'created_at' => Carbon::now()
         ]);
-        Mail::send('backend.email.link-resetPassword', ['token' => $token], function ($message) use ($request) {
+        Mail::send('backend.email.link  -resetPassword', ['token' => $token], function ($message) use ($request) {
             $message->to($request->email);
             $message->subject('Reset password');
         });
