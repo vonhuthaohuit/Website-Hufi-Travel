@@ -45,7 +45,7 @@ class NhanVienDataTable extends DataTable
                 return $query->phongban->tenphongban;
             })
             ->addColumn('manhomquyen', function ($query) {
-                return $query->user && $query->user->nhomquyen ? $query->user->nhomquyen->tennhomquyen : 'Chưa có quyền';
+                return $query->user  ? $query->user->nhomquyen->tennhomquyen : 'Chưa có quyền';
             })
 
             ->setRowId('id');
@@ -57,7 +57,7 @@ class NhanVienDataTable extends DataTable
     public function query(NhanVien $model): QueryBuilder
     {
         return $model->newQuery()
-            ->with('user.nhomquyen');  // Thêm eager loading cho mối quan hệ users và nhomquyen
+            ->with('user');  // Thêm eager loading cho mối quan hệ users và nhomquyen
     }
 
 
