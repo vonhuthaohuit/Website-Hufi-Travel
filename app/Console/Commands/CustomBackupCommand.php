@@ -83,7 +83,7 @@ class CustomBackupCommand extends Command
             return File::lastModified($file);
         })->first();
 
-        $newestBackupSize = File::size($newestBackupFile) / 1024; // Kích thước tệp sao lưu mới nhất (KB)
+        $newestBackupSize = File::size($newestBackupFile) / 1024;
         $numberOfBackups = count($backupFiles);
         $totalStorageUsed = collect($backupFiles)->sum(function ($file) {
             return File::size($file);

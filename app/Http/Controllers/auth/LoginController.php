@@ -68,7 +68,7 @@ class LoginController extends Controller
     public function register(Request $request)
     {
         try {
-        Log::info('Register method started');
+            Log::info('Register method started');
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|unique:users,tentaikhoan',
                 'password_register' => 'required',
@@ -76,7 +76,7 @@ class LoginController extends Controller
             ]);
             if ($validator->fails()) {
                 Log::info('Validation failed', $validator->errors()->toArray());
-                return redirect()->route('login_view')->with('error','Đăng kí không thành công');
+                return redirect()->route('login_view')->with('error', 'Đăng kí không thành công');
             }
             $user = new User();
             $user->tentaikhoan = $request->name;
@@ -85,7 +85,7 @@ class LoginController extends Controller
             $user->manhomquyen = 2;
             $user->trangthai = "Hoạt động";
             $user->save();
-            Log::info('User created with ID:'.$user->mataikhoan);
+            Log::info('User created with ID:' . $user->mataikhoan);
             $khachhang = new KhachHang();
             $khachhang->hoten = "Chưa có tên";
             $khachhang->ngaysinh = null;
@@ -95,16 +95,13 @@ class LoginController extends Controller
             $khachhang->maloaikhachhang = 1;
             $khachhang->mataikhoan = $user->mataikhoan;
             $khachhang->save();
-            if(!$khachhang && $user)
-            {
-                User::where($user->mataikhoan)->delete() ;
+            if (!$khachhang && $user) {
+                User::where($user->mataikhoan)->delete();
                 return redirect()->route('login_view')->with('error', 'Đăng kí không thành công');
             }
-            Log::info('User created with ID:'.$khachhang->makhachhang);
-            return redirect()->route('login_view')->with('success','Đăng kí thành công');
-        }
-        catch(Exception $e)
-        {
+            Log::info('User created with ID:' . $khachhang->makhachhang);
+            return redirect()->route('login_view')->with('success', 'Đăng kí thành công');
+        } catch (Exception $e) {
             return redirect()->route('login_view')->with('error', 'Đăng kí không thành công');
         }
     }
@@ -123,9 +120,13 @@ class LoginController extends Controller
                 $user = User::where('email', $request['email_or_username'])->first();
             } else {
                 $user = User::where('tentaikhoan', $request['email_or_username'])->first();
-
             }
+
             if ($user && Hash::check($request['password'], $user->matkhau)) {
+                if ($user->trangthai === "Khóa" && $user->manhomquyen == 2)
+                    return back()->with('error', "Tài khoản của bạn đã bị khoá! Vui lòng liên hệ cho chúng tôi để được mở khoá");
+                if ($user->trangthai === "Khóa" && $user->manhomquyen == 1)
+                    return back()->with('error', "Tài khoản của bạn đã bị khoá! Vui lòng liên hệ phòng công nghệ thông tin để được giải quyết");
                 Auth::login($user);
                 $request->session()->regenerate(); // Regenerate session for security
                 $user =  $request->user();
