@@ -110,29 +110,16 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-    {{-- <script>
-        @if ($errors->any())
-            @foreach ($errors->all() as $error)
-                toastr.error("{{ $error }}")
-            @endforeach
-        @endif
-    </script> --}}
-
-    <!-- Dynamic Delete alart -->
 
     <script>
         $(document).ready(function() {
-
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
-
             $('body').on('click', '.delete-item', function(event) {
                 event.preventDefault();
-
                 let deleteUrl = $(this).attr('href');
                 Swal.fire({
                     title: 'Bạn có chắc chắn không?',

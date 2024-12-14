@@ -117,9 +117,7 @@ class ChiTietTourController extends Controller
         return redirect()->route('chitiettour.index', ['tour_id' => $request->tour_id])->with('success', 'Cập nhật chi tiết tour thành công');;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+  
     public function destroy(string $id, string $madiemdulich)
     {
         try

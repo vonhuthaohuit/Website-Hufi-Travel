@@ -23,10 +23,6 @@ class BlogController extends Controller
     {
         return $dataTable->render('backend.blog.index');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $loaiblog = LoaiBlog::all();
@@ -69,10 +65,6 @@ class BlogController extends Controller
         }
         return redirect()->route('dashboard');
     }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
