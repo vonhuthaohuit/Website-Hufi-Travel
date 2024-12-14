@@ -23,46 +23,34 @@ class CustomBackupCommand extends Command
             // Kiểm tra các tùy chọn có được cung cấp không
             $includeRoutines = $this->option('routines');
             $includeTriggers = $this->option('triggers');
-            // Tạo câu lệnh mysqldump cho cơ sở dữ liệu
             $dbHost = env('DB_HOST', '127.0.0.1');
             $dbName = env('DB_DATABASE');
             $dbUser = env('DB_USERNAME');
             $dbPassword = env('DB_PASSWORD');
 
             $command = "mysqldump  -h {$dbHost} -u {$dbUser}  {$dbName}";
-
-            // Thêm tham số --routines nếu cần
             if ($includeRoutines) {
                 $command .= ' --routines';
             }
-
-            // Thêm tham số --triggers nếu cần
             if ($includeTriggers) {
                 $command .= ' --triggers';
             }
 
             // Tạo tên tệp backup hoặc sử dụng tên tùy chỉnh
             $filename = $this->option('filename') ?? storage_path('app/backup') . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.sql';
-
-            // Thực thi lệnh mysqldump
             exec($command . " > {$filename}", $output, $returnVar);
-
             if ($returnVar !== 0) {
                 $this->error('Backup failed: ' . implode("\n", $output));
                 return;
             }
             // Thêm chức năng nén tệp sao lưu
-            $zipBackupFile = storage_path('app/backup') . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.zip';
+            $zipBackupFile = public_path('backup') . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.zip';
             $zipCommand = "7z a {$zipBackupFile} {$filename}";
-
             exec($zipCommand, $zipOutput, $zipReturnVar);
-
             if ($zipReturnVar !== 0) {
                 $this->error('Compression failed: ' . implode("\n", $zipOutput));
                 return;
             }
-
-            // Xóa tệp .sql sau khi nén để tiết kiệm không gian
             unlink($filename);
             // Thông báo thành công
             $this->info("Backup created successfully at: {$filename}");
