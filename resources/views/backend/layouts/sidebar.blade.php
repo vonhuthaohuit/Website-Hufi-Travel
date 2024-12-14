@@ -156,14 +156,6 @@
                 </li>
             </ul>
         </li>
-
-        {{-- <li class="dropdown {{ setActive(['statistic.doanhthu*']) }}">
-            <a class="nav-link {{ setActive(['statistic.doanhthu']) }}" href="{{ route('statistic.doanhthu') }}">
-                <i class="fas fa-chart-line"></i>
-                <span>Thống kê báo cáo</span>
-            </a>
-        </li> --}}
-
         <li class="{{ setActive(['backup.index']) }}">
             <a class="nav-link {{ setActive(['backup.index']) }}" href="{{ route('backup.index') }}">
                 <i class="fas fa-cloud-upload-alt"></i>

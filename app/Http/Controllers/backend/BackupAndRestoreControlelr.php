@@ -55,6 +55,7 @@ class BackupAndRestoreControlelr extends Controller
         $schedule->save();
         return back()->with('success', 'Chọn lịch sao lưu thành công!');
     }
+
     public function removeSchedules()
     {
         try
@@ -91,10 +92,8 @@ class BackupAndRestoreControlelr extends Controller
             if (!file_exists($extractPath)) {
                 mkdir($extractPath, 0777, true); // Tạo thư mục nếu không tồn tại
             }
-
             $zip = new \ZipArchive();
-            $pathToExtractedFile = ''; // Biến lưu trữ đường dẫn đến tệp SQL
-
+            $pathToExtractedFile = '';
             if (in_array($fileExtension, ['zip', 'tar', 'gz'])) {
                 // Giải nén tệp nếu là file nén
                 if ($fileExtension === 'zip' && $zip->open(storage_path('app' . DIRECTORY_SEPARATOR . $path)) === TRUE) {
@@ -104,12 +103,9 @@ class BackupAndRestoreControlelr extends Controller
                 } elseif ($fileExtension === 'tar') {
                     $phar = new \PharData(storage_path('app' . DIRECTORY_SEPARATOR . $path));
                     $phar->extractTo($extractPath);
-                    // Kiểm tra thư mục sau khi giải nén
                 }
             }
-            // Tìm tất cả các file .sql trong thư mục giải nén
             $extractedFiles = glob($extractPath . DIRECTORY_SEPARATOR . '*.sql');
-
             // Kiểm tra xem có file .sql không
             if (empty($extractedFiles)) {
                 return back()->with('error', 'No SQL file found in the extracted archive.');
