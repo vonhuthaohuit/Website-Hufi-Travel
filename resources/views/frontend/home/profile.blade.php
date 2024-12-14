@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-md-9">
                     <input type="text" class="form-control" id="hoten" name="hoten"
-                        value="{{ @$khachhang->hoten ?? '' }}" placeholder="Nhập tên của bạn">
+                        value="{{ @$khachhang->hoten ?? '' }}" placeholder="Nhập tên của bạn" required>
                 </div>
             </div>
 
@@ -40,7 +40,7 @@
                 </div>
                 <div class="col-md-9">
                     <input type="text" class="form-control" id="sodienthoai" name="sodienthoai"
-                        value="{{ @$khachhang->sodienthoai ?? '' }}" placeholder="Nhập số điện thoại">
+                        value="{{ @$khachhang->sodienthoai ?? '' }}" placeholder="Nhập số điện thoại" required>
                 </div>
             </div>
 
@@ -51,7 +51,7 @@
                 <div class="col-md-9">
                     <input type="date" class="form-control" id="ngaysinh" name="ngaysinh"
                         value="{{ @$khachhang->ngaysinh ? date('Y-m-d', strtotime(@$khachhang->ngaysinh)) : '' }}"
-                        placeholder="Nhập ngày sinh">
+                        placeholder="Nhập ngày sinh" required>
                 </div>
 
             </div>
@@ -76,7 +76,7 @@
                 </div>
                 <div class="col-md-9">
                     <input type="text" class="form-control" id="diachi" name="diachi"
-                        value="{{ @$khachhang->diachi ?? '' }}" placeholder="Nhập địa chỉ">
+                        value="{{ @$khachhang->diachi ?? '' }}" placeholder="Nhập địa chỉ" required>
                 </div>
             </div>
 
