@@ -63,7 +63,8 @@ class HoaDonDataTable extends DataTable
                 'hoadon.updated_at',
                 'hoadon.maphieudattour'
             )
-            ->where('hoadon.is_delete', 0);
+            ->where('hoadon.is_delete', 0)
+            ->orderBy('mahoadon', 'desc');
     }
 
 

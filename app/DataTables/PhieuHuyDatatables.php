@@ -12,6 +12,7 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Support\Str;
 
 class PhieuHuyDatatables extends DataTable
 {
@@ -28,6 +29,15 @@ class PhieuHuyDatatables extends DataTable
                 $deleteBtn = "<a href='" . route('phieuhuytour.destroy', $query->maphieuhuytour) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->maphieuhuytour}'><i class='far fa-trash-alt'></i></a>";
                 return $deleteBtn;
             })
+            ->editColumn('ngayhuy', function ($query) {
+                return date('d-m-Y', strtotime($query->ngayhuy));
+            })
+            ->editColumn('sotienhoan', function ($query) {
+                return number_format($query->sotienhoan, 0, ',', '.') . 'đ';
+            })
+            ->editColumn('tentour', function ($query) {
+                return Str::limit($query->tentour, 80);
+            })
             ->rawColumns(['action'])
             ->setRowId('maphieuhuytour');
     }
@@ -37,7 +47,12 @@ class PhieuHuyDatatables extends DataTable
      */
     public function query(PhieuHuyTour $model): QueryBuilder
     {
-        return $model->newQuery()->orderBy('maphieuhuytour', 'desc');
+        return $model->newQuery()
+        ->leftJoin('hoadon', 'phieuhuytour.maphieuhuytour', '=', 'hoadon.maphieuhuytour')
+        ->leftJoin('phieudattour', 'hoadon.maphieudattour', '=', 'phieudattour.maphieudattour')
+        ->leftJoin('tour', 'phieudattour.matour', '=', 'tour.matour')
+        ->select('phieuhuytour.*', 'tour.tentour', 'hoadon.nguoidaidien')
+        ->orderBy('maphieuhuytour', 'desc');
     }
 
     /**
@@ -74,15 +89,17 @@ class PhieuHuyDatatables extends DataTable
                 ->printable(false)
                 ->width(30)
                 ->addClass('text-center'),
-            Column::make('lydohuy')->width(350)->title('Lý do hủy'),
+            Column::make('tentour')->width(300)->title('Tên tour'),
+            Column::make('nguoidaidien')->width(150)->title('Người đại diện'),
+            Column::make('lydohuy')->width(300)->title('Lý do hủy'),
             Column::make('ngayhuy')->title('Ngày hủy'),
             Column::make('sotienhoan')->title('Số tiền hoàn'),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(100)
-                ->title('Hành động')
-                ->addClass('text-center'),
+            // Column::computed('action')
+            //     ->exportable(false)
+            //     ->printable(false)
+            //     ->width(100)
+            //     ->title('Hành động')
+            //     ->addClass('text-center'),
         ];
     }
 

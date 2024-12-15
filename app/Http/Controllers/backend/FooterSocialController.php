@@ -47,9 +47,9 @@ class FooterSocialController extends Controller
 
         Cache::forget('footer_socials');
 
-        toastr('Created Successfully!', 'success', 'success');
+        // toastr('Created Successfully!', 'success', 'success');
 
-        return redirect()->route('footer-socials.index');
+        return redirect()->route('footer-socials.index')->with('success', 'Created Successfully!');
     }
 
     /**
@@ -90,9 +90,9 @@ class FooterSocialController extends Controller
 
         Cache::forget('footer_socials');
 
-        toastr('Updated Successfully!', 'success', 'success');
+        // toastr('Updated Successfully!', 'success', 'success');
 
-        return redirect()->route('footer-socials.index');
+        return redirect()->route('footer-socials.index')->with('success', 'Updated Successfully!');
     }
 
     /**
@@ -117,6 +117,6 @@ class FooterSocialController extends Controller
 
         Cache::forget('footer_socials');
 
-        return response(['message' => 'Status has been updated!']);
+        return response()->json(['message' => 'Trạng thái cập nhật thành công!']);
     }
 }
