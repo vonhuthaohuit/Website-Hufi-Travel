@@ -33,8 +33,8 @@ class TaiKhoanDatatables extends DataTable
             })
             ->addColumn('action', function ($query) {
                 $editBtn = "<a href='" . route('taikhoan.edit', $query->mataikhoan) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
-                $deleteBtn = "<a href='" . route('taikhoan.destroy', $query->mataikhoan) . "' class='btn btn-danger ml-2 delete-item' data-id='{ $query->mataikhoan }'><i class='far fa-trash-alt'></i></a>";
-                return $editBtn . $deleteBtn;
+                // $deleteBtn = "<a href='" . route('taikhoan.destroy', $query->mataikhoan) . "' class='btn btn-danger ml-2 delete-item' data-id='{ $query->mataikhoan }'><i class='far fa-trash-alt'></i></a>";
+                return $editBtn;
             })
             ->editColumn('created_at', function ($query) {
                 return date('d-m-Y', strtotime($query->created_at));
