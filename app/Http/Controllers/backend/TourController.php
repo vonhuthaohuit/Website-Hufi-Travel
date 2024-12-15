@@ -145,7 +145,7 @@ class TourController extends Controller
             $tour->maloaitour = $request->input('loaitour_id');
             $tour->makhuyenmai = $request->input('khuyenmai_id');
             $tour->updated_at =  Carbon::parse(now()->format('d-m-Y'));
-            if ($request->hasFile('hinhanh')) {
+            if ($request->hasFile('hinhdaidien')) {
                 $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour', $tour->hinhdaidien);
                 $tour->hinhdaidien = $imagePath;
             } else {
@@ -158,56 +158,7 @@ class TourController extends Controller
             Log::error('Error in registration process:', ['error' => $e->getMessage()]);
             return redirect()->route('tour.index')->with('error', 'Cập nhật tour không thành công!');
         }
-        $request->validate([
-            'tentour' => 'required|string|max:255',
-            'motatour' => 'required|string',
-            'tinhtrang' => 'required|string|max:100',
-            'thoigiandi' => 'required',
-            'hinhdaidien' => 'nullable|image',
-            'noikhoihanh' => 'required|string|max:255',
-            'loaitour_id' => 'required|exists:loaitour,maloaitour',
-            'khuyenmai_id' => 'nullable|exists:khuyenmai,makhuyenmai',
-        ]);
 
-        $giatour =  DB::select('SELECT func_giatour(?) AS giatour', [$id]);
-        $giatour = $giatour[0]->giatour ?? 0;
-        $tour = Tour::where('matour', $id)->first();
-        $tour->tentour = $request->input('tentour');
-        $tour->slug = Str::slug($request->tentour);
-        $tour->motatour = $request->input('motatour');
-        $tour->tinhtrang = $request->input('tinhtrang');
-        $tour->thoigiandi = $request->input('thoigiandi');
-        $tour->giatour = $giatour;
-        $tour->noikhoihanh = $request->input('noikhoihanh');
-        $tour->maloaitour = $request->input('loaitour_id');
-        $tour->makhuyenmai = $request->input('khuyenmai_id');
-        $tour->updated_at = now();
-        if ($request->hasFile('hinhdaidien')) {
-            if ($tour->hinhdaidien) {
-                Storage::delete($tour->hinhdaidien);
-            }
-
-            $path = $request->file('hinhdaidien')->store('frontend/images/tour', 'public');
-            $tour->hinhdaidien = $path;
-        }
-
-        $tour->maloaitour = $request->input('loaitour_id');
-        $tour->makhuyenmai = $request->input('khuyenmai_id');
-        $tour->updated_at = Carbon::parse(now()->format('d-m-Y'));
-
-
-        $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour', $tour->hinhdaidien);
-        $tour->hinhdaidien = $imagePath;
-
-        if ($request->hasFile('hinhanh')) {
-            $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour', $tour->hinhdaidien);
-            $tour->hinhdaidien = $imagePath;
-        } else {
-            $tour->hinhdaidien = $tour->hinhdaidien;
-        }
-
-        $tour->save();
-        return redirect()->route('tour.index')->with('success', 'Cập nhật tour thành công!');
     }
 
     /**

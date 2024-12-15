@@ -44,9 +44,10 @@ class CustomBackupCommand extends Command
             if ($returnVar !== 0) {
                 $this->error('Backup failed: ' . implode("\n", $output));
                 return;
-            }
+            }   
             // Thêm chức năng nén tệp sao lưu
-            $zipBackupFile = storage_path('app/backup') . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.zip';
+            $desktopPath = getenv('USERPROFILE') . '\Desktop'; // Đường dẫn Desktop trên Windows
+            $zipBackupFile = $desktopPath . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.zip';
             $zipCommand = "7z a {$zipBackupFile} {$filename}";
             exec($zipCommand, $zipOutput, $zipReturnVar);
             if ($zipReturnVar !== 0) {
