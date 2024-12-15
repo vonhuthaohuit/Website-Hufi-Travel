@@ -5,7 +5,9 @@ namespace App\Console\Commands;
 use App\Mail\BackupNotificationMail;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class CustomBackupCommand extends Command
 {
@@ -44,15 +46,21 @@ class CustomBackupCommand extends Command
                 return;
             }
             // Thêm chức năng nén tệp sao lưu
-            $zipBackupFile = public_path('backup') . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.zip';
+            $zipBackupFile = storage_path('app/backup') . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.zip';
             $zipCommand = "7z a {$zipBackupFile} {$filename}";
             exec($zipCommand, $zipOutput, $zipReturnVar);
             if ($zipReturnVar !== 0) {
                 $this->error('Compression failed: ' . implode("\n", $zipOutput));
                 return;
             }
+
+            $contents = file_get_contents($zipBackupFile);
+            Log::info("Attempting to upload file: " . basename($zipBackupFile));
+            Log::info("File content size: " . strlen($contents));
+            $result = Storage::disk('google')->put(basename($zipBackupFile), $contents);
+            Log::info("Upload result: " . ($result ? 'Success' : 'Failure'));
+            dd($result);  // Kiểm tra kết quả trả về
             unlink($filename);
-            // Thông báo thành công
             $this->info("Backup created successfully at: {$filename}");
             $this->sendBackupNotification('success', $filename);
         } catch (\Exception $e) {
