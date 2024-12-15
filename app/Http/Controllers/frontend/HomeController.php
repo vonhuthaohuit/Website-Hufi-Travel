@@ -228,4 +228,8 @@ class HomeController extends Controller
 
         return redirect()->back()->with('success', 'Cập nhật thông tin thành công');
     }
+
+    public function dieuKienHuyTour() {
+        return view('frontend.home.dieu-kien-huy');
+    }
 }

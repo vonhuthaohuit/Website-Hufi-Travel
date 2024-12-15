@@ -314,4 +314,4 @@ Route::delete('/comment/delete/{madanhgia}', [CommentController::class, 'delete'
 Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
 Route::post('/profile/update', [HomeController::class, 'updateProfile'])->name('profile.update');
 Route::get('/tour/{matour}/print', [TourController::class, 'printTour'])->name('tour.print');
-
+Route::get('/dieu-kien-huy-tour', [HomeController::class, 'dieuKienHuyTour'])->name('tour.dieu-kien-huy-tour');
