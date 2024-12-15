@@ -33,12 +33,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="{{ setActive(['backup.index']) }}">
-                <a class="nav-link {{ setActive(['backup.index']) }}" href="{{ route('backup.index') }}">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <span>Đăng kí lịch làm việc</span>
-                </a>
-            </li>
+         
             <li class="dropdown {{ setActive(['khachsan.*', 'phuongtien.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-cart-plus"></i>
                     <span>Quản lý dịch vụ</span></a>
