@@ -31,11 +31,14 @@
                     <li class="{{ setActive(['diemdulich.*']) }}">
                         <a class="nav-link" href="{{ route('diemdulich.index') }}">Điểm du lịch</a>
                     </li>
-
-
                 </ul>
             </li>
-
+            <li class="{{ setActive(['backup.index']) }}">
+                <a class="nav-link {{ setActive(['backup.index']) }}" href="{{ route('backup.index') }}">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span>Đăng kí lịch làm việc</span>
+                </a>
+            </li>
             <li class="dropdown {{ setActive(['khachsan.*', 'phuongtien.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-cart-plus"></i>
                     <span>Quản lý dịch vụ</span></a>
@@ -153,14 +156,6 @@
                 </li>
             </ul>
         </li>
-
-        {{-- <li class="dropdown {{ setActive(['statistic.doanhthu*']) }}">
-            <a class="nav-link {{ setActive(['statistic.doanhthu']) }}" href="{{ route('statistic.doanhthu') }}">
-                <i class="fas fa-chart-line"></i>
-                <span>Thống kê báo cáo</span>
-            </a>
-        </li> --}}
-
         <li class="{{ setActive(['backup.index']) }}">
             <a class="nav-link {{ setActive(['backup.index']) }}" href="{{ route('backup.index') }}">
                 <i class="fas fa-cloud-upload-alt"></i>

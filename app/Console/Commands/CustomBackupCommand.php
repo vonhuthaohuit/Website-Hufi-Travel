@@ -5,7 +5,9 @@ namespace App\Console\Commands;
 use App\Mail\BackupNotificationMail;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class CustomBackupCommand extends Command
 {
@@ -23,30 +25,22 @@ class CustomBackupCommand extends Command
             // Kiểm tra các tùy chọn có được cung cấp không
             $includeRoutines = $this->option('routines');
             $includeTriggers = $this->option('triggers');
-            // Tạo câu lệnh mysqldump cho cơ sở dữ liệu
             $dbHost = env('DB_HOST', '127.0.0.1');
             $dbName = env('DB_DATABASE');
             $dbUser = env('DB_USERNAME');
             $dbPassword = env('DB_PASSWORD');
 
             $command = "mysqldump  -h {$dbHost} -u {$dbUser}  {$dbName}";
-
-            // Thêm tham số --routines nếu cần
             if ($includeRoutines) {
                 $command .= ' --routines';
             }
-
-            // Thêm tham số --triggers nếu cần
             if ($includeTriggers) {
                 $command .= ' --triggers';
             }
 
             // Tạo tên tệp backup hoặc sử dụng tên tùy chỉnh
             $filename = $this->option('filename') ?? storage_path('app/backup') . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.sql';
-
-            // Thực thi lệnh mysqldump
             exec($command . " > {$filename}", $output, $returnVar);
-
             if ($returnVar !== 0) {
                 $this->error('Backup failed: ' . implode("\n", $output));
                 return;
@@ -54,17 +48,19 @@ class CustomBackupCommand extends Command
             // Thêm chức năng nén tệp sao lưu
             $zipBackupFile = storage_path('app/backup') . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.zip';
             $zipCommand = "7z a {$zipBackupFile} {$filename}";
-
             exec($zipCommand, $zipOutput, $zipReturnVar);
-
             if ($zipReturnVar !== 0) {
                 $this->error('Compression failed: ' . implode("\n", $zipOutput));
                 return;
             }
 
-            // Xóa tệp .sql sau khi nén để tiết kiệm không gian
+            $contents = file_get_contents($zipBackupFile);
+            Log::info("Attempting to upload file: " . basename($zipBackupFile));
+            Log::info("File content size: " . strlen($contents));
+            $result = Storage::disk('google')->put(basename($zipBackupFile), $contents);
+            Log::info("Upload result: " . ($result ? 'Success' : 'Failure'));
+            dd($result);  // Kiểm tra kết quả trả về
             unlink($filename);
-            // Thông báo thành công
             $this->info("Backup created successfully at: {$filename}");
             $this->sendBackupNotification('success', $filename);
         } catch (\Exception $e) {
@@ -83,7 +79,7 @@ class CustomBackupCommand extends Command
             return File::lastModified($file);
         })->first();
 
-        $newestBackupSize = File::size($newestBackupFile) / 1024; // Kích thước tệp sao lưu mới nhất (KB)
+        $newestBackupSize = File::size($newestBackupFile) / 1024;
         $numberOfBackups = count($backupFiles);
         $totalStorageUsed = collect($backupFiles)->sum(function ($file) {
             return File::size($file);

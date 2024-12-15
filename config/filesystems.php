@@ -43,7 +43,12 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
-
+        'google' => [
+            'driver' => 'google',
+            'client_id' => env('GOOGLE_DRIVE_CLIENT_ID'),
+            'service_account_credentials_json' => env('GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON'),
+            'folder_id' => env('GOOGLE_DRIVE_FOLDER_ID'),
+        ],
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

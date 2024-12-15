@@ -11,16 +11,13 @@ class Kernel extends ConsoleKernel
     {
         // Lấy tất cả các lịch sao lưu từ bảng Backup
         $backupSchedules = Backup::all();
-
         foreach ($backupSchedules as $backupSchedule) {
-            // Nếu tần suất là hàng ngày
-            if ($backupSchedule->frequency === 'daily') {
+            if ($backupSchedule->frequency === 'daily')
+             {
                 $schedule->command('backup:run --only-db --routines --triggers')
-                    ->dailyAt($backupSchedule->backup_time) // Lên lịch vào thời gian sao lưu
+                    ->dailyAt($backupSchedule->backup_time)
                     ->appendOutputTo(storage_path('logs/backup.log'));
             }
-
-            // Nếu tần suất là hàng tuần
             elseif ($backupSchedule->frequency === 'weekly') {
                 $schedule->command('backup:run --only-db --routines --triggers')
                     ->weeklyOn(
@@ -29,8 +26,6 @@ class Kernel extends ConsoleKernel
                     )
                     ->appendOutputTo(storage_path('logs/backup.log'));
             }
-
-            // Nếu tần suất là hàng tháng
             elseif ($backupSchedule->frequency === 'monthly') {
                 $schedule->command('backup:run --only-db --routines --triggers')
                     ->monthlyOn($backupSchedule->backup_day_of_month, $backupSchedule->backup_time)
@@ -49,7 +44,6 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 
-    // Đảm bảo rằng lệnh của bạn đã được đăng ký
     protected $commands = [
         \App\Console\Commands\CustomBackupCommand::class,
     ];

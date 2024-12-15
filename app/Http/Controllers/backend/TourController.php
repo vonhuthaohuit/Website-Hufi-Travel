@@ -215,6 +215,12 @@ class TourController extends Controller
      */
     public function destroy(string $id)
     {
+        $result =  DB::select('SELECT func_soluongKhachDat(?) AS soluong', [$id]);
+        $soluong = $result[0]->soluong;
+        if($soluong != 0)
+        {
+            return response()->json(['status' => 'error', 'message' => 'Tour đang hoạt đông! Xoá không thành công']);
+        }
         $tour = Tour::find($id);
         $this->deleteImage($tour->hinhdaidien);
         $tour->delete();

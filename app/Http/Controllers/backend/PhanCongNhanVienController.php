@@ -46,12 +46,12 @@ class PhanCongNhanVienController extends Controller
     }
 
 
-    public function chonNhanVienTheoChucVu(String $tenchucvu)
+    public function chonNhanVienTheoChucVu($tenchucvu)
     {
         $data = DB::select('CALL proc_selectNhanVienTheoChucVu(?)', [$tenchucvu]);
         return response()->json($data);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */

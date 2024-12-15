@@ -121,8 +121,7 @@
                     $('#nhanvien-table tbody').html(html);
                 },
                 error: function(error) {
-                    console.error('Error:', error);
-                    alert('Không thể tải dữ liệu nhân viên. Vui lòng thử lại sau.');
+                   toastr.error('Không thể tải dữ liệu nhân viên. Vui lòng thử lại sau.','Lỗi');
                 }
             });
         }
