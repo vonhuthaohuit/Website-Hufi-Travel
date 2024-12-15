@@ -47,9 +47,9 @@ class FooterGridThreeController extends Controller
 
         Cache::forget('footer_grid_three');
 
-        toastr('Created Successfully!', 'success', 'success');
+        // toastr('Created Successfully!', 'success', 'success');
 
-        return redirect()->route('footer-grid-three.index');
+        return redirect()->route('footer-grid-three.index')->with('success', 'Thêm thành công!');
     }
 
     /**
@@ -88,9 +88,9 @@ class FooterGridThreeController extends Controller
 
         Cache::forget('footer_grid_three');
 
-        toastr('Update Successfully!', 'success', 'success');
+        // toastr('Update Successfully!', 'success', 'success');
 
-        return redirect()->route('footer-grid-three.index');
+        return redirect()->route('footer-grid-three.index')->with('success', 'Cập nhật thành công!');
     }
 
     /**
@@ -102,7 +102,7 @@ class FooterGridThreeController extends Controller
         $footer->delete();
         Cache::forget('footer_grid_three');
 
-        return response(['status' => 'success', 'message' => 'Deleted successfully!']);
+        return response(['status' => 'success', 'message' => 'Xoá thành công!']);
     }
 
     public function changeStatus(Request $request)
@@ -112,7 +112,7 @@ class FooterGridThreeController extends Controller
         $footer->save();
         Cache::forget('footer_grid_three');
 
-        return response(['message' => 'Status has been updated!']);
+        return response()->json(['message' => 'Trạng thái cập nhật thành công!']);
     }
 
     public function changeTitle(Request $request)
@@ -126,8 +126,8 @@ class FooterGridThreeController extends Controller
             ['footer_grid_three_title' => $request->title]
         );
 
-        toastr('Updated Successfully', 'success', 'success');
+        // toastr('Updated Successfully', 'success', 'success');
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Cập nhật thành công!');
     }
 }

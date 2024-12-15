@@ -36,12 +36,19 @@ class FooterGridOneController extends Controller
 
         $footerInfo = FooterGridOne::find($id);
         /** Handle file upload */
-        $imagePath = $this->updateImage($request, 'logo', 'frontend/images/uploads/logo', $footerInfo?->logo);
+        // $imagePath = $this->updateImage($request, 'logo', 'frontend/images/uploads/logo', $footerInfo?->logo);
+
+        if ($request->hasFile('logo')) {
+            $imagePath = $this->updateImage($request, 'logo', 'frontend/images/uploads/logo', $footerInfo?->hinhanh);
+            $footerInfo->logo = $imagePath;
+        } else {
+            $footerInfo->logo = $footerInfo->logo;
+        }
 
         FooterGridOne::updateOrCreate(
             ['id' => $id],
             [
-                'logo' => empty(!$imagePath) ? $imagePath : $footerInfo->banner,
+                'logo' => $footerInfo->logo,
                 'phone' => $request->phone,
                 'email' => $request->email,
                 'address' => $request->address,
@@ -51,9 +58,9 @@ class FooterGridOneController extends Controller
 
         Cache::forget('footer_grid_one');
 
-        toastr('Updated successfully!', 'success', 'success');
+        // toastr('Updated successfully!', 'success', 'success');
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Cập nhật thành công!');
     }
 
     /**
