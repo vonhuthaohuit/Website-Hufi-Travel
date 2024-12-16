@@ -28,7 +28,7 @@ class HinhAnhTourDatattables extends DataTable
                 return "<img width='100px' height='80px' src='" . asset($query->duongdan) . "' >";
             })
             ->addColumn('action', function ($query) {
-                $editBtn = "<a href='" . route('hinhanhtour.edit', $query->mahinhanh) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
+                $editBtn = "<a href='" . route('hinhanhtour.edit', [$query->mahinhanh, $query->matour]) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
                 $deleteBtn = "<a href='" . route('hinhanhtour.destroy', $query->mahinhanh) . "' class='btn btn-danger ml-2 delete-item' data-id='{ $query->mahinhanh }'><i class='far fa-trash-alt'></i></a>";
                 return $editBtn . $deleteBtn;
             })

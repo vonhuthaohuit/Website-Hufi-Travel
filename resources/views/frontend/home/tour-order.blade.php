@@ -35,7 +35,7 @@
 
 @section('renderBody')
     <div class="container-xl py-4">
-        <a class="btn mb-3 btn-back shadow" href="{{ url()->previous() }}">
+        <a class="btn mb-3 btn-back shadow" href="{{ route('transaction') }}">
             <i class="fas fa-arrow-left"></i> Quay về
         </a>
 
