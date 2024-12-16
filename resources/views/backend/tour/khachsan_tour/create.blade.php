@@ -12,7 +12,7 @@
                         <div class="card-header">
                             <h4>Thêm chi tiết mới</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('khachsan_tour.index',['tour_id' => $tour->matour])}}" class="btn btn-primary"><i class="fas fa-arrow-left"></i>
+                                <a href="{{ route('khachsan_tour.index', ['tour_id' => $tour->matour])}}" class="btn btn-primary"><i class="fas fa-arrow-left"></i>
                                     Quay về</a>
                             </div>
                         </div>

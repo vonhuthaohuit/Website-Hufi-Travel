@@ -264,6 +264,7 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
 
     Route::resource('phieuhuytour', BackendPhieuHuyController::class);
     Route::resource('hinhanhtour', HinhAnhTourController::class);
+    Route::get('hinhanhtour/edit/{id}/{matour}', [HinhAnhTourController::class, 'edit'])->name('hinhanhtour.edit');
 
     Route::resource('taikhoan', TaiKhoanController::class);
     Route::post('taikhoan/change-status', [TaiKhoanController::class, 'changeStatus'])->name('taikhoan.change-status');
