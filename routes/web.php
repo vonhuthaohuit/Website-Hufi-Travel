@@ -256,6 +256,7 @@ Route::prefix('admin')->middleware(['auth', 'is.admin'])->group(function () {
     Route::get('hoadon', [HoaDonController::class, 'index'])->name('hoadon.index');
     Route::get('phieudattour', [PhieuDatTourController::class, 'index'])->name('phieudattour.index');
     Route::get('phieuhuytour', [PhieuHuyTourController::class, 'index'])->name('phieuhuytour.index');
+    Route::resource('phieuhuytour', PhieuHuyTourController::class);
 
     Route::resource('hoadon', HoaDonController::class);
 

@@ -20,61 +20,65 @@ class CustomBackupCommand extends Command
                             ';
     protected $description = 'Backup the database including routines and triggers if specified';
     public function handle()
-{
-    try {
-        // Kiểm tra các tùy chọn có được cung cấp không
-        $includeRoutines = $this->option('routines');
-        $includeTriggers = $this->option('triggers');
-        $dbHost = env('DB_HOST', '127.0.0.1');
-        $dbName = env('DB_DATABASE');
-        $dbUser = env('DB_USERNAME');
-        $dbPassword = env('DB_PASSWORD');
+    {
+        try {
+            // Kiểm tra các tùy chọn có được cung cấp không
+            $includeRoutines = $this->option('routines');
+            $includeTriggers = $this->option('triggers');
+            $dbHost = env('DB_HOST', '127.0.0.1');
+            $dbName = env('DB_DATABASE');
+            $dbUser = env('DB_USERNAME');
+            $dbPassword = env('DB_PASSWORD');
 
-        $command = "mysqldump -h {$dbHost} -u {$dbUser} {$dbName}";
-        if ($includeRoutines) {
-            $command .= ' --routines';
+            $command = "mysqldump -h {$dbHost} -u {$dbUser} {$dbName}";
+
+            Log::info("Command: " . $command);
+            if ($includeRoutines) {
+                $command .= ' --routines';
+            }
+            if ($includeTriggers) {
+                $command .= ' --triggers';
+            }
+
+            // Tạo tên tệp backup hoặc sử dụng tên tùy chỉnh
+            $filename = $this->option('filename') ?? storage_path('app/backup') . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.sql';
+            exec($command . " > {$filename}", $output, $returnVar);
+            if ($returnVar !== 0) {
+                $this->error('Backup failed: ' . implode("\n", $output));
+                return;
+            }
+            Log::info("Backup created successfully at: {$filename}");
+            // Xác định đường dẫn Desktop phù hợp với hệ điều hành
+            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                // Windows
+                $desktopPath = getenv('USERPROFILE') . '\\Desktop';
+                Log::info("Desktop path: " . $desktopPath);
+            } else {
+                // Linux/Mac
+                $desktopPath = '/home/' . get_current_user() . '/Desktop';
+            }
+
+            // Debug thông báo kiểm tra đường dẫn
+            $this->info("Desktop path: " . $desktopPath);
+
+            // Tạo tệp zip backup
+            $zipBackupFile = $desktopPath . DIRECTORY_SEPARATOR . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.zip';
+            Log::info("Zip backup file: " . $zipBackupFile);
+            $zipCommand = "7z a {$zipBackupFile} {$filename}";
+            exec($zipCommand, $zipOutput, $zipReturnVar);
+            if ($zipReturnVar !== 0) {
+                $this->error('Compression failed: ' . implode("\n", $zipOutput));
+                return;
+            }
+
+            unlink($filename);
+            $this->info("Backup created successfully at: {$zipBackupFile}");
+            $this->sendBackupNotification('success', $zipBackupFile);
+        } catch (\Exception $e) {
+            $this->error('Error: ' . $e->getMessage());
+            $this->sendBackupNotification('failed', $e->getMessage());
         }
-        if ($includeTriggers) {
-            $command .= ' --triggers';
-        }
-
-        // Tạo tên tệp backup hoặc sử dụng tên tùy chỉnh
-        $filename = $this->option('filename') ?? storage_path('app/backup') . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.sql';
-        exec($command . " > {$filename}", $output, $returnVar);
-        if ($returnVar !== 0) {
-            $this->error('Backup failed: ' . implode("\n", $output));
-            return;
-        }
-
-        // Xác định đường dẫn Desktop phù hợp với hệ điều hành
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            // Windows
-            $desktopPath = getenv('USERPROFILE') . '\\Desktop';
-        } else {
-            // Linux/Mac
-            $desktopPath = '/home/' . get_current_user() . '/Desktop';
-        }
-
-        // Debug thông báo kiểm tra đường dẫn
-        $this->info("Desktop path: " . $desktopPath);
-
-        // Tạo tệp zip backup
-        $zipBackupFile = $desktopPath . DIRECTORY_SEPARATOR . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.zip';
-        $zipCommand = "7z a {$zipBackupFile} {$filename}";
-        exec($zipCommand, $zipOutput, $zipReturnVar);
-        if ($zipReturnVar !== 0) {
-            $this->error('Compression failed: ' . implode("\n", $zipOutput));
-            return;
-        }
-
-        unlink($filename);
-        $this->info("Backup created successfully at: {$zipBackupFile}");
-        $this->sendBackupNotification('success', $zipBackupFile);
-    } catch (\Exception $e) {
-        $this->error('Error: ' . $e->getMessage());
-        $this->sendBackupNotification('failed', $e->getMessage());
     }
-}
 
     protected function sendBackupNotification($isSuccessful)
     {

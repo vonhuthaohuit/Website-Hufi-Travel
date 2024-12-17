@@ -86,7 +86,7 @@ class HomeController extends Controller
                 if ($trangThai) {
                     $query->where('trangthai', $trangThai);
                 }
-                $query->whereIn('trangthaidattour', ['Đang chờ xác nhận đặt tour', 'Chưa thanh toán']);
+                $query->whereIn('trangthaidattour', ['Đang chờ xác nhận đặt tour', 'Chưa thanh toán', 'Yêu cầu hủy tour']);
             })
             ->with(['phieuDatTour.tour'])
             ->groupBy('maphieudattour')

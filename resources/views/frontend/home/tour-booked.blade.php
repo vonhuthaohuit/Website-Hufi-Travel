@@ -8,23 +8,35 @@
                     alt="No transaction icon">
                 <div>
                     <h5>Không có giao dịch đang tiến hành</h5>
-                    <p style="font-weight: 600;">Bạn không có giao dịch đang tiến hành nào từ phiên giao dịch trước. Những giao dịch chưa
+                    <p style="font-weight: 600;">Bạn không có giao dịch đang tiến hành nào từ phiên giao dịch trước. Những
+                        giao dịch chưa
                         hoàn
                         thành sẽ được lưu tại đây.</p>
                 </div>
             </div>
         @else
             @foreach ($tours as $item)
-                <a class="transaction-item mt-3" href="{{ route('tour.tourOrder', ['matour' => $item->phieuDatTour->tour->matour, 'maphieudattour' => $item->maphieudattour] ) }}">
+                <a class="transaction-item mt-3"
+                    href="{{ route('tour.tourOrder', ['matour' => $item->phieuDatTour->tour->matour, 'maphieudattour' => $item->maphieudattour]) }}">
                     <img src="{{ asset($item->phieuDatTour->tour->hinhdaidien ?? 'default.jpg') }}" alt="No transaction icon">
                     <div>
                         <h5>{{ $item->phieuDatTour->tour->tentour ?? 'Không có tên tour' }}</h5>
                         @if (empty($item->phieudattour->tour->makhuyenmai))
-                            <p>Giá: {{ number_format($item->phieuDatTour->tour->giatour ?? 0) }}đ - <span
-                                    style="color: green;">{{ $item->phieudattour->trangthaidattour }}</span></p>
+                            <p>Giá: {{ number_format($item->phieuDatTour->tour->giatour ?? 0) }}đ -
+                                @if (in_array($item->phieudattour->trangthaidattour, ['Yêu cầu hủy tour', 'Đã hủy']))
+                                    <span style="color: red;">{{ $item->phieudattour->trangthaidattour }}</span>
+                                @else
+                                    <span style="color: green;">{{ $item->phieudattour->trangthaidattour }}</span>
+                                @endif
+                            </p>
                         @else
-                            <p>Giá: {{ number_format($item->phieuDatTour->tour->giatourgiam ?? 0) }}đ - <span
-                                    style="color: green;">{{ $item->phieudattour->trangthaidattour }}</span></p>
+                            <p>Giá: {{ number_format($item->phieuDatTour->tour->giatourgiam ?? 0) }}đ -
+                                @if (in_array($item->phieudattour->trangthaidattour, ['Yêu cầu hủy tour', 'Đã hủy']))
+                                    <span style="color: red;">{{ $item->phieudattour->trangthaidattour }}</span>
+                                @else
+                                    <span style="color: green;">{{ $item->phieudattour->trangthaidattour }}</span>
+                                @endif
+                            </p>
                         @endif
                     </div>
                 </a>
