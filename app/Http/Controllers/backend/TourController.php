@@ -17,6 +17,7 @@ use App\Traits\ImageUploadTrait;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -273,6 +274,7 @@ class TourController extends Controller
 
         $giaMin = 0;
         $giaMax = $searchData['gia'] ?? 10000000;
+
         $tours = Tour::query()
             ->where('tinhtrang', 1)
             ->when(
@@ -372,10 +374,14 @@ class TourController extends Controller
                 ? "Giá từ 0 đến: \"" . str_replace(',', ' ', number_format($searchData['gia'])) . 'đ' . "\""
                 : null,
 
-
         ])->filter()->implode(', ');
 
-
+        if($request->hasFile('image')){
+            if ($tours->count() > 15) {
+                $numRandom = rand(7, 15);
+                $tours = $tours->random($numRandom);
+            }
+        }
 
 
         $tourCount = $tours->count();
