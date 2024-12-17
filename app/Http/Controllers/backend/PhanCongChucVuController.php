@@ -72,6 +72,7 @@ class PhanCongChucVuController extends Controller
 
     public function destroy(string $id, string $machucvu)
     {
+        
         PhanCongChucVu::where('manhanvien', $id)
             ->where('machucvu', $machucvu)
             ->delete();

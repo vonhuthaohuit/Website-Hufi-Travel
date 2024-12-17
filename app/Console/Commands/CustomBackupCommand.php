@@ -19,8 +19,9 @@ class CustomBackupCommand extends Command
                             {--only-to-disk= : Specify which disk to store the backup on}
                             ';
     protected $description = 'Backup the database including routines and triggers if specified';
+
     public function handle()
-{
+    {
     try {
         // Kiểm tra các tùy chọn có được cung cấp không
         $includeRoutines = $this->option('routines');
@@ -38,7 +39,6 @@ class CustomBackupCommand extends Command
             $command .= ' --triggers';
         }
 
-        // Tạo tên tệp backup hoặc sử dụng tên tùy chỉnh
         $filename = $this->option('filename') ?? storage_path('app/backup') . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.sql';
         exec($command . " > {$filename}", $output, $returnVar);
         if ($returnVar !== 0) {
@@ -81,23 +81,25 @@ class CustomBackupCommand extends Command
         // Lấy thông tin sao lưu từ hệ thống
         $backupPath = storage_path('app/backup');
         $backupFiles = File::files($backupPath);
-
-        // Lấy tệp sao lưu mới nhất
-        $newestBackupFile = collect($backupFiles)->sortByDesc(function ($file) {
+        $newestBackupFile = collect($backupFiles)
+        ->filter(function ($file) {
+            // Kiểm tra xem file có đuôi .zip hay không
+            return strtolower(pathinfo($file, PATHINFO_EXTENSION)) === 'zip';
+        })
+        ->sortByDesc(function ($file) {
+            // Sắp xếp các file theo thời gian sửa đổi mới nhất
             return File::lastModified($file);
-        })->first();
+        })
+        ->first();
+
 
         $newestBackupSize = File::size($newestBackupFile) / 1024;
         $numberOfBackups = count($backupFiles);
         $totalStorageUsed = collect($backupFiles)->sum(function ($file) {
             return File::size($file);
-        }) / 1024 / 1024; // Tổng dung lượng sử dụng (MB)
-
-        // Lấy ngày sao lưu mới nhất
+        }) / 1024 / 1024;
         $newestBackupDate = date('Y/m/d H:i:s', File::lastModified($newestBackupFile));
         $oldestBackupDate = date('Y/m/d H:i:s', File::lastModified($backupFiles[0])); // Ngày sao lưu cũ nhất
-
-        // Cập nhật thông số vào biến $details
         $details = [
             'backup_name' => 'Laravel',
             'disk' => 'local',

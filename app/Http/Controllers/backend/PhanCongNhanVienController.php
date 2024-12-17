@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\NhanVien;
 use App\Models\PhanCongNhanVien;
 use App\Models\Tour;
+use App\Models\ChucVu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -58,7 +59,8 @@ class PhanCongNhanVienController extends Controller
     public function create(Request $request)
     {
         $tour = Tour::findOrFail($request->tour_id);
-        return view('backend.phancong.create', compact('tour'));
+        $chucvu = ChucVu::all();
+        return view('backend.phancong.create', compact('tour','chucvu'));
     }
 
     /**
@@ -118,6 +120,6 @@ class PhanCongNhanVienController extends Controller
             ->where('manhanvien', $manhanvien)
             ->delete();
         DB::statement('CALL proc_updateTinhTrangNhanVien(?,?)', [$manhanvien, 0]);
-        return response(['status' => 'success', 'message' => 'Xóa quyền khỏi nhóm quyền thành công']);
+        return response(['status' => 'success', 'message' => 'Xóa nhân viên khỏi tour thành công']);
     }
 }
