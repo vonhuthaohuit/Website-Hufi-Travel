@@ -42,23 +42,19 @@ class Handler extends ExceptionHandler
         if ($e instanceof MethodNotAllowedHttpException) {
             return redirect()->route('home');
         }
-        // if ($e instanceof \Symfony\Component\HttpKernel\Exception\HttpException) {
-        //     $statusCode = $e->getStatusCode();
-        //     $message = $e->getMessage();
-        // } else {
-        //     $statusCode = 500;
-        //     $message = 'Đã có lỗi xảy ra. Vui lòng thử lại sau.';
-        // }
+        if ($e instanceof \Symfony\Component\HttpKernel\Exception\HttpException) {
+            $statusCode = $e->getStatusCode();
+            $message = $e->getMessage();
+        } else {
+            $statusCode = 500;
+            $message = 'Đã có lỗi xảy ra. Vui lòng thử lại sau.';
+        }
 
-        // return response()->view('error', [
-        //     'errorCode' => $statusCode,
-        //     'errorMessage' => $message,
-        // ], $statusCode);
+        return response()->view('error', [
+            'errorCode' => $statusCode,
+            'errorMessage' => $message,
+        ], $statusCode);
 
-<<<<<<< HEAD
-         return parent::render($request, $e);
-=======
-        return parent::render($request, $e);
->>>>>>> 6e0a4b5e28ea5b47a00b14f4942c13943bd05cc1
+       // return parent::render($request, $e);
     }
 }
