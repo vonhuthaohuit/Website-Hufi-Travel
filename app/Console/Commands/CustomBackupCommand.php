@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Mail\BackupNotificationMail;
-
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -22,16 +21,6 @@ class CustomBackupCommand extends Command
 
     public function handle()
     {
-<<<<<<< HEAD
-    try {
-        // Kiểm tra các tùy chọn có được cung cấp không
-        $includeRoutines = $this->option('routines');
-        $includeTriggers = $this->option('triggers');
-        $dbHost = env('DB_HOST', '127.0.0.1');
-        $dbName = env('DB_DATABASE');
-        $dbUser = env('DB_USERNAME');
-        $dbPassword = env('DB_PASSWORD');
-=======
         try {
             // Kiểm tra các tùy chọn có được cung cấp không
             $includeRoutines = $this->option('routines');
@@ -40,11 +29,10 @@ class CustomBackupCommand extends Command
             $dbName = env('DB_DATABASE');
             $dbUser = env('DB_USERNAME');
             $dbPassword = env('DB_PASSWORD');
->>>>>>> 6e0a4b5e28ea5b47a00b14f4942c13943bd05cc1
-
             $command = "mysqldump -h {$dbHost} -u {$dbUser} {$dbName}";
 
             Log::info("Command: " . $command);
+
             if ($includeRoutines) {
                 $command .= ' --routines';
             }
@@ -55,16 +43,18 @@ class CustomBackupCommand extends Command
             // Tạo tên tệp backup hoặc sử dụng tên tùy chỉnh
             $filename = $this->option('filename') ?? storage_path('app/backup') . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.sql';
             exec($command . " > {$filename}", $output, $returnVar);
+
             if ($returnVar !== 0) {
                 $this->error('Backup failed: ' . implode("\n", $output));
                 return;
             }
+
             Log::info("Backup created successfully at: {$filename}");
+
             // Xác định đường dẫn Desktop phù hợp với hệ điều hành
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
                 // Windows
                 $desktopPath = getenv('USERPROFILE') . '\\Desktop';
-                Log::info("Desktop path: " . $desktopPath);
             } else {
                 // Linux/Mac
                 $desktopPath = '/home/' . get_current_user() . '/Desktop';
@@ -76,8 +66,10 @@ class CustomBackupCommand extends Command
             // Tạo tệp zip backup
             $zipBackupFile = $desktopPath . DIRECTORY_SEPARATOR . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.zip';
             Log::info("Zip backup file: " . $zipBackupFile);
+
             $zipCommand = "7z a {$zipBackupFile} {$filename}";
             exec($zipCommand, $zipOutput, $zipReturnVar);
+
             if ($zipReturnVar !== 0) {
                 $this->error('Compression failed: ' . implode("\n", $zipOutput));
                 return;
@@ -86,69 +78,28 @@ class CustomBackupCommand extends Command
             unlink($filename);
             $this->info("Backup created successfully at: {$zipBackupFile}");
             $this->sendBackupNotification('success', $zipBackupFile);
+
         } catch (\Exception $e) {
             $this->error('Error: ' . $e->getMessage());
             $this->sendBackupNotification('failed', $e->getMessage());
         }
-<<<<<<< HEAD
-        if ($includeTriggers) {
-            $command .= ' --triggers';
-        }
-
-        $filename = $this->option('filename') ?? storage_path('app/backup') . '/' . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.sql';
-        exec($command . " > {$filename}", $output, $returnVar);
-        if ($returnVar !== 0) {
-            $this->error('Backup failed: ' . implode("\n", $output));
-            return;
-        }
-
-        // Xác định đường dẫn Desktop phù hợp với hệ điều hành
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            // Windows
-            $desktopPath = getenv('USERPROFILE') . '\\Desktop';
-        } else {
-            // Linux/Mac
-            $desktopPath = '/home/' . get_current_user() . '/Desktop';
-        }
-
-        // Debug thông báo kiểm tra đường dẫn
-        $this->info("Desktop path: " . $desktopPath);
-
-        // Tạo tệp zip backup
-        $zipBackupFile = $desktopPath . DIRECTORY_SEPARATOR . $dbName . '_backup_' . date('Y-m-d_H-i-s') . '.zip';
-        $zipCommand = "7z a {$zipBackupFile} {$filename}";
-        exec($zipCommand, $zipOutput, $zipReturnVar);
-        if ($zipReturnVar !== 0) {
-            $this->error('Compression failed: ' . implode("\n", $zipOutput));
-            return;
-        }
-
-        unlink($filename);
-        $this->info("Backup created successfully at: {$zipBackupFile}");
-        $this->sendBackupNotification('success', $zipBackupFile);
-    } catch (\Exception $e) {
-        $this->error('Error: ' . $e->getMessage());
-        $this->sendBackupNotification('failed', $e->getMessage());
-=======
->>>>>>> 6e0a4b5e28ea5b47a00b14f4942c13943bd05cc1
     }
 
-    protected function sendBackupNotification($isSuccessful)
+    protected function sendBackupNotification($isSuccessful, $zipBackupFile = null)
     {
         // Lấy thông tin sao lưu từ hệ thống
         $backupPath = storage_path('app/backup');
         $backupFiles = File::files($backupPath);
         $newestBackupFile = collect($backupFiles)
-        ->filter(function ($file) {
-            // Kiểm tra xem file có đuôi .zip hay không
-            return strtolower(pathinfo($file, PATHINFO_EXTENSION)) === 'zip';
-        })
-        ->sortByDesc(function ($file) {
-            // Sắp xếp các file theo thời gian sửa đổi mới nhất
-            return File::lastModified($file);
-        })
-        ->first();
-
+            ->filter(function ($file) {
+                // Kiểm tra xem file có đuôi .zip hay không
+                return strtolower(pathinfo($file, PATHINFO_EXTENSION)) === 'zip';
+            })
+            ->sortByDesc(function ($file) {
+                // Sắp xếp các file theo thời gian sửa đổi mới nhất
+                return File::lastModified($file);
+            })
+            ->first();
 
         $newestBackupSize = File::size($newestBackupFile) / 1024;
         $numberOfBackups = count($backupFiles);
@@ -157,6 +108,7 @@ class CustomBackupCommand extends Command
         }) / 1024 / 1024;
         $newestBackupDate = date('Y/m/d H:i:s', File::lastModified($newestBackupFile));
         $oldestBackupDate = date('Y/m/d H:i:s', File::lastModified($backupFiles[0])); // Ngày sao lưu cũ nhất
+
         $details = [
             'backup_name' => 'Laravel',
             'disk' => 'local',
@@ -171,7 +123,12 @@ class CustomBackupCommand extends Command
             $isSuccessful ? 'Backup successful' : 'Backup failed',
             $details
         );
-        $mail->attach($newestBackupFile);
+
+        // Chỉ đính kèm nếu có file zip
+        if ($zipBackupFile) {
+            $mail->attach($zipBackupFile);
+        }
+
         Mail::to('hoankien140703@gmail.com')->send($mail);
     }
 }
