@@ -5,8 +5,37 @@
     .select2-selection__clear {
         margin-top: 50px;
     }
-    .panel-1{
+
+    .panel-1 {
         padding: 15px;
+    }
+
+    #customerTable th,
+    #customerTable td {
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    #customerTable td input,
+    #customerTable td select {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #customerTable td.action-cell {
+        width: 120px;
+    }
+
+    #customerTable td.price-cell {
+        width: 0px;
+    }
+
+    #customerTable td.gender {
+        width: 0px;
+    }
+
+    #customerTable td input[type="date"] {
+        max-width: 140px;
     }
 </style>
 @section('content')
@@ -217,7 +246,7 @@
                                                             min="1900-01-01" max="2025-01-01" placeholder="01/01/1990"
                                                             required onchange="calculateAgeAndUpdateCustomerType(this)">
                                                     </td>
-                                                    <td>
+                                                    <td class="gender">
                                                         <select name="td_ticket[1][td_gender]" id="td_gender_1"
                                                             class="form-control">
                                                             <option value="Nam">Nam</option>
@@ -249,6 +278,8 @@
 
                                     </div>
                                     <div style="text-align: right">
+                                        <input hidden type="file" id="csvFileInput" accept=".xlsx" />
+                                        <button hidden class="btn btn-primary" id="btn-import-csv">Import Excel</button>
                                         <button type="button" id="btn-add-more-customer" class="btn btn-info">
                                             <i class="fa fa-plus"></i> Thêm
                                         </button>
@@ -352,7 +383,7 @@
                                     data.forEach(function(ngay) {
                                         ngayKhoiHanhSelect.append(
                                             `<option value="${ngay['ngaybatdau']}">${ngay['ngaybatdau']}</option>`
-                                            );
+                                        );
                                     });
                                 }
                             },

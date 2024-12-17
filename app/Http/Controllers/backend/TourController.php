@@ -217,8 +217,7 @@ class TourController extends Controller
     {
         $result =  DB::select('SELECT func_soluongKhachDat(?) AS soluong', [$id]);
         $soluong = $result[0]->soluong;
-        if($soluong != 0)
-        {
+        if ($soluong != 0) {
             return response()->json(['status' => 'error', 'message' => 'Tour đang hoạt đông! Xoá không thành công']);
         }
         $tour = Tour::find($id);
@@ -276,21 +275,20 @@ class TourController extends Controller
 
             $command = "python \"$pythonScript\" \"$imageFilePath\" 2>&1";
             $output = shell_exec($command);
-
             $images = json_decode($output, true);
             if ($images) {
-                $images = array_map(function($item) {
-                    return str_replace('dataset\\', '', $item['path']);
-                }, $images);
+                $images = array_map(function ($item) {
+                    $formatted_path = str_replace('\\', '/', $item['path']);
+                    $formatted_path = str_replace('D:/Semeter VII/DoAnTotNghiep/Code/HUFI-Travel/public/', '', $formatted_path);
 
-                $images = array_map(function ($image) {
-                    return 'frontend/images/tour/' . $image;
+                    return $formatted_path;
                 }, $images);
             } else {
                 Log::error("No images returned from Python script.");
                 $images = [];
             }
         }
+
 
         $typetourName = $searchData['typetour']
             ? optional(LoaiTour::find($searchData['typetour']))->tenloai
@@ -452,7 +450,8 @@ class TourController extends Controller
 
         return response()->json([], 404);
     }
-    public function uploadModel_Image(){
+    public function uploadModel_Image()
+    {
         $pythonScript = base_path('app' . DIRECTORY_SEPARATOR . 'Traits' . DIRECTORY_SEPARATOR . 'model_ai' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'store_vectors.py');
         $command = "python \"$pythonScript\" 2>&1";
         $output = system($command);
