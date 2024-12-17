@@ -27,10 +27,10 @@
                                             <div class="form-group">
                                                 <label>Chức vụ</label>
                                                 <select id="chucvu-select" class="form-control" name="tenchucvu">
-                                                    <option value="Tài xế">Tài xế</option>
-                                                    <option value="Hướng dẫn viên">Hướng dẫn viên</option>
-                                                    <option value="Thu ngân">Thu ngân</option>
-                                                    <option value="Nhân viên phụ trách">Nhân viên phụ trách</option>
+                                                    @foreach ($chucvu as $cv )
+                                                    <option value="{{ $cv->tenchucvu }}">{{ $cv->tenchucvu }}</option>
+                                                    @endforeach
+
                                                 </select>
                                             </div>
                                         </div>

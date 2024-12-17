@@ -23,6 +23,7 @@
                             <div class="form-group" id="weekly_options" style="display: none;margin-bottom:-5px">
                                 <label for="backup_day">Ngày trong tuần :</label>
                                 <select name="backup_day" id="backup_day" class="form-control">
+                                    <option value="">Chọn ngày trong tuần</option>
                                     <option value="Sunday">Chủ nhật</option>
                                     <option value="Monday">Thứ 2</option>
                                     <option value="Tuesday">Thứ 3</option>
