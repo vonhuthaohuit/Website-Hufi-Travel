@@ -16,7 +16,7 @@ class IsAdmin
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
-        if ($user->manhomquyen != 1) {
+        if ($user->manhomquyen != 1  ) {
             return redirect()->route('home')->with('error', 'Bạn không có quyền truy cập.');
         }
         return $next($request);

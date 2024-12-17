@@ -16,6 +16,6 @@ class PhanCongNhanVien extends Model
     }
 
     public function nhanvien(){
-        return $this->belongsTo(nhanvien::class,'manhanvien','manhanvien');
+        return $this->belongsTo(NhanVien::class,'manhanvien','manhanvien');
     }
 }

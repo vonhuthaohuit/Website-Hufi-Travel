@@ -8,6 +8,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use mysqli;
 
 class BackupAndRestoreControlelr extends Controller
@@ -20,12 +22,14 @@ class BackupAndRestoreControlelr extends Controller
     public function backup()
     {
         try {
+            
             // Thực thi lệnh backup từ Artisan command
             $output = Artisan::call('backup:run', [
                 '--only-db' => true,    // Chỉ backup database
                 '--routines' => true,   // Bao gồm routines
                 '--triggers' => true,   // Bao gồm triggers
             ]);
+
 
             // Kiểm tra kết quả và trả về thông báo
             if ($output === 0) {
@@ -34,6 +38,7 @@ class BackupAndRestoreControlelr extends Controller
                 return back()->with('error', 'Database backup failed!');
             }
         } catch (Exception $e) {
+            Log::info( $e->getMessage()) ;
             return back()->with('error', 'Error: ' . $e->getMessage());
         }
     }
