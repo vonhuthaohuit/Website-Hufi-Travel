@@ -12,6 +12,7 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Support\Str;
 
 class DanhGiaDataTables extends DataTable
 {
@@ -41,7 +42,16 @@ class DanhGiaDataTables extends DataTable
             ->addColumn('ngaytao', function ($query) {
                 return date('d-m-Y', strtotime($query->created_at));
             })
-            ->rawColumns(['tinhtrang', 'ngaytao', 'action'])
+            ->editColumn('tentour', function ($query) {
+                return Str::limit($query->tentour, 80);
+            })
+            ->editColumn('noidung', function ($query) {
+                return Str::limit($query->noidung, 80);
+            })
+            ->editColumn('diemdanhgia', function ($query) {
+                return '<span class="d-flex align-items-center">' . $query->diemdanhgia . ' <i class="fas fa-star ms-2 mb-1" style="color: #ffa801;"></i></span>';
+            })
+            ->rawColumns(['tinhtrang', 'ngaytao', 'action', 'diemdanhgia' ])
             ->setRowId('madanhgia');
     }
 
@@ -50,7 +60,12 @@ class DanhGiaDataTables extends DataTable
      */
     public function query(DanhGia $model): QueryBuilder
     {
-        return $model->newQuery()->with('khachhang')->orderBy('madanhgia', 'asc');
+        return $model->newQuery()
+        // ->with('khachhang')
+        ->join('tour', 'danhgia.matour', '=', 'tour.matour')
+        ->join('khachhang', 'danhgia.makhachhang', '=', 'khachhang.makhachhang')
+        ->select('danhgia.*', 'tour.tentour', 'khachhang.hoten')
+        ->orderBy('madanhgia', 'asc');
     }
 
     /**
@@ -87,6 +102,7 @@ class DanhGiaDataTables extends DataTable
                 ->printable(false)
                 ->width(30)
                 ->addClass('text-center'),
+            Column::make('tentour')->title('Tên tour')->width(300),
             Column::make('noidung')->title('Nội Dung')->width(300),
             Column::make('diemdanhgia')->title('Điểm đánh giá')->width(100),
             Column::make('tinhtrang')->title('Tình trạng')->width(150),

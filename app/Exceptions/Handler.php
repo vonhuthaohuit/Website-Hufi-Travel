@@ -55,6 +55,6 @@ class Handler extends ExceptionHandler
             'errorMessage' => $message,
         ], $statusCode);
 
-        //return parent::render($request, $e);
+        // return parent::render($request, $e);
     }
 }

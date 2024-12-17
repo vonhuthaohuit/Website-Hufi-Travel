@@ -12,7 +12,7 @@
             <!-- Form -->
             <form class="form-cancel" role="cancel" action="{{ route('tour.cancelTour') }}" method="POST">
                 @csrf
-                @method('DELETE') 
+                @method('DELETE')
                 <p class="title-cancel mb-3 text-center">Hủy tour</p>
                 <input type="hidden" name="matour" value="{{ $tour->phieuDatTour->tour->matour }}">
                 <input type="hidden" name="maphieudattour" value="{{ $tour->phieuDatTour->maphieudattour }}">
@@ -41,7 +41,7 @@
                 <div class="form-check mt-3 text-start">
                     <input type="checkbox" id="agreement" name="agreement" class="form-check-input" required>
                     <label class="form-check-label" for="agreement">
-                        Tôi đồng ý với <a href="" style="text-decoration: underline; font-weight: 600;"
+                        Tôi đồng ý với <a href="{{ route('tour.dieu-kien-huy-tour') }}" style="text-decoration: underline; font-weight: 600;"
                             target="_blank">quy định hủy tour</a>.
                     </label>
                 </div>

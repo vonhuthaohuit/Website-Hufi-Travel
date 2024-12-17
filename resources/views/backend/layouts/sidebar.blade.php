@@ -33,7 +33,6 @@
                     </li>
                 </ul>
             </li>
-
             <li class="dropdown {{ setActive(['khachsan.*', 'phuongtien.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-cart-plus"></i>
                     <span>Quản lý dịch vụ</span></a>
@@ -120,9 +119,9 @@
             </a>
         </li>
 
-        <li class="dropdown {{ setActive(['uploadmodelai.*', 'anh.*']) }}">
-            <a href="{{ route('upload.model.ai.index') }}"
-                class="nav-link {{ setActive(['upload.model.ai.index']) }}"><i class="fas fa-image"></i>
+        <li class="{{ setActive(['upload.model.ai.index']) }}">
+            <a href="{{ route('upload.model.ai.index') }}" class="nav-link {{ setActive(['upload.model.ai.index']) }}">
+                <i class="fas fa-image"></i>
                 <span>Cập nhật model ảnh</span>
             </a>
         </li>

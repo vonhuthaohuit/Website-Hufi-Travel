@@ -29,10 +29,11 @@ class HinhAnhTourController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         @$tours = Tour::where('tinhtrang', 1)->select('matour', 'tentour')->get();
-        return view('backend.tour.hinhanhtour.create', compact('tours'));
+        $tour = Tour::findOrFail($request->tour_id);
+        return view('backend.tour.hinhanhtour.create', compact('tours', 'tour'));
     }
 
     /**
@@ -46,25 +47,27 @@ class HinhAnhTourController extends Controller
             'tenhinh' => 'required',
         ]);
 
-        $imagePath = $this->uploadMultiImage($request, 'duongdan', 'frontend/images/tour');
-        if (!$imagePath) {
-            return back()->withErrors(['hinhanh' => 'Hình ảnh không được tải lên.']);
+        $imagePaths = $this->uploadMultiImage($request, 'duongdan', 'frontend/images/tour');
+
+        if (empty($imagePaths)) {
+            return back()->withErrors(['duongdan' => 'Hình ảnh không được tải lên.']);
         }
 
-        $hinhanhtour = new HinhAnhTour();
-        $hinhanhtour->duongdan = $imagePath;
-        $hinhanhtour->matour = $request->matour;
-        $hinhanhtour->tenhinh = $request->tenhinh;
+        foreach ($imagePaths as $key => $imagePath) {
+            $hinhanhtour = new HinhAnhTour();
+            $hinhanhtour->duongdan = $imagePath;
+            $hinhanhtour->matour = $request->matour;
+            $hinhanhtour->tenhinh = $request->tenhinh . ' - ' . ($key + 1);
+            $hinhanhtour->save();
+        }
 
-        $hinhanhtour->save();
-
-        return redirect()->route('hinhanhtour.index');
+        return redirect()->route('hinhanhtour.index', ['tour_id' => $request->matour])->with('success', 'Thêm hình ảnh thành công!');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit($id, $matour)
     {
         $hinhanhtour = HinhAnhTour::findOrFail($id);
         $selectedTour = Tour::where('matour', $hinhanhtour->matour)->first();
@@ -86,19 +89,19 @@ class HinhAnhTourController extends Controller
 
             $hinhanhtour = HinhAnhTour::findOrFail($id);
 
-            $hinhanhtour->duongdan = $request->input('tenhinh');
-            $hinhanhtour->matour = $request->input('matour');
+            $hinhanhtour->duongdan = $request->tenhinh;
+            $hinhanhtour->matour = $request->matour;
             if ($request->hasFile('duongdan')) {
-                $imagePath = $this->updateImage($request, 'hinhdaidien', 'frontend/images/tour/uploads', $hinhanhtour->duongdan);
+                $imagePath = $this->updateImage($request, 'duongdan', 'frontend/images/tour/uploads', $hinhanhtour->duongdan);
                 $hinhanhtour->duongdan = $imagePath;
             } else {
                 $hinhanhtour->duongdan = $hinhanhtour->duongdan;
             }
 
             $hinhanhtour->save();
-            return redirect()->route('hinhanhtour.index')->with('success', 'Cập nhật hình ảnh thành công!');
+            return redirect()->route('hinhanhtour.index', ['tour_id' => $request->matour])->with('success', 'Cập nhật hình ảnh thành công!');
         } catch (\Exception $e) {
-            return redirect()->route('hinhanhtour.index')->with(['error', 'Cập nhật hình ảnh thất bại!']);
+            return redirect()->route('hinhanhtour.index', ['tour_id' => $request->matour])->with(['error', 'Cập nhật hình ảnh thất bại!']);
         }
     }
 
