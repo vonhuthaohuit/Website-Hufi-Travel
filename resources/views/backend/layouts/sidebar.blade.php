@@ -33,7 +33,6 @@
                     </li>
                 </ul>
             </li>
-         
             <li class="dropdown {{ setActive(['khachsan.*', 'phuongtien.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-cart-plus"></i>
                     <span>Quản lý dịch vụ</span></a>

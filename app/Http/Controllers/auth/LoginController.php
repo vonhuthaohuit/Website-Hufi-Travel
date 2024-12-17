@@ -131,7 +131,7 @@ class LoginController extends Controller
                 $request->session()->regenerate(); // Regenerate session for security
                 $user =  $request->user();
                 Session::put('user', $user);
-                if ($user->manhomquyen == 1) {
+                if ($user->manhomquyen == 1 || $user->manhomquyen == 3 ) {
                     return redirect()->route('dashboard');
                 }
                 return redirect()->route('home');

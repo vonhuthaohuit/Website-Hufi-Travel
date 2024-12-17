@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
+    'default' => env('FILESYSTEM_DISK', 'google'),
 
     /*
     |--------------------------------------------------------------------------
@@ -46,7 +46,8 @@ return [
         'google' => [
             'driver' => 'google',
             'client_id' => env('GOOGLE_DRIVE_CLIENT_ID'),
-            'service_account_credentials_json' => env('GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON'),
+            'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
+            'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
             'folder_id' => env('GOOGLE_DRIVE_FOLDER_ID'),
         ],
         's3' => [
