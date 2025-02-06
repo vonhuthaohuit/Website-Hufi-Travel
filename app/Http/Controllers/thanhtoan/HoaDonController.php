@@ -133,7 +133,7 @@ class HoaDonController extends Controller
                 $username = $this->generateUsername($request['ticket_fullname']);
 
                 while (User::where('tentaikhoan', $username)->exists()) {
-                    $username = $this->generateUsername($request['ticket_fullname']) . rand(0, 999);
+                    $username = $this->generateUsername($request['ticket_fullname']) . rand(0, 100000);
                 }
 
                 $user = User::create([
@@ -240,11 +240,16 @@ class HoaDonController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-            Mail::to($thongTinNguoiDaiDien['email'])->send(new ThanhToanThanhCong($hoaDon));
+            try {
+                Mail::to($thongTinNguoiDaiDien['email'])->send(new ThanhToanThanhCong($hoaDon));
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+            }
 
             DB::commit();
             return redirect()->route('hoadon.index')->with('success', 'Hóa đơn đã được tạo thành công');
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             DB::rollBack();
             return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại sau.');
         }
