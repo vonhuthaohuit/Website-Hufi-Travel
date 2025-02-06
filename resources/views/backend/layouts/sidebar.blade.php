@@ -33,7 +33,11 @@
                     </li>
                 </ul>
             </li>
+<<<<<<< HEAD
 
+=======
+         
+>>>>>>> 79ae463 (Update sidebar.blade.php)
             <li class="dropdown {{ setActive(['khachsan.*', 'phuongtien.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-cart-plus"></i>
                     <span>Quản lý dịch vụ</span></a>
