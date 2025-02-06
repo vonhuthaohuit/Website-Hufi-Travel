@@ -42,14 +42,15 @@ class Handler extends ExceptionHandler
         if ($e instanceof MethodNotAllowedHttpException) {
             return redirect()->route('home');
         }
-        // if ($e instanceof \Symfony\Component\HttpKernel\Exception\HttpException) {
-        //     $statusCode = $e->getStatusCode();
-        //     $message = $e->getMessage();
-        // } else {
-        //     $statusCode = 500;
-        //     $message = 'Đã có lỗi xảy ra. Vui lòng thử lại sau.';
-        // }
+        if ($e instanceof \Symfony\Component\HttpKernel\Exception\HttpException) {
+            $statusCode = $e->getStatusCode();
+            $message = $e->getMessage();
+        } else {
+            $statusCode = 500;
+            $message = 'Đã có lỗi xảy ra. Vui lòng thử lại sau.';
+        }
 
+<<<<<<< HEAD
         // return response()->view('error', [
         //     'errorCode' => $statusCode,
         //     'errorMessage' => $message,
@@ -65,5 +66,13 @@ class Handler extends ExceptionHandler
 
         return parent::render($request, $e);
 >>>>>>> e242069 (fix cancel tour)
+=======
+        return response()->view('error', [
+            'errorCode' => $statusCode,
+            'errorMessage' => $message,
+        ], $statusCode);
+
+       // return parent::render($request, $e);
+>>>>>>> de073c2 (add handle)
     }
 }
