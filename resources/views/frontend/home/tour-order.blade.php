@@ -75,13 +75,17 @@
                                 style="color: green;">{{ @$tour->phieuDatTour->trangthaidattour }}</span></p>
                         @if (@$tour->phieuDatTour->trangthaidattour == 'Đã thanh toán')
                             <div class="d-flex justify-content-end">
-                                <button class="me-3 btn btn-danger btn-cancel-tour">Hủy tour</button>
+                                <button class="me-3 btn btn-danger btn-cancel-tour">Yêu cầu hủy tour</button>
                                 <button class="btn btn-create-comment" href="">Đánh giá</button>
                             </div>
                         @elseif (@$tour->phieuDatTour->trangthaidattour == 'Đã hủy')
                             <p><strong>Lý do hủy:</strong> {{ @$phieuhuy->lydohuy }}</p>
                             <p><strong>Ngày hủy:</strong> {{ date('d-m-Y', strtotime(@$phieuhuy->ngayhuy)) }}</p>
                             <p><strong>Số tiền hoàn:</strong> {{ number_format(@$phieuhuy->sotienhoan) }}đ</p>
+                        @elseif (@$tour->phieuDatTour->trangthaidattour == 'Yêu cầu hủy tour')
+                            <p><strong>Lý do yêu cầu hủy:</strong> {{ @$phieuhuy->lydohuy }}</p>
+                            <p><strong>Ngày yêu cầu hủy:</strong> {{ date('d-m-Y', strtotime(@$phieuhuy->ngayhuy)) }}</p>
+
                         @else
                             <div class="d-flex justify-content-end">
                                 <button type="button" id="tieptucthanhtoan" class="btn btn-success">Tiếp tục thanh

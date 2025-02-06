@@ -22,8 +22,11 @@
                     <div>
                         <h5>{{ $item->phieuDatTour->tour->tentour ?? 'Không có tên tour' }}</h5>
                         @if (empty($item->phieudattour->tour->makhuyenmai))
-                            <p>Giá: {{ number_format($item->phieuDatTour->tour->giatour ?? 0) }}đ - <span
-                                    style="color: green;">{{ $item->phieudattour->trangthaidattour }}</span></p>
+                            <p>Giá: {{ number_format($item->phieuDatTour->tour->giatour ?? 0) }}đ - @if (in_array($item->phieudattour->trangthaidattour, ['Yêu cầu hủy tour', 'Đã hủy']))
+                                <span style="color: red;">{{ $item->phieudattour->trangthaidattour }}</span>
+                            @else
+                                <span style="color: green;">{{ $item->phieudattour->trangthaidattour }}</span>
+                            @endif</p>
                         @else
                             <p>Giá: {{ number_format($item->phieuDatTour->tour->giatourgiam ?? 0) }}đ - <span
                                     style="color: green;">{{ $item->phieudattour->trangthaidattour }}</span></p>

@@ -26,8 +26,11 @@ class PhieuHuyDatatables extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('action', function ($query) {
-                $deleteBtn = "<a href='" . route('phieuhuytour.destroy', $query->maphieuhuytour) . "' class='btn btn-danger ml-2 delete-item' data-id='{$query->maphieuhuytour}'><i class='far fa-trash-alt'></i></a>";
-                return $deleteBtn;
+                // $detailsBtn = "<button class='btn btn-info show-details' data-id='{$query->mahoadon}' title='Chi tiết'>
+                //                    <i class='far fa-eye'></i>
+                //                </button>";
+                $detailsBtn = "<a href='" . route('phieuhuytour.edit', $query->maphieuhuytour) . "' class='btn btn-primary'><i class='far fa-eye'></i></a>";
+                return $detailsBtn;
             })
             ->editColumn('ngayhuy', function ($query) {
                 return date('d-m-Y', strtotime($query->ngayhuy));
@@ -38,7 +41,14 @@ class PhieuHuyDatatables extends DataTable
             ->editColumn('tentour', function ($query) {
                 return Str::limit($query->tentour, 80);
             })
-            ->rawColumns(['action'])
+            ->editColumn('trangthaidattour', function ($query) {
+                if ($query->trangthaidattour === 'Đã hủy') {
+                    return '<span class="badge badge-success">' . $query->trangthaidattour . '</span>';
+                } elseif($query->trangthaidattour === 'Yêu cầu hủy tour') {
+                    return '<span class="badge badge-danger">' . $query->trangthaidattour . '</span>';
+                }
+            })
+            ->rawColumns(['action', 'trangthaidattour'])
             ->setRowId('maphieuhuytour');
     }
 
@@ -48,11 +58,11 @@ class PhieuHuyDatatables extends DataTable
     public function query(PhieuHuyTour $model): QueryBuilder
     {
         return $model->newQuery()
-        ->leftJoin('hoadon', 'phieuhuytour.maphieuhuytour', '=', 'hoadon.maphieuhuytour')
-        ->leftJoin('phieudattour', 'hoadon.maphieudattour', '=', 'phieudattour.maphieudattour')
-        ->leftJoin('tour', 'phieudattour.matour', '=', 'tour.matour')
-        ->select('phieuhuytour.*', 'tour.tentour', 'hoadon.nguoidaidien')
-        ->orderBy('maphieuhuytour', 'desc');
+            ->leftJoin('hoadon', 'phieuhuytour.maphieuhuytour', '=', 'hoadon.maphieuhuytour')
+            ->leftJoin('phieudattour', 'hoadon.maphieudattour', '=', 'phieudattour.maphieudattour')
+            ->leftJoin('tour', 'phieudattour.matour', '=', 'tour.matour')
+            ->select('phieuhuytour.*', 'tour.tentour', 'hoadon.nguoidaidien', 'phieudattour.trangthaidattour')
+            ->orderBy('maphieuhuytour', 'desc');
     }
 
     /**
@@ -94,12 +104,13 @@ class PhieuHuyDatatables extends DataTable
             Column::make('lydohuy')->width(300)->title('Lý do hủy'),
             Column::make('ngayhuy')->title('Ngày hủy'),
             Column::make('sotienhoan')->title('Số tiền hoàn'),
-            // Column::computed('action')
-            //     ->exportable(false)
-            //     ->printable(false)
-            //     ->width(100)
-            //     ->title('Hành động')
-            //     ->addClass('text-center'),
+            Column::make('trangthaidattour')->title('Trạng thái yêu cầu'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(100)
+                ->title('Hành động')
+                ->addClass('text-center'),
         ];
     }
 

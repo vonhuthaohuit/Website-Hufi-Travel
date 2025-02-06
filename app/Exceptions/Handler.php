@@ -55,10 +55,15 @@ class Handler extends ExceptionHandler
         //     'errorMessage' => $message,
         // ], $statusCode);
 <<<<<<< HEAD
+<<<<<<< HEAD
 
          return parent::render($request, $e);
 =======
         return parent::render($request, $e);
 >>>>>>> f293f22 (Update hoá đơn + search tour)
+=======
+
+        return parent::render($request, $e);
+>>>>>>> e242069 (fix cancel tour)
     }
 }
